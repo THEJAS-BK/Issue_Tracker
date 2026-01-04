@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus issue Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="signupPage.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<style>
+  .signUpContainer{
+    margin:7rem auto;
+    height:60vh;
+  }
+  .inpField{
+    margin-top:1rem;
+  }
+  .contents{
+    margin-top:1rem;
+  }
+</style>
+</head>
+<body>
+    <div class="signUpContainer">
+      <header>
+        <p>Campus Issue Tracker</p>
+      </header>
+      <main>
+        <h3>Welcome Back</h3>
+       <form action="/">
+         <div class="contents">
+            <div class="inpField">
+                <i class="fa-solid fa-envelope"></i> 
+                  <span></span>
+                <input type="text" name="" placeholder="Email" id="">
+            </div>
+            <div class="inpField">
+                <i class="fa-solid fa-lock"></i>
+                   <span></span>
+                <input type="password" placeholder="Password" name="" id="">
+            </div>           
+        </div>
+        <button class="signupBtn">
+                Login 
+            </button>
+        </form>
+        <p>Dont have a account? <a href="/frontend/auth/user/signupPage.html">create account</a></p>
+      </main>
+    </div>
+</body>
+</html>
