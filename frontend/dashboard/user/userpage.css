@@ -1,0 +1,146 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+/* Header styling  */
+header {
+    background-color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: relative;
+    }
+
+.navleft{
+    margin-left:2rem;
+}
+header i{
+    color:white;
+    font-size:25px;
+}
+/* Mid section  */
+
+.mid {
+    color: white;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    }
+/* left section */
+.leftSection{
+    display: flex;
+  
+}
+.leftSection button{
+    border: none;
+    background-color: white;
+    color: blue;
+    margin-right:1rem;
+    padding: 0.5rem 2rem;
+    border-radius: 10px;
+}
+.leftSection i{
+    color:gray;
+    font-size: 15px;
+}
+.headAcc{
+    width:6rem;
+    display: flex;
+    align-items: center;
+}
+.headAcc div{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.headAcc div p{
+    width:70%;
+    height: 70%;
+    background-color:blue;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+}
+.headAcc i{
+    margin:0
+}
+/* Issue section  */
+.issues{
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:2rem;
+}
+.issuetab{
+    width:40%;
+    background-color: chocolate;
+    height:80%;
+    border-radius:5px;
+    box-shadow: 0 0 2px black;
+    padding:1rem 2rem
+}
+.issuetab p{
+    font-size: 2rem;
+    color:blue;
+}
+.issuetab h2{
+    color:grey;
+}
+/* Main content  */
+main{
+    display: flex;
+    justify-content: center;
+    height:70vh;
+    margin-top: 3rem;
+    gap:1rem;
+}
+.mainLeft{
+    box-shadow: 0 0 2px black;  
+    border: none;
+    width:51%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mainRight{
+    width:30%;
+    box-shadow: 0 0 2px black;
+}
