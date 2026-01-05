@@ -1,73 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="userpage.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="userpage.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <header>
-        <div class="navleft">
-            <i class="fa-solid fa-bars"></i>
-        </div>
+      <div class="navleft">
+        <i class="fa-solid fa-bars"></i>
+      </div>
       <div class="mid">
         <h2>User dashboard</h2>
       </div>
       <div class="leftSection">
         <button>Create Group</button>
         <div class="headAcc">
-            <div>
-                <p>J</p>
-            </div>
-            <i class="fa-solid fa-angle-down"></i>
+          <div>
+            <p>J</p>
+          </div>
+          <i class="fa-solid fa-angle-down"></i>
         </div>
       </div>
     </header>
-      <div class="issues">
-            <div class="issuetab" style="background-color: lightblue;">
-                <h2>Total issues Raised</h2>
-                <p>8</p>
+    <div class="issues">
+      <div class="issuetab" style="background-color: lightblue">
+        <h2>Total issues Raised</h2>
+        <p>8</p>
+      </div>
+      <div class="issuetab" style="background-color: lightgreen">
+        <h2>Total issues Solved</h2>
+        <p style="color: green">15</p>
+      </div>
+    </div>
+    <main>
+      <div class="mainLeft">
+        <h2>Your Groups</h2>
+        <div class="leftTab">
+          <div class="leftTab-Tab">
+            <div class="leftTab-left">
+              <img src="/frontend/assets/OIP.jpg" alt="" />
+              <div class="leftTab-left-center">
+                <h4>Bus issue</h4>
+                <p>issues related to bus</p>
+                <div class="badges">
+                  <div class="bg1">6 open</div>
+                  <div class="bg2">8 solved</div>
+                </div>
+              </div>
             </div>
-            <div class="issuetab" style="background-color: lightgreen;">
-                <h2>Total issues Solved</h2>
-                <p style="color:green">15</p>
+            <p class="status">joined</p>
+          </div>
+          <div class="left-bottom">
+            <div class="joinGroup">
+                <button>+ Join Group</button>
             </div>
+            <p>Discover more groups</p>
+          </div>
         </div>
-        <main>
-            <div class="mainLeft">
-                <h2>Your Groups</h2>
-                <div>
-                    <p>hi</p>
-                    <div>
-                        <h4>Bus issue</h4>
-                        <p>issues related to bus</p>
-                        <div class="badges">
-                            <div class="bg1">6 open</div>
-                            <div class="bg2">8 solved</div>
-                        </div>
-                    </div>
-                    <p>joined</p>
-                </div>
-                <div class="joinGroup">+ Join Group</div>
-                <p>Discover more groups</p>
+      </div>
+      <div class="mainRight">
+        <h2>your issues</h2>
+        <div class="right-Tab">
+          <div class="right-Tab-Main">
+            <div class="issuemes">
+              <h3>Mess Issue</h3>
+              <p>issue related to the college mess andafsdfsdgs  gsdgdf dfgsdghostel food with a lot of shit </p>
+              <div class="badge-pending">pending Approval</div>
             </div>
-            <div class="mainRight">
-                <h2>your issues</h2>
-                <div class="yourissues">
-                    <div class="issuemes">
-                        <h3>Mess Issue</h3>
-                        <p>issue related to mess</p>
-                        <div class="badge">
-                            pending Approval
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-</body>
+          </div>
+          <div class="right-view-request">
+            View all Request
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>

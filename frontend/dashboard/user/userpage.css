@@ -101,46 +101,104 @@ header i{
 main{
     display: flex;
     justify-content: center;
-    height:70vh;
+    height:80vh;
     margin-top: 3rem;
     gap:1rem;
+    margin-bottom:8rem ;
 }
+/* Left section  */
 .mainLeft{
-    box-shadow: 0 0 2px black;  
-    border: none;
     width:51%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.leftTab,
+.right-Tab{
+    box-shadow: 0 0 2px black;  
+    border: none;
+    width:100%;
+    height: 95%;
+    position:relative;
+}
+.leftTab-Tab{
+    border-bottom: 2px solid black;
+    display:flex;
+    justify-content: space-between;
+    align-items: start;
+    padding:0.5rem 0;
+}
+.leftTab-left{
+    display: flex;
+    padding:1rem;
+}
+.leftTab-left-center{
+    margin-left: 1rem;
+    width: 30vw;
+    line-height: 2rem;
+}
+.status{
+    padding:1rem
+}
+.mainLeft img{
+    width:90px
+}
+/* Left bottom  */
+.left-bottom{
+    position:absolute;
+    bottom:0px;
+    width:100%;
+}
+.left-bottom p{
+    border-top:1px solid black;
+}
+.joinGroup{
+    padding:1rem;
+    display:flex;
+    justify-content: end;
+}
+.joinGroup button{
+    padding:0.5rem 1rem;
+    border:none;
+    background-color: lightblue;
+    border-radius: 10px;
+}
+.left-bottom p{
+    padding:0.5rem;
+    text-align: center;
+}
+.badges{
+    display: flex;
+    gap:1.5rem;
+}
+.bg1,.bg2{
+    padding:0.25rem 2rem;
+    background-color: chocolate;
+    border-radius: 10px;
+    color:white;
+}
+ /* Main right  */
 .mainRight{
     width:30%;
-    box-shadow: 0 0 2px black;
+}
+.right-Tab{
+    position:relative;
+}
+.right-Tab-Main{
+    padding: 1rem;
+    width: 100%;
+    line-height: 2rem;
+    border-bottom:1px solid black;
+}
+.badge-pending{
+    padding:0.25rem 1rem;
+    background-color: blanchedalmond;
+    width:40%;
+    border-radius: 10px;
+}
+.right-view-request{
+    border-top:1px solid black;
+    position:absolute;
+    bottom:0px;
+    padding: 0.75rem 0;
+    text-align: center;
+    width: 100%;
+    color:blue;
 }
