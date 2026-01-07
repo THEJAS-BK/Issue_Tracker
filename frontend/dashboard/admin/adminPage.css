@@ -106,4 +106,46 @@ main{
     margin-top: 0.25rem;
     display:flex;
     height: 40px;
+padding: 0 3rem;
+justify-content: space-between;
+
+}
+#view-groups{
+    width:20%;
+    padding:0 1rem;
+}
+.filter-status{
+    border:2px solid black;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 25%;
+}
+.filter-status select{
+    border:none;
+    outline:none;
+}
+#searchInp{
+    width:45% ;
+}
+/* Main contents */
+.mainContent{
+    height:60vh;
+    display: flex;
+    flex-direction: column;
+    padding:0 3rem;
+}
+table{
+    background-color: aqua;
+    padding: 1rem;
+}
+table thead tr{
+    padding:1rem;
+    height: 6vh;
+}
+table thead tr th{
+    padding: 0 2rem;
+}
+.main-issue-tab td{
+    padding: 0.5rem 2rem;
 }
