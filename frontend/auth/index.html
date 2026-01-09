@@ -9,6 +9,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<style>
+  .signUpContainer{
+    margin:7rem auto;
+    height:70vh;
+  }
+  .inpField{
+    margin-top:1rem;
+  }
+  .contents{
+    margin-top:2.5rem;
+    margin-bottom:2rem;
+  }
+</style>
 </head>
 <body>
     <div class="signUpContainer">
@@ -16,14 +29,9 @@
         <p>Campus Issue Tracker</p>
       </header>
       <main>
-        <h3>Create Account</h3>
-       <form action="/">
+        <h3>Welcome Back</h3>
+       <form >
          <div class="contents">
-            <div class="inpField">
-                <i class="fa-solid fa-user"></i>
-                <span></span>
-                <input type="text" name="" placeholder="Name" id="">
-            </div>
             <div class="inpField">
                 <i class="fa-solid fa-envelope"></i> 
                   <span></span>
@@ -36,11 +44,12 @@
             </div>           
         </div>
         <button class="signupBtn">
-                Sign Up
+                Login 
             </button>
         </form>
-        <p>Already have an account? <a href="/frontend/auth/user/index.html">Login</a></p>
+        <p>Dont have a account? <a href="/frontend/auth/signupPage.html">create account</a></p>
       </main>
     </div>
 </body>
+<script src="auth.js"></script>
 </html>

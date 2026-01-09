@@ -87,3 +87,9 @@ span{
     background-color: blue;
     color:white
 }
+/* Code linked to js part  */
+.inpField .fa-eye{
+    padding:0;
+    margin:0;
+    margin-right:1rem;
+}
