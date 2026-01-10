@@ -45,6 +45,10 @@ app.post("/signup", async (req, res) => {
     res.sendStatus(500).json({success:false,message:"signup Failed"})
   }
 });
+app.post("/login",async (req,res)=>{
+    const {name,password} = req.body;
+    console.log(name,"   ",password)
+})
 
 app.listen(8080, () => {
   console.log("server started at port 8080");

@@ -6,7 +6,7 @@ const passwordInput = document.getElementById("signuppassword");
 toggle.addEventListener("change",()=>{
     passwordInput.type=toggle.checked?"text":"password"
 })
-//form success validations
+//Signup form success validations
 const signupForm = document.getElementById("signUpForm")
 signupForm.addEventListener("submit",async (e)=>{
     e.preventDefault();
@@ -20,11 +20,31 @@ signupForm.addEventListener("submit",async (e)=>{
         })
     })
     const data = await res.json();
-    if(data.success===true){
+    if(data.success){
         window.location.href="/frontend/auth/index.html"
     }
     else{   
         alert("Something went wrong")
         window.location.reload();
+    }
+})
+//login form validations
+const loginForm = document.getElementById("loginForm")
+loginForm.addEventListener("submit",async (e)=>{
+    e.preventDefault();
+    const res = await fetch("http://localhost:8080/login",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:{
+            name:loginForm.name.value,
+            password:loginForm.password.value
+        }
+    })
+    const data = await res.json();
+    if(data.success){
+        window.location.href="/frontend/dashboard/user/userpage.html"
+    }
+    else{
+        alert("invalid password or name")
     }
 })
