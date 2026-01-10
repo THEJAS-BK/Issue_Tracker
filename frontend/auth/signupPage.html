@@ -1,49 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Campus issue Tracker</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="signupPage.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="signupPage.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="signUpContainer">
       <header>
         <p>Campus Issue Tracker</p>
       </header>
       <main>
         <h3>Create Account</h3>
-       <form id="signUpForm" method="post" action="http://localhost:8080/signup" >
-         <div class="contents">
+        <form
+          id="signUpForm"
+          method="post"
+          action="http://localhost:8080/signup"
+        >
+          <div class="contents">
             <div class="inpField">
-                <i class="fa-solid fa-user"></i>
-                <span></span>
-                <input type="text" name="name" placeholder="Name" id="">
+              <i class="fa-solid fa-user"></i>
+              <span></span>
+              <input type="text" name="name" placeholder="Name" id="" />
             </div>
             <div class="inpField">
-                <i class="fa-solid fa-envelope"></i> 
-                  <span></span>
-                <input type="text" name="email" placeholder="Email" id="">
+              <i class="fa-solid fa-envelope"></i>
+              <span></span>
+              <input type="text" name="email" placeholder="Email" id="" />
             </div>
             <div class="inpField">
-                <i class="fa-solid fa-lock"></i>
-                   <span></span>
-                <input type="password" placeholder="Password" name="password" id="signuppassword"/>
-                <input type="checkbox" id="togglePassword" style="display: none;">
-                <label for="togglePassword"><i class="fa-solid fa-eye"></i></label>
-            </div>           
-        </div>
-        <button class="signupBtn">
-                Sign Up
-            </button>
+              <i class="fa-solid fa-lock"></i>
+              <span></span>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                id="signuppassword"
+              />
+              <input
+                type="checkbox"
+                id="togglePassword"
+                style="display: none"
+              />
+              <label for="togglePassword"
+                ><i class="fa-solid fa-eye"></i
+              ></label>
+            </div>
+          </div>
+          <button class="signupBtn">Sign Up</button>
         </form>
-        <p>Already have an account? <a href="/frontend/auth/index.html">Login</a></p>
+        <p>
+          Already have an account? <a href="/frontend/auth/index.html">Login</a>
+        </p>
       </main>
     </div>
-</body>
-<script src="auth.js"></script>
+  </body>
+  <script src="auth.js"></script>
 </html>

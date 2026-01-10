@@ -24,7 +24,6 @@ app.get("/",(req,res)=>{
 // Auth section 
 app.post("/signup",async (req,res)=>{
     console.log(req.body);
-
 })
 
 app.listen(8080,()=>{
