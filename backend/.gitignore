@@ -1,2 +1,9 @@
-node_modules
+# Node
+node_modules/
+
+# Environment variables
 .env
+
+# REST Client files
+*.rest
+*.http

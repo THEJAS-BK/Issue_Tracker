@@ -8,7 +8,23 @@ toggle.addEventListener("change",()=>{
 })
 //form success validations
 const signupForm = document.getElementById("signUpForm")
-signupForm.addEventListener("submit",(e)=>{
+signupForm.addEventListener("submit",async (e)=>{
     e.preventDefault();
-    console.log("submit successful")
+    const res = await fetch("http://localhost:8080/signup",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            name:signupForm.name.value,
+            email:signupForm.email.value,
+            password:signupForm.password.value
+        })
+    })
+    const data = await res.json();
+    if(data.success===true){
+        window.location.href="/frontend/auth/index.html"
+    }
+    else{   
+        alert("Something went wrong")
+        window.location.reload();
+    }
 })
