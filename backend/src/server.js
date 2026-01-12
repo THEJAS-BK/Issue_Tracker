@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+
+//Middlewares
+const { authorizationToken } = require("./middlewares/auth.middleware");
 
 //setups
 const app = express();
@@ -27,6 +31,8 @@ async function main() {
 //Schemas
 const User = require("./models/user");
 
+//! Routes
+
 app.get("/", (req, res) => {
   res.json({ name: "Backend guy", message: "Hello from me the backend guy" });
 });
@@ -40,38 +46,42 @@ app.post("/signup", async (req, res) => {
       name: name,
       email: email,
       password: hashedPassword,
-    })
+    });
     res.json({ success: true });
   } catch (err) {
-    next(err)
+    next(err);
   }
 });
-app.post("/login",async (req,res)=>{  
-  try{
-    const {email,password} = req.body;
-    const user = await User.findOne({email})
-    console.log(user)
-     if(!user){
-      return res.sendStatus(401)//user not found
-     }
-     const isMatch = await bcrypt.compare(password,user.password);
-     console.log(isMatch)
-     if(!isMatch){
-       return res.sendStatus(401)//Invalid credentials
-     }
-     res.sendStatus(200) //success status
-  }catch(err){
-    next(err) //internal server error
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const curUser = await User.findOne({ email });
+    if (!curUser) {
+      return res.sendStatus(401); //user not found
+    }
+    const isMatch = await bcrypt.compare(password, curUser.password);
+    if (!isMatch) {
+      return res.sendStatus(401); //Invalid credentials
+    }
+    // Tokenization
+    const val = jwt.sign(
+      { userId: curUser._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "15m",
+      }
+    );
+     //success status
+    res.sendStatus(200);
+  } catch (err) {
+    next(err); //internal server error
   }
-})
-
-
-
+});
 
 //error middleware
-app.use((err,req,res,next)=>{
-  res.sendStatus(err.status||500)
-})
+app.use((err, req, res, next) => {
+  res.sendStatus(err.status || 500);
+});
 //server start
 app.listen(8080, () => {
   console.log("server started at port 8080");
