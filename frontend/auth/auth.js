@@ -42,6 +42,7 @@ if (loginForm) {
     const res = await fetch("http://localhost:8080/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials:"include",
       body: JSON.stringify({
         email: loginForm.email.value,
         password: loginForm.password.value,
@@ -50,9 +51,24 @@ if (loginForm) {
     if (res.status === 401) {
       alert("User not found");
     } else if (res.status === 200) {
-      window.location.href="/frontend/dashboard/user/userpage.html";
+      sendTestData();
+      // window.location.href="/frontend/dashboard/user/userpage.html";
     } else {
       alert("server not working");
     }
   });
+}
+async function sendTestData(){
+ fetch("http://localhost:8080/test",{
+    method:"GET",
+    credentials:"include",
+  })
+  setTimeout(async()=>{
+    console.log("accessing after 15 sec")
+    const res = await fetch("http://localhost:8080/test",{
+    method:"GET",
+    credentials:"include",
+  })
+  console.log(res)
+  },15000)
 }

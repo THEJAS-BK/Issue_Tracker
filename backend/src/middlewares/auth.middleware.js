@@ -1,9 +1,10 @@
-module.exports.authorizationToken=(req,res,next)=>{
-    const authHeader = req.headers['authorization']
-    const token = authHeader.split("")[1];
-    console.log("Auth header token",token)
-    if(token===null){
-        res.status(500).json({message:"not a valid token "})
-    }
+const jwt = require("jsonwebtoken");
+module.exports.authorizationToken = (req, res, next) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.sendStatus(401);
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
     next();
-}
+  });
+};

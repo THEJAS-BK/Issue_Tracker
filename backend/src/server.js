@@ -42,7 +42,6 @@ const cookieOption = {
 }
 
 //! Routes
-
 app.get("/", (req, res) => {
   res.json({ name: "Backend guy", message: "Hello from me the backend guy" });
 });
@@ -74,11 +73,11 @@ app.post("/login", async (req, res,next) => {
       return res.sendStatus(401); //Invalid credentials
     }
     // Tokenization
-    const signedToken = jwt.sign(
+    const accessToken = jwt.sign(
       { userId: curUser._id },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: "15m",
+        expiresIn: "10s",
       }
     );
     const refreshToken = jwt.sign(
@@ -92,9 +91,9 @@ app.post("/login", async (req, res,next) => {
      curUser.refreshToken=refreshToken;
      await curUser.save();
      //storing Tokens in cookie
-     res.cookie("accessToken",signedToken,{
+     res.cookie("accessToken",accessToken,{
      ...cookieOption,
-      maxAge:15*60*1000
+      maxAge:15*60*1000                        //!! fix this
      })
      .cookie("refreshToken",refreshToken,{
       ...cookieOption,
@@ -106,14 +105,16 @@ app.post("/login", async (req, res,next) => {
     next(err); //internal server error
   }
 });
+app.post("/refreshtoken",(req,res)=>{
+
+})
 
 //error middleware
 app.use((err, req, res, next) => {
   res.sendStatus(err.status || 500);
 });
 //!!test route
-app.get("/test",(req,res)=>{
-  console.log(req.cookies)
+app.get("/test",authorizationToken,(req,res)=>{
   res.json({mes:"HEllo"})
 })
 
