@@ -51,24 +51,28 @@ if (loginForm) {
     if (res.status === 401) {
       alert("User not found");
     } else if (res.status === 200) {
-      sendTestData();
-      // window.location.href="/frontend/dashboard/user/userpage.html";
+      window.location.href="/frontend/dashboard/user/userpage.html";
     } else {
       alert("server not working");
     }
   });
 }
-async function sendTestData(){
- fetch("http://localhost:8080/test",{
-    method:"GET",
-    credentials:"include",
+//Fetching function
+async function apiFetch(url,options={},retried=false){
+  const res = await fetch(url,{
+    ...options,
+    credentials:"include"
   })
-  setTimeout(async()=>{
-    console.log("accessing after 15 sec")
-    const res = await fetch("http://localhost:8080/test",{
-    method:"GET",
-    credentials:"include",
-  })
-  console.log(res)
-  },15000)
+  if(res.status===401&&!retried){
+    const refresh = await fetch("/refreshtoken",{
+      method:"POST",
+      credentials:"include"
+    })
+    if(!refresh.ok){
+      window.location.href = "/fontend/auth/index.html"
+      return;
+    }
+    return apiFetch(url,options,true)
+  }
+  return res;
 }
