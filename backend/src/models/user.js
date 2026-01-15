@@ -1,9 +1,4 @@
 const mongoose = require("mongoose")
-const path = require("path")
-require("dotenv").config({
-    path:path.resolve(__dirname,"../.env")
-});
-
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -11,6 +6,7 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type:String,
+        unique:true,
         required:true
     },
     password:{

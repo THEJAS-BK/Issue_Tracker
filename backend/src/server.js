@@ -94,7 +94,7 @@ app.post("/login", async (req, res, next) => {
     res
       .cookie("accessToken", accessToken, {
         ...cookieOption,
-        maxAge: 7 * 1000, //!! fix this
+        maxAge: 7 * 1000,
       })
       .cookie("refreshToken", refreshToken, {
         ...cookieOption,
