@@ -114,14 +114,18 @@ app.post("/refreshtoken", (req, res) => {
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
     if (err) return res.sendStatus(403);
 
-    const newAccessToken= jwt.sign({userId:payload.userId},process.env.ACCESS_TOKEN_SECRET,{
-      expiresIn:"15m"
-    })
-    res.cookie("accessToken",newAccessToken,{
+    const newAccessToken = jwt.sign(
+      { userId: payload.userId },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "15m",
+      }
+    );
+    res.cookie("accessToken", newAccessToken, {
       ...cookieOption,
-      maxAge:15*60*60*1000  
-    })
-    return res.sendStatus(200)
+      maxAge: 15 * 60 * 60 * 1000,
+    });
+    return res.sendStatus(200);
   });
 });
 
