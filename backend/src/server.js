@@ -129,8 +129,10 @@ app.post("/refreshtoken", (req, res) => {
   });
 });
 //! create groups
-
-
+app.post("/creategroup",(req,res)=>{
+  console.log(req.body)
+  res.sendStatus(201)
+})
 
 
 
