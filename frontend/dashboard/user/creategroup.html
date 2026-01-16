@@ -11,7 +11,13 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="signupPage.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="creategroup.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,54 +26,74 @@
     />
   </head>
   <body>
-    <div class="signUpContainer">
-      <header>
-        <p>Campus Issue Tracker</p>
-      </header>
-      <main>
-        <h3>Create Account</h3>
-        <form
-          id="signUpForm"
-          method="post"
-          action="http://localhost:8080/signup"
-        >
-          <div class="contents">
-            <div class="inpField">
-              <i class="fa-solid fa-user"></i>
-              <span></span>
-              <input type="text" name="name" placeholder="Name" id="" />
-            </div>
-            <div class="inpField">
-              <i class="fa-solid fa-envelope"></i>
-              <span></span>
-              <input type="text" name="email" placeholder="Email" id="" />
-            </div>
-            <div class="inpField">
-              <i class="fa-solid fa-lock"></i>
-              <span></span>
-              <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                id="signuppassword"
-              />
-              <input
-                type="checkbox"
-                id="togglePassword"
-                style="display: none"
-              />
-              <label for="togglePassword"
-                ><i class="fa-solid fa-eye"></i
-              ></label>
-            </div>
+    <nav>
+      <i class="fa-solid fa-bars"></i>
+      <h2>Issue Tracker</h2>
+      <div class="headAcc">
+        <div>
+          <p>J</p>
+        </div>
+        <i class="fa-solid fa-angle-down"></i>
+      </div>
+    </nav>
+    <main>
+      <div class="main-content">
+        <h2>Create Groups</h2>
+        <p>Create a group to manage and track Community issues</p>
+        <form id="create-group-form">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Group Name</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Eg: library group"
+            />
           </div>
-          <button class="signupBtn">Sign Up</button>
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"
+              >Description</label
+            >
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <label for="select-category" class="form-label" >Category</label>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            id="select-category"
+          >
+            <option selected>Select category</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Transport">Transport</option>
+            <option value="IT&Wifi">IT&wifi</option>
+            <option value="Hostel/mess">Hostel/mess</option>
+            <option value="Academics">Academics</option>
+          </select>
+          <label for="visiblity" class="form-label mt-2">Visiblity</label>
+          <select
+            class="form-select"
+            id="visiblity"
+            aria-label="Default select example"
+          >
+            <option selected value="public">public</option>
+            <option value="private">private</option>
+          </select>
+            <label for="join-approval" class="form-label mt-2">Join approval</label>
+          <select class="form-select" id="join-approval" aria-label="Default select example">
+            <option selected value="required">Required</option>
+            <option value="notrequired">Not required</option>
+          </select>
+          <div class="btn btn-primary mt-4">Create group</div>
         </form>
-        <p>
-          Already have an account? <a href="/frontend/auth/index.html">Login</a>
-        </p>
-      </main>
-    </div>
+      </div>
+    </main>
   </body>
   <script src="/frontend/dashboard/dashboardpages.js"></script>
 </html>

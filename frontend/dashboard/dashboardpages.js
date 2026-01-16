@@ -8,7 +8,6 @@ async function apiFetch(url,options={},retired=false){
       method:"POST",
       credentials:"include"
     })
-    console.log("refresh token",refresh)
     if(!refresh.ok){
       window.location.href = "/frontend/auth/index.html"
       return;
@@ -19,7 +18,6 @@ async function apiFetch(url,options={},retired=false){
 }
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn")
-
 createGroupBtn.addEventListener("click",()=>{
-  console.log("btn clicked")
+  window.location.href="/frontend/dashboard/user/creategroup.html"
 })
