@@ -34,8 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
         joinapproval: createGroupForm.joinapproval.value,
       }),
     });
-    if(res.status==201){
-        window.location.href="/frontend/dashboard/userpage.html"
-    }
+    if(!res.ok)return;
+
+      if(res.ok){
+          window.location.href="/frontend/dashboard/user/userpage.html"
+      }
   });
 });

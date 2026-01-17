@@ -33,6 +33,7 @@ async function main() {
 }
 //Schemas
 const User = require("./models/user");
+const Group = require("./models/group");
 //cookie option
 const isProd = process.env.ENVIRONMENT === "production";
 const cookieOption = {
@@ -129,22 +130,28 @@ app.post("/refreshtoken", (req, res) => {
   });
 });
 //! create groups
-app.post("/creategroup",(req,res)=>{
-  console.log(req.body)
-  res.sendStatus(201)
-})
+app.post("/creategroup", authorizationToken, async (req, res,next) => {
+  try {
+    const { groupname, description, category, visibility, joinapproval } =
+      req.body;
+      console.log(req.body)
+    const newGroup = new Group( {
+      groupname,
+      description,
+      category,
+      visibility,
+      joinapproval,
+      user: req.user.userId,
+    });
 
-
-
-
-
-
-
-
-
-
-
-
+    await newGroup.save();
+    res.status(200).json({
+      success:true
+    })
+  } catch (err) {
+    next(err);
+  }
+});
 
 //error middleware
 app.use((err, req, res, next) => {
