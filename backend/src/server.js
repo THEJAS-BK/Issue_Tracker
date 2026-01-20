@@ -152,6 +152,10 @@ app.post("/creategroup", authorizationToken, async (req, res,next) => {
     next(err);
   }
 });
+app.get("/groups", authorizationToken, async (req, res) => {
+     allGroups = await Group.find({}).populate('user','name email');
+    res.json(allGroups)
+})
 
 //error middleware
 app.use((err, req, res, next) => {
