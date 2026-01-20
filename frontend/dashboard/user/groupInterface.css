@@ -1,0 +1,77 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    background-color: grey;
+}
+/* Header styling  */
+header {
+    background-color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: relative;
+    }
+
+.navleft{
+    margin-left:2rem;
+}
+header i{
+    color:white;
+    font-size:25px;
+}
+/* Mid section  */
+
+.mid {
+    color: white;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    }
+/* left section */
+.leftSection{
+    display: flex;
+  
+}
+.leftSection button{
+    border: none;
+    background-color: white;
+    color: blue;
+    margin-right:1rem;
+    padding: 0.5rem 2rem;
+    border-radius: 10px;
+}
+.leftSection i{
+    color:gray;
+    font-size: 15px;
+}
+.headAcc{
+    width:6rem;
+    display: flex;
+    align-items: center;
+}
+.headAcc div{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.headAcc div p{
+    width:70%;
+    height: 70%;
+    background-color:blue;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+}
+.headAcc i{
+    margin:0
+}

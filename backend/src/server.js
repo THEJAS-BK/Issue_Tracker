@@ -153,7 +153,7 @@ app.post("/creategroup", authorizationToken, async (req, res,next) => {
   }
 });
 app.get("/groups", authorizationToken, async (req, res) => {
-     allGroups = await Group.find({}).populate('user','name email');
+    allGroups = await Group.find({}).populate('user','name email');
     res.json(allGroups)
 })
 

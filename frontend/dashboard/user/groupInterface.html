@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="groupInterface.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="navleft">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+      <div class="mid">
+        <h2>User dashboard</h2>
+      </div>
+      <div class="leftSection">
+        <button class="create-group-btn">Create Group</button>
+        <div class="headAcc">
+          <div>
+            <p>J</p>
+          </div>
+          <i class="fa-solid fa-angle-down"></i>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div>Home > Bus issue</div>
+      <div class="main-container">
+        <div class="main-content">
+          <div class="head-content">
+            <div class="head-content-left">
+              <img
+                src="/frontend/assets/OIP.jpg"
+                alt="categories"
+                class="group-img"
+              />
+              <div>
+                <h3>BUS ISSUES</h3>
+                <p>issues relate to bus</p>
+              </div>
+            </div>
+            <button class="head-content-right">Leave Group</button>
+          </div>
+          <div class="head-content-main">
+            <div class="head-main-left">
+              <div class="badge">
+                <div class="bg1"><span>8 open</span></div>
+                <div class="bg2"><span>9 solved</span></div>
+              </div>
+              <h2>Issue</h2>
+              <div>
+                  <table>
+          <thead>
+            <th>Issues</th>
+            <th>Reported By</th>
+            <th>Status</th>
+          </thead>
+          <tbody>
+            <tr class="main-issue-tab">
+              <td>Bus Ac malfunctioning</td>
+              <td>person 1</td>
+              <td>
+                <select name="" id="">
+                  <option value="">open</option>
+                  <option value="">solved</option>
+                </select>
+              </td>
+            </tr>
+            <tr class="main-issue-tab">
+              <td>Bus Ac malfunctioning</td>
+              <td>person 2</td>
+              <td>
+                <select name="" id="">
+                  <option value="">open</option>
+                  <option value="">solved</option>
+                </select>
+              </td>
+            </tr>  
+          </tbody>
+         </table>
+              </div>
+            </div>
+            <div class="head-main-right">
+                <h3>Members</h3>
+                <hr>
+                <div class="members">
+                    <div>
+                        <div>
+                       <img src="/frontend/assets/OIP.jpg" alt="categories" class="group-img" />
+                       <p>Person 1</p>
+                    </div>
+                    <div>
+                       <img src="/frontend/assets/OIP.jpg" alt="categories" class="group-img" />
+                       <p>Person 1</p>
+                    </div>
+                    <div>
+                       <img src="/frontend/assets/OIP.jpg" alt="categories" class="group-img" />
+                       <p>Person 1</p>
+                    </div>
+                    </div>
+                    <button class="btn btn-primary">+ Add Issues</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
