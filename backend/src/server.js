@@ -152,9 +152,14 @@ app.post("/creategroup", authorizationToken, async (req, res,next) => {
     next(err);
   }
 });
-app.get("/groups", authorizationToken, async (req, res) => {
+//!user pages
+app.get("/groups", async (req, res) => {
     allGroups = await Group.find({}).populate('user','name email');
     res.json(allGroups)
+})
+//!add pages
+app.post("/add",async(req,res)=>{
+  console.log("hello")
 })
 
 //error middleware

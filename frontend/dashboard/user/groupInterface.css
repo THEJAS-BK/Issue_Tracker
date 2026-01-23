@@ -82,11 +82,12 @@ header i{
 .main-container{
     display: flex;
     justify-content: center;
-    align-items: center;
+    height: 90vh;
+    margin-bottom: 5rem;
 }
 .main-content{
     width:80%;
-    border: 1px solid #471515;
+    height: 95%;
 }
 .head-content{
     display: flex;
@@ -121,11 +122,126 @@ header i{
     font-weight: bolder;
     cursor: pointer;
 }
+/* contents  */
 .head-content-main{
     display: flex;
+    height: 88%;
+    position: relative;
 }
 .head-main-left{
-    background-color: aqua;
     width: 60%;
-    
+    height: 89%;
+    position: relative;
+}
+.badge{
+    height:13%;
+    display: flex;
+    gap:1rem;
+    justify-content: center;
+}
+.bg1,.bg2{
+    border: 3px solid black;
+    box-shadow: 0 0 2px rgba(0,0,0,0.9);
+    width: 45%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius:1rem;
+    padding:1.25rem;
+}
+.head-main-left h2{
+    padding:1rem 2rem;
+}
+.table-wrapper{
+    width: 100%;
+    border:2px solid black;
+    height: 88%;
+    position: relative;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+thead{
+    background-color: lightgray;
+}
+th{
+    padding:0.75rem 1rem;
+}
+.main-issue-tab{
+    height: 60px;
+}
+.main-issue-tab td{
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid gray;
+}
+.table-wrapper-bottom{
+    position:absolute;
+    background-color: bisque;
+    width:100%;
+    bottom:0;
+    display:flex;
+    justify-content: space-between;
+    padding:1rem 2rem;
+}
+.table-wrapper-bottom-left, .table-wrapper-bottom-right{
+    display: flex;
+    gap:1rem;
+    align-items: center;
+    justify-content: center;
+}
+.table-wrapper-bottom-left p{
+    padding: 0;
+    margin: 0;
+}
+/* Right side contents  */
+.head-main-right{
+    width: 30%;
+    height: 70%;
+    margin-left: 2rem;
+    border: 2px solid black;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.head-main-right h3{
+    padding: 1rem;
+}
+.members{
+    display: flex;
+    flex-direction: column;
+}
+.members>div{
+    display: flex;
+    flex-direction: column;
+}
+.members>div>div{
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    height: 23%;
+}
+.addMem-btn{
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: blue;
+    color: white;
+    position: absolute;
+    bottom:5px;
+    left:30%;
+}
+/* Add Issue btn  */
+.addIssue-btn{
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: blue;
+    color: white;
+    position: absolute;
+    bottom:0;
+    right:22rem;
 }

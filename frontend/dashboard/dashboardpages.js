@@ -15,14 +15,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 function renderGroups(groups) {
-  const groupContainer = document.querySelector(".leftTab");
+  const groupContainer = document.querySelector(".space-holder");
   //individual group
   //Parent tab
   for (const group of groups) {
     const parent = document.createElement("div");
-    groupContainer.append(parent);
     parent.classList.add("leftTab-Tab");
-    groupContainer.append(parent);
+    groupContainer.insertAdjacentElement("beforebegin",parent);
     //! parent left contents
     const parentLeftContent = document.createElement("div");
     parentLeftContent.classList.add("leftTab-left");
