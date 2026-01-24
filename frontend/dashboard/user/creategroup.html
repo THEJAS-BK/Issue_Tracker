@@ -24,10 +24,43 @@
       href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../hambugerMenu.css" />
   </head>
   <body>
-    <nav>
-      <i class="fa-solid fa-bars"></i>
+     <input type="checkbox" id="menu-toggle" hidden />
+    <div class="menu">
+      <div class="menu-top">
+        <div class="menu-profile">
+          <div class="headAcc head-width">
+            <div>
+              <p>J</p>
+            </div>
+            <h3>Jhon Doe</h3>
+          </div>
+        </div>
+        <div class="close-btn">
+          <label for="menu-toggle">
+          <i class="fa-solid fa-xmark"></i>
+          </label>
+        </div>
+      </div>
+      <div class="menu-links">
+        <a href="/frontend/dashboard/user/userpage.html">home</a>
+        <a href="/frontend/dashboard/user/addIssue.html">add Issue</a>
+        <a href="/frontend/dashboard/user/creategroup.html">create group</a>
+        <a href="/frontend/dashboard/user/groupInterface.html"
+          >group Interface</a
+        >
+        <a href="/frontend/dashboard/admin/adminPage.html">admin page</a>
+        <a href="/frontend/dashboard/user/#">Join group</a>
+        <a href="/frontend/dashboard/user/#">Settings</a>
+        <a href="/frontend/dashboard/user/#">Logout</a>
+      </div>
+    </div>
+     <nav>
+      <label for="menu-toggle">
+          <i class="fa-solid fa-bars"></i>
+        </label>
       <h2>Issue Tracker</h2>
       <div class="headAcc">
         <div>
@@ -36,6 +69,7 @@
         <i class="fa-solid fa-angle-down"></i>
       </div>
     </nav>
+
     <main>
       <div class="main-content">
         <h2>Create Groups</h2>

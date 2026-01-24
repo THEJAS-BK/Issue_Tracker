@@ -24,11 +24,44 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="adminPage.css" />
+    <link rel="stylesheet" href="../hambugerMenu.css">
   </head>
   <body>
+     <input type="checkbox" id="menu-toggle" hidden />
+    <div class="menu">
+      <div class="menu-top">
+        <div class="menu-profile">
+          <div class="headAcc head-width">
+            <div>
+              <p>J</p>
+            </div>
+            <h3>Jhon Doe</h3>
+          </div>
+        </div>
+        <div class="close-btn">
+          <label for="menu-toggle">
+          <i class="fa-solid fa-xmark"></i>
+          </label>
+        </div>
+      </div>
+      <div class="menu-links">
+        <a href="/frontend/dashboard/user/userpage.html">home</a>
+        <a href="/frontend/dashboard/user/addIssue.html">add Issue</a>
+        <a href="/frontend/dashboard/user/creategroup.html">create group</a>
+        <a href="/frontend/dashboard/user/groupInterface.html"
+          >group Interface</a
+        >
+        <a href="/frontend/dashboard/admin/adminPage.html">admin page</a>
+        <a href="/frontend/dashboard/user/#">Join group</a>
+        <a href="/frontend/dashboard/user/#">Settings</a>
+        <a href="/frontend/dashboard/user/#">Logout</a>
+      </div>
+    </div>
     <header>
       <div class="head-left">
-        <i class="fa-solid fa-bars"></i>
+         <label for="menu-toggle">
+          <i class="fa-solid fa-bars"></i>
+        </label>
         <h3>Community Issue Tracker</h3>
       </div>
       <div class="head-right">
