@@ -10,15 +10,15 @@
       integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    />  
-      <link rel="stylesheet" href="../hambugerMenu.css" />
+    />
+    <link rel="stylesheet" href="../hambugerMenu.css" />
   </head>
   <body>
-     <input type="checkbox" id="menu-toggle" hidden />
+    <input type="checkbox" id="menu-toggle" hidden />
     <div class="menu">
       <div class="menu-top">
         <div class="menu-profile">
-          <div class="headAcc  head-width">
+          <div class="headAcc head-width">
             <div>
               <p>J</p>
             </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="close-btn">
           <label for="menu-toggle">
-          <i class="fa-solid fa-xmark"></i>
+            <i class="fa-solid fa-xmark"></i>
           </label>
         </div>
       </div>
@@ -46,8 +46,8 @@
     </div>
     <nav>
       <label for="menu-toggle">
-          <i class="fa-solid fa-bars"></i>
-        </label>
+        <i class="fa-solid fa-bars"></i>
+      </label>
       <h2>Issue Tracker</h2>
       <div class="headAcc">
         <div>
@@ -59,15 +59,26 @@
 
     <div class="page">
       <h2>Add New Issue</h2>
-      <p class="subtitle">Report an issue to your community group</p>
+      <p class="subtitle">report query related to issue</p>
 
       <form class="issue-form">
         <div class="form-group">
           <label>Issue Title</label>
-          <input type="text" placeholder="e.g. Bus AC not working" name="title" required />
+          <input
+            type="text"
+            placeholder="e.g. Bus AC not working"
+            name="title"
+            required
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="file">Upload image</label>
+          <input type="file" name="file" id="file" hidden>
+          <label for="file" class="upload-area"></label>
         </div>
 
-        <div class="form-group" >
+        <div class="form-group">
           <label>Description</label>
           <textarea
             rows="4"
@@ -81,10 +92,12 @@
           <div class="form-group">
             <label>Category</label>
             <select class="category" name="category">
-              <option value="1">Bus Timing</option>
-              <option value="2">Bus Condition</option>
-              <option value="3">Driver Behavior</option>
-              <option value="4">Route Issue</option>
+              <option value="Infrastructure">Infrastructure</option>
+              <option value="Transport">Transport</option>
+              <option value="IT&Wifi">IT&wifi</option>
+              <option value="Hostel/mess">Hostel/mess</option>
+              <option value="Academics">Academics</option>
+              <option value="others">others</option>
             </select>
           </div>
 

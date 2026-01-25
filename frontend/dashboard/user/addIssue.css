@@ -117,3 +117,16 @@ input, textarea, select {
   border-radius: 6px;
   cursor: pointer;
 }
+.upload-area {
+  width: 200px;
+  height: 150px;
+  border: 2px dashed #999;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #f9f9f9;
+}
+
+/* optional hover effect */
+.upload-area:hover {
+  border-color: #000;
+}
