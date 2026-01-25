@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="../hambugerMenu.css" />
   </head>
   <body>
-     <input type="checkbox" id="menu-toggle" hidden />
+    <input type="checkbox" id="menu-toggle" hidden />
     <div class="menu">
       <div class="menu-top">
         <div class="menu-profile">
@@ -40,7 +40,7 @@
         </div>
         <div class="close-btn">
           <label for="menu-toggle">
-          <i class="fa-solid fa-xmark"></i>
+            <i class="fa-solid fa-xmark"></i>
           </label>
         </div>
       </div>
@@ -57,10 +57,10 @@
         <a href="/frontend/dashboard/user/#">Logout</a>
       </div>
     </div>
-     <nav>
+    <nav>
       <label for="menu-toggle">
-          <i class="fa-solid fa-bars"></i>
-        </label>
+        <i class="fa-solid fa-bars"></i>
+      </label>
       <h2>Issue Tracker</h2>
       <div class="headAcc">
         <div>
@@ -98,37 +98,68 @@
               name="description"
             ></textarea>
           </div>
-
-          <label for="select-category" class="form-label" >Category</label>
-          <select
-            class="form-select"
-            aria-label="Default select example"
-            id="select-category"
-            name="category"
-          >
-            <option selected>Select category</option>
-            <option value="Infrastructure">Infrastructure</option>
-            <option value="Transport">Transport</option>
-            <option value="IT&Wifi">IT&wifi</option>
-            <option value="Hostel/mess">Hostel/mess</option>
-            <option value="Academics">Academics</option>
-          </select>
-          <label for="visiblity" class="form-label mt-2">Visiblity</label>
-          <select
-            class="form-select"
-            id="visiblity"
-            aria-label="Default select example"
-            name="visibility"
-          >
-            <option selected value="public">public</option>
-            <option value="private">private</option>
-          </select>
-            <label for="join-approval" class="form-label mt-2">Join approval</label>
-          <select name="joinapproval" class="form-select" id="join-approval" aria-label="Default select example">
-            <option selected value="required">Required</option>
-            <option value="notrequired">Not required</option>
-          </select>
-          <button class="btn btn-primary mt-4">Create group</button>
+          <div class="selectGroup">
+            <div class="category">
+              <label for="select-category" class="form-label">Category</label>
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                id="select-category"
+                name="category"
+              >
+                <option selected>Select category</option>
+                <option value="Infrastructure">Infrastructure</option>
+                <option value="Transport">Transport</option>
+                <option value="IT&Wifi">IT&wifi</option>
+                <option value="Hostel/mess">Hostel/mess</option>
+                <option value="Academics">Academics</option>
+              </select>
+            </div>
+            <div class="visibility">
+              <label for="visiblity" class="form-label">Visiblity</label>
+              <select
+                class="form-select"
+                id="visiblity"
+                aria-label="Default select example"
+                name="visibility"
+              >
+                <option selected value="public">public</option>
+                <option value="private">private</option>
+              </select>
+            </div>
+            <div class="joinapproval">
+              <label for="join-approval" class="form-label"
+                >Join approval</label
+              >
+              <select
+                name="joinapproval"
+                class="form-select"
+                id="join-approval"
+                aria-label="Default select example"
+              >
+                <option selected value="required">Required</option>
+                <option value="notrequired">Not required</option>
+              </select>
+            </div>
+            <div class="imageupload">
+              <label for="image-upload" class="form-label">
+                Image upload permission
+              </label>
+              <select name="imageupload" id="image-upload" class="form-select">
+                <option value="allowed">allowed</option>
+                <option value="notallowed">not allowed</option>
+              </select>
+            </div>
+          </div>
+          <br />
+          <div class="upload">
+            <input type="file" name="group-profile" id="group-profile" hidden />
+            <label for="group-profile" id="group-profile-label"></label>
+            <div class="buttons">
+              <button type="submit" class="btn btn-primary">Add Issue</button>
+              <button type="button" class="btn btn-danger">Cancel</button>
+            </div>
+          </div>
         </form>
       </div>
     </main>

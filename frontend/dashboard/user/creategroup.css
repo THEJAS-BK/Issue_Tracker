@@ -83,3 +83,19 @@ p {
 textarea{
   resize: none;
 }
+
+/* Selection category section  */
+.selectGroup{
+  display: flex;
+  justify-content: space-between;
+}
+#group-profile-label{
+  width: 50%;
+  border:2px dashed gray;
+  height: 10rem;
+}
+.upload{
+  display: flex;
+    align-items: center;
+    gap: 9rem;
+}

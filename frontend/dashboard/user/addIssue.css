@@ -126,7 +126,7 @@ input, textarea, select {
   background: #f9f9f9;
 }
 
-/* optional hover effect */
+
 .upload-area:hover {
   border-color: #000;
 }
