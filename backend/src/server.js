@@ -132,15 +132,15 @@ app.post("/refreshtoken", (req, res) => {
 //! create groups
 app.post("/creategroup", authorizationToken, async (req, res,next) => {
   try {
-    const { groupname, description, category, visibility, joinapproval } =
+    const { groupname, description, category, visibility, joinapproval,imageuploadpermission } =
       req.body;
-      console.log(req.body)
     const newGroup = new Group( {
       groupname,
       description,
       category,
       visibility,
       joinapproval,
+      imageuploadpermission,
       user: req.user.userId,
     });
 

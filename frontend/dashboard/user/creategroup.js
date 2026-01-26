@@ -20,6 +20,7 @@ async function apiFetch(url, options = {}, retired = false) {
 document.addEventListener("DOMContentLoaded", () => {
   const createGroupForm = document.querySelector("#create-group-form");
   createGroupForm.addEventListener("submit", async (e) => {
+    console.log("start")
     e.preventDefault();
     const res = await apiFetch("http://localhost:8080/creategroup", {
       method: "POST",
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         category: createGroupForm.category.value,
         visibility: createGroupForm.visibility.value,
         joinapproval: createGroupForm.joinapproval.value,
+        imageuploadpermission:createGroupForm.imageuploadpermission.value,
       }),
     });
     if(!res.ok)return;
