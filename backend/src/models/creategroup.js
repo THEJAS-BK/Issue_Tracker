@@ -30,4 +30,4 @@ const GroupSchema = new mongoose.Schema({
     ref: "User",
   },
 });
-module.exports = mongoose.model("Group", GroupSchema);
+module.exports = mongoose.model("creategroup", GroupSchema);

@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const cors = require("cors");
-// const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 // Routes
 const authRoutes = require("./routes/auth");
@@ -35,7 +34,7 @@ async function main() {
 }
 //Schemas
 const User = require("./models/user");
-const Group = require("./models/group");
+const CreateGroup = require("./models/creategroup");
 const ExpressError = require("../utils/ExpressError");
 
 
@@ -43,75 +42,8 @@ const ExpressError = require("../utils/ExpressError");
 app.get("/", (req, res) => {
   res.json({ name: "Backend guy", message: "Hello from me the backend guy" });
 });
-// Auth section
+//? Auth section
 app.use("/auth", authRoutes);
-app.post("/auth/login", async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    const curUser = await User.findOne({ email });
-    if (!curUser) {
-      return res.sendStatus(401); //user not found
-    }
-    const isMatch = await bcrypt.compare(password, curUser.password);
-    if (!isMatch) {
-      return res.sendStatus(401); //Invalid credentials
-    }
-    // Tokenization
-    const accessToken = jwt.sign(
-      { userId: curUser._id },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "15m",
-      }
-    );
-    const refreshToken = jwt.sign(
-      { userId: curUser._id },
-      process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
-    //storing refresh token in db
-    curUser.refreshToken = refreshToken;
-    await curUser.save();
-    //storing Tokens in cookie
-    res
-      .cookie("accessToken", accessToken, {
-        ...cookieOption,
-        maxAge: 7 * 1000,
-      })
-      .cookie("refreshToken", refreshToken, {
-        ...cookieOption,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-    //sending success status
-    res.sendStatus(200);
-  } catch (err) {
-    next(err); //internal server error
-  }
-});
-//refresh tokens
-app.post("/auth/refreshtoken", (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken) return res.sendStatus(401);
-
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
-    if (err) return res.sendStatus(403);
-
-    const newAccessToken = jwt.sign(
-      { userId: payload.userId },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "15m",
-      }
-    );
-    res.cookie("accessToken", newAccessToken, {
-      ...cookieOption,
-      maxAge: 15 * 60 * 60 * 1000,
-    });
-    return res.sendStatus(200);
-  });
-});
 //! create groups
 app.post("/creategroup", authorizationToken, async (req, res,next) => {
   try {
@@ -137,7 +69,7 @@ app.post("/creategroup", authorizationToken, async (req, res,next) => {
 });
 //!user pages
 app.get("/groups", async (req, res) => {
-    allGroups = await Group.find({}).populate('user','name email');
+    allGroups = await CreateGroup.find({}).populate('user','name email');
     res.json(allGroups)
 })
 //!add pages
