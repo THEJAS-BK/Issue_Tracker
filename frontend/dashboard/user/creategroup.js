@@ -4,7 +4,7 @@ async function apiFetch(url, options = {}, retired = false) {
     credentials: "include",
   });
   if (res.status === 401 && !retired) {
-    const refresh = await fetch("http://localhost:8080/refreshtoken", {
+    const refresh = await fetch("http://localhost:8080/auth/refreshtoken", {
       method: "POST",
       credentials: "include",
     });
@@ -20,7 +20,6 @@ async function apiFetch(url, options = {}, retired = false) {
 document.addEventListener("DOMContentLoaded", () => {
   const createGroupForm = document.querySelector("#create-group-form");
   createGroupForm.addEventListener("submit", async (e) => {
-    console.log("start")
     e.preventDefault();
     const res = await apiFetch("http://localhost:8080/creategroup", {
       method: "POST",

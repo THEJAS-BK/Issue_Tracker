@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 });
 
 // Auth section
-app.post("/signup", async (req, res) => {
+app.post("/auth/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -62,7 +62,7 @@ app.post("/signup", async (req, res) => {
     next(err);
   }
 });
-app.post("/login", async (req, res, next) => {
+app.post("/auth/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const curUser = await User.findOne({ email });
@@ -108,7 +108,7 @@ app.post("/login", async (req, res, next) => {
   }
 });
 //refresh tokens
-app.post("/refreshtoken", (req, res) => {
+app.post("/auth/refreshtoken", (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.sendStatus(401);
 
