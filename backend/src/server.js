@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+// Routes
+const authRoutes = require("./routes/auth");
 
 //Middlewares
 const { authorizationToken } = require("./middlewares/auth.middleware");
@@ -34,34 +36,15 @@ async function main() {
 //Schemas
 const User = require("./models/user");
 const Group = require("./models/group");
-//cookie option
-const isProd = process.env.ENVIRONMENT === "production";
-const cookieOption = {
-  httpOnly: true,
-  secure: isProd,
-  sameSite: isProd ? "strict" : "lax",
-};
+const ExpressError = require("../utils/ExpressError");
+
 
 //! Routes
 app.get("/", (req, res) => {
   res.json({ name: "Backend guy", message: "Hello from me the backend guy" });
 });
-
 // Auth section
-app.post("/auth/signup", async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({
-      name: name,
-      email: email,
-      password: hashedPassword,
-    });
-    res.json({ success: true });
-  } catch (err) {
-    next(err);
-  }
-});
+app.use("/auth", authRoutes);
 app.post("/auth/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -162,14 +145,20 @@ app.post("/add",async(req,res)=>{
   console.log("hello")
 })
 
-//error middleware
-app.use((err, req, res, next) => {
-  res.sendStatus(err.status || 500);
-});
 //!!test route
 app.get("/api/test", authorizationToken, (req, res) => {
   res.json({ mes: "HEllo" });
 });
+//404 route
+app.all("/*splat",(req,res,next)=>{
+  next(new ExpressError("Page Not Found",404));
+})
+//error middleware
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message = "Something went wrong" } = err;
+  res.status(statusCode).json({ message });
+});
+
 
 //server start
 app.listen(8080, () => {
