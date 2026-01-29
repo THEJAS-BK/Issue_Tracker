@@ -13,5 +13,9 @@ addIssueForm.addEventListener("submit",async (e)=>{
     }),
     credentials:"include"
   })
-  console.log(res)
-})
+  if(!res.ok)return;
+
+    if(res.ok){
+        window.location.href="/frontend/dashboard/user/groupInterface.html"
+    }
+})  

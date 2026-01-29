@@ -181,15 +181,15 @@ main{
 }
 .right-Tab{
     position:relative;
+    display: flex
 }
 .right-Tab-Main{
-    padding: 1rem;
     width: 100%;
     line-height: 2rem;
-    border-bottom:1px solid black;
+    overflow: scroll;
 }
 .badge-pending{
-    padding:0.25rem 1rem;
+    padding:0.25rem 0.5rem;
     background-color: blanchedalmond;
     width:40%;
     border-radius: 10px;
@@ -202,8 +202,12 @@ main{
     text-align: center;
     width: 100%;
     color:blue;
+    background-color: lightskyblue;
 }
-
+.issuemes{
+    padding: 1rem;
+    border-bottom: 2px solid black;
+}
 .mainLeft{
     position: relative;
 }
@@ -214,6 +218,6 @@ main{
     position: absolute;
     bottom: 0px;
 }
-.space-holder{
+.space-holder,.space-holder-issues{
     height: 9rem;
 }

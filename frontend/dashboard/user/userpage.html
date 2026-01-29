@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="userpage.css" />
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
       integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
@@ -17,11 +17,11 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
       rel="stylesheet"
-    />
-        <link rel="stylesheet" href="../hambugerMenu.css" />
+    /> -->
+    <link rel="stylesheet" href="../hambugerMenu.css" />
   </head>
   <body>
-     <input type="checkbox" id="menu-toggle" hidden />
+    <input type="checkbox" id="menu-toggle" hidden />
     <div class="menu">
       <div class="menu-top">
         <div class="menu-profile">
@@ -34,7 +34,7 @@
         </div>
         <div class="close-btn">
           <label for="menu-toggle">
-          <i class="fa-solid fa-xmark"></i>
+            <i class="fa-solid fa-xmark"></i>
           </label>
         </div>
       </div>
@@ -53,7 +53,7 @@
     </div>
     <header>
       <div class="navleft">
-         <label for="menu-toggle">
+        <label for="menu-toggle">
           <i class="fa-solid fa-bars"></i>
         </label>
       </div>
@@ -62,7 +62,7 @@
       </div>
       <div class="leftSection">
         <button class="create-group-btn">Create Group</button>
-        <div class="headAcc ">
+        <div class="headAcc">
           <div>
             <p>J</p>
           </div>
@@ -84,26 +84,32 @@
       <div class="mainLeft">
         <h2>Your Groups</h2>
         <div class="leftTab">
+          <a href="/frontend/dashboard/user/">
           <div class="leftTab-Tab">
-            <div class="leftTab-left">
-              <img src="/frontend/assets/OIP.jpg" alt="categories" class="group-img" />
-              <div class="leftTab-left-center">
-                <h4 class="group-category">Bus issue</h4>
-                <p class="group-description">issues related to bus</p>
-                <div class="badges">
-                  <div class="bg1"><span>8 open</span> </div>
-                  <div class="bg2"><span>9  solved</span></div>
+              <div class="leftTab-left">
+                <img
+                  src="/frontend/assets/OIP.jpg"
+                  alt="categories"
+                  class="group-img"
+                />
+                <div class="leftTab-left-center">
+                  <h4 class="group-category">Bus issue</h4>
+                  <p class="group-description">issues related to bus</p>
+                  <div class="badges">
+                    <div class="bg1"><span>8 open</span></div>
+                    <div class="bg2"><span>9 solved</span></div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <p class="status">joined</p>
+              <p class="status">joined</p>
+
           </div>
+          </a>
           <div class="space-holder"></div>
-          
         </div>
         <div class="left-bottom">
           <div class="joinGroup">
-              <button>+ Join Group</button>
+            <button>+ Join Group</button>
           </div>
           <p>Discover more groups</p>
         </div>
@@ -114,13 +120,15 @@
           <div class="right-Tab-Main">
             <div class="issuemes">
               <h3>Mess Issue</h3>
-              <p>issue related to the college mess andafsdfsdgs  gsdgdf dfgsdghostel food with a lot of shit </p>
+              <p>
+                issue related to the college mess andafsdfsdgs gsdgdf
+                dfgsdghostel food with a lot of shit
+              </p>
               <div class="badge-pending">pending Approval</div>
             </div>
+            <div class="space-holder-issues"></div>
           </div>
-          <div class="right-view-request">
-            View all Request
-          </div>
+          <div class="right-view-request">View all Request</div>
         </div>
       </div>
     </main>

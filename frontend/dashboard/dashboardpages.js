@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     credentials: "include",
   });
   const data = await res.json();
-  renderGroups(data);
+  renderGroups(data.allGroups);
+  renderIssues(data.issues);
 });
 
 function renderGroups(groups) {
@@ -21,7 +22,10 @@ function renderGroups(groups) {
   for (const group of groups) {
     const parent = document.createElement("div");
     parent.classList.add("leftTab-Tab");
-    groupContainer.insertAdjacentElement("beforebegin",parent);
+    //creating a tag
+    const anchorTag = document.createElement("a")
+    anchorTag.append(parent);
+    groupContainer.insertAdjacentElement("beforebegin",anchorTag);
     //! parent left contents
     const parentLeftContent = document.createElement("div");
     parentLeftContent.classList.add("leftTab-left");
@@ -80,5 +84,27 @@ function renderGroups(groups) {
     openBadge.innerText = `${2} Open`;
     closedBadge.innerText = `${6} solved`;
     parentRightContent.innerText = "Joined";
+  }
+}
+function renderIssues(issues) {
+  const rightTabMain = document.querySelector(".space-holder-issues");
+  if (!rightTabMain) return;
+  // outer container
+  for (const issue of issues) {
+    const issueDiv = document.createElement("div");
+    issueDiv.className = "issuemes";
+    // title
+    const h3 = document.createElement("h3");
+    h3.textContent = issue.title;
+    // description
+    const p = document.createElement("p");
+    p.textContent = issue.description;
+    // badge
+    const badge = document.createElement("div");
+    badge.className = "badge-pending";
+    badge.textContent = "Pending Approval";
+
+    issueDiv.append(h3, p, badge);
+    rightTabMain.insertAdjacentElement("beforebegin", issueDiv);
   }
 }

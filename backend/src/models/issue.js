@@ -1,6 +1,6 @@
-const mongoose = reqquire("mongoose")
+const mongoose = require("mongoose")
 
-const addIssueSchema=mongoose.Schema({
+const issueSchema=mongoose.Schema({
     title:{
         type:String,
         required:true
@@ -10,11 +10,12 @@ const addIssueSchema=mongoose.Schema({
         required:true
     },
     category:{
-        type:String,
+        type:String,    
         required:true
     },
     image:{
         type:String,
-        required:true
+        default:""
     }
 })
+module.exports= mongoose.model("Issue",issueSchema)
