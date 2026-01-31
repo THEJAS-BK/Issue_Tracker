@@ -69,7 +69,7 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
     next(err);
   }
 });
-//!user pages
+//!user pages 
 app.get("/groups", async (req, res) => {
   try {
     const allGroups = await CreateGroup.find({}).populate("user", "name email");
@@ -77,6 +77,7 @@ app.get("/groups", async (req, res) => {
     res.json({  allGroups, issues });
   } catch (err) {
     res.status(500);
+    conosle.log("Hello")
   }
 });
 //!add pages
