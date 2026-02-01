@@ -74,10 +74,11 @@ app.get("/groups", async (req, res) => {
   try {
     const allGroups = await CreateGroup.find({}).populate("user", "name email");
     const issues = await Issue.find({});
+        console.log(allGroups);
     res.json({  allGroups, issues });
+
   } catch (err) {
     res.status(500);
-    conosle.log("Hello")
   }
 });
 //!add pages

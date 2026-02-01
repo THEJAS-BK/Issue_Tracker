@@ -24,6 +24,7 @@ function renderGroups(groups) {
     parent.classList.add("leftTab-Tab");
     //creating a tag
     const anchorTag = document.createElement("a")
+    anchorTag.setAttribute("href", `/frontend/dashboard/user/groupInterface.html?id=${group._id}`);
     anchorTag.append(parent);
     groupContainer.insertAdjacentElement("beforebegin",anchorTag);
     //! parent left contents
