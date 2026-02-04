@@ -16,7 +16,11 @@ const userSchema = new mongoose.Schema({
     refreshToken:{
         type:String,
         default:null,
-    }
+    },
+    groups:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Group"
+    }]
 
 })
 module.exports=mongoose.model("User",userSchema)

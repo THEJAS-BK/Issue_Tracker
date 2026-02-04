@@ -5,13 +5,14 @@ addIssueForm.addEventListener("submit",async (e)=>{
   const res = await fetch("http://localhost:8080/add",{
     method:"POST",
     headers:{"Content-type":"application/json"},
+     credentials:"include",
     body:JSON.stringify({
         title:addIssueForm.title.value,
         description:addIssueForm.description.value,
         category:addIssueForm.category.value,
         priority:addIssueForm.priority.value
     }),
-    credentials:"include"
+   
   })
   if(!res.ok)return;
 

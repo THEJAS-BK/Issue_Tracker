@@ -32,7 +32,7 @@ async function main() {
   await mongoose.connect(process.env.MONGO_URL);
 }
 //Schemas
-const CreateGroup = require("./models/creategroup");
+const CreateGroup = require("./models/group");
 const ExpressError = require("../utils/ExpressError");
 const Issue = require("./models/issue");
 
@@ -60,7 +60,8 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
       visibility,
       joinapproval,
       imageuploadpermission,
-      user: req.user.userId,
+      createdBy: req.user.userId,
+      members:[req.user.userId]
     });
 
     await newGroup.save();
@@ -70,28 +71,32 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
   }
 });
 //!user pages 
-app.get("/groups", async (req, res) => {
+app.get("/groups",authorizationToken, async (req, res) => {
   try {
-    const allGroups = await CreateGroup.find({}).populate("user", "name email");
+    const allGroups = await CreateGroup.find({}).populate("createdBy", "name email");
     const issues = await Issue.find({});
-        console.log(allGroups);
     res.json({  allGroups, issues });
-
   } catch (err) {
     res.status(500);
-  }
+  } 
 });
 //!add pages
-app.post("/add", async (req, res) => {
+app.post("/add",authorizationToken, async (req, res,next) => {
   try {
+    console.log("Adding issue");
     const { title, description, category, priority } = req.body;
+    console.log(req.body,req.user)
+       console.log("Issue added");
+
     const newIssue = new Issue({
       title,
       description,
       category,
-      // priority
+      //image,
+      createdBy: req.user.userId, 
     });
     await newIssue.save();
+ 
     res.sendStatus(200);
   } catch (err) {
     next(err);
