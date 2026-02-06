@@ -5,8 +5,9 @@ const jwt = require("jsonwebtoken");
 const isProd = process.env.ENVIRONMENT === "production";
 const cookieOption = {
   httpOnly: true,
-  secure: isProd,
-  sameSite: isProd ? "strict" : "lax",
+  secure: true,
+  sameSite: "strict",
+  path:"/"
 };
 
 module.exports.signUp = async (req, res, next) => {
@@ -39,7 +40,7 @@ module.exports.login = async (req, res, next) => {
       { userId: curUser._id },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: "15m",
+        expiresIn: "5s",
       },
     );
     const refreshToken = jwt.sign(
@@ -56,7 +57,7 @@ module.exports.login = async (req, res, next) => {
     res
       .cookie("accessToken", accessToken, {
         ...cookieOption,
-        maxAge: 7 * 1000,
+        maxAge: 16*60*1000,
       })
       .cookie("refreshToken", refreshToken, {
         ...cookieOption,

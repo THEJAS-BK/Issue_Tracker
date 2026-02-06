@@ -10,6 +10,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     method: "GET",
     credentials: "include",
   });
+  if (res.status === 403) {
+    fetch("http://localhost:8080/auth/refreshtoken", {
+      method: "POST",
+      credentials: "include",
+    });
+    location.reload();
+  }
+  if(!res.ok){
+    window.location.href="/frontend/auth/index.html"
+  }
   const data = await res.json();
   renderGroups(data.allGroups);
   renderIssues(data.issues);
@@ -23,10 +33,13 @@ function renderGroups(groups) {
     const parent = document.createElement("div");
     parent.classList.add("leftTab-Tab");
     //creating a tag
-    const anchorTag = document.createElement("a")
-    anchorTag.setAttribute("href", `/frontend/dashboard/user/groupInterface.html?id=${group._id}`);
+    const anchorTag = document.createElement("a");
+    anchorTag.setAttribute(
+      "href",
+      `/frontend/dashboard/user/groupInterface.html?id=${group._id}`,
+    );
     anchorTag.append(parent);
-    groupContainer.insertAdjacentElement("beforebegin",anchorTag);
+    groupContainer.insertAdjacentElement("beforebegin", anchorTag);
     //! parent left contents
     const parentLeftContent = document.createElement("div");
     parentLeftContent.classList.add("leftTab-left");
