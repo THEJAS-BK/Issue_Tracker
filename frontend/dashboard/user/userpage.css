@@ -221,3 +221,7 @@ main{
 .space-holder,.space-holder-issues{
     height: 9rem;
 }
+a{
+    text-decoration: none;
+    color:black
+}

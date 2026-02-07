@@ -1,247 +1,250 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: "Plus Jakarta Sans", sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 /* Header styling  */
 header {
-    background-color: blue;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    position: relative;
-    }
-
-.navleft{
-    margin-left:2rem;
+  background-color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: relative;
 }
-header i{
-    color:white;
-    font-size:25px;
+
+.navleft {
+  margin-left: 2rem;
+}
+header i {
+  color: white;
+  font-size: 25px;
 }
 /* Mid section  */
 
 .mid {
-    color: white;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    }
+  color: white;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 /* left section */
-.leftSection{
-    display: flex;
-  
+.leftSection {
+  display: flex;
 }
-.leftSection button{
-    border: none;
-    background-color: white;
-    color: blue;
-    margin-right:1rem;
-    padding: 0.5rem 2rem;
-    border-radius: 10px;
+.leftSection button {
+  border: none;
+  background-color: white;
+  color: blue;
+  margin-right: 1rem;
+  padding: 0.5rem 2rem;
+  border-radius: 10px;
 }
-.leftSection i{
-    color:gray;
-    font-size: 15px;
+.leftSection i {
+  color: gray;
+  font-size: 15px;
 }
-.headAcc{
-    width:6rem;
-    display: flex;
-    align-items: center;
+.headAcc {
+  width: 6rem;
+  display: flex;
+  align-items: center;
 }
-.headAcc div{
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.headAcc div {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.headAcc div p{
-    width:70%;
-    height: 70%;
-    background-color:blue;
-    border-radius: 50%;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bolder;
+.headAcc div p {
+  width: 70%;
+  height: 70%;
+  background-color: blue;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
 }
-.headAcc i{
-    margin:0
+.headAcc i {
+  margin: 0;
 }
 /* Main contetnt  */
-.breadcrumb{
-    padding: 0.75rem 2rem;
-    background-color: #dddddd;
+.breadcrumb {
+  padding: 0.75rem 2rem;
+  background-color: #dddddd;
 }
-.main-container{
-    display: flex;
-    justify-content: center;
-    height: 90vh;
-    margin-bottom: 5rem;
+.main-container {
+  display: flex;
+  justify-content: center;
+  height: 90vh;
+  margin-bottom: 5rem;
 }
-.main-content{
-    width:80%;
-    height: 95%;
+.main-content {
+  width: 80%;
+  height: 95%;
 }
-.head-content{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
+.head-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
 }
-.head-content-left{
-    display: flex;
-    align-items: center;
+.head-content-left {
+  display: flex;
+  align-items: center;
 }
-.main-img{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: white;
-    margin:1rem;
+.main-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: white;
+  margin: 1rem;
 }
-.group-img{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: white;
-    margin:1rem;
+.group-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  margin: 1rem;
 }
-.leave-group-btn{
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 10px;
-    background-color: red;
-    color: white;
-    font-weight: bolder;
-    cursor: pointer;
-}
+
 /* contents  */
-.head-content-main{
-    display: flex;
-    height: 88%;
-    position: relative;
+.head-content-main {
+  display: flex;
+  height: 88%;
+  position: relative;
 }
-.head-main-left{
-    width: 60%;
-    height: 89%;
-    position: relative;
+.head-main-left {
+  width: 60%;
+  height: 89%;
+  position: relative;
 }
-.badge{
-    height:13%;
-    display: flex;
-    gap:1rem;
-    justify-content: center;
+.badge {
+  height: 13%;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
-.bg1,.bg2{
-    border: 3px solid black;
-    box-shadow: 0 0 2px rgba(0,0,0,0.9);
-    width: 45%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius:1rem;
-    padding:1.25rem;
+.bg1,
+.bg2 {
+  border: 3px solid black;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.9);
+  width: 45%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  padding: 1.25rem;
 }
-.head-main-left h2{
-    padding:1rem 2rem;
+.head-main-left h2 {
+  padding: 1rem 2rem;
 }
-.table-wrapper{
-    width: 100%;
-    border:2px solid black;
-    height: 88%;
-    position: relative;
+.table-wrapper {
+  width: 100%;
+  border: 2px solid black;
+  height: 88%;
+  position: relative;
 }
-table{
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
 }
-thead{
-    background-color: lightgray;
+thead {
+  background-color: lightgray;
 }
-th{
-    padding:0.75rem 1rem;
+th {
+  padding: 0.75rem 1rem;
 }
-.main-issue-tab{
-    height: 60px;
+.main-issue-tab {
+  height: 60px;
 }
-.main-issue-tab td{
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid gray;
+.main-issue-tab td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid gray;
 }
-.table-wrapper-bottom{
-    position:absolute;
-    background-color: bisque;
-    width:100%;
-    bottom:0;
-    display:flex;
-    justify-content: space-between;
-    padding:1rem 2rem;
+.table-wrapper-bottom {
+  position: absolute;
+  background-color: bisque;
+  width: 100%;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
 }
-.table-wrapper-bottom-left, .table-wrapper-bottom-right{
-    display: flex;
-    gap:1rem;
-    align-items: center;
-    justify-content: center;
+.table-wrapper-bottom-left,
+.table-wrapper-bottom-right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
 }
-.table-wrapper-bottom-left p{
-    padding: 0;
-    margin: 0;
+.table-wrapper-bottom-left p {
+  padding: 0;
+  margin: 0;
 }
 /* Right side contents  */
-.head-main-right{
-    width: 30%;
-    height: 70%;
-    margin-left: 2rem;
-    border: 2px solid black;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    position: relative;
+.head-main-right {
+  width: 30%;
+  height: 70%;
+  margin-left: 2rem;
+  border: 2px solid black;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
-.head-main-right h3{
-    padding: 1rem;
+.head-main-right h3 {
+  padding: 1rem;
 }
-.members{
-    display: flex;
-    flex-direction: column;
+.members {
+  display: flex;
+  flex-direction: column;
 }
-.members>div{
-    display: flex;
-    flex-direction: column;
+.members > div {
+  display: flex;
+  flex-direction: column;
 }
-.members>div>div{
-    border: 2px solid black;
-    display: flex;
-    align-items: center;
-    height: 23%;
+.members > div > div {
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  height: 23%;
 }
-.addMem-btn{
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 10px;
-    background-color: blue;
-    color: white;
-    position: absolute;
-    bottom:5px;
-    left:30%;
+.addMem-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: blue;
+  color: white;
+  position: absolute;
+  bottom: 5px;
+  left: 30%;
 }
 /* Add Issue btn  */
-.addIssue-btn{
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 10px;
-    background-color: blue;
-    color: white;
-    position: absolute;
-    bottom:0;
-    right:22rem;
+.addIssue-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: blue;
+
+  color: white;
+  font-weight: bolder;
+  cursor: pointer;
+}
+.leave-group-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  background-color: red;
+  right: 22rem;
 }
