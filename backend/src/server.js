@@ -83,11 +83,7 @@ app.get("/groups",authorizationToken, async (req, res) => {
 //!add pages
 app.post("/add",authorizationToken, async (req, res,next) => {
   try {
-    console.log("Adding issue");
     const { title, description, category, priority } = req.body;
-    console.log(req.body,req.user)
-       console.log("Issue added");
-
     const newIssue = new Issue({
       title,
       description,

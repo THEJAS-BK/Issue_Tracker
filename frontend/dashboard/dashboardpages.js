@@ -1,3 +1,5 @@
+import {apiFetch} from "../utils/helper.js";
+
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
 createGroupBtn.addEventListener("click", () => {
@@ -5,21 +7,10 @@ createGroupBtn.addEventListener("click", () => {
 });
 //Load userpage Groups
 document.addEventListener("DOMContentLoaded", async () => {
-  const res = await fetch("http://localhost:8080/groups", {
-    headers: { "Content-Type": "application/json" },
-    method: "GET",
-    credentials: "include",
-  });
-  if (res.status === 403) {
-    fetch("http://localhost:8080/auth/refreshtoken", {
-      method: "POST",
-      credentials: "include",
-    });
-    location.reload();
-  }
-  if(!res.ok){
-    window.location.href="/frontend/auth/index.html"
-  }
+  const res = await apiFetch("http://localhost:8080/groups",{
+    method:"GET",
+    headers:{"Content-Type":"application/json"}
+  } )
   const data = await res.json();
   renderGroups(data.allGroups);
   renderIssues(data.issues);

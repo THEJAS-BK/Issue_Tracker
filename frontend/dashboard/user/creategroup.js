@@ -1,21 +1,4 @@
-async function apiFetch(url, options = {}, retired = false) {
-  const res = await fetch(url, {
-    ...options,
-    credentials: "include",
-  });
-  if (res.status === 401 && !retired) {
-    const refresh = await fetch("http://localhost:8080/auth/refreshtoken", {
-      method: "POST",
-      credentials: "include",
-    });
-    if (!refresh.ok) {
-      window.location.href = "/frontend/auth/index.html";
-      return;
-    }
-    return apiFetch(url, options, true);
-  }
-  return res;
-}
+import { apiFetch } from "../../utils/helper.js";
 //create group option
 document.addEventListener("DOMContentLoaded", () => {
   const createGroupForm = document.querySelector("#create-group-form");
@@ -35,8 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
         imageuploadpermission:createGroupForm.imageuploadpermission.value,
       }),
     });
-    if(!res.ok)return;
-
       if(res.ok){
           window.location.href="/frontend/dashboard/user/userpage.html"
       }
