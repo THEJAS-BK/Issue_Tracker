@@ -83,12 +83,12 @@ app.get("/groups",authorizationToken, async (req, res) => {
 //!add pages
 app.post("/add",authorizationToken, async (req, res,next) => {
   try {
-    const { title, description, category, priority } = req.body;
+    const { title, description, category, groupId } = req.body;
     const newIssue = new Issue({
       title,
       description,
       category,
-      //image,
+      group:groupId,
       createdBy: req.user.userId, 
     });
     await newIssue.save();
@@ -98,11 +98,18 @@ app.post("/add",authorizationToken, async (req, res,next) => {
     next(err);
   }
 });
+//group interface 
+app.get("/groupinterface",authorizationToken, async (req, res) =>{
+  try{
+    const issues = await Issue.find({}).populate("createdBy", "name email");
+    res.json({ issues });
+  } catch(err){
+    next(err);
+  }
+} )
 
-//!!test route
-app.get("/api/test", authorizationToken, (req, res) => {
-  res.json({ mes: "HEllo" });
-});
+
+
 //404 route
 app.all("/*splat", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

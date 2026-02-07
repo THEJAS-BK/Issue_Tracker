@@ -12,10 +12,10 @@ addIssueForm.addEventListener("submit", async (e) => {
       title: addIssueForm.title.value,
       description: addIssueForm.description.value,
       category: addIssueForm.category.value,
-      priority: addIssueForm.priority.value,
+      groupId:new URLSearchParams(window.location.search).get("id")
     }),
   });
   if (res.ok) {
-    window.location.href = "/frontend/dashboard/user/groupInterface.html";
+    window.location.href = "/frontend/dashboard/user/groupInterface.html?id="+new URLSearchParams(window.location.search).get("id");
   }
 });
