@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -24,10 +24,10 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="adminPage.css" />
-    <link rel="stylesheet" href="../hambugerMenu.css">
+    <link rel="stylesheet" href="../hambugerMenu.css" />
   </head>
   <body>
-     <input type="checkbox" id="menu-toggle" hidden />
+    <input type="checkbox" id="menu-toggle" hidden />
     <div class="menu">
       <div class="menu-top">
         <div class="menu-profile">
@@ -40,7 +40,7 @@
         </div>
         <div class="close-btn">
           <label for="menu-toggle">
-          <i class="fa-solid fa-xmark"></i>
+            <i class="fa-solid fa-xmark"></i>
           </label>
         </div>
       </div>
@@ -59,7 +59,7 @@
     </div>
     <header>
       <div class="head-left">
-         <label for="menu-toggle">
+        <label for="menu-toggle">
           <i class="fa-solid fa-bars"></i>
         </label>
         <h3>Community Issue Tracker</h3>
@@ -93,77 +93,100 @@
       </div>
     </div>
     <main>
-        <div class="filter-bar">
-           <select name="" id="view-groups">
-            <option value="">View groups</option>
-           </select>
-            <div class="filter-status">
-                <p>Filter by Status</p>
-                <select name="" id="">
-                    <option value="">All</option>
-                </select>
+      <div class="filter-bar">
+        <select name="" id="view-groups">
+          <option value="">View groups</option>
+        </select>
+        <div class="filter-status">
+          <p>Filter by Status</p>
+          <select name="" id="">
+            <option value="">All</option>
+          </select>
+        </div>
+        <input type="text" id="searchInp" placeholder="Search issues..." />
+        <div class="btn btn-primary">Clear Filters</div>
+      </div>
+      <div class="main-content">
+        <div class="content-left">
+          <div class="issues-status-bar">
+            <p class="add-underline">Pending (8)</p>
+            <p class="add-underline">In Progress (5)</p>
+            <p class="add-underline">Resolved (7)</p>
+          </div>
+          <div class="issue-contents">
+            <div class="content-bars">
+              <div class="content-bar-left">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <div>
+                  <h6>Bus AC malfunctioning</h6>
+                  <p class="name">Alex <span>1 hour ago</span></p>
+                </div>
+              </div>
+              <div class="badge">Pending</div>
             </div>
-            <input type="text" id="searchInp" placeholder="Search issues...">
-            <div class="btn btn-primary">Clear Filters</div>
+          </div>
         </div>
-        <div class="mainContent">
-        <div class="table-wrapper">
-           <table>
-          <thead>
-            <th>Title</th>
-            <th>Group</th>
-            <th>Status</th>
-            <th>Created By</th>
-            <th>Created At</th>
-            <th>Actions</th>
-          </thead>
-          <tbody>
-            <tr class="main-issue-tab">
-              <td>Bus Ac malfunctioning</td>
-              <td>Bus Issues</td>
-              <td><span class="badge text-bg-warning">pending</span></td>
-              <td>Alex who the hell</td>
-              <td>Today</td>
-              <td>
-                <select name="" id="">
-                  <option value="">Mark in progress</option>
-                  <option value="">Mark as Resolved</option>
-                  <option value="">Delete issue</option>
-                </select>
-              </td>
-            </tr>
-            <tr class="main-issue-tab">
-              <td>Bus Ac malfunctioning</td>
-              <td>Bus Issues</td>
-              <td><span class="badge text-bg-warning">pending</span></td>
-              <td>Alex who the hell</td>
-              <td>Today</td>
-              <td>
-                <select name="" id="">
-                  <option value="">Mark in progress</option>
-                  <option value="">Mark as Resolved</option>
-                  <option value="">Delete issue</option>
-                </select>
-              </td>
-            </tr>
-            
-          </tbody>
-         </table>
-         <div class="table-wrapper-bottom">
-           <div class="table-wrapper-bottom-left">
-            <button class="btn btn-primary">previous</button>
-           <p><span>1</span>to <span>6</span> of 20 issues</p>
-           </div>
-           <div class="table-wrapper-bottom-right">
-            <button class="btn btn-primary"><</button>
-            <div>1</div>
-            <div>2</div>
-            <button class="btn btn-primary">Next ></button>
-           </div>
-         </div>
+        <div class="content-right">
+          <div class="content-right-head">
+            <div class="head-title">
+              <div>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <h5>Bus AC malfunctioning</h5>
+              </div>
+              <i class="fa-solid fa-ellipsis"></i>
+            </div>
+            <div class="head-user">
+              <div class="profile-img">
+                <img src="/frontend/assets/OIP.jpg" alt="" />
+              </div>
+              <p class="name-right">Alex</p>
+              <p class="time-ago">1 Hour ago</p>
+              <p class="group">bus issue</p>
+            </div>
+          </div>
+          <div class="content-right-description">
+            <div class="description-head">
+              <h4>Description</h4>
+              <div>
+                <div class="desc-inprogress">In progress</div>
+                <div class="desc-resolved">resolved</div>
+              </div>
+            </div>
+            <div class="description-body">
+               <img
+                class="right-image"
+                src="/frontend/assets/OIP.jpg"
+                alt="Issue Image"
+              />
+               <p class="description-body-content">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Adipisci in obcaecati eaque beatae dolores quaerat unde, nam
+                ipsa magni! Minus vel ex dignissimos nesciunt sequi est, quasi
+                fuga placeat Lorem ipsum dolor sit amet consectetur adipisicing
+                elit. Nesciunt modi omnis tempore quis voluptatum doloribus
+                distinctio fugiat. Repellendus, ipsum!
+                Numgsdffffffffffffffffffff Lorem ipsum dolor sit amet,
+                consectetur adipisicing elit. Laboriosam rerum quia porro
+                molestiae hic repellendus, architecto, impedit vero, nemo
+                recusandae minima sapiente eos itaque officiis atque veniam
+                laborum possimus illum!quam omnis veritatis nostrum! Voluptates
+                facere veniam, officia saepe distinctio Lorem ipsum dolor, sit
+                amet consectetur adipisicing elit. Quasi cum veniam iste,
+                voluptate ullam ratione, libero soluta dicta doloremque possimus
+                architecto, rem mollitia. Numquam, nobis atque soluta in dolores
+                quos! eius.
+              </p>
+            </div>
+          </div>
+          <div class="upvotes">
+            <div class="upvotes-count">
+              <i class="fa-solid fa-arrow-up"></i>
+            <span>12</span>
+            </div>
+          </div>
         </div>
-        </div>
-    </main>`
+      </div>
+    </main>
   </body>
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
