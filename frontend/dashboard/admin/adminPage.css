@@ -284,17 +284,26 @@ main {
   height: 170px;
   box-shadow: 0 0 5px grey;
   border-radius: 10px;
+  margin-bottom: 1rem;
 }
 .upvotes{
     width: 100%;
     padding: 0.5rem 2rem;
-    border-top:1px solid black
+    border-top:1px solid black;
+    display: flex;
+   gap:1rem
 }
 .upvotes-count{
     width:60px;
     color:white;
+    background-color: rgb(89, 190, 46); 
+}
+.downvote-count{
+   width:60px;
+    color:white;
     background-color: rgb(215, 34, 31); 
 }
+
 /* left side styling  */
 .add-underline:hover{
     border-bottom: 4px solid orange;
