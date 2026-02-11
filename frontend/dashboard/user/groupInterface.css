@@ -111,7 +111,7 @@ main {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top:1rem;
+  margin-top: 1rem;
 }
 .mainleft {
   width: 55%;
@@ -160,7 +160,7 @@ main {
   width: 100%;
   box-sizing: border-box;
   padding: 0 2rem;
-  overflow:scroll
+  overflow: scroll;
 }
 .issue-card {
   height: 12%;
@@ -287,4 +287,8 @@ main {
   color: white;
   border: none;
   cursor: pointer;
+}
+/* js material  */
+.addBorder{
+  border:2px solid blue;
 }

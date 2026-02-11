@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   addIssueBtn.addEventListener("click", () => {
     window.location.href = `/frontend/dashboard/user/addIssue.html?id=${id}`;
   });
+
   //show contents
   const briefres = await apiFetch("http://localhost:8080/groupinterface", {
     method: "POST",
-
     headers: {
       "Content-type": "application/json",
     },
@@ -20,14 +20,41 @@ document.addEventListener("DOMContentLoaded", async () => {
     }),
     credentials: "include",
   });
+
   const briefdata = await briefres.json();
   for (const issue of briefdata.issues) {
     createIssueCards(issue);
   }
+
   //render each issue
   const allIssueCards = document.querySelectorAll(".issue-card");
-  allIssueCards.forEach((issueCard) => {
+
+  //first issue border
+  if (allIssueCards[0]) {
+    allIssueCards[0].classList.add("addBorder");
+    const firstEntryres = await apiFetch("http://localhost:8080/indissue", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        issueId: allIssueCards.dataset.issueId,
+      }),
+      credentials: "include",
+    });
+    const firstEntryData = await firstEntryres.json();
+    updateIssueDetail(firstEntryData.issue);
+  }
+
+  //rest issues
+  if (allIssueCards.length > 1) {
+      allIssueCards.forEach((issueCard) => {
     issueCard.addEventListener("click", async () => {
+      //blue border
+      allIssueCards.forEach((card) => {
+        card.classList.remove("addBorder");
+      });
+      issueCard.classList.add("addBorder");
       const Completeres = await apiFetch("http://localhost:8080/indissue", {
         method: "POST",
         headers: {
@@ -42,6 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       updateIssueDetail(Completedata.issue);
     });
   });
+}
 });
 
 function createIssueCards(issue) {
@@ -92,13 +120,12 @@ function createIssueCards(issue) {
   //
   h3.textContent = issue.title;
   name.textContent = issue.createdBy.name;
-  timeAgo.textContent = issue.createdAt;
+  timeAgo.textContent = calcTimeAgo(issue.createdAt);
   issueCardBadge.textContent = "closed";
   issueCard.dataset.issueId = issue._id;
 }
 
 function updateIssueDetail(issue) {
-  console.log(issue)
   const mainRight = document.querySelector(".mainright");
   if (!mainRight) return;
 
@@ -114,14 +141,38 @@ function updateIssueDetail(issue) {
   const descText = mainRight.querySelector(".description-body-content");
 
   // -------- DATA UPDATE ONLY --------
-  h3.textContent =issue.title;
+  h3.textContent = issue.title;
   img.src = "/frontend/assets/OIP.jpg";
   name.textContent = issue.createdBy.name;
-  timeAgo.textContent = issue.createdAt;
+  timeAgo.textContent = calcTimeAgo(issue.createdAt);
   badge.textContent = "open";
   descText.textContent = issue.description;
 
   if (issueImg) {
     issueImg.src = "/frontend/assets/OIP.jpg";
+  }
+}
+
+function calcTimeAgo(time) {
+  const createdTime = new Date(time).getTime();
+  const curTime = new Date();
+
+  const diffInMs = curTime - createdTime;
+  const diffInSecs = Math.floor(diffInMs / 1000);
+  const diffInMins = Math.floor(diffInSecs / 60);
+  const diffInHours = Math.floor(diffInMins / 60);
+  const diffInDays = Math.floor(diffInHours / 24);
+  const diffInyears = Math.floor(diffInDays / 30);
+
+  if (diffInSecs < 60) {
+    return `${diffInSecs} seconds ago`;
+  } else if (diffInMins < 60) {
+    return `${diffInMins} minutes ago`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours} hour${diffInHours > 1 ? "s" : ""} ago`;
+  } else if (diffInDays < 30) {
+    return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
+  } else {
+    return `${diffInyears} year${diffInyears > 1 ? "s" : ""} ago`;
   }
 }
