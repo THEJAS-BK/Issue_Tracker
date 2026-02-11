@@ -282,7 +282,7 @@ main {
   padding: 0.5rem;
   margin-left: 5px;
   border-radius: 10px;
-  background-color: #007bff;
+  background-color: red;
   color: white;
   border: none;
   cursor: pointer;

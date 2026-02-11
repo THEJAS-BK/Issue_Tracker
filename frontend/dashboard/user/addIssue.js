@@ -19,3 +19,7 @@ addIssueForm.addEventListener("submit", async (e) => {
     window.location.href = "/frontend/dashboard/user/groupInterface.html?id="+new URLSearchParams(window.location.search).get("id");
   }
 });
+const cancelBtn = document.querySelector(".cancel")
+cancelBtn.addEventListener("click",()=>{
+  window.location.href="/frontend/dashboard/user/groupInterface.html?id="+new URLSearchParams(window.location.search).get("id")
+})
