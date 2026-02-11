@@ -1,227 +1,278 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: "Plus Jakarta Sans", sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 /* Header styling  */
 header {
-    background-color: blue;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    position: relative;
-    }
-
-.navleft{
-    margin-left:2rem;
+  background-color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: relative;
 }
-header i{
-    color:white;
-    font-size:25px;
+
+.navleft {
+  margin-left: 2rem;
+}
+header i {
+  color: white;
+  font-size: 25px;
 }
 /* Mid section  */
 
 .mid {
-    color: white;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    }
+  color: white;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 /* left section */
-.leftSection{
-    display: flex;
-  
+.leftSection {
+  display: flex;
 }
-.leftSection button{
-    border: none;
-    background-color: white;
-    color: blue;
-    margin-right:1rem;
-    padding: 0.5rem 2rem;
-    border-radius: 10px;
+.leftSection button {
+  border: none;
+  background-color: white;
+  color: blue;
+  margin-right: 1rem;
+  padding: 0.5rem 2rem;
+  border-radius: 10px;
 }
-.leftSection i{
-    color:gray;
-    font-size: 15px;
+.leftSection i {
+  color: gray;
+  font-size: 15px;
 }
-.headAcc{
-    width:6rem;
-    display: flex;
-    align-items: center;
+.headAcc {
+  width: 6rem;
+  display: flex;
+  align-items: center;
 }
-.headAcc div{
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.headAcc div {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.headAcc div p{
-    width:70%;
-    height: 70%;
-    background-color:blue;
-    border-radius: 50%;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bolder;
+.headAcc div p {
+  width: 70%;
+  height: 70%;
+  background-color: blue;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
 }
-.headAcc i{
-    margin:0
+.headAcc i {
+  margin: 0;
 }
 /* Issue section  */
-.issues{
-    height: 20vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:2rem;
+.issues {
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
-.issuetab{
-    width:40%;
-    background-color: chocolate;
-    height:80%;
-    border-radius:5px;
-    box-shadow: 0 0 2px black;
-    padding:1rem 2rem
+.issuetab {
+  width: 40%;
+  background-color: chocolate;
+  height: 80%;
+  border-radius: 5px;
+  box-shadow: 0 0 2px black;
+  padding: 1rem 2rem;
 }
-.issuetab p{
-    font-size: 2rem;
-    color:blue;
+.issuetab p {
+  font-size: 2rem;
+  color: blue;
 }
-.issuetab h2{
-    color:grey;
+.issuetab h2 {
+  color: grey;
 }
 /* Main content  */
-main{
-    display: flex;
-    justify-content: center;
-    height:80vh;
-    margin-top: 3rem;
-    gap:1rem;
-    margin-bottom:8rem ;
+main {
+  display: flex;
+  justify-content: center;
+  height: 80vh;
+  margin-top: 3rem;
+  gap: 1rem;
+  margin-bottom: 8rem;
 }
 /* Left section  */
-.mainLeft{
-    width:51%;
+.mainLeft {
+  width: 51%;
 }
 .leftTab,
-.right-Tab{
-    box-shadow: 0 0 2px black;  
-    border: none;
-    width:100%;
-    height: 95%;
-    position:relative;
+.right-Tab {
+  box-shadow: 0 0 2px black;
+  border: none;
+  width: 100%;
+  height: 95%;
+  position: relative;
 }
-.leftTab-Tab{
-    border-bottom: 2px solid black;
-    display:flex;
-    justify-content: space-between;
-    align-items: start;
-    padding:0.5rem 0;
+.leftTab-Tab {
+  border-bottom: 2px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  padding: 0.5rem 0;
 }
-.leftTab-left{
-    display: flex;
-    padding:1rem;
+.leftTab-left {
+  display: flex;
+  padding: 1rem;
 }
-.leftTab-left-center{
-    margin-left: 1rem;
-    width: 30vw;
-    line-height: 2rem;
+.leftTab-left-center {
+  margin-left: 1rem;
+  width: 30vw;
+  line-height: 2rem;
 }
-.status{
-    padding:1rem
+.status {
+  padding: 1rem;
 }
-.mainLeft img{
-    width:90px
+.mainLeft img {
+  width: 90px;
 }
 /* Left bottom  */
-.left-bottom{
-    position:absolute;
-    bottom:0px;
-    width:100%;
-    background-color: aqua;
+.left-bottom {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  background-color: aqua;
 }
-.left-bottom p{
-    border-top:1px solid black;
+.left-bottom p {
+  border-top: 1px solid black;
 }
-.joinGroup{
-    padding:1rem;
-    display:flex;
-    justify-content: end;
+.joinGroup {
+  padding: 1rem;
+  display: flex;
+  justify-content: end;
 }
-.joinGroup button{
-    padding:0.5rem 1rem;
-    border:none;
-    background-color: lightblue;
-    border-radius: 10px;
+.joinGroup button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: lightblue;
+  border-radius: 10px;
 }
-.left-bottom p{
-    padding:0.5rem;
-    text-align: center;
+.left-bottom p {
+  padding: 0.5rem;
+  text-align: center;
 }
-.badges{
-    display: flex;
-    gap:1.5rem;
+.badges {
+  display: flex;
+  gap: 1.5rem;
 }
-.bg1,.bg2{
-    padding:0.25rem 2rem;
-    background-color: chocolate;
-    border-radius: 10px;
-    color:white;
+.bg1,
+.bg2 {
+  padding: 0.25rem 2rem;
+  background-color: chocolate;
+  border-radius: 10px;
+  color: white;
 }
- /* Main right  */
-.mainRight{
-    width:30%;
+/* Main right  */
+.mainRight {
+  width: 30%;
 }
-.right-Tab{
-    position:relative;
-    display: flex
+.right-Tab {
+  position: relative;
+  display: flex;
 }
-.right-Tab-Main{
-    width: 100%;
-    line-height: 2rem;
-    overflow: scroll;
+.right-Tab-Main {
+  width: 100%;
+  line-height: 2rem;
+  overflow: scroll;
 }
-.badge-pending{
-    padding:0.25rem 0.5rem;
-    background-color: blanchedalmond;
-    width:40%;
-    border-radius: 10px;
+.badge-pending {
+  padding: 0.25rem 0.5rem;
+  background-color: blanchedalmond;
+  width: 40%;
+  border-radius: 10px;
 }
-.right-view-request{
-    border-top:1px solid black;
-    position:absolute;
-    bottom:0px;
-    padding: 0.75rem 0;
-    text-align: center;
-    width: 100%;
-    color:blue;
-    background-color: lightskyblue;
+.right-view-request {
+  border-top: 1px solid black;
+  position: absolute;
+  bottom: 0px;
+  padding: 0.75rem 0;
+  text-align: center;
+  width: 100%;
+  color: blue;
+  background-color: lightskyblue;
 }
-.issuemes{
-    padding: 1rem;
-    border-bottom: 2px solid black;
+.issuemes {
+  padding: 1rem;
+  border-bottom: 2px solid black;
 }
-.mainLeft{
-    position: relative;
+.mainLeft {
+  position: relative;
 }
-.leftTab{
-    overflow: scroll;
+.leftTab {
+  overflow: scroll;
 }
-.left-bottom{
-    position: absolute;
-    bottom: 0px;
+.left-bottom {
+  position: absolute;
+  bottom: 0px;
 }
-.space-holder,.space-holder-issues{
-    height: 9rem;
+.space-holder,
+.space-holder-issues {
+  height: 9rem;
 }
-a{
-    text-decoration: none;
-    color:black
+a {
+  text-decoration: none;
+  color: black;
+}
+/* search groups  */
+#group-search {
+  width: 494px;
+    height: 497px;
+  z-index:999;
+  background: #1b83c3;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  position: absolute;
+ left: 33%;
+    top: 15%;
+}
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.search-header .title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+#closeSearch {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Search input */
+#searchInput {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* Results area (fixed, scrollable) */
+#searchResults {
+  flex: 1;
+  overflow-y: auto;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
 }

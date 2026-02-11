@@ -113,3 +113,12 @@ function renderIssues(issues) {
     rightTabMain.insertAdjacentElement("beforebegin", issueDiv);
   }
 }
+//close search group
+document.getElementById("group-search").style.display = "none";
+document.getElementById("closeSearch").addEventListener("click", () => {
+  document.getElementById("group-search").style.display = "none";
+});
+//open searchGroup 
+document.getElementById("joinGroup").addEventListener("click", () => {
+  document.getElementById("group-search").style.display="flex"
+})

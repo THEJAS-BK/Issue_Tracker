@@ -51,6 +51,20 @@
         <a href="/frontend/dashboard/user/#">Logout</a>
       </div>
     </div>
+
+    <div id="group-search">
+      <div class="search-header">
+        <span class="title">Search Groups</span>
+        <button id="closeSearch">✕</button>
+      </div>
+
+      <input type="text" id="searchInput" placeholder="Search groups..." />
+
+      <div id="searchResults">
+       
+      </div>
+    </div>
+
     <header>
       <div class="navleft">
         <label for="menu-toggle">
@@ -74,12 +88,11 @@
       <div class="mainLeft">
         <h2>Your Groups</h2>
         <div class="leftTab">
-  
           <div class="space-holder"></div>
         </div>
         <div class="left-bottom">
           <div class="joinGroup">
-            <button>+ Join Group</button>
+            <button id="joinGroup">+ Join Group</button>
           </div>
           <p>Discover more groups</p>
         </div>
@@ -88,14 +101,6 @@
         <h2>your issues</h2>
         <div class="right-Tab">
           <div class="right-Tab-Main">
-            <div class="issuemes">
-              <h3>Mess Issue</h3>
-              <p>
-                issue related to the college mess andafsdfsdgs gsdgdf
-                dfgsdghostel food with a lot of shit
-              </p>
-              <div class="badge-pending">pending Approval</div>
-            </div>
             <div class="space-holder-issues"></div>
           </div>
           <div class="right-view-request">View all Request</div>

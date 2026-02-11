@@ -53,17 +53,17 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
       joinapproval,
       imageuploadpermission,
     } = req.body;
+    console.log("working",req.body)
     const newGroup = new CreateGroup({
       groupname,
       description,
       category,
       visibility,
-      joinapproval,
+      joinType:joinapproval,
       imageuploadpermission,
       createdBy: req.user.userId,
       members: [req.user.userId],
     });
-
     await newGroup.save();
     res.sendStatus(200);
   } catch (err) {

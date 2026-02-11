@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        issueId: allIssueCards.dataset.issueId,
+        issueId: allIssueCards[0].dataset.issueId,
       }),
       credentials: "include",
     });
@@ -164,6 +164,9 @@ function calcTimeAgo(time) {
   const diffInDays = Math.floor(diffInHours / 24);
   const diffInyears = Math.floor(diffInDays / 30);
 
+  if(diffInSecs<=0){
+    return `Just now`;
+  }
   if (diffInSecs < 60) {
     return `${diffInSecs} seconds ago`;
   } else if (diffInMins < 60) {

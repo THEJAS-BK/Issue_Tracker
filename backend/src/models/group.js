@@ -11,7 +11,7 @@ const GroupSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum:["Select category","Bus Issues","Hostel Issues","Campus Issues","Academic Issues","Other Issues"],
+    enum:["Select category","Transport","Bus Issues","Hostel Issues","Campus Issues","Academic Issues","Other Issues"],
     required: true,
   },
   visibility: {
@@ -19,9 +19,10 @@ const GroupSchema = new mongoose.Schema({
     enum:["public","private"],
     default:"public",
   },
-  joinapproval: {
+  joinType: {
     type: String,
-    default:"notrequired",
+    enum: ["open", "request", "invite"],
+    default: "open"
   },
   imageuploadpermission: {
     type:String,
@@ -42,5 +43,15 @@ const GroupSchema = new mongoose.Schema({
       ref: "User"
     }
   ],
+  inviteCode:{
+    type:String
+  },
+  joinRequests:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"User"
+    }
+  ]
+
 });
 module.exports = mongoose.model("Group", GroupSchema);

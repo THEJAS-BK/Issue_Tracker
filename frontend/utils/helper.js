@@ -10,7 +10,7 @@ export async function apiFetch(url, options = {},retry=true) {
       credentials: "include",
     });
     if(refresh.ok){
-       return apiFetch(url,options,retry=false)
+       return apiFetch(url,options,false)
     }
     window.location.href="/frontend/auth/index.html"
   }
