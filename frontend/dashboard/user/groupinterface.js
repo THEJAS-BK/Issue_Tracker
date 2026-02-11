@@ -1,3 +1,4 @@
+import { apiFetch } from "../../utils/helper.js";
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
@@ -8,13 +9,44 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = `/frontend/dashboard/user/addIssue.html?id=${id}`;
   });
   //show contents
-  createIssueCards();
+  const briefres = await apiFetch("http://localhost:8080/groupinterface", {
+    method: "POST",
+
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      groupId: id,
+    }),
+    credentials: "include",
+  });
+  const briefdata = await briefres.json();
+  for (const issue of briefdata.issues) {
+    createIssueCards(issue);
+  }
   //render each issue
-  updateIssueDetail();
+  const allIssueCards = document.querySelectorAll(".issue-card");
+  allIssueCards.forEach((issueCard) => {
+    issueCard.addEventListener("click", async () => {
+      const Completeres = await apiFetch("http://localhost:8080/indissue", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          issueId: issueCard.dataset.issueId,
+        }),
+        credentials: "include",
+      });
+      const Completedata = await Completeres.json();
+      updateIssueDetail(Completedata.issue);
+    });
+  });
 });
 
-function createIssueCards() {
+function createIssueCards(issue) {
   const issueCardContainer = document.querySelector(".issues");
+  if (!issueCardContainer) return;
 
   const issueCard = document.createElement("div");
   issueCard.classList.add("issue-card");
@@ -58,13 +90,15 @@ function createIssueCards() {
   issueCard.append(issueCardLeft, issueCardBadge);
 
   //
-  h3.textContent = "This is test";
-  name.textContent = "test";
-  timeAgo.textContent = "5;6565";
+  h3.textContent = issue.title;
+  name.textContent = issue.createdBy.name;
+  timeAgo.textContent = issue.createdAt;
   issueCardBadge.textContent = "closed";
-  issueCard.dataset.issueId = "gsfgjskf;gjdfgsjdfigjifod";
+  issueCard.dataset.issueId = issue._id;
 }
-function updateIssueDetail() {
+
+function updateIssueDetail(issue) {
+  console.log(issue)
   const mainRight = document.querySelector(".mainright");
   if (!mainRight) return;
 
@@ -80,19 +114,14 @@ function updateIssueDetail() {
   const descText = mainRight.querySelector(".description-body-content");
 
   // -------- DATA UPDATE ONLY --------
-  h3.textContent = "title";
+  h3.textContent =issue.title;
   img.src = "/frontend/assets/OIP.jpg";
-  name.textContent = "userName";
-  timeAgo.textContent = "timeAgo";
-  badge.textContent = "status";
-  descText.textContent = "description";
+  name.textContent = issue.createdBy.name;
+  timeAgo.textContent = issue.createdAt;
+  badge.textContent = "open";
+  descText.textContent = issue.description;
 
   if (issueImg) {
     issueImg.src = "/frontend/assets/OIP.jpg";
   }
- 
-
-  mainRight.dataset.issueId = "_id";
 }
-
-

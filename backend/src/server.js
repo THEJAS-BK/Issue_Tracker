@@ -61,7 +61,7 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
       joinapproval,
       imageuploadpermission,
       createdBy: req.user.userId,
-      members:[req.user.userId]
+      members: [req.user.userId],
     });
 
     await newGroup.save();
@@ -70,45 +70,61 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
     next(err);
   }
 });
-//!user pages 
-app.get("/groups",authorizationToken, async (req, res) => {
+//!user pages
+app.get("/groups", authorizationToken, async (req, res) => {
   try {
-    const allGroups = await CreateGroup.find({}).populate("createdBy", "name email");
+    const allGroups = await CreateGroup.find({}).populate(
+      "createdBy",
+      "name email",
+    );
     const issues = await Issue.find({});
-    res.json({  allGroups, issues });
+    res.json({ allGroups, issues });
   } catch (err) {
     res.status(500);
-  } 
+  }
 });
 //!add pages
-app.post("/add",authorizationToken, async (req, res,next) => {
+app.post("/add", authorizationToken, async (req, res, next) => {
   try {
     const { title, description, category, groupId } = req.body;
     const newIssue = new Issue({
       title,
       description,
       category,
-      group:groupId,
-      createdBy: req.user.userId, 
+      group: groupId,
+      createdBy: req.user.userId,
     });
     await newIssue.save();
- 
+
     res.sendStatus(200);
   } catch (err) {
     next(err);
   }
 });
-//group interface 
-app.get("/groupinterface",authorizationToken, async (req, res) =>{
-  try{
-    const issues = await Issue.find({}).populate("createdBy", "name email");
+//group interface
+app.post("/groupinterface", authorizationToken, async (req, res) => {
+  try {
+    const { groupId } = req.body;
+    const issues = await Issue.find({ group: groupId })
+      .select("title createdBy  createdAt")
+      .populate("createdBy", "name")
     res.json({ issues });
-  } catch(err){
+  } catch (err) {
     next(err);
   }
-} )
-
-
+});
+// each card of group interface
+app.post("/indissue", authorizationToken, async (req, res) => {
+  try {
+    const { issueId } = req.body;
+    const issue = await Issue.findById(issueId)
+      .select("title description createdBy createdAt")
+      .populate("createdBy", "name")
+    res.json({ issue });
+  } catch (err) {
+    next(err);
+  }
+});
 
 //404 route
 app.all("/*splat", (req, res, next) => {
