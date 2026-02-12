@@ -114,8 +114,10 @@ function renderIssues(issues) {
   }
 }
 //close search group
-document.getElementById("group-search").style.display = "none";
-document.getElementById("closeSearch").addEventListener("click", () => {
+const closeJoinGroup = document.querySelector(".close-joingroup-btn");
+console.log(closeJoinGroup)
+closeJoinGroup.addEventListener("click", () => {
+  console.log("working")
   document.getElementById("group-search").style.display = "none";
 });
 //open searchGroup 

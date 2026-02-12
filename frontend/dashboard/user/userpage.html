@@ -53,15 +53,29 @@
     </div>
 
     <div id="group-search">
+      <!-- Header -->
       <div class="search-header">
         <span class="title">Search Groups</span>
-        <button id="closeSearch">✕</button>
+        <i class="fa-solid fa-x close-joingroup-btn"></i>
       </div>
 
-      <input type="text" id="searchInput" placeholder="Search groups..." />
+      <!-- Search input -->
+      <div class="search-input-wrapper">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search by name or invite code"
+        />
+      </div>
 
       <div id="searchResults">
-       
+        <div class="ind-search">
+          <div class="ind-search-left">
+            <h3>Web dev group</h3>
+            <div><span>Public</span> <span>approval needed</span></div>
+          </div>
+          <button class="join-status">Join Group</button>
+        </div>
       </div>
     </div>
 
