@@ -76,8 +76,8 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
 //!user pages
 app.get("/groups", authorizationToken, async (req, res) => {
   try {
-    const allGroups = await CreateGroup.find({}).populate("createdBy", "name");
-    const issues = await Issue.find({});
+    const allGroups = await CreateGroup.find({members:{$in:[req.user.userId]}}).populate("createdBy", "name");
+    const issues = await Issue.find({group:{$in:allGroups.map(g=>g._id)}});
     res.json({ allGroups, issues });
   } catch (err) {
     res.status(500);

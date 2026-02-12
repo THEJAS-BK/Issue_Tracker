@@ -100,7 +100,7 @@ header i {
 main {
   display: flex;
   justify-content: center;
-  height: 80vh;
+  height: 91vh;
   margin-top: 3rem;
   gap: 1rem;
   margin-bottom: 8rem;
@@ -109,12 +109,19 @@ main {
 .mainLeft {
   width: 51%;
 }
-.leftTab,
+
 .right-Tab {
   box-shadow: 0 0 2px black;
   border: none;
   width: 100%;
-  height: 95%;
+  height: 100%;
+  position: relative;
+}
+.leftTab{
+   box-shadow: 0 0 2px black;
+  border: none;
+  width: 100%;
+  height: 90%;
   position: relative;
 }
 .leftTab-Tab {
@@ -149,17 +156,6 @@ main {
 .left-bottom p {
   border-top: 1px solid black;
 }
-.joinGroup {
-  padding: 1rem;
-  display: flex;
-  justify-content: end;
-}
-.joinGroup button {
-  padding: 0.5rem 1rem;
-  border: none;
-  background-color: lightblue;
-  border-radius: 10px;
-}
 .left-bottom p {
   padding: 0.5rem;
   text-align: center;
@@ -186,7 +182,7 @@ main {
 .right-Tab-Main {
   width: 100%;
   line-height: 2rem;
-  overflow: scroll;
+  overflow-y: auto;
 }
 .badge-pending {
   padding: 0.25rem 0.5rem;
@@ -212,7 +208,7 @@ main {
   position: relative;
 }
 .leftTab {
-  overflow: scroll;
+   overflow-y: auto;
 }
 .left-bottom {
   position: absolute;
@@ -314,4 +310,27 @@ a {
 }
 .ind-search-left>div{
   line-height: 2rem;
+}
+/* search joined groups  */
+.left-search-bar{
+  background-color: lightgray;
+  display:flex;
+  padding:1rem
+}
+#searchjoinedGroups{
+  width: 57%;
+  font-size:1.25rem;
+ padding: 0.5rem 0.25rem;
+  border:none;
+  border-radius: 10px;
+  box-shadow: 0 0 2px black;
+  outline:none
+}
+#joinGroup{
+  margin-left: 1rem;
+   border:none;
+  border-radius: 10px;
+  box-shadow: 0 0 2px black;
+  outline:none;
+  padding:0 1rem;
 }

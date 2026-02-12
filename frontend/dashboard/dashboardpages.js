@@ -247,7 +247,9 @@ async function idForSearchResults(){
           groupid:btn.dataset.groupId
         })
       })
-      console.log("res ",res)
+    if(res.ok){
+      window.location.reload();
+    }
      if(res.status==409){
       alert("already a member of this group")
      }
