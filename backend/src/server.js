@@ -76,8 +76,12 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
 //!user pages
 app.get("/groups", authorizationToken, async (req, res) => {
   try {
-    const allGroups = await CreateGroup.find({members:{$in:[req.user.userId]}}).populate("createdBy", "name");
-    const issues = await Issue.find({group:{$in:allGroups.map(g=>g._id)}});
+    const allGroups = await CreateGroup.find({
+      members: { $in: [req.user.userId] },
+    }).select("groupname description inviteCode")
+    const issues = await Issue.find({
+      group: { $in: allGroups.map((g) => g._id) },
+    });
     res.json({ allGroups, issues });
   } catch (err) {
     res.status(500);
@@ -100,6 +104,25 @@ app.post("/groups/search", authorizationToken, async (req, res) => {
     })
       .select("groupname visibility joinType")
       .populate("createdBy", "name");
+    res.json({ allGroups });
+  } catch (err) {
+    res.status(500);
+  }
+});
+//joined groups
+app.post("/searchjoined", async (req, res) => {
+  try {
+    const { val } = req.body;
+    if(val.length==6){
+      const allGroups=await CreateGroup.findOne({inviteCode:val})
+      if(allGroups){
+        return res.json({allGroups})
+      }
+    }
+
+    const allGroups = await CreateGroup.find({
+      groupname: { $regex: val, $options: "i" },
+    });
     res.json({ allGroups });
   } catch (err) {
     res.status(500);
@@ -168,7 +191,6 @@ app.post("/addmember", authorizationToken, async (req, res, next) => {
       },
     );
     res.sendStatus(200);
-
   } catch (err) {
     next(err);
   }

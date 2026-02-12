@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     idForSearchResults();
   }
+
 });
 
 function renderGroups(groups) {
@@ -148,7 +149,6 @@ closeJoinGroup.addEventListener("click", () => {
 //open searchGroup
 document.getElementById("joinGroup").addEventListener("click", () => {
   document.getElementById("group-search").style.display = "flex";
-
 });
 
 //?input code
@@ -235,24 +235,71 @@ function createIndSearchCard(group) {
   joinButton.innerText = group.buttonText || "Join Group";
   joinButton.dataset.groupId = group._id;
 }
-async function idForSearchResults(){
+async function idForSearchResults() {
   const joinGroupBtn = document.querySelectorAll(".join-status");
   joinGroupBtn.forEach((btn) => {
-    btn.addEventListener("click",async () => {
-      const res =await apiFetch("http://localhost:8080/addmember",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        credentials:"include",
-        body:JSON.stringify({
-          groupid:btn.dataset.groupId
-        })
-      })
-    if(res.ok){
-      window.location.reload();
-    }
-     if(res.status==409){
-      alert("already a member of this group")
-     }
+    btn.addEventListener("click", async () => {
+      const res = await apiFetch("http://localhost:8080/addmember", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          groupid: btn.dataset.groupId,
+        }),
+      });
+      if (res.ok) {
+        window.location.reload();
+      }
+      if (res.status == 409) {
+        alert("already a member of this group");
+      }
     });
   });
+}
+//search joined groups
+  document.getElementById("clear-search").addEventListener("click", () => {
+    document.getElementById("searchjoinedGroups").value = "";
+     document.getElementById("searchjoinedGroups").dispatchEvent(new Event("input", { bubbles: true }));
+  });
+const searchJoinedGroups = document.getElementById("searchjoinedGroups");
+searchJoinedGroups.addEventListener("input", async (e) => {
+  const val = searchJoinedGroups.value;
+
+  if (val.length > 1) {
+    const res = await fetch("http://localhost:8080/searchjoined", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        val: val,
+      }),
+    });
+    //inserting things
+    const searchContainer = document.querySelector(".leftTab");
+    searchContainer.innerHTML = "";
+    const div = document.createElement("div");
+    div.classList.add("space-holder");
+    searchContainer.append(div);
+    const data = await res.json();
+    renderGroups(data.allGroups);
+  }
+  //clear searches
+  if (!val) {
+    const searchContainer = document.querySelector(".leftTab");
+    searchContainer.innerHTML = "";
+    const div = document.createElement("div");
+    div.classList.add("space-holder");
+    searchContainer.append(div);
+    inputClearDataReload();
+  }
+});
+
+async function inputClearDataReload() {
+  const res = await apiFetch("http://localhost:8080/groups", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await res.json();
+  renderGroups(data.allGroups);
+  renderIssues(data.issues);
 }
