@@ -138,6 +138,7 @@ function renderIssues(issues) {
   }
 }
 //close search group
+document.getElementById("group-search").style.display = "none";
 const closeJoinGroup = document.querySelector(".close-joingroup-btn");
 closeJoinGroup.addEventListener("click", () => {
   document.getElementById("group-search").style.display = "none";
@@ -180,50 +181,101 @@ searchInp.addEventListener("input", async () => {
   }
 });
 
+// function createIndSearchCard(group) {
+//   //if group exist return
+//   // Create main container
+//   const indSearch = document.createElement("div");
+//   indSearch.className = "ind-search";
+
+//   // Create left section
+//   const indSearchLeft = document.createElement("div");
+//   indSearchLeft.className = "ind-search-left";
+
+//   // Create h3 for group name
+//   const h3 = document.createElement("h3");
+
+//   // Create div for badges
+//   const badgesDiv = document.createElement("div");
+
+//   // Create public/open badges (matching HTML structure)
+//   const publicSpan = document.createElement("span");
+//   publicSpan.textContent = "Public";
+
+//   const approvalSpan = document.createElement("span");
+//   approvalSpan.textContent = "approval needed";
+
+//   badgesDiv.appendChild(publicSpan);
+//   badgesDiv.appendChild(approvalSpan);
+
+//   // Assemble left section
+//   indSearchLeft.appendChild(h3);
+//   indSearchLeft.appendChild(badgesDiv);
+
+//   // Create join button
+//   const joinButton = document.createElement("button");
+//   joinButton.className = "join-status";
+//   joinButton.textContent = "Join Group";
+
+//   // Assemble ind-search
+//   indSearch.appendChild(indSearchLeft);
+//   indSearch.appendChild(joinButton);
+
+//   document.getElementById("searchResults").append(indSearch);
+
+//   // Changing values at the end
+//   h3.innerText = group.groupname;
+//   publicSpan.innerText = group.visibility;
+//   approvalSpan.innerText = group.joinType;
+//   joinButton.innerText = group.buttonText;
+// }
 function createIndSearchCard(group) {
-  //if group exist return
-  // Create main container
+  // Main container
   const indSearch = document.createElement("div");
   indSearch.className = "ind-search";
+  indSearch.dataset.groupId = group._id;
 
-  // Create left section
+  // Left section
   const indSearchLeft = document.createElement("div");
   indSearchLeft.className = "ind-search-left";
 
-  // Create h3 for group name
+  // Image
+  const img = document.createElement("img");
+  img.src = "../../assets/OIP.jpg";
+  img.alt = "group image";
+
+  // Content box
+  const contentBox = document.createElement("div");
+  contentBox.className = "ind-search-content-box";
+
+  // Group name
   const h3 = document.createElement("h3");
 
-  // Create div for badges
+  // Badges container
   const badgesDiv = document.createElement("div");
+  badgesDiv.className = "ind-search-content";
 
-  // Create public/open badges (matching HTML structure)
   const publicSpan = document.createElement("span");
   publicSpan.textContent = "Public";
 
   const approvalSpan = document.createElement("span");
   approvalSpan.textContent = "approval needed";
 
-  badgesDiv.appendChild(publicSpan);
-  badgesDiv.appendChild(approvalSpan);
+  badgesDiv.append(publicSpan, approvalSpan);
+  contentBox.append(h3, badgesDiv);
+  indSearchLeft.append(img, contentBox);
 
-  // Assemble left section
-  indSearchLeft.appendChild(h3);
-  indSearchLeft.appendChild(badgesDiv);
-
-  // Create join button
+  // Join button
   const joinButton = document.createElement("button");
   joinButton.className = "join-status";
   joinButton.textContent = "Join Group";
 
-  // Assemble ind-search
-  indSearch.appendChild(indSearchLeft);
-  indSearch.appendChild(joinButton);
-
+  // Assemble card
+  indSearch.append(indSearchLeft, joinButton);
   document.getElementById("searchResults").append(indSearch);
 
-  // Changing values at the end
-  h3.innerText = group.groupname;
-  publicSpan.innerText = group.visibility || "Public";
-  approvalSpan.innerText = group.joinType || "approval needed";
+  // ---- set dynamic values at the end ----
+  h3.innerText = group.groupname || "Unnamed Group";
+  publicSpan.innerText = group.visibility;
+  approvalSpan.innerText = group.joinType;
   joinButton.innerText = group.buttonText || "Join Group";
 }
