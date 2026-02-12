@@ -76,10 +76,7 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
 //!user pages
 app.get("/groups", authorizationToken, async (req, res) => {
   try {
-    const allGroups = await CreateGroup.find({}).populate(
-      "createdBy",
-      "name email",
-    );
+    const allGroups = await CreateGroup.find({}).populate("createdBy", "name");
     const issues = await Issue.find({});
     res.json({ allGroups, issues });
   } catch (err) {
@@ -94,11 +91,10 @@ app.post("/groups/search", authorizationToken, async (req, res) => {
         .select("groupname visibility joinType")
         .populate("createdBy", "name");
 
-     if(allGroups){
-      return res.json({allGroups:[allGroups]})
-     }
+      if (allGroups) {
+        return res.json({ allGroups: [allGroups] });
+      }
     }
-
     const allGroups = await CreateGroup.find({
       groupname: { $regex: q, $options: "i" },
     })
@@ -128,7 +124,7 @@ app.post("/add", authorizationToken, async (req, res, next) => {
   }
 });
 //group interface
-app.post("/groupinterface", authorizationToken, async (req, res) => {
+app.post("/groupinterface", authorizationToken, async (req, res, next) => {
   try {
     const { groupId } = req.body;
     const issues = await Issue.find({ group: groupId })
@@ -140,13 +136,39 @@ app.post("/groupinterface", authorizationToken, async (req, res) => {
   }
 });
 // each card of group interface
-app.post("/indissue", authorizationToken, async (req, res) => {
+app.post("/indissue", authorizationToken, async (req, res, next) => {
   try {
     const { issueId } = req.body;
     const issue = await Issue.findById(issueId)
       .select("title description createdBy createdAt")
       .populate("createdBy", "name");
     res.json({ issue });
+  } catch (err) {
+    next(err);
+  }
+});
+//add new user to group
+app.post("/addmember", authorizationToken, async (req, res, next) => {
+  try {
+    const { groupid } = req.body;
+    const checkIfExist = await CreateGroup.findOne({
+      _id: groupid,
+      members: { $in: [req.user.userId] },
+    });
+    if (checkIfExist) {
+      return res.sendStatus(409);
+    }
+
+    await CreateGroup.findByIdAndUpdate(
+      groupid,
+      { $addToSet: { members: req.user.userId } },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    res.sendStatus(200);
+
   } catch (err) {
     next(err);
   }

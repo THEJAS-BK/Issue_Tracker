@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     for (let indgroup of data.allGroups) {
       createIndSearchCard(indgroup);
     }
+    idForSearchResults();
   }
 });
 
@@ -147,6 +148,7 @@ closeJoinGroup.addEventListener("click", () => {
 //open searchGroup
 document.getElementById("joinGroup").addEventListener("click", () => {
   document.getElementById("group-search").style.display = "flex";
+
 });
 
 //?input code
@@ -178,61 +180,14 @@ searchInp.addEventListener("input", async () => {
     for (let indgroup of data.allGroups) {
       createIndSearchCard(indgroup);
     }
+    idForSearchResults();
   }
 });
 
-// function createIndSearchCard(group) {
-//   //if group exist return
-//   // Create main container
-//   const indSearch = document.createElement("div");
-//   indSearch.className = "ind-search";
-
-//   // Create left section
-//   const indSearchLeft = document.createElement("div");
-//   indSearchLeft.className = "ind-search-left";
-
-//   // Create h3 for group name
-//   const h3 = document.createElement("h3");
-
-//   // Create div for badges
-//   const badgesDiv = document.createElement("div");
-
-//   // Create public/open badges (matching HTML structure)
-//   const publicSpan = document.createElement("span");
-//   publicSpan.textContent = "Public";
-
-//   const approvalSpan = document.createElement("span");
-//   approvalSpan.textContent = "approval needed";
-
-//   badgesDiv.appendChild(publicSpan);
-//   badgesDiv.appendChild(approvalSpan);
-
-//   // Assemble left section
-//   indSearchLeft.appendChild(h3);
-//   indSearchLeft.appendChild(badgesDiv);
-
-//   // Create join button
-//   const joinButton = document.createElement("button");
-//   joinButton.className = "join-status";
-//   joinButton.textContent = "Join Group";
-
-//   // Assemble ind-search
-//   indSearch.appendChild(indSearchLeft);
-//   indSearch.appendChild(joinButton);
-
-//   document.getElementById("searchResults").append(indSearch);
-
-//   // Changing values at the end
-//   h3.innerText = group.groupname;
-//   publicSpan.innerText = group.visibility;
-//   approvalSpan.innerText = group.joinType;
-//   joinButton.innerText = group.buttonText;
-// }
 function createIndSearchCard(group) {
   // Main container
   const indSearch = document.createElement("div");
   indSearch.className = "ind-search";
-  indSearch.dataset.groupId = group._id;
 
   // Left section
   const indSearchLeft = document.createElement("div");
@@ -278,4 +233,24 @@ function createIndSearchCard(group) {
   publicSpan.innerText = group.visibility;
   approvalSpan.innerText = group.joinType;
   joinButton.innerText = group.buttonText || "Join Group";
+  joinButton.dataset.groupId = group._id;
+}
+async function idForSearchResults(){
+  const joinGroupBtn = document.querySelectorAll(".join-status");
+  joinGroupBtn.forEach((btn) => {
+    btn.addEventListener("click",async () => {
+      const res =await apiFetch("http://localhost:8080/addmember",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        credentials:"include",
+        body:JSON.stringify({
+          groupid:btn.dataset.groupId
+        })
+      })
+      console.log("res ",res)
+     if(res.status==409){
+      alert("already a member of this group")
+     }
+    });
+  });
 }
