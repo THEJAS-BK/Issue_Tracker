@@ -7,7 +7,7 @@ const getInviteCode=(length=6)=>{
     }
     return inviteCode;
 }
-getUniqueInviteCode=async ()=>{
+async function getUniqueInviteCode(){
     let code;
     let exist=true;
     while(exist){

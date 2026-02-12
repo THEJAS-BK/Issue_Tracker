@@ -36,7 +36,7 @@ const CreateGroup = require("./models/group");
 const ExpressError = require("./utils/ExpressError");
 const Issue = require("./models/issue");
 //uitls
-const {getUniqueInviteCode}= require("./utils/inviteCode")
+const { getUniqueInviteCode } = require("./utils/inviteCode");
 
 //! Routes
 app.get("/", (req, res) => {
@@ -54,14 +54,14 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
       visibility,
       joinapproval,
       imageuploadpermission,
-    } = req.body;   
-    const inviteCode=await getUniqueInviteCode();
+    } = req.body;
+    const inviteCode = await getUniqueInviteCode();
     const newGroup = new CreateGroup({
       groupname,
       description,
       category,
       visibility,
-      joinType:joinapproval,
+      joinType: joinapproval,
       imageuploadpermission,
       inviteCode,
       createdBy: req.user.userId,
@@ -82,6 +82,29 @@ app.get("/groups", authorizationToken, async (req, res) => {
     );
     const issues = await Issue.find({});
     res.json({ allGroups, issues });
+  } catch (err) {
+    res.status(500);
+  }
+});
+app.post("/groups/search", authorizationToken, async (req, res) => {
+  try {
+    const { q } = req.query;
+    if (q.length == 6) {
+      const allGroups = await CreateGroup.findOne({ inviteCode: q })
+        .select("groupname visibility joinType")
+        .populate("createdBy", "name");
+
+     if(allGroups){
+      return res.json({allGroups:[allGroups]})
+     }
+    }
+
+    const allGroups = await CreateGroup.find({
+      groupname: { $regex: q, $options: "i" },
+    })
+      .select("groupname visibility joinType")
+      .populate("createdBy", "name");
+    res.json({ allGroups });
   } catch (err) {
     res.status(500);
   }
@@ -110,7 +133,7 @@ app.post("/groupinterface", authorizationToken, async (req, res) => {
     const { groupId } = req.body;
     const issues = await Issue.find({ group: groupId })
       .select("title createdBy  createdAt")
-      .populate("createdBy", "name")
+      .populate("createdBy", "name");
     res.json({ issues });
   } catch (err) {
     next(err);
@@ -122,7 +145,7 @@ app.post("/indissue", authorizationToken, async (req, res) => {
     const { issueId } = req.body;
     const issue = await Issue.findById(issueId)
       .select("title description createdBy createdAt")
-      .populate("createdBy", "name")
+      .populate("createdBy", "name");
     res.json({ issue });
   } catch (err) {
     next(err);

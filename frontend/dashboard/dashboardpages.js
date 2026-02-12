@@ -20,15 +20,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!q) return;
   else {
     document.getElementById("searchInput").value = q;
+
+    if (q.length < 3) return;
+
     const res = await apiFetch(
-      `http://localhost:8080/groups/search?q=${encodeURIComponent(q)}`,
+      `http://localhost:8080/groups/search?q=${encodeURIComponent(q.trim())}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
       },
     );
-    console.log(res);
+    const data = await res.json();
+    const container = document.getElementById("searchResults");
+    container.innerHTML = "";
+    for (let indgroup of data.allGroups) {
+      createIndSearchCard(indgroup);
+    }
   }
 });
 
@@ -131,7 +139,6 @@ function renderIssues(issues) {
 }
 //close search group
 const closeJoinGroup = document.querySelector(".close-joingroup-btn");
-console.log(closeJoinGroup);
 closeJoinGroup.addEventListener("click", () => {
   document.getElementById("group-search").style.display = "none";
   window.history.replaceState({}, "", window.location.pathname);
@@ -152,10 +159,29 @@ searchInp.addEventListener("input", async () => {
     window.history.replaceState({}, "", window.location.pathname);
     return;
   }
+
+  if (value.length < 3) {
+    return;
+  } else {
+    const res = await apiFetch(
+      `http://localhost:8080/groups/search?q=${encodeURIComponent(value)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      },
+    );
+    const data = await res.json();
+    const container = document.getElementById("searchResults");
+    container.innerHTML = "";
+    for (let indgroup of data.allGroups) {
+      createIndSearchCard(indgroup);
+    }
+  }
 });
 
-createIndSearchCard();
-function createIndSearchCard(group = {}) {
+function createIndSearchCard(group) {
+  //if group exist return
   // Create main container
   const indSearch = document.createElement("div");
   indSearch.className = "ind-search";
@@ -166,7 +192,6 @@ function createIndSearchCard(group = {}) {
 
   // Create h3 for group name
   const h3 = document.createElement("h3");
-  h3.textContent = group.groupname || "Group Name";
 
   // Create div for badges
   const badgesDiv = document.createElement("div");
@@ -198,9 +223,7 @@ function createIndSearchCard(group = {}) {
 
   // Changing values at the end
   h3.innerText = group.groupname;
-  publicSpan.innerText = group.privacy || "Public";
-  approvalSpan.innerText = group.approval || "approval needed";
+  publicSpan.innerText = group.visibility || "Public";
+  approvalSpan.innerText = group.joinType || "approval needed";
   joinButton.innerText = group.buttonText || "Join Group";
-
-  return indSearch;
 }
