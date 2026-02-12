@@ -287,10 +287,17 @@ a {
   padding:1rem;
   display: flex;
   justify-content: space-between;
-  border:2px solid grey
+  border:2px solid grey;
+  margin-top:0.5rem;
 }
 .ind-search-left>div{
   color:grey;
   font-size:0.75rem;
   line-height: 1rem;
+}
+.join-status{
+  padding: 0.5rem 1rem;
+  border:none;
+  border-radius: 10px;
+  box-shadow: 0 0 2px black;
 }

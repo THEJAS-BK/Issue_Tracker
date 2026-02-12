@@ -1,4 +1,4 @@
-import {apiFetch} from "../utils/helper.js";
+import { apiFetch } from "../utils/helper.js";
 
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
@@ -7,13 +7,29 @@ createGroupBtn.addEventListener("click", () => {
 });
 //Load userpage Groups
 document.addEventListener("DOMContentLoaded", async () => {
-  const res = await apiFetch("http://localhost:8080/groups",{
-    method:"GET",
-    headers:{"Content-Type":"application/json"}
-  } )
+  const res = await apiFetch("http://localhost:8080/groups", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
   const data = await res.json();
   renderGroups(data.allGroups);
   renderIssues(data.issues);
+  //query from url on reload
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get("q");
+  if (!q) return;
+  else {
+    document.getElementById("searchInput").value = q;
+    const res = await apiFetch(
+      `http://localhost:8080/groups/search?q=${encodeURIComponent(q)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      },
+    );
+    console.log(res);
+  }
 });
 
 function renderGroups(groups) {
@@ -115,12 +131,76 @@ function renderIssues(issues) {
 }
 //close search group
 const closeJoinGroup = document.querySelector(".close-joingroup-btn");
-console.log(closeJoinGroup)
+console.log(closeJoinGroup);
 closeJoinGroup.addEventListener("click", () => {
-  console.log("working")
   document.getElementById("group-search").style.display = "none";
+  window.history.replaceState({}, "", window.location.pathname);
 });
-//open searchGroup 
+//open searchGroup
 document.getElementById("joinGroup").addEventListener("click", () => {
-  document.getElementById("group-search").style.display="flex"
-})
+  document.getElementById("group-search").style.display = "flex";
+});
+
+//?input code
+const searchInp = document.getElementById("searchInput");
+searchInp.addEventListener("input", async () => {
+  const value = searchInp.value.trim();
+  if (value) {
+    const newUrl = `?q=${encodeURIComponent(value)}`;
+    window.history.replaceState({}, "", newUrl);
+  } else {
+    window.history.replaceState({}, "", window.location.pathname);
+    return;
+  }
+});
+
+createIndSearchCard();
+function createIndSearchCard(group = {}) {
+  // Create main container
+  const indSearch = document.createElement("div");
+  indSearch.className = "ind-search";
+
+  // Create left section
+  const indSearchLeft = document.createElement("div");
+  indSearchLeft.className = "ind-search-left";
+
+  // Create h3 for group name
+  const h3 = document.createElement("h3");
+  h3.textContent = group.groupname || "Group Name";
+
+  // Create div for badges
+  const badgesDiv = document.createElement("div");
+
+  // Create public/open badges (matching HTML structure)
+  const publicSpan = document.createElement("span");
+  publicSpan.textContent = "Public";
+
+  const approvalSpan = document.createElement("span");
+  approvalSpan.textContent = "approval needed";
+
+  badgesDiv.appendChild(publicSpan);
+  badgesDiv.appendChild(approvalSpan);
+
+  // Assemble left section
+  indSearchLeft.appendChild(h3);
+  indSearchLeft.appendChild(badgesDiv);
+
+  // Create join button
+  const joinButton = document.createElement("button");
+  joinButton.className = "join-status";
+  joinButton.textContent = "Join Group";
+
+  // Assemble ind-search
+  indSearch.appendChild(indSearchLeft);
+  indSearch.appendChild(joinButton);
+
+  document.getElementById("searchResults").append(indSearch);
+
+  // Changing values at the end
+  h3.innerText = group.groupname;
+  publicSpan.innerText = group.privacy || "Public";
+  approvalSpan.innerText = group.approval || "approval needed";
+  joinButton.innerText = group.buttonText || "Join Group";
+
+  return indSearch;
+}

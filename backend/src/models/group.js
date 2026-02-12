@@ -44,7 +44,9 @@ const GroupSchema = new mongoose.Schema({
     }
   ],
   inviteCode:{
-    type:String
+    type:String,
+    unique:true,
+    sparse:true
   },
   joinRequests:[
     {

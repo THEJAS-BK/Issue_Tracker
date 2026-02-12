@@ -33,8 +33,10 @@ async function main() {
 }
 //Schemas
 const CreateGroup = require("./models/group");
-const ExpressError = require("../utils/ExpressError");
+const ExpressError = require("./utils/ExpressError");
 const Issue = require("./models/issue");
+//uitls
+const {getUniqueInviteCode}= require("./utils/inviteCode")
 
 //! Routes
 app.get("/", (req, res) => {
@@ -52,8 +54,8 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
       visibility,
       joinapproval,
       imageuploadpermission,
-    } = req.body;
-    console.log("working",req.body)
+    } = req.body;   
+    const inviteCode=await getUniqueInviteCode();
     const newGroup = new CreateGroup({
       groupname,
       description,
@@ -61,6 +63,7 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
       visibility,
       joinType:joinapproval,
       imageuploadpermission,
+      inviteCode,
       createdBy: req.user.userId,
       members: [req.user.userId],
     });
