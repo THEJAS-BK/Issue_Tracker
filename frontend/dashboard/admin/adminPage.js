@@ -54,6 +54,7 @@ function insertIssueCard(issue) {
   contentBars.dataset.issueId = issue._id;
 }
 
+
 function calcTime(time) {
   const now = Date.now();
   const past = new Date(time).getTime();
@@ -66,16 +67,24 @@ function calcTime(time) {
   if (diff < 31536000) return `${Math.floor(diff / 2592000)}mo ago`;
   return `${Math.floor(diff / 31536000)}y ago`;
 }
+
+
 // select issue on the left side
 function AddIssueEvents() {
   const allIssues = document.querySelectorAll(".content-bars");
   allIssues.forEach((issue) => {
     issue.addEventListener("click", async () => {
+            allIssues.forEach((issue)=>{
+        issue.classList.remove("blue-border")
+      })
+      issue.classList.add("blue-border")
       const res = await apiFetch(
         `http://localhost:8080/indissue/${issue.dataset.issueId}`,
       );
       const data = await res.json();
       updateIssuesOnRightSide(data.issue);
+      //blue border
+
     });
   });
 }
@@ -113,7 +122,7 @@ search.addEventListener("input", async (e) => {
 
   if (searchTerm.length > 2) {
     const res = await apiFetch(
-      `http://localhost:8080/issue/${searchTerm}/search`,
+      `http://localhost:8080/issue/search?q=${encodeURIComponent(searchTerm)}`,
       {
         method: "GET",
         credentials: "include",
@@ -142,3 +151,22 @@ search.addEventListener("input", async (e) => {
     firstValSelected()
   }
 });
+
+
+//select filter
+const selectStatus = document.getElementById("filter-select")
+selectStatus.addEventListener("change", async (e) => {
+    document.querySelector(".issue-contents").innerHTML = "";
+
+    const res = await apiFetch(`http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${e.target.value}`,{
+      method:"GET",
+      credentials:"include"
+    })
+    const data = await res.json();
+     for (let issue of data.issues) {
+      insertIssueCard(issue);
+    }
+    AddIssueEvents();
+    firstValSelected()
+  
+})  

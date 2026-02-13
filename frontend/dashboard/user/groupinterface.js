@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     credentials: "include",
   });
   const data = await res.json();
-  console.log(data.groupDetails.groupname)
+  console.log(data.groupDetails.groupname);
 
   //load group name and description
   const groupName = document.querySelector(".group-name");
@@ -152,10 +152,13 @@ const search = document.getElementById("search");
 search.addEventListener("input", async () => {
   const val = search.value;
   if (val.length > 2) {
-    const res = await fetch(`http://localhost:8080/issue/${val}/search`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const res = await apiFetch(
+      `http://localhost:8080/issue/search?q=${encodeURIComponent(val)}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
     const data = await res.json();
     document.querySelector(".issues").innerHTML = "";
     for (let issue of data.issues) {
@@ -215,3 +218,22 @@ async function addEventToIssueCards() {
     });
   });
 }
+
+//filter states code
+const selectStatus = document.getElementById("search-filter");
+selectStatus.addEventListener("change", async (e) => {
+  const res = await fetch(
+    `http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${e.target.value}`,
+    {
+      method:"GET",
+      credentials:"include"
+    },
+  );
+  const data =await res.json();
+    document.querySelector(".issues").innerHTML = "";
+  for (let issue of data.issues) {
+      createIssueCards(issue);
+    }
+    addEventToIssueCards();
+
+});

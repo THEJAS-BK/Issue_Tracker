@@ -186,14 +186,14 @@ app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
   }
 });
 //search issues in group interface
-app.get("/issue/:val/search", async (req, res, next) => {
+app.get("/issue/search",authorizationToken, async (req, res, next) => {
   try {
-    const { val } = req.params;
-    if (!val) {
+    const { q } = req.query;
+    if (!q) {
       return res.sendStatus(404);
     }
     const issues = await Issue.find({
-      title: { $regex: val, $options: "i" },
+      title: { $regex: q, $options: "i" },
     })
       .select("title createdBy createdAt")
       .populate("createdBy", "name");
@@ -202,6 +202,27 @@ app.get("/issue/:val/search", async (req, res, next) => {
     next(err);
   }
 });
+//filter satus route
+app.get("/filter/:groupId",authorizationToken,async(req,res,next)=>{
+  try{
+    const {state} = req.query;
+    const {groupId} = req.params;
+    if(state==="all"){
+      const issues = await Issue.find({group:groupId})
+     .select("title createdBy createdAt status")
+      .populate("createdBy", "name");
+      return res.json({issues})
+    }
+
+    const issues = await Issue.find({group:groupId,status:state})
+     .select("title createdBy createdAt status")
+      .populate("createdBy", "name");
+     res.json({issues})
+
+  }catch(err){
+    next(err);
+  }
+})
 //add new user to group
 app.get("/addmember/:groupid", authorizationToken, async (req, res, next) => {
   try {
