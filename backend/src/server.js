@@ -111,7 +111,7 @@ app.post("/groups/search", authorizationToken, async (req, res) => {
   }
 });
 //joined groups
-app.post("/searchjoined", async (req, res) => {
+app.post("/searchjoined",authorizationToken, async (req, res) => {
   try {
     const { val } = req.body;
     if(val.length==6){
@@ -203,7 +203,18 @@ app.post("/addmember", authorizationToken, async (req, res, next) => {
   }
 });
 //!!! admin routes
-
+app.get("/api/:groupid/admin",async (req,res,next)=>{
+  try{
+    const {groupid} = req.params;
+    const issues = await Issue.find({group:groupid})
+    .select("title createdBy createdAt")
+    .populate("createdBy","name")
+    res.json({issues})
+  }
+  catch(err){
+    next(err)
+  }
+})
 
 
 

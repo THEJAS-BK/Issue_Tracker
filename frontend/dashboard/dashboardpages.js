@@ -266,7 +266,7 @@ searchJoinedGroups.addEventListener("input", async (e) => {
   const val = searchJoinedGroups.value;
 
   if (val.length > 1) {
-    const res = await fetch("http://localhost:8080/searchjoined", {
+    const res = await apiFetch("http://localhost:8080/searchjoined", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

@@ -176,28 +176,15 @@ function updateIssueDetail(issue) {
 }
 
 function calcTimeAgo(time) {
-  const createdTime = new Date(time).getTime();
-  const curTime = new Date();
+  const now = Date.now();
+  const past = new Date(time).getTime();
+  const diff = Math.floor((now - past) / 1000);
 
-  const diffInMs = curTime - createdTime;
-  const diffInSecs = Math.floor(diffInMs / 1000);
-  const diffInMins = Math.floor(diffInSecs / 60);
-  const diffInHours = Math.floor(diffInMins / 60);
-  const diffInDays = Math.floor(diffInHours / 24);
-  const diffInyears = Math.floor(diffInDays / 30);
+  if (diff < 60) return `${diff}s ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`;
+  if (diff < 31536000) return `${Math.floor(diff / 2592000)}mo ago`;
+  return `${Math.floor(diff / 31536000)}y ago`;
 
-  if (diffInSecs <= 0) {
-    return `Just now`;
-  }
-  if (diffInSecs < 60) {
-    return `${diffInSecs} seconds ago`;
-  } else if (diffInMins < 60) {
-    return `${diffInMins} minutes ago`;
-  } else if (diffInHours < 24) {
-    return `${diffInHours} hour${diffInHours > 1 ? "s" : ""} ago`;
-  } else if (diffInDays < 30) {
-    return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
-  } else {
-    return `${diffInyears} year${diffInyears > 1 ? "s" : ""} ago`;
-  }
 }
