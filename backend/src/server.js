@@ -37,6 +37,7 @@ const ExpressError = require("./utils/ExpressError");
 const Issue = require("./models/issue");
 //uitls
 const { getUniqueInviteCode } = require("./utils/inviteCode");
+const group = require("./models/group");
 
 //! Routes
 app.get("/", (req, res) => {
@@ -65,7 +66,7 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
       imageuploadpermission,
       inviteCode,
       createdBy: req.user.userId,
-      members: [req.user.userId],
+      members: [{userId:req.user.userId,role:"admin"}],
     });
     await newGroup.save();
     res.sendStatus(200);
@@ -77,7 +78,7 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
 app.get("/groups", authorizationToken, async (req, res) => {
   try {
     const allGroups = await CreateGroup.find({
-      members: { $in: [req.user.userId] },
+      members: { $elemMatch: { userId: req.user.userId } },
     }).select("groupname description inviteCode")
     const issues = await Issue.find({
       group: { $in: allGroups.map((g) => g._id) },
@@ -151,9 +152,15 @@ app.post("/groupinterface", authorizationToken, async (req, res, next) => {
   try {
     const { groupId } = req.body;
     const issues = await Issue.find({ group: groupId })
-      .select("title createdBy  createdAt")
+      .select("title createdBy createdAt")
       .populate("createdBy", "name");
-    res.json({ issues });
+
+      const curUser = req.user.userId;
+
+      const allmembers=await CreateGroup.findById(groupId)
+      .select("members")
+      .populate("members")
+    res.json({ issues,allmembers,curUser});
   } catch (err) {
     next(err);
   }
@@ -176,7 +183,7 @@ app.post("/addmember", authorizationToken, async (req, res, next) => {
     const { groupid } = req.body;
     const checkIfExist = await CreateGroup.findOne({
       _id: groupid,
-      members: { $in: [req.user.userId] },
+      members: { $elemMatch:{userId:req.user.userId} },
     });
     if (checkIfExist) {
       return res.sendStatus(409);
@@ -184,7 +191,7 @@ app.post("/addmember", authorizationToken, async (req, res, next) => {
 
     await CreateGroup.findByIdAndUpdate(
       groupid,
-      { $addToSet: { members: req.user.userId } },
+      { $addToSet: { members: {userId:req.user.userId,role:"member"}} },
       {
         new: true,
         runValidators: true,
@@ -195,6 +202,10 @@ app.post("/addmember", authorizationToken, async (req, res, next) => {
     next(err);
   }
 });
+//!!! admin routes
+
+
+
 
 //404 route
 app.all("/*splat", (req, res, next) => {

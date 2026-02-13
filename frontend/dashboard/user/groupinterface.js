@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   addIssueBtn.addEventListener("click", () => {
     window.location.href = `/frontend/dashboard/user/addIssue.html?id=${id}`;
   });
-
   //show contents
   const briefres = await apiFetch("http://localhost:8080/groupinterface", {
     method: "POST",
@@ -20,8 +19,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     }),
     credentials: "include",
   });
+  //admin dashboard btn code
+  const adminDashboardBtn = document.querySelector(".admin-dashboard-btn");
+  adminDashboardBtn.addEventListener("click", () => {
+    window.location.href = `/frontend/dashboard/admin/adminPage.html?id=${id}`;
+  });
 
   const briefdata = await briefres.json();
+
+  const curUser = briefdata.curUser;
+
+  for (let member of briefdata.allmembers.members) {
+    if (curUser === member.userId) {
+      if (member.role === "member") {
+        //get admin dashboard btn
+        const adminBtn = document.querySelector(".admin-dashboard-btn");
+        adminBtn.remove();
+      } else if (member.role === "admin" || member.role === "coadmin") {
+        //do nothing
+      } else {
+        const adminBtn = document.querySelector(".admin-dashboard-btn");
+        adminBtn.remove();
+      }
+    }
+  }
+
   for (const issue of briefdata.issues) {
     createIssueCards(issue);
   }
@@ -48,28 +70,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   //rest issues
   if (allIssueCards.length > 1) {
-      allIssueCards.forEach((issueCard) => {
-    issueCard.addEventListener("click", async () => {
-      //blue border
-      allIssueCards.forEach((card) => {
-        card.classList.remove("addBorder");
+    allIssueCards.forEach((issueCard) => {
+      issueCard.addEventListener("click", async () => {
+        //blue border
+        allIssueCards.forEach((card) => {
+          card.classList.remove("addBorder");
+        });
+        issueCard.classList.add("addBorder");
+        const Completeres = await apiFetch("http://localhost:8080/indissue", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            issueId: issueCard.dataset.issueId,
+          }),
+          credentials: "include",
+        });
+        const Completedata = await Completeres.json();
+        updateIssueDetail(Completedata.issue);
       });
-      issueCard.classList.add("addBorder");
-      const Completeres = await apiFetch("http://localhost:8080/indissue", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          issueId: issueCard.dataset.issueId,
-        }),
-        credentials: "include",
-      });
-      const Completedata = await Completeres.json();
-      updateIssueDetail(Completedata.issue);
     });
-  });
-}
+  }
 });
 
 function createIssueCards(issue) {
@@ -164,7 +186,7 @@ function calcTimeAgo(time) {
   const diffInDays = Math.floor(diffInHours / 24);
   const diffInyears = Math.floor(diffInDays / 30);
 
-  if(diffInSecs<=0){
+  if (diffInSecs <= 0) {
     return `Just now`;
   }
   if (diffInSecs < 60) {

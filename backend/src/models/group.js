@@ -7,53 +7,71 @@ const GroupSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    default:"",
+    default: "",
   },
   category: {
     type: String,
-    enum:["Select category","Transport","Bus Issues","Hostel Issues","Campus Issues","Academic Issues","Other Issues"],
+    enum: [
+      "Select category",
+      "Transport",
+      "Bus Issues",
+      "Hostel Issues",
+      "Campus Issues",
+      "Academic Issues",
+      "Other Issues",
+    ],
     required: true,
   },
   visibility: {
     type: String,
-    enum:["public","private"],
-    default:"public",
+    enum: ["public", "private"],
+    default: "public",
   },
   joinType: {
     type: String,
     enum: ["open", "request", "invite"],
-    default: "open"
+    default: "open",
   },
   imageuploadpermission: {
-    type:String,
-    required:false
+    type: String,
+    required: false,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  createdAt:{
+  createdAt: {
     type: Date,
     default: Date.now,
   },
   members: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-    }
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      role: {
+        type: String,
+        enum: ["admin", "coadmin", "member"],
+        default: "member",
+      },
+      joinedAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
   ],
-  inviteCode:{
-    type:String,
-    unique:true,
-    sparse:true
+  inviteCode: {
+    type: String,
+    unique: true,
+    sparse: true,
   },
-  joinRequests:[
+  joinRequests: [
     {
-      type:mongoose.Schema.Types.ObjectId,
-      ref:"User"
-    }
-  ]
-
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 module.exports = mongoose.model("Group", GroupSchema);
