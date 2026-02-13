@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     idForSearchResults();
   }
-
 });
 
 function renderGroups(groups) {
@@ -239,14 +238,13 @@ async function idForSearchResults() {
   const joinGroupBtn = document.querySelectorAll(".join-status");
   joinGroupBtn.forEach((btn) => {
     btn.addEventListener("click", async () => {
-      const res = await apiFetch("http://localhost:8080/addmember", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          groupid: btn.dataset.groupId,
-        }),
-      });
+      const res = await apiFetch(
+        `http://localhost:8080/addmember/${btn.dataset.groupId}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
       if (res.ok) {
         window.location.reload();
       }
@@ -257,10 +255,12 @@ async function idForSearchResults() {
   });
 }
 //search joined groups
-  document.getElementById("clear-search").addEventListener("click", () => {
-    document.getElementById("searchjoinedGroups").value = "";
-     document.getElementById("searchjoinedGroups").dispatchEvent(new Event("input", { bubbles: true }));
-  });
+document.getElementById("clear-search").addEventListener("click", () => {
+  document.getElementById("searchjoinedGroups").value = "";
+  document
+    .getElementById("searchjoinedGroups")
+    .dispatchEvent(new Event("input", { bubbles: true }));
+});
 const searchJoinedGroups = document.getElementById("searchjoinedGroups");
 searchJoinedGroups.addEventListener("input", async (e) => {
   const val = searchJoinedGroups.value;

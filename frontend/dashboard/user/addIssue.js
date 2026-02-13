@@ -3,7 +3,7 @@ import { apiFetch } from "../../utils/helper.js";
 const addIssueForm = document.querySelector(".issue-form");
 addIssueForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const res = await apiFetch("http://localhost:8080/add",
+  const res = await apiFetch(`http://localhost:8080/add/${new URLSearchParams(window.location.search).get("id")}`,
   {
     method: "POST",
     headers: { "Content-type": "application/json" },
@@ -12,7 +12,6 @@ addIssueForm.addEventListener("submit", async (e) => {
       title: addIssueForm.title.value,
       description: addIssueForm.description.value,
       category: addIssueForm.category.value,
-      groupId:new URLSearchParams(window.location.search).get("id")
     }),
   });
   if (res.ok) {

@@ -96,21 +96,26 @@
       <div class="main-content">
         <div class="content-left">
           <div class="issues-status-bar">
-            <p class="add-underline">Pending (8)</p>
-            <p class="add-underline">In Progress (5)</p>
-            <p class="add-underline">Resolved (7)</p>
+            <div class="searchInp">
+              <label for="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </label>
+              <input
+                type="text"
+                name=""
+                id="search"
+                placeholder="Search Issues..."
+              />
+            </div>
+            <select name="" id="">
+              <option value="">Filter</option>
+              <option value="">pending</option>
+              <option value="">resolved</option>
+              <option value="">open</option>
+            </select>
           </div>
           <div class="issue-contents">
-            <div class="content-bars">
-              <div class="content-bar-left">
-                <i class="fa-solid fa-circle-exclamation"></i>
-                <div>
-                  <h6>Bus AC malfunctioning</h6>
-                  <p class="name">Alex <span>1 hour ago</span></p>
-                </div>
-              </div>
-              <div class="badge">Pending</div>
-            </div>
+           
           </div>
         </div>
         <div class="content-right">
@@ -118,7 +123,7 @@
             <div class="head-title">
               <div>
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <h5>Bus AC malfunctioning</h5>
+                <h5 class="issue-title"></h5>
               </div>
               <i class="fa-solid fa-ellipsis"></i>
             </div>
@@ -126,17 +131,16 @@
               <div class="profile-img">
                 <img src="/frontend/assets/OIP.jpg" alt="" />
               </div>
-              <p class="name-right">Alex</p>
-              <p class="time-ago">1 Hour ago</p>
-              <p class="group">bus issue</p>
+              <p class="name-right"></p>
+              <p class="time-ago"></p>
             </div>
           </div>
           <div class="content-right-description">
             <div class="description-head">
               <h4>Description</h4>
               <div>
-                <div class="desc-inprogress">In progress</div>
-                <div class="desc-resolved">resolved</div>
+                <div class="desc-inprogress">Mark In progress</div>
+                <div class="desc-resolved">Mark resolved</div>
               </div>
             </div>
             <div class="description-body">
@@ -146,22 +150,6 @@
                 alt="Issue Image"
               />
                <p class="description-body-content">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Adipisci in obcaecati eaque beatae dolores quaerat unde, nam
-                ipsa magni! Minus vel ex dignissimos nesciunt sequi est, quasi
-                fuga placeat Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Nesciunt modi omnis tempore quis voluptatum doloribus
-                distinctio fugiat. Repellendus, ipsum!
-                Numgsdffffffffffffffffffff Lorem ipsum dolor sit amet,
-                consectetur adipisicing elit. Laboriosam rerum quia porro
-                molestiae hic repellendus, architecto, impedit vero, nemo
-                recusandae minima sapiente eos itaque officiis atque veniam
-                laborum possimus illum!quam omnis veritatis nostrum! Voluptates
-                facere veniam, officia saepe distinctio Lorem ipsum dolor, sit
-                amet consectetur adipisicing elit. Quasi cum veniam iste,
-                voluptate ullam ratione, libero soluta dicta doloremque possimus
-                architecto, rem mollitia. Numquam, nobis atque soluta in dolores
-                quos! eius.
               </p>
             </div>
           </div>

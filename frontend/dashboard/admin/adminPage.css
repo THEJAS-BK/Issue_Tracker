@@ -303,9 +303,28 @@ main {
     color:white;
     background-color: rgb(215, 34, 31); 
 }
-
-/* left side styling  */
-.add-underline:hover{
-    border-bottom: 4px solid orange;
-
+/* BLue boder  */
+.blue-border{
+  border:2px solid blue;
+}
+/* seach section  */
+.searchInp {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 60%;
+  align-content: center;
+  width: 80%;
+  padding: 0 1rem;
+}
+.searchInp input {
+  margin-left: 1rem;
+  border: none;
+  outline: none;
+}
+.search select {
+  height: 60%;
+  text-align: center;
+  text-align: center;
+  font-size: 1rem;
 }

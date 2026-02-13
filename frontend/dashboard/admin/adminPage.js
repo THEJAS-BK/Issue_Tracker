@@ -1,19 +1,26 @@
-import {apiFetch} from "../../utils/helper.js"
-document.addEventListener("DOMContentLoaded",async ()=>{
-    const params = new URLSearchParams(window.location.search);
-    const groupid= params.get("id")
-    console.log(groupid)
-    const res = await fetch(`http://localhost:8080/api/${groupid}/admin`,{
-        method:"GET",
-        credentials:"include"
-    })
-   const data =await res.json();
-   for(let issue of data.issues){
-    insertIssueCard(issue)
-    console.log(issue)
+import { apiFetch } from "../../utils/helper.js";
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(window.location.search);
+  const groupid = params.get("id");
+  const res = await apiFetch(`http://localhost:8080/api/${groupid}/admin`, {
+    method: "GET",
+    credentials: "include",
+  });
+  const data = await res.json();
+  for (let issue of data.issues) {
+    insertIssueCard(issue);
+  }
+  AddIssueEvents();
+   //already selected issue
+   const allIssues = document.querySelectorAll(".content-bars");
+   if(allIssues[0]){
+     const res=await apiFetch(`http://localhost:8080/indissue/${allIssues[0].dataset.issueId}`)
+      const data = await res.json();
+      updateIssuesOnRightSide(data.issue)
+      //add blue border
+      allIssues[0].classList.add("blue-border")
    }
-})
-
+});
 
 function insertIssueCard(issue) {
   const issueContainer = document.querySelector(".issue-contents");
@@ -50,11 +57,10 @@ function insertIssueCard(issue) {
   title.textContent = issue.title;
   name.innerHTML = `${issue.createdBy.name} <span>${calcTime(issue.createdAt)}</span>`;
   badge.textContent = "pending";
-  console.log(issue._id)
-  contentBars.dataset.issueId=issue._id;
+  contentBars.dataset.issueId = issue._id;
 }
 
-function calcTime(time){
+function calcTime(time) {
   const now = Date.now();
   const past = new Date(time).getTime();
   const diff = Math.floor((now - past) / 1000);
@@ -65,5 +71,28 @@ function calcTime(time){
   if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`;
   if (diff < 31536000) return `${Math.floor(diff / 2592000)}mo ago`;
   return `${Math.floor(diff / 31536000)}y ago`;
-    
+}
+// select issue on the left side
+function AddIssueEvents() {
+  const allIssues = document.querySelectorAll(".content-bars");
+  allIssues.forEach((issue) => {
+    issue.addEventListener("click",async () => {
+      const res=await apiFetch(`http://localhost:8080/indissue/${issue.dataset.issueId}`)
+      const data = await res.json();
+      updateIssuesOnRightSide(data.issue)
+    });
+  });
+}
+//render right contents
+function updateIssuesOnRightSide(issue){
+  const title = document.querySelector(".issue-title")
+  const name = document.querySelector(".name-right")
+  const timeAgo = document.querySelector(".time-ago")
+  const description = document.querySelector(".description-body-content")
+
+  title.textContent=issue.title;
+  name.textContent=issue.createdBy.name;
+  timeAgo.textContent=calcTime(issue.createdAt)
+  description.textContent=issue.description;
+
 }

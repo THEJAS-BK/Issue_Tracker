@@ -66,7 +66,7 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
       imageuploadpermission,
       inviteCode,
       createdBy: req.user.userId,
-      members: [{userId:req.user.userId,role:"admin"}],
+      members: [{ userId: req.user.userId, role: "admin" }],
     });
     await newGroup.save();
     res.sendStatus(200);
@@ -79,7 +79,7 @@ app.get("/groups", authorizationToken, async (req, res) => {
   try {
     const allGroups = await CreateGroup.find({
       members: { $elemMatch: { userId: req.user.userId } },
-    }).select("groupname description inviteCode")
+    }).select("groupname description inviteCode");
     const issues = await Issue.find({
       group: { $in: allGroups.map((g) => g._id) },
     });
@@ -111,13 +111,13 @@ app.post("/groups/search", authorizationToken, async (req, res) => {
   }
 });
 //joined groups
-app.post("/searchjoined",authorizationToken, async (req, res) => {
+app.post("/searchjoined", authorizationToken, async (req, res) => {
   try {
     const { val } = req.body;
-    if(val.length==6){
-      const allGroups=await CreateGroup.findOne({inviteCode:val})
-      if(allGroups){
-        return res.json({allGroups})
+    if (val.length == 6) {
+      const allGroups = await CreateGroup.findOne({ inviteCode: val });
+      if (allGroups) {
+        return res.json({ allGroups });
       }
     }
 
@@ -130,9 +130,10 @@ app.post("/searchjoined",authorizationToken, async (req, res) => {
   }
 });
 //!add pages
-app.post("/add", authorizationToken, async (req, res, next) => {
+app.post("/add/:groupId", authorizationToken, async (req, res, next) => {
   try {
-    const { title, description, category, groupId } = req.body;
+    const { groupId } = req.params;
+    const { title, description, category } = req.body;
     const newIssue = new Issue({
       title,
       description,
@@ -148,28 +149,32 @@ app.post("/add", authorizationToken, async (req, res, next) => {
   }
 });
 //group interface
-app.post("/groupinterface", authorizationToken, async (req, res, next) => {
-  try {
-    const { groupId } = req.body;
-    const issues = await Issue.find({ group: groupId })
-      .select("title createdBy createdAt")
-      .populate("createdBy", "name");
+app.get(
+  "/groupinterface/:groupId",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { groupId } = req.params;
+      const issues = await Issue.find({ group: groupId })
+        .select("title createdBy createdAt")
+        .populate("createdBy", "name");
 
       const curUser = req.user.userId;
 
-      const allmembers=await CreateGroup.findById(groupId)
-      .select("members")
-      .populate("members")
-    res.json({ issues,allmembers,curUser});
-  } catch (err) {
-    next(err);
-  }
-});
+      const allmembers = await CreateGroup.findById(groupId)
+        .select("members")
+        .populate("members");
+      res.json({ issues, allmembers, curUser });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 // each card of group interface
-app.post("/indissue", authorizationToken, async (req, res, next) => {
+app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
   try {
-    const { issueId } = req.body;
-    const issue = await Issue.findById(issueId)
+    const { issueid } = req.params;
+    const issue = await Issue.findById(issueid)
       .select("title description createdBy createdAt")
       .populate("createdBy", "name");
     res.json({ issue });
@@ -177,13 +182,30 @@ app.post("/indissue", authorizationToken, async (req, res, next) => {
     next(err);
   }
 });
-//add new user to group
-app.post("/addmember", authorizationToken, async (req, res, next) => {
+//search issues in group interface
+app.get("/issue/:val/search", async (req, res, next) => {
   try {
-    const { groupid } = req.body;
+    const { val } = req.params;
+    if (!val) {
+      return res.sendStatus(404);
+    }
+    const issues = await Issue.find({
+      title: { $regex: val, $options: "i" },
+    })
+      .select("title createdBy createdAt")
+      .populate("createdBy", "name");
+    res.json({ issues });
+  } catch (err) {
+    next(err);
+  }
+});
+//add new user to group
+app.get("/addmember/:groupid", authorizationToken, async (req, res, next) => {
+  try {
+    const { groupid } = req.params;
     const checkIfExist = await CreateGroup.findOne({
       _id: groupid,
-      members: { $elemMatch:{userId:req.user.userId} },
+      members: { $elemMatch: { userId: req.user.userId } },
     });
     if (checkIfExist) {
       return res.sendStatus(409);
@@ -191,7 +213,7 @@ app.post("/addmember", authorizationToken, async (req, res, next) => {
 
     await CreateGroup.findByIdAndUpdate(
       groupid,
-      { $addToSet: { members: {userId:req.user.userId,role:"member"}} },
+      { $addToSet: { members: { userId: req.user.userId, role: "member" } } },
       {
         new: true,
         runValidators: true,
@@ -203,20 +225,17 @@ app.post("/addmember", authorizationToken, async (req, res, next) => {
   }
 });
 //!!! admin routes
-app.get("/api/:groupid/admin",async (req,res,next)=>{
-  try{
-    const {groupid} = req.params;
-    const issues = await Issue.find({group:groupid})
-    .select("title createdBy createdAt")
-    .populate("createdBy","name")
-    res.json({issues})
+app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
+  try {
+    const { groupid } = req.params;
+    const issues = await Issue.find({ group: groupid })
+      .select("title createdBy createdAt")
+      .populate("createdBy", "name");
+    res.json({ issues });
+  } catch (err) {
+    next(err);
   }
-  catch(err){
-    next(err)
-  }
-})
-
-
+});
 
 //404 route
 app.all("/*splat", (req, res, next) => {
