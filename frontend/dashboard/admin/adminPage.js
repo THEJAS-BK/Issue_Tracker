@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   AddIssueEvents();
   //first value selected
   firstValSelected();
- 
 });
 
 function insertIssueCard(issue) {
@@ -50,10 +49,9 @@ function insertIssueCard(issue) {
   //contents
   title.textContent = issue.title;
   name.innerHTML = `${issue.createdBy.name} <span>${calcTime(issue.createdAt)}</span>`;
-  badge.textContent = "pending";
+  badge.textContent = issue.status;
   contentBars.dataset.issueId = issue._id;
 }
-
 
 function calcTime(time) {
   const now = Date.now();
@@ -68,23 +66,21 @@ function calcTime(time) {
   return `${Math.floor(diff / 31536000)}y ago`;
 }
 
-
 // select issue on the left side
 function AddIssueEvents() {
   const allIssues = document.querySelectorAll(".content-bars");
   allIssues.forEach((issue) => {
     issue.addEventListener("click", async () => {
-            allIssues.forEach((issue)=>{
-        issue.classList.remove("blue-border")
-      })
-      issue.classList.add("blue-border")
+      allIssues.forEach((issue) => {
+        issue.classList.remove("blue-border");
+      });
+      issue.classList.add("blue-border");
       const res = await apiFetch(
         `http://localhost:8080/indissue/${issue.dataset.issueId}`,
       );
       const data = await res.json();
       updateIssuesOnRightSide(data.issue);
       //blue border
-
     });
   });
 }
@@ -94,14 +90,22 @@ function updateIssuesOnRightSide(issue) {
   const name = document.querySelector(".name-right");
   const timeAgo = document.querySelector(".time-ago");
   const description = document.querySelector(".description-body-content");
+  const markInProgress = document.querySelector(".desc-inprogress");
+  const markResolved = document.querySelector(".desc-resolved");
 
   title.textContent = issue.title;
   name.textContent = issue.createdBy.name;
   timeAgo.textContent = calcTime(issue.createdAt);
   description.textContent = issue.description;
+  //mark in progress and mark as resolved
+  markInProgress.dataset.issueId = issue._id;
+  markResolved.dataset.issueId = issue._id;
+  // adding their states
+  markInProgress.dataset.state = "inprogress";
+  markResolved.dataset.state = "resolved";
 }
-   //already selected issue
-async function firstValSelected(){
+//already selected issue
+async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
   if (allIssues[0]) {
     const res = await apiFetch(
@@ -113,7 +117,6 @@ async function firstValSelected(){
     allIssues[0].classList.add("blue-border");
   }
 }
-
 
 //serach code
 const search = document.getElementById("search");
@@ -128,15 +131,15 @@ search.addEventListener("input", async (e) => {
         credentials: "include",
       },
     );
-  const data = await res.json()
-  document.querySelector(".issue-contents").innerHTML = "";
-  for (let issue of data.issues) {
-    insertIssueCard(issue);
+    const data = await res.json();
+    document.querySelector(".issue-contents").innerHTML = "";
+    for (let issue of data.issues) {
+      insertIssueCard(issue);
+    }
+    AddIssueEvents();
+    firstValSelected();
   }
-  AddIssueEvents();
-  firstValSelected()
-  }
-  if(searchTerm.length === 0) {
+  if (searchTerm.length === 0) {
     const id = new URLSearchParams(window.location.search).get("id");
     document.querySelector(".issue-contents").innerHTML = "";
     const res = await apiFetch(`http://localhost:8080/groupinterface/${id}`, {
@@ -148,25 +151,59 @@ search.addEventListener("input", async (e) => {
       insertIssueCard(issue);
     }
     AddIssueEvents();
-    firstValSelected()
+    firstValSelected();
   }
 });
 
-
 //select filter
-const selectStatus = document.getElementById("filter-select")
+const selectStatus = document.getElementById("filter-select");
 selectStatus.addEventListener("change", async (e) => {
-    document.querySelector(".issue-contents").innerHTML = "";
+  document.querySelector(".issue-contents").innerHTML = "";
+  const res = await apiFetch(
+    `http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${e.target.value}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+  const data = await res.json();
+  for (let issue of data.issues) {
+    insertIssueCard(issue);
+  }
+  AddIssueEvents();
+  firstValSelected();
+});
 
-    const res = await apiFetch(`http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${e.target.value}`,{
-      method:"GET",
-      credentials:"include"
-    })
-    const data = await res.json();
-     for (let issue of data.issues) {
-      insertIssueCard(issue);
+// mark in progress and solved btns
+const updateBtns = document.querySelectorAll(".update-state-btns");
+updateBtns.forEach((btn) => {
+  btn.addEventListener("click", async (e) => {
+    const res = await fetch(
+      `http://localhost:8080/api/${e.target.dataset.issueId}/update/admin`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          state: e.target.dataset.state,
+        }),
+      },
+    );
+    if (res.status == 200) {
+      const state = document.getElementById("filter-select").value;
+      const res = await apiFetch(
+        `http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${state}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+      document.querySelector(".issue-contents").innerHTML = "";
+      const data = await res.json();
+      for (let issue of data.issues) {
+        insertIssueCard(issue);
+      }
+      AddIssueEvents();
+      firstValSelected();
     }
-    AddIssueEvents();
-    firstValSelected()
-  
-})  
+  });
+});

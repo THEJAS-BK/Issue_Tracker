@@ -222,18 +222,17 @@ async function addEventToIssueCards() {
 //filter states code
 const selectStatus = document.getElementById("search-filter");
 selectStatus.addEventListener("change", async (e) => {
-  const res = await fetch(
+  const res = await apiFetch(
     `http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${e.target.value}`,
     {
-      method:"GET",
-      credentials:"include"
+      method: "GET",
+      credentials: "include",
     },
   );
-  const data =await res.json();
-    document.querySelector(".issues").innerHTML = "";
+  const data = await res.json();
+  document.querySelector(".issues").innerHTML = "";
   for (let issue of data.issues) {
-      createIssueCards(issue);
-    }
-    addEventToIssueCards();
-
+    createIssueCards(issue);
+  }
+  addEventToIssueCards();
 });

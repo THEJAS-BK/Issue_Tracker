@@ -38,6 +38,7 @@ const Issue = require("./models/issue");
 //uitls
 const { getUniqueInviteCode } = require("./utils/inviteCode");
 const group = require("./models/group");
+const { findByIdAndUpdate } = require("./models/user");
 
 //! Routes
 app.get("/", (req, res) => {
@@ -213,7 +214,6 @@ app.get("/filter/:groupId",authorizationToken,async(req,res,next)=>{
       .populate("createdBy", "name");
       return res.json({issues})
     }
-
     const issues = await Issue.find({group:groupId,status:state})
      .select("title createdBy createdAt status")
       .populate("createdBy", "name");
@@ -253,13 +253,32 @@ app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
   try {
     const { groupid } = req.params;
     const issues = await Issue.find({ group: groupid })
-      .select("title createdBy createdAt")
+      .select("title createdBy createdAt status")
       .populate("createdBy", "name");
     res.json({ issues });
   } catch (err) {
     next(err);
   }
 });
+// update states
+app.post("/api/:issueId/update/admin",async(req,res,next)=>{
+  try{
+    const {issueId}=req.params;
+    const {state}=req.body;
+    await Issue.findByIdAndUpdate(issueId,
+      {
+      status:state,
+      },
+      {
+        new:true,
+        runValidators:true
+      })
+      res.sendStatus(200)
+  }
+  catch(err){
+    next(err)
+  }
+})
 
 //404 route
 app.all("/*splat", (req, res, next) => {
