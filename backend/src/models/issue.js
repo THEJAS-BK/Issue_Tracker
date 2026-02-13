@@ -31,5 +31,11 @@ const issueSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  status: {
+    type: String,
+    enum: ["pending", "inprogress", "resolved"],
+    default: "pending",
+  },
+  
 });
 module.exports = mongoose.model("Issue", issueSchema);

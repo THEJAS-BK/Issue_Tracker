@@ -156,15 +156,18 @@ app.get(
     try {
       const { groupId } = req.params;
       const issues = await Issue.find({ group: groupId })
-        .select("title createdBy createdAt")
+        .select("title createdBy createdAt status")
         .populate("createdBy", "name");
-
+        //send cur user
       const curUser = req.user.userId;
-
+      //send all member
       const allmembers = await CreateGroup.findById(groupId)
         .select("members")
         .populate("members");
-      res.json({ issues, allmembers, curUser });
+        //get invite code and group name
+        const groupDetails = await CreateGroup.findOne({_id:groupId})
+        .select("groupname description inviteCode")
+      res.json({ issues, allmembers, curUser, groupDetails });
     } catch (err) {
       next(err);
     }
@@ -175,7 +178,7 @@ app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
   try {
     const { issueid } = req.params;
     const issue = await Issue.findById(issueid)
-      .select("title description createdBy createdAt")
+      .select("title description createdBy createdAt status")
       .populate("createdBy", "name");
     res.json({ issue });
   } catch (err) {

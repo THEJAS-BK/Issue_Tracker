@@ -73,8 +73,9 @@
     <main>
       <div class="head">
         <div class="headLeft">
-          <h2>Bus Issue</h2>
-          <p>issue related to bus routes and schedules</p>
+          <h2 class="group-name">Bus Issue</h2>
+          <p class="group-description">issue related to bus routes and schedules</p>
+          <p>invite code : <span class="invite-code"></span></p>
         </div>
         <button class="addIssue-btn">+ Add Issue</button>
       </div>
@@ -92,11 +93,11 @@
                 placeholder="Search Issues..."
               />
             </div>
-            <select name="" id="">
-              <option value="">Filter</option>
-              <option value="">pending</option>
-              <option value="">resolved</option>
-              <option value="">open</option>
+            <select name="filer" id="search-filter">
+              <option value="all">all</option>
+              <option value="pending">pending</option>
+              <option value="inprogress">In progress</option>
+              <option value="resolved">resolved</option>
             </select>
           </div>
           <div class="issues">  </div>
@@ -115,7 +116,7 @@
                 <p class="name"></p>
                 <p class="time-ago"></p>
               </div>
-              <div class="badge">open</div>
+              <div class="badge"></div>
             </div>
           </div>
           <div class="right-description">

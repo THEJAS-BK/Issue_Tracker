@@ -8,20 +8,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   addIssueBtn.addEventListener("click", () => {
     window.location.href = `/frontend/dashboard/user/addIssue.html?id=${id}`;
   });
+
   //show contents
   const res = await apiFetch(`http://localhost:8080/groupinterface/${id}`, {
     method: "GET",
     credentials: "include",
   });
   const data = await res.json();
+  console.log(data.groupDetails.groupname)
+
+  //load group name and description
+  const groupName = document.querySelector(".group-name");
+  const groupDesc = document.querySelector(".group-description");
+  const inviteCode = document.querySelector(".invite-code");
+  groupName.textContent = data.groupDetails.groupname;
+  groupDesc.textContent = data.groupDetails.description;
+  inviteCode.textContent = data.groupDetails.inviteCode;
+
   //admin dashboard btn code
   const adminDashboardBtn = document.querySelector(".admin-dashboard-btn");
   adminDashboardBtn.addEventListener("click", () => {
     window.location.href = `/frontend/dashboard/admin/adminPage.html?id=${id}`;
   });
-
   const curUser = data.curUser;
-
   for (let member of data.allmembers.members) {
     if (curUser === member.userId) {
       if (member.role === "member") {
@@ -37,6 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  //load all cards
   for (const issue of data.issues) {
     createIssueCards(issue);
   }
@@ -92,7 +102,7 @@ function createIssueCards(issue) {
   h3.textContent = issue.title;
   name.textContent = issue.createdBy.name;
   timeAgo.textContent = calcTimeAgo(issue.createdAt);
-  issueCardBadge.textContent = "closed";
+  issueCardBadge.textContent = issue.status;
   issueCard.dataset.issueId = issue._id;
 }
 
@@ -116,7 +126,7 @@ function updateIssueDetail(issue) {
   img.src = "/frontend/assets/OIP.jpg";
   name.textContent = issue.createdBy.name;
   timeAgo.textContent = calcTimeAgo(issue.createdAt);
-  badge.textContent = "open";
+  badge.textContent = issue.status;
   descText.textContent = issue.description;
 
   if (issueImg) {
