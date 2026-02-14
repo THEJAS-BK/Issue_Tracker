@@ -249,7 +249,7 @@ app.get("/addmember/:groupid", authorizationToken, async (req, res, next) => {
   }
 });
 //delete issues by owner
-app.delete("/deleteissue/:issueId",authorizationToken,async(req,res,next)=>{
+app.delete("/delete/issue/:issueId",authorizationToken,async(req,res,next)=>{
   try{
     const curUser = req.user.userId;
     if(!curUser) return res.sendStatus(401);
@@ -265,7 +265,6 @@ app.delete("/deleteissue/:issueId",authorizationToken,async(req,res,next)=>{
 
     //check validations
     if(issue.createdBy.toString()!==req.user.userId) return res.sendStatus(403)
-
 
     await Issue.findByIdAndDelete(issueId)
     res.sendStatus(204);
@@ -286,7 +285,7 @@ app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
   }
 });
 // update states
-app.post("/api/:issueId/update/admin",async(req,res,next)=>{
+app.post("/api/:issueId/update/admin",authorizationToken,async(req,res,next)=>{
   try{
     const {issueId}=req.params;
     const {state}=req.body;
@@ -301,6 +300,25 @@ app.post("/api/:issueId/update/admin",async(req,res,next)=>{
       res.sendStatus(200)
   }
   catch(err){
+    next(err)
+  }
+})
+//! delete group
+app.delete("/api/delete/:groupId/admin",authorizationToken,async(req,res,next)=>{
+  try{
+    const curUser = req.user.userId;
+    if(!curUser)return res.sendStatus(401);
+
+    const {groupId}=req.params;
+    if(!groupId)return res.sendStatus(400);
+
+    if(!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+    const group = await CreateGroup.findById(groupId)
+    if(group.createdBy.toString()!==curUser) return res.sendStatus(403)
+
+    console.log(groupId)
+  }catch(err){
     next(err)
   }
 })

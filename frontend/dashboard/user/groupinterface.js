@@ -241,8 +241,9 @@ selectStatus.addEventListener("change", async (e) => {
   }
   addEventToIssueCards();
 });
-//!edit and delete btns code
 
+
+//!edit and delete btns code
 //delete btn
 const deleteIssueBtn=document.getElementById("delete-issue");
 const confirmDeleteInterface = document.querySelector(".confirm-backdrop");
@@ -260,7 +261,7 @@ deleteIssueBtn.addEventListener("click",()=>{
       alert("something went wrong")
     }
     if(issueId){
-      const res = await apiFetch(`http://localhost:8080/deleteissue/${issueId}`, {
+      const res = await apiFetch(`http://localhost:8080/delete/issue/${issueId}`, {
         method:"DELETE",
         credentials:"include"
       })

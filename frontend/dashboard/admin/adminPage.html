@@ -57,6 +57,22 @@
         <a href="/frontend/dashboard/user/#">Logout</a>
       </div>
     </div>
+
+    <div class="confirm-backdrop">
+      <div class="confirm-modal">
+        <h1>Delete Group</h1>
+        <p class="waring-group"> Deleting this group will remove all
+          issues, data, and member access associated with it. Once deleted, this
+          data cannot be recovered.</p>
+          <p class="confirm-to-proceed">Please confirm to proceed.</p>
+
+        <div class="actions">
+          <button class="confirm-cancel">Cancel</button>
+          <button class="confirm-delete">confirm</button>
+        </div>
+      </div>
+    </div>
+
     <header>
       <div class="head-left">
         <label for="menu-toggle">
@@ -74,6 +90,23 @@
         </div>
       </div>
     </header>
+    <div class="groupInfo">
+      <div class="groupInfo-left">
+        <h2 class="group-name p-0 m-0">Bus Issue</h2>
+        <div class="group-description">
+          issue related to bus routes and schedules
+        </div>
+        <p>invite code : <span class="invite-code"></span></p>
+      </div>
+      <div class="groupInfo-settings">
+        <i class="fa-solid fa-gear"></i>
+        <div class="settings-dropdown">
+          <button>edit group</button>
+          <button>members</button>
+          <button id="dropdown-delete">delete group</button>
+        </div>
+      </div>
+    </div>
     <div class="issue-status">
       <div class="issue-Tab">
         <h5>Total Issues</h5>
@@ -114,9 +147,7 @@
               <option value="resolved">resolved</option>
             </select>
           </div>
-          <div class="issue-contents">
-           
-          </div>
+          <div class="issue-contents"></div>
         </div>
         <div class="content-right">
           <div class="content-right-head">
@@ -139,28 +170,31 @@
             <div class="description-head">
               <h4>Description</h4>
               <div>
-                <button class="update-state-btns desc-inprogress">Mark In progress</button>
-                <button class="update-state-btns desc-resolved">Mark resolved</button>
+                <button class="update-state-btns desc-inprogress">
+                  Mark In progress
+                </button>
+                <button class="update-state-btns desc-resolved">
+                  Mark resolved
+                </button>
               </div>
             </div>
             <div class="description-body">
-               <img
+              <img
                 class="right-image"
                 src="/frontend/assets/OIP.jpg"
                 alt="Issue Image"
               />
-               <p class="description-body-content">
-              </p>
+              <p class="description-body-content"></p>
             </div>
           </div>
           <div class="upvotes">
             <div class="upvotes-count">
               <i class="fa-solid fa-arrow-up"></i>
-            <span>12</span>
+              <span>12</span>
             </div>
-            <div class="downvote-count ">
+            <div class="downvote-count">
               <i class="fa-solid fa-arrow-down"></i>
-            <span>12</span>
+              <span>12</span>
             </div>
           </div>
         </div>
@@ -168,5 +202,4 @@
     </main>
   </body>
   <script type="module" src="adminPage.js"></script>
-  
 </html>

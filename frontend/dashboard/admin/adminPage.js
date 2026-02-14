@@ -178,7 +178,7 @@ selectStatus.addEventListener("change", async (e) => {
 const updateBtns = document.querySelectorAll(".update-state-btns");
 updateBtns.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
-    const res = await fetch(
+    const res = await apiFetch(
       `http://localhost:8080/api/${e.target.dataset.issueId}/update/admin`,
       {
         method: "POST",
@@ -207,3 +207,24 @@ updateBtns.forEach((btn) => {
     }
   });
 });
+
+
+//admin edit members and delete btns
+const confirmDeleteInterface = document.querySelector(".confirm-backdrop");
+const deleteGroupBtn = document.getElementById("dropdown-delete")
+deleteGroupBtn.addEventListener("click",()=>{
+  confirmDeleteInterface.style.display = "flex";
+  //cancel delete
+  document.querySelector(".confirm-cancel").addEventListener("click",()=>{
+    confirmDeleteInterface.style.display="none"
+  })
+  //confirm delete
+  document.querySelector(".confirm-delete").addEventListener("click",async ()=>{
+    const id = new URLSearchParams(window.location.search).get("id")
+    const res = await apiFetch(`http://localhost:8080/api/delete/${id}/admin`,{
+      method:"DELETE",
+      credentials:"include"
+    })
+    console.log(res)
+  })
+})

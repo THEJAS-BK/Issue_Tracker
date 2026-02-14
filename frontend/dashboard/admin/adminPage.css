@@ -155,17 +155,16 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  height:10%;
+  height: 10%;
   border-bottom: 2px solid black;
-
 }
-.issues-status-bar p{
-    height: 100%;
-    width:33%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border:2px solid transparent;
+.issues-status-bar p {
+  height: 100%;
+  width: 33%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
 }
 .issue-contents {
   height: 100%;
@@ -185,7 +184,7 @@ main {
 }
 .content-bars i {
   margin-top: 0.25rem;
-  color:red;
+  color: red;
 }
 .content-bar-left {
   display: flex;
@@ -193,12 +192,12 @@ main {
 .content-bar-left > div {
   margin-left: 1rem;
 }
-.name{
-    font-size:0.75rem;
-    color:grey;
+.name {
+  font-size: 0.75rem;
+  color: grey;
 }
-.name span{
-    margin-left:0.5rem ;
+.name span {
+  margin-left: 0.5rem;
 }
 .badge {
   background-color: rgb(228, 228, 228);
@@ -207,77 +206,80 @@ main {
   color: blue;
 }
 /* Hover effect  */
-.content-bars:hover{
-    border:2px solid blue;
+.content-bars:hover {
+  border: 2px solid blue;
 }
 /*? right section  */
-.content-right-head{
-    border-bottom: 1px solid black;
+.content-right-head {
+  border-bottom: 1px solid black;
 }
-.head-title{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding:1rem 2rem;
+.head-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
 }
-.fa-circle-exclamation{
-    margin-top: 0.25rem;
-    font-size:1.1rem;
-    color:red;
+.fa-circle-exclamation {
+  margin-top: 0.25rem;
+  font-size: 1.1rem;
+  color: red;
 }
-.head-title>div{
-    display: flex;
-    gap:0.5rem
+.head-title > div {
+  display: flex;
+  gap: 0.5rem;
 }
-.head-title>div>h5{
-    color:black
+.head-title > div > h5 {
+  color: black;
 }
-.fa-ellipsis{
-    font-size: 1.5rem;
+.fa-ellipsis {
+  font-size: 1.5rem;
 }
-.head-user{
-    display: flex;
-    padding: 0.2rem 2rem;
-    margin-bottom: 0.5rem;
+.head-user {
+  display: flex;
+  padding: 0.2rem 2rem;
+  margin-bottom: 0.5rem;
 }
-.profile-img{
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 0 2px black;
+.profile-img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 2px black;
 }
-.profile-img img{
-    width: 100%;
-    height: 100%;
+.profile-img img {
+  width: 100%;
+  height: 100%;
 }
-.time-ago,.group,.name-right{
-    margin-left: 0.5rem;
+.time-ago,
+.group,
+.name-right {
+  margin-left: 0.5rem;
 }
 /* Description  */
-.content-right-description{
-    height: 75%;
-    padding: 0 2rem;
+.content-right-description {
+  height: 75%;
+  padding: 0 2rem;
 }
-.description-head{
-    display: flex;
-    justify-content: space-between;
-    padding:0.5rem 2rem;
+.description-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 2rem;
 }
-.description-head>div{
-    display: flex;
+.description-head > div {
+  display: flex;
 }
-.desc-inprogress, .desc-resolved{
-    padding: 0.25rem 0.5rem;
-    border-radius: 5px;
-    margin-left: 0.5rem;
-    border:2px solid black;
+.desc-inprogress,
+.desc-resolved {
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  margin-left: 0.5rem;
+  border: 2px solid black;
 }
-.desc-inprogress{
-    background-color: rgb(229, 229, 143);
+.desc-inprogress {
+  background-color: rgb(229, 229, 143);
 }
-.desc-resolved{
-    background-color: rgb(137, 137, 227);
+.desc-resolved {
+  background-color: rgb(137, 137, 227);
 }
 .right-image {
   width: 50%;
@@ -286,26 +288,26 @@ main {
   border-radius: 10px;
   margin-bottom: 1rem;
 }
-.upvotes{
-    width: 100%;
-    padding: 0.5rem 2rem;
-    border-top:1px solid black;
-    display: flex;
-   gap:1rem
+.upvotes {
+  width: 100%;
+  padding: 0.5rem 2rem;
+  border-top: 1px solid black;
+  display: flex;
+  gap: 1rem;
 }
-.upvotes-count{
-    width:60px;
-    color:white;
-    background-color: rgb(89, 190, 46); 
+.upvotes-count {
+  width: 60px;
+  color: white;
+  background-color: rgb(89, 190, 46);
 }
-.downvote-count{
-   width:60px;
-    color:white;
-    background-color: rgb(215, 34, 31); 
+.downvote-count {
+  width: 60px;
+  color: white;
+  background-color: rgb(215, 34, 31);
 }
 /* BLue boder  */
-.blue-border{
-  border:2px solid blue;
+.blue-border {
+  border: 2px solid blue;
 }
 /* seach section  */
 .searchInp {
@@ -327,4 +329,86 @@ main {
   text-align: center;
   text-align: center;
   font-size: 1rem;
+}
+/* Group info section  */
+.groupInfo {
+  background-color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+}
+.fa-gear {
+  font-size: 2rem;
+}
+/* settings dropdown  */
+.groupInfo-settings {
+  position: relative;
+}
+.settings-dropdown {
+  position: absolute;
+  background-color: lightblue;
+  top: 100%;
+  right: 0.45rem;
+  width: 182px;
+  height: 200px;
+  display: none;
+  flex-direction: column;
+  border: 3px solid black;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.settings-dropdown>button{
+  height:34%;
+  font-size:1.25rem;
+}
+/* Hover open */
+.groupInfo-settings:hover>.settings-dropdown {
+  display:flex;
+}
+/* confirmation delete  */
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  z-index: 1000;
+}
+
+.confirm-modal {
+  background: #efeeee;
+  padding: 30px 24px;
+  border-radius: 10px;
+  width: min(90%, 400px);
+  display: flex;
+  height: 300px;
+  flex-direction: column;
+  border:5px solid black;
+}
+.waring-group{
+  line-height: 1.25rem;
+  letter-spacing: 0.25px;
+}
+.confirm-to-proceed{
+  margin-top: 1rem;
+  color:red
+}
+.actions{
+  margin-top: 1rem;
+  display: flex;
+  gap:1rem;
+}
+.actions>button{
+  padding:0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 3px grey;
 }
