@@ -18,7 +18,7 @@ app.use(
   cors({
     origin: "http://localhost:5500",
     credentials: true,
-  }), 
+  }),
 );
 //Mongo connection
 main()
@@ -436,7 +436,7 @@ app.patch(
   async (req, res, next) => {
     try {
       const curUser = req.user.userId;
-      if(!curUser) return res.sendStatus(401)
+      if (!curUser) return res.sendStatus(401);
 
       const { groupId } = req.params;
       if (!groupId) return res.sendStatus(400);
@@ -453,14 +453,14 @@ app.patch(
         joinapproval,
         imageuploadpermission,
       } = req.body;
-      await CreateGroup.findByIdAndUpdate(groupId,{
-         groupname,
+      await CreateGroup.findByIdAndUpdate(groupId, {
+        groupname,
         description,
         visibility,
-        joinType:joinapproval,
+        joinType: joinapproval,
         imageuploadpermission,
-      })
-      res.sendStatus(204)   
+      });
+      res.sendStatus(204);
     } catch (err) {
       next(err);
     }
