@@ -37,10 +37,6 @@ const ExpressError = require("./utils/ExpressError");
 const Issue = require("./models/issue");
 //uitls
 const { getUniqueInviteCode } = require("./utils/inviteCode");
-const group = require("./models/group");
-const { findByIdAndUpdate } = require("./models/user");
-const issue = require("./models/issue");
-const { apiFetch } = require("../../frontend/utils/helper");
 
 //! Routes
 app.get("/", (req, res) => {
@@ -423,6 +419,10 @@ app.get(
       const { groupId } = req.params;
       if (!groupId) return res.sendStatus(400);
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+      const groupInfo=await CreateGroup.findById(groupId)
+      .select("groupname description visibility joinType imageuploadpermission")
+      res.json({groupInfo})
 
     } catch (err) {
       next(err);

@@ -257,5 +257,4 @@ const editGroupBtn = document.getElementById("dropdown-edit")
 editGroupBtn.addEventListener("click",()=>{
   const groupId = new URLSearchParams(window.location.search).get("id");
   window.location.href=`/frontend/dashboard/admin/editgroup.html?id=${groupId}`
-  
 })
