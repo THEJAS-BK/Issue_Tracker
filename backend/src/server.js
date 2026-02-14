@@ -18,7 +18,7 @@ app.use(
   cors({
     origin: "http://localhost:5500",
     credentials: true,
-  }),
+  }), 
 );
 //Mongo connection
 main()
@@ -325,6 +325,26 @@ app.delete(
   },
 );
 //!!! admin routes
+//send issues
+app.get(
+  "/api/indissue/:issueid/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { issueid } = req.params;
+      if (!issueid) return res.sendStatus(400);
+
+      if (!mongoose.Types.ObjectId.isValid(issueid)) return res.sendStatus(404);
+
+      const issue = await Issue.findById(issueid)
+        .select("title description createdAt createdBy status")
+        .populate("createdBy", "name");
+      res.json({ issue });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
   try {
     const { groupid } = req.params;
@@ -390,26 +410,6 @@ app.delete(
     }
   },
 );
-//get addIssues
-app.get(
-  "/api/indissue/:issueid/admin",
-  authorizationToken,
-  async (req, res, next) => {
-    try {
-      const { issueid } = req.params;
-      if (!issueid) return res.sendStatus(400);
-
-      if (!mongoose.Types.ObjectId.isValid(issueid)) return res.sendStatus(404);
-
-      const issue = await Issue.findById(issueid)
-        .select("title description createdAt createdBy status")
-        .populate("createdBy", "name");
-      res.json({ issue });
-    } catch (err) {
-      next(err);
-    }
-  },
-);
 //!edit group page
 app.get(
   "/api/edit/group/:groupId/admin",
@@ -420,10 +420,47 @@ app.get(
       if (!groupId) return res.sendStatus(400);
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-      const groupInfo=await CreateGroup.findById(groupId)
-      .select("groupname description visibility joinType imageuploadpermission")
-      res.json({groupInfo})
+      const groupInfo = await CreateGroup.findById(groupId).select(
+        "groupname description visibility joinType imageuploadpermission",
+      );
+      res.json({ groupInfo });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+//update group
+app.patch(
+  "/api/update/group/:groupId/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const curUser = req.user.userId;
+      if(!curUser) return res.sendStatus(401)
 
+      const { groupId } = req.params;
+      if (!groupId) return res.sendStatus(400);
+
+      if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+      const group = await CreateGroup.findById(groupId);
+      if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
+
+      const {
+        groupname,
+        description,
+        visibility,
+        joinapproval,
+        imageuploadpermission,
+      } = req.body;
+      await CreateGroup.findByIdAndUpdate(groupId,{
+         groupname,
+        description,
+        visibility,
+        joinType:joinapproval,
+        imageuploadpermission,
+      })
+      res.sendStatus(204)   
     } catch (err) {
       next(err);
     }
