@@ -99,11 +99,10 @@ function createIssueCards(issue) {
 
   //
   h3.textContent = issue.title;
-  if(issue.stayAnonymous){
-    name.textContent="anonymous"
-  }
-  else{
-    name.textContent=issue.createdBy.name
+  if (issue.stayAnonymous) {
+    name.textContent = "anonymous";
+  } else {
+    name.textContent = issue.createdBy.name;
   }
   timeAgo.textContent = calcTimeAgo(issue.createdAt);
   issueCardBadge.textContent = issue.status;
@@ -128,21 +127,21 @@ function updateIssueDetail(issue) {
   // -------- DATA UPDATE ONLY --------
   h3.textContent = issue.title;
   img.src = "/frontend/assets/OIP.jpg";
-  if(issue.createdBy){
-    name.textContent=issue.createdBy.name;
-  }else{
-    name.textContent="Anonymous";
+  if (issue.createdBy) {
+    name.textContent = issue.createdBy.name;
+  } else {
+    name.textContent = "Anonymous";
   }
 
   timeAgo.textContent = calcTimeAgo(issue.createdAt);
   badge.textContent = issue.status;
   descText.textContent = issue.description;
-  
+
   //edit and delete btn id insetion
-  const editBtn=document.getElementById("edit-issue")
-  const deleteBtn = document.getElementById("delete-issue")
-  editBtn.dataset.issueId=issue._id;
-  deleteBtn.dataset.issueId=issue._id;
+  const editBtn = document.getElementById("edit-issue");
+  const deleteBtn = document.getElementById("delete-issue");
+  editBtn.dataset.issueId = issue._id;
+  deleteBtn.dataset.issueId = issue._id;
 
   if (issueImg) {
     issueImg.src = "/frontend/assets/OIP.jpg";
@@ -259,44 +258,48 @@ selectStatus.addEventListener("change", async (e) => {
   addEventToIssueCards();
 });
 
-
 //!edit and delete btns code
 //delete btn
-const deleteIssueBtn=document.getElementById("delete-issue");
+const deleteIssueBtn = document.getElementById("delete-issue");
 const confirmDeleteInterface = document.querySelector(".confirm-backdrop");
 
-deleteIssueBtn.addEventListener("click",()=>{
-  confirmDeleteInterface.style.display="flex";
+deleteIssueBtn.addEventListener("click", () => {
+  confirmDeleteInterface.style.display = "flex";
   //cancel delete
-  document.querySelector(".confirm-cancel").addEventListener("click",()=>{
-    confirmDeleteInterface.style.display="none";
-  })
+  document.querySelector(".confirm-cancel").addEventListener("click", () => {
+    confirmDeleteInterface.style.display = "none";
+  });
   //confirm delete
-  document.querySelector(".confirm-delete").addEventListener("click",async()=>{
-    const issueId=document.getElementById("delete-issue").dataset.issueId;
-    if(!issueId){
-      alert("something went wrong")
-    }
-    if(issueId){
-      const res = await apiFetch(`http://localhost:8080/delete/issue/${issueId}`, {
-        method:"DELETE",
-        credentials:"include"
-      })
-      if(res.ok){
-        confirmDeleteInterface.style.display="none";
-        window.location.reload();
+  document
+    .querySelector(".confirm-delete")
+    .addEventListener("click", async () => {
+      const issueId = document.getElementById("delete-issue").dataset.issueId;
+      if (!issueId) {
+        alert("something went wrong");
       }
-    }
-  })
-})
+      if (issueId) {
+        const res = await apiFetch(
+          `http://localhost:8080/delete/issue/${issueId}`,
+          {
+            method: "DELETE",
+            credentials: "include",
+          },
+        );
+        if (res.ok) {
+          confirmDeleteInterface.style.display = "none";
+          window.location.reload();
+        }
+      }
+    });
+});
 //Edit btn
-document.getElementById("edit-issue").addEventListener("click",()=>{
-  const issueId=document.getElementById("edit-issue").dataset.issueId;
-  const groupId=new URLSearchParams(window.location.search).get("id")
-  if(!issueId){
-    alert("something went wrong")
+document.getElementById("edit-issue").addEventListener("click", () => {
+  const issueId = document.getElementById("edit-issue").dataset.issueId;
+  const groupId = new URLSearchParams(window.location.search).get("id");
+  if (!issueId) {
+    alert("something went wrong");
   }
-  if(issueId){
-    window.location.href=`/frontend/dashboard/user/editIssue.html?issueid=${issueId}&groupid=${groupId}`;
+  if (issueId) {
+    window.location.href = `/frontend/dashboard/user/editIssue.html?issueid=${issueId}&groupid=${groupId}`;
   }
-})
+});
