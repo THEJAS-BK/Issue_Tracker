@@ -282,3 +282,14 @@ deleteIssueBtn.addEventListener("click",()=>{
     }
   })
 })
+//Edit btn
+document.getElementById("edit-issue").addEventListener("click",()=>{
+  const issueId=document.getElementById("edit-issue").dataset.issueId;
+  const groupId=new URLSearchParams(window.location.search).get("id")
+  if(!issueId){
+    alert("something went wrong")
+  }
+  if(issueId){
+    window.location.href=`/frontend/dashboard/user/editIssue.html?issueid=${issueId}&groupid=${groupId}`;
+  }
+})

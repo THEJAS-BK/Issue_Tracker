@@ -1,0 +1,46 @@
+import { apiFetch } from "../../utils/helper.js";
+document.addEventListener("DOMContentLoaded", async () => {
+  const res = await apiFetch(
+    `http://localhost:8080/edit/${new URLSearchParams(window.location.search).get("issueid")}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+  const data = await res.json();
+  //insert data
+  document.getElementById("title").value = data.issue.title;
+  document.getElementById("description").innerText = data.issue.description;
+  //anonymous btn
+  if (data.issue.stayAnonymous) {
+    document.getElementById("anonymousSwitch").checked = true;
+  }
+});
+
+//patch request to save all changes
+const addIssueForm = document.querySelector(".issue-form");
+addIssueForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const issueId = new URLSearchParams(window.location.search).get("issueid");
+  const groupId = new URLSearchParams(window.location.search).get("groupid");
+  console.log(issueId, groupId);
+  const anonSwitch = document.getElementById("anonymousSwitch").checked;
+  const res = await apiFetch(`http://localhost:8080/edit/${issueId}`, {
+    method: "PATCH",
+    headers: { "Content-type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      title: addIssueForm.title.value,
+      description: addIssueForm.description.value,
+      stayAnonymous: anonSwitch,
+    }),
+  });
+  if (res.ok) {
+    window.location.href = `/frontend/dashboard/user/groupInterface.html?id=${groupId}`;
+  }
+});
+const cancelBtn = document.querySelector(".cancel");
+cancelBtn.addEventListener("click", () => {
+  const groupId = new URLSearchParams(window.location.search).get("groupid");
+  window.location.href = `/frontend/dashboard/user/groupInterface.html?id=${groupId}`;
+});

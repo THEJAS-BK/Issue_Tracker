@@ -39,6 +39,7 @@ const Issue = require("./models/issue");
 const { getUniqueInviteCode } = require("./utils/inviteCode");
 const group = require("./models/group");
 const { findByIdAndUpdate } = require("./models/user");
+const issue = require("./models/issue");
 
 //! Routes
 app.get("/", (req, res) => {
@@ -148,6 +149,49 @@ app.post("/add/:groupId", authorizationToken, async (req, res, next) => {
     next(err);
   }
 });
+//edit issues
+app.get("/edit/:issueId",authorizationToken,async(req,res,next)=>{
+  try{
+    const {issueId}=req.params;
+    if(!issueId) return res.sendStatus(400);
+
+    const issue = await Issue.findById(issueId)
+    .select("title description stayAnonymous")
+    res.json({issue})
+  }
+  catch(err){
+    next(err)
+  }
+})
+//confirm changes
+app.patch("/edit/:issueId",authorizationToken,async(req,res,next)=>{
+  try{
+    const {issueId} = req.params;
+    if(!issueId) return res.sendStatus(400);
+
+    const curUser = req.user.userId;
+    if(!curUser) return res.sendStatus(401);
+
+    const checkIssue = await Issue.findById(issueId)
+    .select("createdBy");
+
+    if(!mongoose.Types.ObjectId.isValid(issueId)) return res.sendStatus(404);
+
+    if(checkIssue.createdBy.toString()!==curUser) return res.sendStatus(403);
+
+    const {title,description,stayAnonymous}=req.body;
+    await Issue.findByIdAndUpdate(issueId,{
+      title,
+      description,
+      stayAnonymous
+    })
+    res.sendStatus(204);
+
+    
+  }catch(err){
+    next(err)
+  }
+})
 //group interface
 app.get(
   "/groupinterface/:groupId",
