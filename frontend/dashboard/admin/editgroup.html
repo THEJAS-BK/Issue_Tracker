@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus issue Tracker</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="editgroup.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../hambugerMenu.css" />
+  </head>
+  <body>
+    <input type="checkbox" id="menu-toggle" hidden />
+    <div class="menu">
+      <div class="menu-top">
+        <div class="menu-profile">
+          <div class="headAcc head-width">
+            <div>
+              <p>J</p>
+            </div>
+            <h3>Jhon Doe</h3>
+          </div>
+        </div>
+        <div class="close-btn">
+          <label for="menu-toggle">
+            <i class="fa-solid fa-xmark"></i>
+          </label>
+        </div>
+      </div>
+      <div class="menu-links">
+        <a href="/frontend/dashboard/user/userpage.html">home</a>
+        <a href="/frontend/dashboard/user/addIssue.html">add Issue</a>
+        <a href="/frontend/dashboard/user/creategroup.html">create group</a>
+        <a href="/frontend/dashboard/user/groupInterface.html"
+          >group Interface</a
+        >
+        <a href="/frontend/dashboard/admin/adminPage.html">admin page</a>
+        <a href="/frontend/dashboard/user/#">Join group</a>
+        <a href="/frontend/dashboard/user/#">Settings</a>
+        <a href="/frontend/dashboard/user/#">Logout</a>
+      </div>
+    </div>
+    <nav>
+      <label for="menu-toggle">
+        <i class="fa-solid fa-bars"></i>
+      </label>
+      <h2>Issue Tracker</h2>
+      <div class="headAcc">
+        <div>
+          <p>J</p>
+        </div>
+        <i class="fa-solid fa-angle-down"></i>
+      </div>
+    </nav>
+
+    <main>
+      <div class="main-content">
+        <h2>Create Groups</h2>
+        <p>Create a group to manage and track Community issues</p>
+        <form id="create-group-form">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Group Name</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Eg: library group"
+              name="groupname"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"
+              >Description</label
+            >
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+              name="description"
+            ></textarea>
+          </div>
+          <div class="selectGroup">
+            <div class="visibility">
+              <label for="visiblity" class="form-label">Visiblity</label>
+              <select
+                class="form-select"
+                id="visiblity"
+                aria-label="Default select example"
+                name="visibility"
+              >
+                <option selected value="public">public</option>
+                <option value="private">private</option>
+              </select>
+            </div>
+            <div class="joinapproval">
+              <label for="join-approval" class="form-label"
+                >Join approval</label
+              >
+              <select
+                name="joinapproval"
+                class="form-select"
+                id="join-approval"
+                aria-label="Default select example"
+              >
+              <option selected value="open">open</option>
+                <option  value="invite">invite only</option>
+                <option value="request">required</option>
+              </select>
+            </div>
+            <div class="imageupload">
+              <label for="image-upload" class="form-label">
+                Image upload permission
+              </label>
+              <select name="imageuploadpermission" id="image-upload" class="form-select">
+                <option value="allowed">allowed</option>
+                <option value="notallowed">not allowed</option>
+              </select>
+            </div>
+          </div>
+          <br />
+          <div class="upload">
+            <input type="file" name="group-profile" id="group-profile" hidden />
+            <label for="group-profile" id="group-profile-label"></label>
+            <div class="buttons">
+              <button type="submit" class="btn btn-primary">create group</button>
+              <button type="button" class="btn btn-danger">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+  <script type="module" src="/frontend/dashboard/admin/editgroup.js"></script>
+</html>

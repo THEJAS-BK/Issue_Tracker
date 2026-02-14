@@ -150,48 +150,45 @@ app.post("/add/:groupId", authorizationToken, async (req, res, next) => {
   }
 });
 //edit issues
-app.get("/edit/:issueId",authorizationToken,async(req,res,next)=>{
-  try{
-    const {issueId}=req.params;
-    if(!issueId) return res.sendStatus(400);
+app.get("/edit/:issueId", authorizationToken, async (req, res, next) => {
+  try {
+    const { issueId } = req.params;
+    if (!issueId) return res.sendStatus(400);
 
-    const issue = await Issue.findById(issueId)
-    .select("title description stayAnonymous")
-    res.json({issue})
+    const issue = await Issue.findById(issueId).select(
+      "title description stayAnonymous",
+    );
+    res.json({ issue });
+  } catch (err) {
+    next(err);
   }
-  catch(err){
-    next(err)
-  }
-})
+});
 //confirm changes
-app.patch("/edit/:issueId",authorizationToken,async(req,res,next)=>{
-  try{
-    const {issueId} = req.params;
-    if(!issueId) return res.sendStatus(400);
+app.patch("/edit/:issueId", authorizationToken, async (req, res, next) => {
+  try {
+    const { issueId } = req.params;
+    if (!issueId) return res.sendStatus(400);
 
     const curUser = req.user.userId;
-    if(!curUser) return res.sendStatus(401);
+    if (!curUser) return res.sendStatus(401);
 
-    const checkIssue = await Issue.findById(issueId)
-    .select("createdBy");
+    const checkIssue = await Issue.findById(issueId).select("createdBy");
 
-    if(!mongoose.Types.ObjectId.isValid(issueId)) return res.sendStatus(404);
+    if (!mongoose.Types.ObjectId.isValid(issueId)) return res.sendStatus(404);
 
-    if(checkIssue.createdBy.toString()!==curUser) return res.sendStatus(403);
+    if (checkIssue.createdBy.toString() !== curUser) return res.sendStatus(403);
 
-    const {title,description,stayAnonymous}=req.body;
-    await Issue.findByIdAndUpdate(issueId,{
+    const { title, description, stayAnonymous } = req.body;
+    await Issue.findByIdAndUpdate(issueId, {
       title,
       description,
-      stayAnonymous
-    })
+      stayAnonymous,
+    });
     res.sendStatus(204);
-
-    
-  }catch(err){
-    next(err)
+  } catch (err) {
+    next(err);
   }
-})
+});
 //group interface
 app.get(
   "/groupinterface/:groupId",
@@ -223,7 +220,8 @@ app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
   try {
     const { issueid } = req.params;
     //check anonymous
-    const checkAnonymous =await Issue.findById(issueid).select("stayAnonymous");
+    const checkAnonymous =
+      await Issue.findById(issueid).select("stayAnonymous");
     if (checkAnonymous.stayAnonymous) {
       const issue = await Issue.findById(issueid).select(
         "title description createdAt status",
@@ -333,10 +331,16 @@ app.delete(
 app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
   try {
     const { groupid } = req.params;
+    if(!groupid) return res.sendStatus(400);
+
     const issues = await Issue.find({ group: groupid })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
-    res.json({ issues });
+
+      const groupDetails=await CreateGroup.findById(groupid).select("groupname description inviteCode");
+
+
+    res.json({ issues, groupDetails });
   } catch (err) {
     next(err);
   }
@@ -389,6 +393,28 @@ app.delete(
     }
   },
 );
+//get addIssues
+app.get(
+  "/api/indissue/:issueid/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { issueid } = req.params;
+      if (!issueid) return res.sendStatus(400);
+
+      if (!mongoose.Types.ObjectId.isValid(issueid)) return res.sendStatus(404);
+
+      const issue = await Issue.findById(issueid)
+        .select("title description createdAt createdBy status")
+        .populate("createdBy", "name");
+      res.json({ issue });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+//!edit group page
+// app.get("/api")
 
 //404 route
 app.all("/*splat", (req, res, next) => {

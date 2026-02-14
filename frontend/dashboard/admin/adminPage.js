@@ -10,9 +10,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   for (let issue of data.issues) {
     insertIssueCard(issue);
   }
-  AddIssueEvents();
+  AddIssueEvents(); 
   //first value selected
   firstValSelected();
+  //insert group info
+  const groupDetails = data.groupDetails;
+  document.querySelector(".group-name").textContent = groupDetails.groupname;
+  document.querySelector(".group-description").textContent = groupDetails.description;
+  document.querySelector(".invite-code").textContent = groupDetails.inviteCode;
 });
 
 function insertIssueCard(issue) {
@@ -76,7 +81,7 @@ function AddIssueEvents() {
       });
       issue.classList.add("blue-border");
       const res = await apiFetch(
-        `http://localhost:8080/indissue/${issue.dataset.issueId}`,
+        `http://localhost:8080/api/indissue/${issue.dataset.issueId}/admin`,
       );
       const data = await res.json();
       updateIssuesOnRightSide(data.issue);
@@ -109,7 +114,10 @@ async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
   if (allIssues[0]) {
     const res = await apiFetch(
-      `http://localhost:8080/indissue/${allIssues[0].dataset.issueId}`,
+      `http://localhost:8080/api/indissue/${allIssues[0].dataset.issueId}/admin`,{
+        method:"GET",
+        credentials:"include"
+      }
     );
     const data = await res.json();
     updateIssuesOnRightSide(data.issue);
@@ -208,7 +216,8 @@ updateBtns.forEach((btn) => {
   });
 });
 
-//admin edit members and delete btns
+//admin edit,members and delete btns
+//delete btns
 const confirmDeleteInterface = document.querySelector(".confirm-backdrop");
 const deleteGroupBtn = document.getElementById("dropdown-delete");
 deleteGroupBtn.addEventListener("click", () => {
@@ -241,3 +250,12 @@ deleteGroupBtn.addEventListener("click", () => {
       }
     });
 });
+
+
+//edit btn
+const editGroupBtn = document.getElementById("dropdown-edit")
+editGroupBtn.addEventListener("click",()=>{
+  const issueId = editGroupBtn.dataset.issueId;
+  const groupId = new URLSearchParams(window.location.search).get("id");
+  
+})

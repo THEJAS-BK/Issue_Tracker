@@ -1,0 +1,101 @@
+/* Nav bar  */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+nav {
+  height: 8vh;
+  background-color: blue;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+nav .fa-bars {
+  font-size: 2rem;
+}
+nav h2 {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+.headAcc {
+  width: 6rem;
+  display: flex;
+  align-items: center;
+}
+.headAcc div {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.headAcc div p {
+  width: 70%;
+  height: 70%;
+  background-color: blue;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
+}
+.headAcc i {
+  margin: 0;
+}
+p {
+  margin-bottom: 0;
+}
+/* Main contents  */
+main {
+  margin-top: 1rem;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 5rem;
+}
+.main-content {
+  width: 60%;
+  height: 100%;
+  display:flex;
+  flex-direction: column;
+}
+.main-content h2,
+p {
+  text-align: center;
+}
+.main-content form {
+  margin-top:1rem ;
+  padding: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+}
+.form-label{
+    font-size: 1.25rem;
+}
+textarea{
+  resize: none;
+}
+
+/* Selection category section  */
+.selectGroup{
+  display: flex;
+  justify-content: space-between;
+}
+#group-profile-label{
+  width: 50%;
+  border:2px dashed gray;
+  height: 10rem;
+}
+.upload{
+  display: flex;
+    align-items: center;
+    gap: 9rem;
+}
