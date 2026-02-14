@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
       body: JSON.stringify({
         groupname: createGroupForm.groupname.value,
         description: createGroupForm.description.value,
-        category: createGroupForm.category.value,
         visibility: createGroupForm.visibility.value,
         joinapproval: createGroupForm.joinapproval.value,
         imageuploadpermission:createGroupForm.imageuploadpermission.value,

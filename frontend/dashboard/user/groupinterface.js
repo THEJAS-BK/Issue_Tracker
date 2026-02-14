@@ -99,7 +99,12 @@ function createIssueCards(issue) {
 
   //
   h3.textContent = issue.title;
-  name.textContent = issue.createdBy.name;
+  if(issue.stayAnonymous){
+    name.textContent="anonymous"
+  }
+  else{
+    name.textContent=issue.createdBy.name
+  }
   timeAgo.textContent = calcTimeAgo(issue.createdAt);
   issueCardBadge.textContent = issue.status;
   issueCard.dataset.issueId = issue._id;
@@ -123,7 +128,12 @@ function updateIssueDetail(issue) {
   // -------- DATA UPDATE ONLY --------
   h3.textContent = issue.title;
   img.src = "/frontend/assets/OIP.jpg";
-  name.textContent = issue.createdBy.name;
+  if(issue.createdBy){
+    name.textContent=issue.createdBy.name;
+  }else{
+    name.textContent="Anonymous";
+  }
+
   timeAgo.textContent = calcTimeAgo(issue.createdAt);
   badge.textContent = issue.status;
   descText.textContent = issue.description;

@@ -9,9 +9,9 @@ const issueSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  category: {
-    type: String,
-    required: true,
+  stayAnonymous: {
+    type: Boolean,
+    default: false,
   },
   image: {
     type: String,

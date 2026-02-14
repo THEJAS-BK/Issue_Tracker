@@ -9,19 +9,6 @@ const GroupSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  category: {
-    type: String,
-    enum: [
-      "Select category",
-      "Transport",
-      "Bus Issues",
-      "Hostel Issues",
-      "Campus Issues",
-      "Academic Issues",
-      "Other Issues",
-    ],
-    required: true,
-  },
   visibility: {
     type: String,
     enum: ["public", "private"],

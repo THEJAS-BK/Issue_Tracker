@@ -52,7 +52,6 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
     const {
       groupname,
       description,
-      category,
       visibility,
       joinapproval,
       imageuploadpermission,
@@ -61,7 +60,7 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
     const newGroup = new CreateGroup({
       groupname,
       description,
-      category,
+
       visibility,
       joinType: joinapproval,
       imageuploadpermission,
@@ -134,11 +133,11 @@ app.post("/searchjoined", authorizationToken, async (req, res) => {
 app.post("/add/:groupId", authorizationToken, async (req, res, next) => {
   try {
     const { groupId } = req.params;
-    const { title, description, category } = req.body;
+    const { title, description, stayAnonymous } = req.body;
     const newIssue = new Issue({
       title,
       description,
-      category,
+      stayAnonymous,
       group: groupId,
       createdBy: req.user.userId,
     });
@@ -157,17 +156,18 @@ app.get(
     try {
       const { groupId } = req.params;
       const issues = await Issue.find({ group: groupId })
-        .select("title createdBy createdAt status")
+        .select("title createdBy createdAt status stayAnonymous")
         .populate("createdBy", "name");
-        //send cur user
+      //send cur user
       const curUser = req.user.userId;
       //send all member
       const allmembers = await CreateGroup.findById(groupId)
         .select("members")
         .populate("members");
-        //get invite code and group name
-        const groupDetails = await CreateGroup.findOne({_id:groupId})
-        .select("groupname description inviteCode")
+      //get invite code and group name
+      const groupDetails = await CreateGroup.findOne({ _id: groupId }).select(
+        "groupname description inviteCode",
+      );
       res.json({ issues, allmembers, curUser, groupDetails });
     } catch (err) {
       next(err);
@@ -178,8 +178,17 @@ app.get(
 app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
   try {
     const { issueid } = req.params;
+    //check anonymous
+    const checkAnonymous =await Issue.findById(issueid).select("stayAnonymous");
+    if (checkAnonymous.stayAnonymous) {
+      const issue = await Issue.findById(issueid).select(
+        "title description createdAt status",
+      );
+      return res.json({ issue });
+    }
+
     const issue = await Issue.findById(issueid)
-      .select("title description createdBy createdAt status")
+      .select("title description createdAt createdBy status")
       .populate("createdBy", "name");
     res.json({ issue });
   } catch (err) {
@@ -187,7 +196,7 @@ app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
   }
 });
 //search issues in group interface
-app.get("/issue/search",authorizationToken, async (req, res, next) => {
+app.get("/issue/search", authorizationToken, async (req, res, next) => {
   try {
     const { q } = req.query;
     if (!q) {
@@ -204,25 +213,24 @@ app.get("/issue/search",authorizationToken, async (req, res, next) => {
   }
 });
 //filter satus route
-app.get("/filter/:groupId",authorizationToken,async(req,res,next)=>{
-  try{
-    const {state} = req.query;
-    const {groupId} = req.params;
-    if(state==="all"){
-      const issues = await Issue.find({group:groupId})
-     .select("title createdBy createdAt status")
-      .populate("createdBy", "name");
-      return res.json({issues})
+app.get("/filter/:groupId", authorizationToken, async (req, res, next) => {
+  try {
+    const { state } = req.query;
+    const { groupId } = req.params;
+    if (state === "all") {
+      const issues = await Issue.find({ group: groupId })
+        .select("title createdBy createdAt status")
+        .populate("createdBy", "name");
+      return res.json({ issues });
     }
-    const issues = await Issue.find({group:groupId,status:state})
-     .select("title createdBy createdAt status")
+    const issues = await Issue.find({ group: groupId, status: state })
+      .select("title createdBy createdAt status")
       .populate("createdBy", "name");
-     res.json({issues})
-
-  }catch(err){
+    res.json({ issues });
+  } catch (err) {
     next(err);
   }
-})
+});
 //add new user to group
 app.get("/addmember/:groupid", authorizationToken, async (req, res, next) => {
   try {
@@ -249,29 +257,34 @@ app.get("/addmember/:groupid", authorizationToken, async (req, res, next) => {
   }
 });
 //delete issues by owner
-app.delete("/delete/issue/:issueId",authorizationToken,async(req,res,next)=>{
-  try{
-    const curUser = req.user.userId;
-    if(!curUser) return res.sendStatus(401);
+app.delete(
+  "/delete/issue/:issueId",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const curUser = req.user.userId;
+      if (!curUser) return res.sendStatus(401);
 
-    const {issueId}=req.params;
-    if(!issueId) return res.sendStatus(400);
+      const { issueId } = req.params;
+      if (!issueId) return res.sendStatus(400);
 
-    //check if id is valid or not
-    if(!mongoose.Types.ObjectId.isValid(issueId))return res.sendStatus(404);
+      //check if id is valid or not
+      if (!mongoose.Types.ObjectId.isValid(issueId)) return res.sendStatus(404);
 
-    const issue = await Issue.findById(issueId);
-    if(!issue) return res.sendStatus(404);
+      const issue = await Issue.findById(issueId);
+      if (!issue) return res.sendStatus(404);
 
-    //check validations
-    if(issue.createdBy.toString()!==req.user.userId) return res.sendStatus(403)
+      //check validations
+      if (issue.createdBy.toString() !== req.user.userId)
+        return res.sendStatus(403);
 
-    await Issue.findByIdAndDelete(issueId)
-    res.sendStatus(204);
-  }catch(err){
-    next(err)
-  }
-})
+      await Issue.findByIdAndDelete(issueId);
+      res.sendStatus(204);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 //!!! admin routes
 app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
   try {
@@ -285,45 +298,53 @@ app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
   }
 });
 // update states
-app.post("/api/:issueId/update/admin",authorizationToken,async(req,res,next)=>{
-  try{
-    const {issueId}=req.params;
-    const {state}=req.body;
-    await Issue.findByIdAndUpdate(issueId,
-      {
-      status:state,
-      },
-      {
-        new:true,
-        runValidators:true
-      })
-      res.sendStatus(200)
-  }
-  catch(err){
-    next(err)
-  }
-})
+app.post(
+  "/api/:issueId/update/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { issueId } = req.params;
+      const { state } = req.body;
+      await Issue.findByIdAndUpdate(
+        issueId,
+        {
+          status: state,
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+      res.sendStatus(200);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 //! delete group
-app.delete("/api/delete/:groupId/admin",authorizationToken,async(req,res,next)=>{
-  try{
-    const curUser = req.user.userId;
-    if(!curUser)return res.sendStatus(401);
+app.delete(
+  "/api/delete/:groupId/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const curUser = req.user.userId;
+      if (!curUser) return res.sendStatus(401);
 
-    const {groupId}=req.params;
-    if(!groupId)return res.sendStatus(400);
+      const { groupId } = req.params;
+      if (!groupId) return res.sendStatus(400);
 
-    if(!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+      if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-    const group = await CreateGroup.findById(groupId)
-    if(group.createdBy.toString()!==curUser) return res.sendStatus(403);
+      const group = await CreateGroup.findById(groupId);
+      if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
 
-    await CreateGroup.findOneAndDelete({_id:groupId});
-    res.sendStatus(201);
-
-  }catch(err){
-    next(err)
-  }
-})
+      await CreateGroup.findOneAndDelete({ _id: groupId });
+      res.sendStatus(201);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 //404 route
 app.all("/*splat", (req, res, next) => {
