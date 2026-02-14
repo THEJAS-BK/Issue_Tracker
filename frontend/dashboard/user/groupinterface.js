@@ -147,6 +147,13 @@ function updateIssueDetail(issue) {
   if (issueImg) {
     issueImg.src = "/frontend/assets/OIP.jpg";
   }
+  //if user is owner of issue
+  const ownerEditBtn = document.querySelector(".issue-options");
+  if (issue.isIssueOwner) {
+    ownerEditBtn.style.display = "block";
+  } else {
+    ownerEditBtn.remove();
+  }
 }
 
 function calcTimeAgo(time) {

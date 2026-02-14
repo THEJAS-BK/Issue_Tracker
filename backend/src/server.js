@@ -216,6 +216,13 @@ app.get(
 app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
   try {
     const { issueid } = req.params;
+    if(!issueid)return res.sendStatus(400);
+
+    const curUser = req.user.userId;
+    if(!curUser) return res.sendStatus(401);
+
+    const isIssueOwner = await Issue.findOne({ _id: issueid, createdBy: curUser });
+    
     //check anonymous
     const checkAnonymous =
       await Issue.findById(issueid).select("stayAnonymous");
@@ -229,7 +236,7 @@ app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
     const issue = await Issue.findById(issueid)
       .select("title description createdAt createdBy status")
       .populate("createdBy", "name");
-    res.json({ issue });
+    res.json({ issue,isIssueOwner });
   } catch (err) {
     next(err);
   }
