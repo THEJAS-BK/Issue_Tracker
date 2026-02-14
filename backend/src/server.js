@@ -315,9 +315,11 @@ app.delete("/api/delete/:groupId/admin",authorizationToken,async(req,res,next)=>
     if(!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
     const group = await CreateGroup.findById(groupId)
-    if(group.createdBy.toString()!==curUser) return res.sendStatus(403)
+    if(group.createdBy.toString()!==curUser) return res.sendStatus(403);
 
-    console.log(groupId)
+    await CreateGroup.findOneAndDelete({_id:groupId});
+    res.sendStatus(201);
+
   }catch(err){
     next(err)
   }

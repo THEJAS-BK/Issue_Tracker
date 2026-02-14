@@ -225,6 +225,16 @@ deleteGroupBtn.addEventListener("click",()=>{
       method:"DELETE",
       credentials:"include"
     })
-    console.log(res)
+    
+    if(!res.ok){
+       confirmDeleteInterface.style.display="none";
+       alert("Failed to delete group")
+       return
+    }
+
+    if(res.ok){
+      window.location.href="/frontend/dashboard/user/userpage.html"
+    }
+
   })
 })

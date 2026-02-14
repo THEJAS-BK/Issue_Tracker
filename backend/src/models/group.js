@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Issue = require("./issue")
 const GroupSchema = new mongoose.Schema({
   groupname: {
     type: String,
@@ -74,4 +74,10 @@ const GroupSchema = new mongoose.Schema({
     },
   ],
 });
+GroupSchema.post("findOneAndDelete",async(data)=>{
+  if(data){
+      await Issue.deleteMany({group:data._id})
+  }
+})
+
 module.exports = mongoose.model("Group", GroupSchema);

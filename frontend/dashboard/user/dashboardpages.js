@@ -1,4 +1,4 @@
-import { apiFetch } from "../utils/helper.js";
+import { apiFetch } from "../../utils/helper.js";
 
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
