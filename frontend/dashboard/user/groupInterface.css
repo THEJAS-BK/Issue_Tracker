@@ -292,3 +292,71 @@ main {
 .addBorder{
   border:2px solid blue;
 }
+/* issue options delete and edit */
+.issue-options{
+  position:relative
+}
+.issue-options-dropdown{
+    position: absolute;
+    top: 100%;
+    right: 0rem;
+    background-color: aqua;
+    height: 120px;
+    width: 144px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    border:3px solid black;
+    border-radius:10px;
+    overflow: hidden;
+}
+.issue-options-dropdown>button{
+  padding:1rem 0.5rem;
+  outline:none;
+  height: 50%;
+  
+}
+.issue-options:hover> .issue-options-dropdown{
+  display: flex;
+}
+/* confirmation delete  */
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  z-index: 1000;
+}
+
+.confirm-modal {
+  background: #efeeee;
+  padding: 20px 24px;
+  border-radius: 10px;
+  width: min(90%, 360px);
+  display: flex;
+  height: 200px;
+  flex-direction: column;
+  border:5px solid black;
+}
+.confirm-modal>p{
+  margin-top:0.5rem
+}
+.actions{
+  margin-top: 1rem;
+  display: flex;
+  gap:1rem;
+}
+.actions>button{
+  padding:0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 3px grey;
+}

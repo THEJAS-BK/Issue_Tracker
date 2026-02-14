@@ -248,6 +248,31 @@ app.get("/addmember/:groupid", authorizationToken, async (req, res, next) => {
     next(err);
   }
 });
+//delete issues by owner
+app.delete("/deleteissue/:issueId",authorizationToken,async(req,res,next)=>{
+  try{
+    const curUser = req.user.userId;
+    if(!curUser) return res.sendStatus(401);
+
+    const {issueId}=req.params;
+    if(!issueId) return res.sendStatus(400);
+
+    //check if id is valid or not
+    if(!mongoose.Types.ObjectId.isValid(issueId))return res.sendStatus(404);
+
+    const issue = await Issue.findById(issueId);
+    if(!issue) return res.sendStatus(404);
+
+    //check validations
+    if(issue.createdBy.toString()!==req.user.userId) return res.sendStatus(403)
+
+
+    await Issue.findByIdAndDelete(issueId)
+    res.sendStatus(204);
+  }catch(err){
+    next(err)
+  }
+})
 //!!! admin routes
 app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
   try {

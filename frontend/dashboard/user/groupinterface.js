@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     credentials: "include",
   });
   const data = await res.json();
-  console.log(data.groupDetails.groupname);
 
   //load group name and description
   const groupName = document.querySelector(".group-name");
@@ -128,6 +127,12 @@ function updateIssueDetail(issue) {
   timeAgo.textContent = calcTimeAgo(issue.createdAt);
   badge.textContent = issue.status;
   descText.textContent = issue.description;
+  
+  //edit and delete btn id insetion
+  const editBtn=document.getElementById("edit-issue")
+  const deleteBtn = document.getElementById("delete-issue")
+  editBtn.dataset.issueId=issue._id;
+  deleteBtn.dataset.issueId=issue._id;
 
   if (issueImg) {
     issueImg.src = "/frontend/assets/OIP.jpg";
@@ -236,3 +241,33 @@ selectStatus.addEventListener("change", async (e) => {
   }
   addEventToIssueCards();
 });
+//!edit and delete btns code
+
+//delete btn
+const deleteIssueBtn=document.getElementById("delete-issue");
+const confirmDeleteInterface = document.querySelector(".confirm-backdrop");
+
+deleteIssueBtn.addEventListener("click",()=>{
+  confirmDeleteInterface.style.display="flex";
+  //cancel delete
+  document.querySelector(".confirm-cancel").addEventListener("click",()=>{
+    confirmDeleteInterface.style.display="none";
+  })
+  //confirm delete
+  document.querySelector(".confirm-delete").addEventListener("click",async()=>{
+    const issueId=document.getElementById("delete-issue").dataset.issueId;
+    if(!issueId){
+      alert("something went wrong")
+    }
+    if(issueId){
+      const res = await apiFetch(`http://localhost:8080/deleteissue/${issueId}`, {
+        method:"DELETE",
+        credentials:"include"
+      })
+      if(res.ok){
+        confirmDeleteInterface.style.display="none";
+        window.location.reload();
+      }
+    }
+  })
+})

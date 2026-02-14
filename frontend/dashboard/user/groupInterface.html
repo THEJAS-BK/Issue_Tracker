@@ -51,6 +51,19 @@
         <a href="/frontend/dashboard/user/#">Logout</a>
       </div>
     </div>
+
+    <div class="confirm-backdrop">
+      <div class="confirm-modal">
+        <h1>Delete item?</h1>
+        <p>This action cannot be undone.</p>
+
+        <div class="actions">
+          <button class="confirm-cancel">Cancel</button>
+          <button class="confirm-delete">Delete</button>
+        </div>
+      </div>
+    </div>
+
     <header>
       <div class="navleft">
         <label for="menu-toggle">
@@ -74,7 +87,9 @@
       <div class="head">
         <div class="headLeft">
           <h2 class="group-name">Bus Issue</h2>
-          <p class="group-description">issue related to bus routes and schedules</p>
+          <p class="group-description">
+            issue related to bus routes and schedules
+          </p>
           <p>invite code : <span class="invite-code"></span></p>
         </div>
         <button class="addIssue-btn">+ Add Issue</button>
@@ -100,13 +115,19 @@
               <option value="resolved">resolved</option>
             </select>
           </div>
-          <div class="issues">  </div>
+          <div class="issues"></div>
         </div>
         <div class="mainright">
           <div class="right-head">
             <div class="head-title">
               <h3></h3>
-              <i class="fa-solid fa-ellipsis"></i>
+              <div class="issue-options">
+                <i class="fa-solid fa-ellipsis"></i>
+                <div class="issue-options-dropdown">
+                  <button id="edit-issue">Edit</button>
+                  <button id="delete-issue">Delete</button>
+                </div>
+              </div>
             </div>
             <div class="head-user">
               <div class="user-left">
@@ -141,7 +162,6 @@
         </div>
       </div>
     </main>
-    <!-- <button class=" leave-group-btn">Leave Group</button>  -->
   </body>
   <script
     type="module"
