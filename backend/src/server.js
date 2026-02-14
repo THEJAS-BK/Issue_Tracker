@@ -40,6 +40,7 @@ const { getUniqueInviteCode } = require("./utils/inviteCode");
 const group = require("./models/group");
 const { findByIdAndUpdate } = require("./models/user");
 const issue = require("./models/issue");
+const { apiFetch } = require("../../frontend/utils/helper");
 
 //! Routes
 app.get("/", (req, res) => {
@@ -331,15 +332,15 @@ app.delete(
 app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
   try {
     const { groupid } = req.params;
-    if(!groupid) return res.sendStatus(400);
+    if (!groupid) return res.sendStatus(400);
 
     const issues = await Issue.find({ group: groupid })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 
-      const groupDetails=await CreateGroup.findById(groupid).select("groupname description inviteCode");
-
-
+    const groupDetails = await CreateGroup.findById(groupid).select(
+      "groupname description inviteCode",
+    );
     res.json({ issues, groupDetails });
   } catch (err) {
     next(err);
@@ -414,7 +415,20 @@ app.get(
   },
 );
 //!edit group page
-// app.get("/api")
+app.get(
+  "/api/edit/group/:groupId/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { groupId } = req.params;
+      if (!groupId) return res.sendStatus(400);
+      if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 //404 route
 app.all("/*splat", (req, res, next) => {
