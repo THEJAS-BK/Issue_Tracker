@@ -261,7 +261,7 @@ editGroupBtn.addEventListener("click", () => {
 });
 
 //members section code
-function addMemberCard(member) {
+function addMemberCard(member,role) {
   const memberList = document.querySelector(".member-list");
   if (!memberList) return;
 
@@ -287,19 +287,53 @@ function addMemberCard(member) {
   const dropdown = document.createElement("div");
   dropdown.classList.add("options-dropdown");
 
-  const promoteBtn = document.createElement("button");
-  const demoteBtn = document.createElement("button");
-  const infoBtn = document.createElement("button");
-  const kickBtn = document.createElement("button");
+  if (role === "admin") {
+    const promoteBtn = document.createElement("button");
+    const demoteBtn = document.createElement("button");
+    const infoBtn = document.createElement("button");
+    const kickBtn = document.createElement("button");
+    //giving classes
+    promoteBtn.classList.add("promoteToCoadmin");
+    demoteBtn.classList.add("demoteToMember");
+    infoBtn.classList.add("memberInfo");
+    kickBtn.classList.add("kickMember");
+    //giving datasets
+    promoteBtn.dataset.userId = member.userId._id;
+    demoteBtn.dataset.userId=member.userId._id;
+    kickBtn.dataset.userId=member.userId._id
+
+    dropdown.appendChild(promoteBtn);
+    dropdown.appendChild(demoteBtn);
+    dropdown.appendChild(infoBtn);
+    dropdown.appendChild(kickBtn);
+
+    promoteBtn.textContent = "promote to coadmin";
+    demoteBtn.textContent = "demote to member";
+    infoBtn.textContent = "more info...";
+    kickBtn.textContent = "kick out";
+  } else if (role === "coadmin") {
+    const infoBtn = document.createElement("button");
+    const kickBtn = document.createElement("button");
+    //giving classes
+    infoBtn.classList.add("memberInfo");
+    kickBtn.classList.add("kickMember");
+    //giving dataset
+    infoBtn.dataset.userId = member.userId._id;
+    kickBtn.dataset.userId = member.userId._id;
+    //assemble
+    dropdown.appendChild(infoBtn);
+    dropdown.appendChild(kickBtn);
+
+
+    infoBtn.textContent = "more info...";
+    kickBtn.textContent = "kick out";
+  } else {
+    alert(" invalid login");
+  }
 
   // ---- assemble structure ----
   left.appendChild(nameEl);
   left.appendChild(statusEl);
-
-  dropdown.appendChild(promoteBtn);
-  dropdown.appendChild(demoteBtn);
-  dropdown.appendChild(infoBtn);
-  dropdown.appendChild(kickBtn);
 
   options.appendChild(icon);
   options.appendChild(dropdown);
@@ -311,11 +345,6 @@ function addMemberCard(member) {
   // ---- value insertion & dataset wiring (ONLY here) ----
   nameEl.textContent = member.userId.name;
   statusEl.textContent = member.role;
-
-  promoteBtn.textContent = "promote to coadmin";
-  demoteBtn.textContent = "demote to member";
-  infoBtn.textContent = "more info...";
-  kickBtn.textContent = "kick out";
 }
 //close members tab
 document.querySelector(".close-members-tab").addEventListener("click", () => {
@@ -329,43 +358,59 @@ document
     //get info
     const groupId = new URLSearchParams(window.location.search).get("id");
     if (!groupId) return alert("invalid");
+    document.querySelector(".member-list").innerHTML = "";
+    const res = await apiFetch(
+      `http://localhost:8080/api/members/${groupId}/admin`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+    const data = await res.json();
+    //render all members
+    for (let member of data.members.members) {
+      addMemberCard(member, data.curUserRole);
+    }
 
     //search
     const searchInput = document.getElementById("search-members");
-
-    if (searchInput.value.length === 0) {
-        document.querySelector(".member-list").innerHTML = "";
-      const res = await apiFetch(
-        `http://localhost:8080/api/members/${groupId}/admin`,
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
-      const data = await res.json();
-      //render all members
-      for (let member of data.members.members) {
-        addMemberCard(member);
-      }
-    }
 
     searchInput.addEventListener("input", async (e) => {
       const val = e.target.value;
       const groupId = new URLSearchParams(window.location.search).get("id");
 
-      const res = await apiFetch(
-        `http://localhost:8080/api/members/search/${groupId}/admin/?q=${val}`,
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
-      const data = await res.json();
-      //clear existing members
-      document.querySelector(".member-list").innerHTML = "";
-      //render filtered members
-      for (let member of data.members) {
-        addMemberCard(member);
+      if (searchInput.value.length > 1) {
+        const res = await apiFetch(
+          `http://localhost:8080/api/members/search/${groupId}/admin/?q=${val}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
+     
+        const data = await res.json();
+        //clear existing members
+        document.querySelector(".member-list").innerHTML = "";
+        //render filtered member
+        for (let member of data.members) {
+          addMemberCard(member,data.curUserRole);
+        }
+      }
+      //cleared input
+      if (searchInput.value.length === 0) {
+        document.querySelector(".member-list").innerHTML = "";
+        const res = await apiFetch(
+          `http://localhost:8080/api/members/${groupId}/admin`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
+        const data = await res.json();
+        //render all members
+        for (let member of data.members.members) {
+          addMemberCard(member, data.curUserRole);
+        }
       }
     });
   });

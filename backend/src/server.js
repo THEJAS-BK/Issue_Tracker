@@ -494,13 +494,20 @@ app.get(
       const { groupId } = req.params;
       if (!groupId) return res.sendStatus(400);
 
+      const curUser = req.user.userId;
+      if (!curUser) res.sendStatus(401);
+
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
       const members = await CreateGroup.findById(groupId)
         .select("members")
         .populate("members.userId", "name email");
 
-      res.json({ members });
+      const curUserRole = members.members.find(
+        (mem) => mem.userId._id.toString() === curUser,
+      ).role;
+
+      res.json({ members, curUserRole });
     } catch (err) {
       next(err);
     }
@@ -514,9 +521,12 @@ app.get(
     try {
       const { groupId } = req.params;
       if (!groupId) return res.sendStatus(400);
-      
+
       const searchText = req.query.q;
       if (!searchText) return res.sendStatus(400);
+
+      const curUser=req.user.userId;
+      if(!curUser) return res.sendStatus(401);
 
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
@@ -524,16 +534,19 @@ app.get(
         .select("members")
         .populate("members.userId", "name email");
 
-        const regex = new RegExp(searchText,"i");
+      const regex = new RegExp(searchText, "i");
 
-        const members=allmembers.members.filter((mem)=>{
-          return regex.test(mem.userId.name)
-        })
-        res.json({ members });
+      const members = allmembers.members.filter((mem) => {
+        return regex.test(mem.userId.name);
+      });
 
+      const curUserRole = allmembers.members.find(
+        (mem) => mem.userId._id.toString() === curUser,
+      ).role;
 
+      res.json({ members,curUserRole});
     } catch (err) {
-      next(err);
+      next(err); 
     }
   },
 );

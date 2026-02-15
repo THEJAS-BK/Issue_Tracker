@@ -474,7 +474,8 @@ main {
   border: 3px solid black;
   border-radius: 10px;
   overflow: hidden;
-  z-index:1000
+  z-index:1000;
+  overflow: hidden;
 }
 .options-dropdown > button {
   outline: none;
