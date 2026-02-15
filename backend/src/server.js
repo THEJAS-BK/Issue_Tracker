@@ -621,6 +621,30 @@ app.put(
     }
   },
 );
+//!kick member
+app.delete("/api/members/kick/:groupId/:userId/admin", authorizationToken, async (req, res, next) => {  
+  try {
+    const { groupId, userId } = req.params;
+    if (!groupId || !userId) return res.sendStatus(400);
+
+
+    if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+    await CreateGroup.updateOne(
+      {
+        _id: groupId,
+      },
+      {
+        $pull: {
+          members: { userId: userId },
+        },
+      },
+    );
+
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+})
 
 
 //404 route

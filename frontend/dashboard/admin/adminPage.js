@@ -262,15 +262,12 @@ editGroupBtn.addEventListener("click", () => {
 
 //members section code
 function addMemberCard(member, role) {
-  console.log(member)
   const memberList = document.querySelector(".member-list");
   if (!memberList) return;
 
   // ---- create elements ----
   const memberTab = document.createElement("div");
   memberTab.classList.add("member-tab");
-  //member tab dataset id
-  memberTab.dataset.userId = member.userId._id;
 
   const left = document.createElement("div");
   left.classList.add("member-tab-left");
@@ -430,6 +427,8 @@ document
     promoteToCoAdmin();
     //demotion logic
     demoteToMember();
+    //kick member
+    kickMember()
   });
 
 //members option in admin
@@ -487,4 +486,26 @@ function demoteToMember(){
       });
     });
   }
+}
+//kick member   
+function kickMember(){
+  const kickBtn=document.querySelectorAll(".kickMember");
+  kickBtn.forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      const parentEle = e.target.parentElement.parentElement.parentElement;
+      const userId = e.target.dataset.userId;
+      const groupId = new URLSearchParams(window.location.search).get("id");
+      console.log("jhlffjsdf")
+      const res = await apiFetch(
+        `http://localhost:8080/api/members/kick/${groupId}/${userId}/admin`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+      if (res.ok) {
+       parentEle.remove()
+      }
+    });
+  });
 }
