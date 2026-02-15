@@ -139,15 +139,14 @@ function renderIssues(issues) {
   }
 }
 //close search group
-document.getElementById("group-search").style.display = "none";
 const closeJoinGroup = document.querySelector(".close-joingroup-btn");
 closeJoinGroup.addEventListener("click", () => {
-  document.getElementById("group-search").style.display = "none";
+  document.getElementById("search-overlay").style.display = "none";
   window.history.replaceState({}, "", window.location.pathname);
 });
-//open searchGroup
+// //open searchGroup
 document.getElementById("joinGroup").addEventListener("click", () => {
-  document.getElementById("group-search").style.display = "flex";
+  document.getElementById("search-overlay").style.display = "flex";
 });
 
 //?input code

@@ -232,7 +232,6 @@ a {
     display: flex;
     flex-direction: column;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-    position: absolute;
     z-index: 999;
     left: 34%;
     top: 14%;
@@ -259,9 +258,18 @@ a {
 }
 
 /* Input */
-.search-input-wrapper {
-  margin: 12px 0;
+#search-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+   backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.45);
 }
+
 
 #searchInput {
   width: 100%;
