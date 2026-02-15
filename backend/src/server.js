@@ -525,8 +525,8 @@ app.get(
       const searchText = req.query.q;
       if (!searchText) return res.sendStatus(400);
 
-      const curUser=req.user.userId;
-      if(!curUser) return res.sendStatus(401);
+      const curUser = req.user.userId;
+      if (!curUser) return res.sendStatus(401);
 
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
@@ -544,9 +544,44 @@ app.get(
         (mem) => mem.userId._id.toString() === curUser,
       ).role;
 
-      res.json({ members,curUserRole});
+      res.json({ members, curUserRole });
     } catch (err) {
-      next(err); 
+      next(err);
+    }
+  },
+);
+//!promotion and demotion
+app.put(
+  "/api/members/promote/:groupId/:userId/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { groupId, userId } = req.params;
+      if (!groupId || !userId) return res.sendStatus(400);
+
+      const curUser = req.user.userId;
+      if (!curUser) return res.sendStatus(401);
+
+      if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+      const group = await CreateGroup.findById(groupId);
+      if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
+
+      await CreateGroup.updateOne(
+        {
+          _id: groupId,
+          "members.userId": userId,
+        },
+        {
+          $set: {
+            "members.$.role": "coadmin",
+          },
+        },
+      );
+
+      res.json({ success: true });
+    } catch (err) {
+      next(err);
     }
   },
 );

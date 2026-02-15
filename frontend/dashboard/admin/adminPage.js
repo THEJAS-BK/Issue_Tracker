@@ -261,13 +261,15 @@ editGroupBtn.addEventListener("click", () => {
 });
 
 //members section code
-function addMemberCard(member,role) {
+function addMemberCard(member, role) {
   const memberList = document.querySelector(".member-list");
   if (!memberList) return;
 
   // ---- create elements ----
   const memberTab = document.createElement("div");
   memberTab.classList.add("member-tab");
+  //member tab dataset id
+  memberTab.dataset.userId = member.userId._id;
 
   const left = document.createElement("div");
   left.classList.add("member-tab-left");
@@ -277,6 +279,7 @@ function addMemberCard(member,role) {
 
   const statusEl = document.createElement("p");
   statusEl.classList.add("member-status");
+  statusEl.dataset.userId = member.userId._id;
 
   const options = document.createElement("div");
   options.classList.add("options");
@@ -299,8 +302,8 @@ function addMemberCard(member,role) {
     kickBtn.classList.add("kickMember");
     //giving datasets
     promoteBtn.dataset.userId = member.userId._id;
-    demoteBtn.dataset.userId=member.userId._id;
-    kickBtn.dataset.userId=member.userId._id
+    demoteBtn.dataset.userId = member.userId._id;
+    kickBtn.dataset.userId = member.userId._id;
 
     dropdown.appendChild(promoteBtn);
     dropdown.appendChild(demoteBtn);
@@ -324,7 +327,6 @@ function addMemberCard(member,role) {
     dropdown.appendChild(infoBtn);
     dropdown.appendChild(kickBtn);
 
-
     infoBtn.textContent = "more info...";
     kickBtn.textContent = "kick out";
   } else {
@@ -345,6 +347,16 @@ function addMemberCard(member,role) {
   // ---- value insertion & dataset wiring (ONLY here) ----
   nameEl.textContent = member.userId.name;
   statusEl.textContent = member.role;
+
+  //admin upstatus
+  if (member.role === "admin") {
+    dropdown.innerHTML = "";
+    dropdown.style.backgroundColor="grey"
+    const infoBtn = document.createElement("button");
+    infoBtn.classList.add("memberInfo");
+    dropdown.appendChild(infoBtn);
+       infoBtn.textContent = "more info...";
+  }
 }
 //close members tab
 document.querySelector(".close-members-tab").addEventListener("click", () => {
@@ -387,13 +399,13 @@ document
             credentials: "include",
           },
         );
-     
+
         const data = await res.json();
         //clear existing members
         document.querySelector(".member-list").innerHTML = "";
         //render filtered member
         for (let member of data.members) {
-          addMemberCard(member,data.curUserRole);
+          addMemberCard(member, data.curUserRole);
         }
       }
       //cleared input
@@ -413,4 +425,35 @@ document
         }
       }
     });
+    //promote to co admin
+    promoteToCoAdmin();
   });
+
+//members option in admin
+function promoteToCoAdmin() {
+  const promoteToCoAdminBtn = document.querySelectorAll(".promoteToCoadmin");
+  if (promoteToCoAdminBtn) {
+    promoteToCoAdminBtn.forEach((btn) => {
+      btn.addEventListener("click", async (e) => {
+        const userId = e.target.dataset.userId;
+        const groupId = new URLSearchParams(window.location.search).get("id");
+        const res = await apiFetch(
+          `http://localhost:8080/api/members/promote/${groupId}/${userId}/admin`,
+          {
+            method: "PUT",
+            credentials: "include",
+          },
+        );
+        //update member tab status
+        if (res.ok) {
+          const allStatus = document.querySelectorAll(".member-status");
+          for (let status of allStatus) {
+            if (userId === status.dataset.userId) {
+              status.textContent = "coadmin";
+            }
+          }
+        }
+      });
+    });
+  }
+}
