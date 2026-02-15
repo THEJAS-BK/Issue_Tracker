@@ -140,18 +140,24 @@ function updateIssueDetail(issue) {
   //edit and delete btn id insetion
   const editBtn = document.getElementById("edit-issue");
   const deleteBtn = document.getElementById("delete-issue");
-  editBtn.dataset.issueId = issue._id;
-  deleteBtn.dataset.issueId = issue._id;
+  if (editBtn && deleteBtn) {
+    editBtn.dataset.issueId = issue._id;
+    deleteBtn.dataset.issueId = issue._id;
+    //if user is owner of issue
+    const ownerEditBtn = document.querySelector(".issue-options");
+    const upvoteBtn = document.querySelector(".sameIssues");
+    if (issue.isIssueOwner) {
+      console.log("Owner");
+      ownerEditBtn.style.display = "block";
+      upvoteBtn.remove();
+    } else {
+      ownerEditBtn.remove();
+      upvoteBtn.style.display = "flex";
+    }
+  }
 
   if (issueImg) {
     issueImg.src = "/frontend/assets/OIP.jpg";
-  }
-  //if user is owner of issue
-  const ownerEditBtn = document.querySelector(".issue-options");
-  if (issue.isIssueOwner) {
-    ownerEditBtn.style.display = "block";
-  } else {
-    ownerEditBtn.remove();
   }
 }
 
@@ -171,7 +177,7 @@ function calcTimeAgo(time) {
 //search bar code
 const search = document.getElementById("search");
 search.addEventListener("input", async () => {
-  const val = search.value; 
+  const val = search.value;
   if (val.length > 2) {
     const res = await apiFetch(
       `http://localhost:8080/issue/search?q=${encodeURIComponent(val)}`,
