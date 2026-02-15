@@ -627,7 +627,6 @@ app.delete("/api/members/kick/:groupId/:userId/admin", authorizationToken, async
     const { groupId, userId } = req.params;
     if (!groupId || !userId) return res.sendStatus(400);
 
-
     if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
     await CreateGroup.updateOne(
       {
@@ -639,6 +638,8 @@ app.delete("/api/members/kick/:groupId/:userId/admin", authorizationToken, async
         },
       },
     );
+    //delete all the issues by the user in group
+    await Issue.deleteMany({group:groupId,createdBy:userId})
 
     res.sendStatus(201);
   } catch (err) {

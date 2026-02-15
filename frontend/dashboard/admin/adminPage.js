@@ -359,6 +359,7 @@ function addMemberCard(member, role) {
 //close members tab
 document.querySelector(".close-members-tab").addEventListener("click", () => {
   document.querySelector(".confirm-backdrop-members").style.display = "none";
+  window.location.reload();
 });
 //open members tab
 document
@@ -495,7 +496,6 @@ function kickMember(){
       const parentEle = e.target.parentElement.parentElement.parentElement;
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
-      console.log("jhlffjsdf")
       const res = await apiFetch(
         `http://localhost:8080/api/members/kick/${groupId}/${userId}/admin`,
         {
