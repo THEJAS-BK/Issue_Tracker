@@ -343,6 +343,41 @@ app.delete(
     }
   },
 );
+//?group interface search route
+app.get("/api/members/search/:groupId/user",authorizationToken,async(req,res,next)=>{
+  try{
+    const {groupId}=req.params;
+    if(!groupId) return res.sendStatus(400);
+
+    const val = req.query.q;
+    if(!val) return res.sendStatus(400);
+
+    const allmembers = await CreateGroup.findById(groupId)
+    .select("members")
+    .populate("members.userId","name")
+
+    const regex = new RegExp(val,"i")   
+    const members = allmembers.members.filter((mem)=>{
+      return regex.test(mem.userId.name)
+    })
+    res.json({members})
+  }catch(err){
+    next(err)
+  }
+})
+app.get("/api/members/:groupId/user",authorizationToken,async(req,res,next)=>{
+  try{
+    const {groupId}=req.params;
+    if(!groupId) return res.sendStatus(400);
+
+    const members= await CreateGroup.findById(groupId)
+    .select("members")
+    .populate("members.userId","name")
+      res.json({members})
+  }catch(err){
+    next(err)
+  }
+})
 //!!! admin routes
 //send issues
 app.get(

@@ -142,8 +142,8 @@ function updateIssueDetail(issue, isIssueOwner) {
     //if user is owner of issue
     const ownerEditBtn = document.querySelector(".issue-options");
     const upvoteBtn = document.querySelector(".sameIssues");
-    ownerEditBtn.style.display="block";
-    upvoteBtn.style.display="none"
+    ownerEditBtn.style.display = "block";
+    upvoteBtn.style.display = "none";
     //edit and delete issue dropdown
     const editBtn = document.getElementById("edit-issue");
     const deleteBtn = document.getElementById("delete-issue");
@@ -151,11 +151,10 @@ function updateIssueDetail(issue, isIssueOwner) {
       editBtn.dataset.issueId = issue._id;
       deleteBtn.dataset.issueId = issue._id;
     }
-  }
-  else{
+  } else {
     //if not owner
-    document.querySelector(".issue-options").style.display="none"
-    document.querySelector(".sameIssues").style.display="flex"
+    document.querySelector(".issue-options").style.display = "none";
+    document.querySelector(".sameIssues").style.display = "flex";
   }
 
   if (issueImg) {
@@ -310,4 +309,106 @@ document.getElementById("edit-issue").addEventListener("click", () => {
   if (issueId) {
     window.location.href = `/frontend/dashboard/user/editIssue.html?issueid=${issueId}&groupid=${groupId}`;
   }
+});
+//!search members btn
+function addMemberCard(member) {
+  const memberList = document.querySelector(".member-list");
+  if (!memberList) return;
+
+  // ---- create elements ----
+  const memberTab = document.createElement("div");
+  memberTab.classList.add("member-tab");
+
+  const left = document.createElement("div");
+  left.classList.add("member-tab-left");
+
+  const joinedAt = document.createElement("p");
+  joinedAt.classList.add("joined-at");
+
+  const nameEl = document.createElement("h4");
+  nameEl.classList.add("member-name");
+
+  const statusEl = document.createElement("p");
+  statusEl.classList.add("member-status");
+
+  // ---- assemble structure ----
+  left.appendChild(nameEl);
+  left.appendChild(joinedAt);
+
+  memberTab.appendChild(left);
+  memberTab.appendChild(statusEl);
+  memberList.appendChild(memberTab);
+
+  // ---- value insertion & dataset wiring (ONLY here) ----
+  nameEl.textContent = member.userId.name;
+  statusEl.textContent = member.role;
+  joinedAt.textContent = `Joined :${calcTimeAgo(member.joinedAt)}`;
+}
+//close search
+document.querySelector(".close-members-tab").addEventListener("click", () => {
+  document.querySelector(".confirm-backdrop-members").style.display = "none";
+});
+//open search
+document.getElementById("show-members").addEventListener("click",async () => {
+  document.querySelector(".confirm-backdrop-members").style.display = "flex";
+  const searchInput = document.getElementById("search-members");
+  const groupId = new URLSearchParams(window.location.search).get("id");
+
+   const res = await apiFetch(
+        `http://localhost:8080/api/members/${groupId}/user`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+      const data = await res.json();
+      //clear existing members
+      document.querySelector(".member-list").innerHTML = "";
+      //render filtered member
+      for (let member of data.members.members) {
+        addMemberCard(member);
+      }
+
+
+  searchInput.addEventListener("input", async (e) => {
+      const val = e.target.value;
+    if (searchInput.value.length > 0) {
+      const res = await apiFetch(
+        `http://localhost:8080/api/members/search/${groupId}/user/?q=${val}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+      const data = await res.json();
+      //clear existing members
+      document.querySelector(".member-list").innerHTML = "";
+      //render filtered member
+      for (let member of data.members) {
+        addMemberCard(member);
+      }
+    }
+    //cleared input
+    if (searchInput.value.length === 0) {
+      document.querySelector(".member-list").innerHTML = "";
+       const res = await apiFetch(
+        `http://localhost:8080/api/members/${groupId}/user`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+      const data = await res.json();
+      //clear existing members
+      document.querySelector(".member-list").innerHTML = "";
+      //render filtered member
+      for (let member of data.members.members) {
+        addMemberCard(member);
+      }
+
+    }
+  });
 });
