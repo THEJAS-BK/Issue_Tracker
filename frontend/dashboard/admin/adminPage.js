@@ -262,6 +262,7 @@ editGroupBtn.addEventListener("click", () => {
 
 //members section code
 function addMemberCard(member, role) {
+  console.log(member)
   const memberList = document.querySelector(".member-list");
   if (!memberList) return;
 
@@ -427,6 +428,8 @@ document
     });
     //promote to co admin
     promoteToCoAdmin();
+    //demotion logic
+    demoteToMember();
   });
 
 //members option in admin
@@ -450,6 +453,34 @@ function promoteToCoAdmin() {
           for (let status of allStatus) {
             if (userId === status.dataset.userId) {
               status.textContent = "coadmin";
+            }
+          }
+        }
+      });
+    });
+  }
+}
+//demote to member
+function demoteToMember(){
+  const promoteToCoAdminBtn = document.querySelectorAll(".demoteToMember");
+  if (promoteToCoAdminBtn) {
+    promoteToCoAdminBtn.forEach((btn) => {
+      btn.addEventListener("click", async (e) => {
+        const userId = e.target.dataset.userId;
+        const groupId = new URLSearchParams(window.location.search).get("id");
+        const res = await apiFetch(
+          `http://localhost:8080/api/members/demote/${groupId}/${userId}/admin`,
+          {
+            method: "PUT",
+            credentials: "include",
+          },
+        );
+        //update member tab status
+        if (res.ok) {
+          const allStatus = document.querySelectorAll(".member-status");
+          for (let status of allStatus) {
+            if (userId === status.dataset.userId) {
+              status.textContent = "member";
             }
           }
         }

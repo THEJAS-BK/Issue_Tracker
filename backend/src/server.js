@@ -567,7 +567,9 @@ app.put(
       const group = await CreateGroup.findById(groupId);
       if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
 
-      await CreateGroup.updateOne(
+  
+
+      const val = await CreateGroup.updateOne(
         {
           _id: groupId,
           "members.userId": userId,
@@ -578,13 +580,48 @@ app.put(
           },
         },
       );
-
-      res.json({ success: true });
+      res.sendStatus(201);  
     } catch (err) {
       next(err);
     }
   },
 );
+//!demote
+app.put(
+  "/api/members/demote/:groupId/:userId/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { groupId, userId } = req.params;
+      if (!groupId || !userId) return res.sendStatus(400);
+
+      const curUser = req.user.userId;
+      if (!curUser) return res.sendStatus(401);
+
+      if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+      const group = await CreateGroup.findById(groupId);
+      if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
+
+      await CreateGroup.updateOne(
+        {
+          _id: groupId,
+          "members.userId": userId,
+        },
+        {
+          $set: {
+            "members.$.role": "member",
+          },
+        },
+      );
+
+      res.sendStatus(201);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
 
 //404 route
 app.all("/*splat", (req, res, next) => {
