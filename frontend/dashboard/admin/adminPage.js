@@ -10,13 +10,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   for (let issue of data.issues) {
     insertIssueCard(issue);
   }
-  AddIssueEvents(); 
+  AddIssueEvents();
   //first value selected
   firstValSelected();
   //insert group info
   const groupDetails = data.groupDetails;
   document.querySelector(".group-name").textContent = groupDetails.groupname;
-  document.querySelector(".group-description").textContent = groupDetails.description;
+  document.querySelector(".group-description").textContent =
+    groupDetails.description;
   document.querySelector(".invite-code").textContent = groupDetails.inviteCode;
 });
 
@@ -114,10 +115,11 @@ async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
   if (allIssues[0]) {
     const res = await apiFetch(
-      `http://localhost:8080/api/indissue/${allIssues[0].dataset.issueId}/admin`,{
-        method:"GET",
-        credentials:"include"
-      }
+      `http://localhost:8080/api/indissue/${allIssues[0].dataset.issueId}/admin`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
     );
     const data = await res.json();
     updateIssuesOnRightSide(data.issue);
@@ -131,7 +133,7 @@ const search = document.getElementById("search");
 search.addEventListener("input", async (e) => {
   const searchTerm = e.target.value.toLowerCase();
 
-  if (searchTerm.length > 2) {
+  if (searchTerm.length > 0) {
     const res = await apiFetch(
       `http://localhost:8080/issue/search?q=${encodeURIComponent(searchTerm)}`,
       {
@@ -251,10 +253,119 @@ deleteGroupBtn.addEventListener("click", () => {
     });
 });
 
-
 //edit btn
-const editGroupBtn = document.getElementById("dropdown-edit")
-editGroupBtn.addEventListener("click",()=>{
+const editGroupBtn = document.getElementById("dropdown-edit");
+editGroupBtn.addEventListener("click", () => {
   const groupId = new URLSearchParams(window.location.search).get("id");
-  window.location.href=`/frontend/dashboard/admin/editgroup.html?id=${groupId}`
-})
+  window.location.href = `/frontend/dashboard/admin/editgroup.html?id=${groupId}`;
+});
+
+//members section code
+function addMemberCard(member) {
+  const memberList = document.querySelector(".member-list");
+  if (!memberList) return;
+
+  // ---- create elements ----
+  const memberTab = document.createElement("div");
+  memberTab.classList.add("member-tab");
+
+  const left = document.createElement("div");
+  left.classList.add("member-tab-left");
+
+  const nameEl = document.createElement("h4");
+  nameEl.classList.add("member-name");
+
+  const statusEl = document.createElement("p");
+  statusEl.classList.add("member-status");
+
+  const options = document.createElement("div");
+  options.classList.add("options");
+
+  const icon = document.createElement("i");
+  icon.className = "fa-solid fa-ellipsis";
+
+  const dropdown = document.createElement("div");
+  dropdown.classList.add("options-dropdown");
+
+  const promoteBtn = document.createElement("button");
+  const demoteBtn = document.createElement("button");
+  const infoBtn = document.createElement("button");
+  const kickBtn = document.createElement("button");
+
+  // ---- assemble structure ----
+  left.appendChild(nameEl);
+  left.appendChild(statusEl);
+
+  dropdown.appendChild(promoteBtn);
+  dropdown.appendChild(demoteBtn);
+  dropdown.appendChild(infoBtn);
+  dropdown.appendChild(kickBtn);
+
+  options.appendChild(icon);
+  options.appendChild(dropdown);
+
+  memberTab.appendChild(left);
+  memberTab.appendChild(options);
+  memberList.appendChild(memberTab);
+
+  // ---- value insertion & dataset wiring (ONLY here) ----
+  nameEl.textContent = member.userId.name;
+  statusEl.textContent = member.role;
+
+  promoteBtn.textContent = "promote to coadmin";
+  demoteBtn.textContent = "demote to member";
+  infoBtn.textContent = "more info...";
+  kickBtn.textContent = "kick out";
+}
+//close members tab
+document.querySelector(".close-members-tab").addEventListener("click", () => {
+  document.querySelector(".confirm-backdrop-members").style.display = "none";
+});
+//open members tab
+document
+  .getElementById("dropdown-members")
+  .addEventListener("click", async () => {
+    document.querySelector(".confirm-backdrop-members").style.display = "flex";
+    //get info
+    const groupId = new URLSearchParams(window.location.search).get("id");
+    if (!groupId) return alert("invalid");
+
+    //search
+    const searchInput = document.getElementById("search-members");
+
+    if (searchInput.value.length === 0) {
+        document.querySelector(".member-list").innerHTML = "";
+      const res = await apiFetch(
+        `http://localhost:8080/api/members/${groupId}/admin`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+      const data = await res.json();
+      //render all members
+      for (let member of data.members.members) {
+        addMemberCard(member);
+      }
+    }
+
+    searchInput.addEventListener("input", async (e) => {
+      const val = e.target.value;
+      const groupId = new URLSearchParams(window.location.search).get("id");
+
+      const res = await apiFetch(
+        `http://localhost:8080/api/members/search/${groupId}/admin/?q=${val}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+      const data = await res.json();
+      //clear existing members
+      document.querySelector(".member-list").innerHTML = "";
+      //render filtered members
+      for (let member of data.members) {
+        addMemberCard(member);
+      }
+    });
+  });

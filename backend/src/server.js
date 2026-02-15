@@ -76,14 +76,18 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
 app.get("/groups", authorizationToken, async (req, res) => {
   try {
     const curUser = req.user.userId;
-    if (!curUser) return res.status(401)
+    if (!curUser) return res.status(401);
 
     const allGroups = await CreateGroup.find({
       members: { $elemMatch: { userId: req.user.userId } },
     }).select("groupname description inviteCode");
 
-    const allissues = await Issue.find({ group: { $in: allGroups.map((g) => g._id) } });
-    const issues = allissues.filter(issue=>issue.createdBy.toString()===curUser);
+    const allissues = await Issue.find({
+      group: { $in: allGroups.map((g) => g._id) },
+    });
+    const issues = allissues.filter(
+      (issue) => issue.createdBy.toString() === curUser,
+    );
 
     res.json({ allGroups, issues });
   } catch (err) {
@@ -220,17 +224,17 @@ app.get(
 app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
   try {
     const { issueid } = req.params;
-    if(!issueid)return res.sendStatus(400);
+    if (!issueid) return res.sendStatus(400);
 
     const curUser = req.user.userId;
-    if(!curUser) return res.sendStatus(401);
+    if (!curUser) return res.sendStatus(401);
 
-    isIssueOwner=false
+    isIssueOwner = false;
     const getIssue = await Issue.findOne({ _id: issueid, createdBy: curUser });
-    if(getIssue){
-      isIssueOwner=true;
+    if (getIssue) {
+      isIssueOwner = true;
     }
-    
+
     //check anonymous
     const checkAnonymous =
       await Issue.findById(issueid).select("stayAnonymous");
@@ -238,13 +242,13 @@ app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
       const issue = await Issue.findById(issueid).select(
         "title description createdAt status",
       );
-      return res.json({ issue,isIssueOwner });
+      return res.json({ issue, isIssueOwner });
     }
 
     const issue = await Issue.findById(issueid)
       .select("title description createdAt createdBy status")
       .populate("createdBy", "name");
-    res.json({ issue,isIssueOwner });
+    res.json({ issue, isIssueOwner });
   } catch (err) {
     next(err);
   }
@@ -476,6 +480,58 @@ app.patch(
         imageuploadpermission,
       });
       res.sendStatus(204);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+//!send group members
+app.get(
+  "/api/members/:groupId/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { groupId } = req.params;
+      if (!groupId) return res.sendStatus(400);
+
+      if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+      const members = await CreateGroup.findById(groupId)
+        .select("members")
+        .populate("members.userId", "name email");
+
+      res.json({ members });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+//search group members
+app.get(
+  "/api/members/search/:groupId/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { groupId } = req.params;
+      if (!groupId) return res.sendStatus(400);
+      
+      const searchText = req.query.q;
+      if (!searchText) return res.sendStatus(400);
+
+      if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+      const allmembers = await CreateGroup.findById(groupId)
+        .select("members")
+        .populate("members.userId", "name email");
+
+        const regex = new RegExp(searchText,"i");
+
+        const members=allmembers.members.filter((mem)=>{
+          return regex.test(mem.userId.name)
+        })
+        res.json({ members });
+
+
     } catch (err) {
       next(err);
     }
