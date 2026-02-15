@@ -75,12 +75,16 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
 //!user pages
 app.get("/groups", authorizationToken, async (req, res) => {
   try {
+    const curUser = req.user.userId;
+    if (!curUser) return res.status(401)
+
     const allGroups = await CreateGroup.find({
       members: { $elemMatch: { userId: req.user.userId } },
     }).select("groupname description inviteCode");
-    const issues = await Issue.find({
-      group: { $in: allGroups.map((g) => g._id) },
-    });
+
+    const allissues = await Issue.find({ group: { $in: allGroups.map((g) => g._id) } });
+    const issues = allissues.filter(issue=>issue.createdBy.toString()===curUser);
+
     res.json({ allGroups, issues });
   } catch (err) {
     res.status(500);

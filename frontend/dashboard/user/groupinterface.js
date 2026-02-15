@@ -171,7 +171,7 @@ function calcTimeAgo(time) {
 //search bar code
 const search = document.getElementById("search");
 search.addEventListener("input", async () => {
-  const val = search.value;
+  const val = search.value; 
   if (val.length > 2) {
     const res = await apiFetch(
       `http://localhost:8080/issue/search?q=${encodeURIComponent(val)}`,

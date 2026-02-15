@@ -16,7 +16,7 @@ const GroupSchema = new mongoose.Schema({
   },
   joinType: {
     type: String,
-    enum: ["open", "request", "invite"],
+    enum: ["open", "request"],
     default: "open",
   },
   imageuploadpermission: {
