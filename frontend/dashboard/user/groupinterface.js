@@ -109,7 +109,7 @@ function createIssueCards(issue) {
   issueCard.dataset.issueId = issue._id;
 }
 
-function updateIssueDetail(issue) {
+function updateIssueDetail(issue, isIssueOwner) {
   const mainRight = document.querySelector(".mainright");
   if (!mainRight) return;
 
@@ -137,23 +137,25 @@ function updateIssueDetail(issue) {
   badge.textContent = issue.status;
   descText.textContent = issue.description;
 
-  //edit and delete btn id insetion
-  const editBtn = document.getElementById("edit-issue");
-  const deleteBtn = document.getElementById("delete-issue");
-  if (editBtn && deleteBtn) {
-    editBtn.dataset.issueId = issue._id;
-    deleteBtn.dataset.issueId = issue._id;
+  //edit and delete btn id insection
+  if (isIssueOwner) {
     //if user is owner of issue
     const ownerEditBtn = document.querySelector(".issue-options");
     const upvoteBtn = document.querySelector(".sameIssues");
-    if (issue.isIssueOwner) {
-      console.log("Owner");
-      ownerEditBtn.style.display = "block";
-      upvoteBtn.remove();
-    } else {
-      ownerEditBtn.remove();
-      upvoteBtn.style.display = "flex";
+    ownerEditBtn.style.display="block";
+    upvoteBtn.style.display="none"
+    //edit and delete issue dropdown
+    const editBtn = document.getElementById("edit-issue");
+    const deleteBtn = document.getElementById("delete-issue");
+    if (editBtn && deleteBtn) {
+      editBtn.dataset.issueId = issue._id;
+      deleteBtn.dataset.issueId = issue._id;
     }
+  }
+  else{
+    //if not owner
+    document.querySelector(".issue-options").style.display="none"
+    document.querySelector(".sameIssues").style.display="flex"
   }
 
   if (issueImg) {
@@ -222,7 +224,7 @@ async function addEventToIssueCards() {
       },
     );
     const firstEntryData = await firstEntryres.json();
-    updateIssueDetail(firstEntryData.issue);
+    updateIssueDetail(firstEntryData.issue, firstEntryData.isIssueOwner);
   }
 
   //rest issues
@@ -241,7 +243,7 @@ async function addEventToIssueCards() {
         },
       );
       const Completedata = await Completeres.json();
-      updateIssueDetail(Completedata.issue);
+      updateIssueDetail(Completedata.issue, Completedata.isIssueOwner);
     });
   });
 }

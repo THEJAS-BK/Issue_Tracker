@@ -276,7 +276,7 @@ main {
 }
 .sameIssues {
   width: 100%;
-  display: flex;
+  display: none;
   align-items: center;
 }
 .upvote-btn {
@@ -294,7 +294,8 @@ main {
 }
 /* issue options delete and edit */
 .issue-options{
-  position:relative
+  position:relative;
+  display: none;
 }
 .issue-options-dropdown{
     position: absolute;

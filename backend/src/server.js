@@ -225,7 +225,11 @@ app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
     const curUser = req.user.userId;
     if(!curUser) return res.sendStatus(401);
 
-    const isIssueOwner = await Issue.findOne({ _id: issueid, createdBy: curUser });
+    isIssueOwner=false
+    const getIssue = await Issue.findOne({ _id: issueid, createdBy: curUser });
+    if(getIssue){
+      isIssueOwner=true;
+    }
     
     //check anonymous
     const checkAnonymous =
@@ -234,7 +238,7 @@ app.get("/indissue/:issueid", authorizationToken, async (req, res, next) => {
       const issue = await Issue.findById(issueid).select(
         "title description createdAt status",
       );
-      return res.json({ issue });
+      return res.json({ issue,isIssueOwner });
     }
 
     const issue = await Issue.findById(issueid)
