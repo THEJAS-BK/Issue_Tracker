@@ -349,11 +349,11 @@ function addMemberCard(member, role) {
   //admin upstatus
   if (member.role === "admin") {
     dropdown.innerHTML = "";
-    dropdown.style.backgroundColor="grey"
+    dropdown.style.backgroundColor = "grey";
     const infoBtn = document.createElement("button");
     infoBtn.classList.add("memberInfo");
     dropdown.appendChild(infoBtn);
-       infoBtn.textContent = "more info...";
+    infoBtn.textContent = "more info...";
   }
 }
 //close members tab
@@ -423,13 +423,19 @@ document
           addMemberCard(member, data.curUserRole);
         }
       }
+      //promote to co admin
+      promoteToCoAdmin();
+      //demotion logic
+      demoteToMember();
+      //kick member
+      kickMember();
     });
     //promote to co admin
     promoteToCoAdmin();
     //demotion logic
     demoteToMember();
     //kick member
-    kickMember()
+    kickMember();
   });
 
 //members option in admin
@@ -461,7 +467,7 @@ function promoteToCoAdmin() {
   }
 }
 //demote to member
-function demoteToMember(){
+function demoteToMember() {
   const promoteToCoAdminBtn = document.querySelectorAll(".demoteToMember");
   if (promoteToCoAdminBtn) {
     promoteToCoAdminBtn.forEach((btn) => {
@@ -488,9 +494,9 @@ function demoteToMember(){
     });
   }
 }
-//kick member   
-function kickMember(){
-  const kickBtn=document.querySelectorAll(".kickMember");
+//kick member
+function kickMember() {
+  const kickBtn = document.querySelectorAll(".kickMember");
   kickBtn.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const parentEle = e.target.parentElement.parentElement.parentElement;
@@ -504,8 +510,59 @@ function kickMember(){
         },
       );
       if (res.ok) {
-       parentEle.remove()
+        parentEle.remove();
       }
     });
   });
 }
+
+//! join requests code
+createJoinRequestCard();  
+function createJoinRequestCard(userReq="") {
+  const container = document.querySelector(".join-request-list");
+
+  // card
+  const card = document.createElement("div");
+  card.className = "join-tab";
+
+  // left
+  const left = document.createElement("div");
+  left.className = "join-tab-left";
+
+  const nameEl = document.createElement("h4");
+  const timeEl = document.createElement("p");
+
+  left.append(nameEl, timeEl);
+
+  // right
+  const right = document.createElement("div");
+  right.className="join-tab-right"
+
+  const acceptBtn = document.createElement("button");
+  acceptBtn.textContent = "Accept";
+
+  const declineBtn = document.createElement("button");
+  declineBtn.textContent = "Decline";
+
+  right.append(acceptBtn, declineBtn);
+
+  // assemble
+  card.append(left, right);
+
+  // insert at bottom
+  container.appendChild(card);
+  //add data
+  nameEl.textContent = "user";
+  timeEl.textContent = `requestedAt`;
+}
+
+//join request tab close
+document.querySelector(".close-join-requests-tab").addEventListener("click", () => {
+  document.querySelector(".confirm-backdrop-join-request").style.display = "none";
+});
+//open join request tab 
+document.getElementById("dropdown-join-requests").addEventListener("click", () => {
+  document.querySelector(".confirm-backdrop-join-request").style.display = "flex";
+  //get all request initially
+  
+}); 
