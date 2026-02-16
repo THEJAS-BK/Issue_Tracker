@@ -17,13 +17,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const groupDescription = document.getElementById(
     "exampleFormControlTextarea1",
   );
-  const groupVisbility = document.getElementById("visiblity");
+
   const joinApproval = document.getElementById("join-approval");
   const imageUploadPermission = document.getElementById("image-upload");
-
   groupName.value = groupDetails.groupname;
   groupDescription.innerText = groupDetails.description;
-  groupVisbility.value = groupDetails.visibility;
   joinApproval.value = groupDetails.joinType;
   imageUploadPermission.value = groupDetails.imageuploadpermission;
 });
@@ -44,7 +42,6 @@ createGroupForm.addEventListener("submit", async (e) => {
       body: JSON.stringify({
         groupname: createGroupForm.groupname.value,
         description: createGroupForm.description.value,
-        visibility: createGroupForm.visibility.value,
         joinapproval: createGroupForm.joinapproval.value,
         imageuploadpermission: createGroupForm.imageuploadpermission.value,
       }),

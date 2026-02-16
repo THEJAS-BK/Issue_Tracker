@@ -207,32 +207,37 @@ function createIndSearchCard(group) {
   const badgesDiv = document.createElement("div");
   badgesDiv.className = "ind-search-content";
 
-  const publicSpan = document.createElement("span");
-  publicSpan.textContent = "Public";
-
   const approvalSpan = document.createElement("span");
-  approvalSpan.textContent = "approval needed";
 
-  badgesDiv.append(publicSpan, approvalSpan);
+
+  badgesDiv.append( approvalSpan);
   contentBox.append(h3, badgesDiv);
   indSearchLeft.append(img, contentBox);
 
-  // Join button
-  const joinButton = document.createElement("button");
-  joinButton.className = "join-status";
-  joinButton.textContent = "Join Group";
+  //? Join button
+  const joinTypeBtn = document.createElement("button");
+  if (group.joinType === "open") {
+    joinTypeBtn.className = "join-status";
+    joinTypeBtn.innerText = "Join";
+    joinTypeBtn.dataset.groupId = group._id;
+      approvalSpan.textContent = "open";
+  }
+  //?request button
+  if (group.joinType === "request") {
+    joinTypeBtn.className = "request-status";
+    joinTypeBtn.innerText = "Request";
+    joinTypeBtn.dataset.groupId = group._id;
+      approvalSpan.textContent = "approval needed";
+  }
 
   // Assemble card
-  indSearch.append(indSearchLeft, joinButton);
+  indSearch.append(indSearchLeft, joinTypeBtn);
   document.getElementById("searchResults").append(indSearch);
 
   // ---- set dynamic values at the end ----
   h3.innerText = group.groupname || "Unnamed Group";
-  publicSpan.innerText = group.visibility;
-  approvalSpan.innerText = group.joinType;
-  joinButton.innerText = group.buttonText || "Join Group";
-  joinButton.dataset.groupId = group._id;
 }
+
 async function idForSearchResults() {
   const joinGroupBtn = document.querySelectorAll(".join-status");
   joinGroupBtn.forEach((btn) => {
@@ -302,3 +307,6 @@ async function inputClearDataReload() {
   renderGroups(data.allGroups);
   renderIssues(data.issues);
 }
+
+//! join request for search code
+function joinRequest() {}

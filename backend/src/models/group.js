@@ -9,11 +9,6 @@ const GroupSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  visibility: {
-    type: String,
-    enum: ["public", "private"],
-    default: "public",
-  },
   joinType: {
     type: String,
     enum: ["open", "request"],
