@@ -589,29 +589,30 @@ document
     }
     //adding listeners to btns
     acceptJoinRequest();
-    declineJoinReq()
-
+    declineJoinReq();
+    //enabling search
+    searchRequests();
 
     //!reload requests
-    document.querySelector(".reload-btn").addEventListener("click", async () => {
-      document.querySelector(".join-request-list").innerHTML = "";
-      const res = await apiFetch(
-        `http://localhost:8080/api/group/join/request/${groupId}/admin`,
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
-      const data = await res.json();
-      for (let req of data.joinRequests) {
-        createJoinRequestCard(req);
-      }
-      //adding listeners to btns
-      acceptJoinRequest();
-      declineJoinReq()
-      //enabling search 
-      searchRequests()
-    });
+    document
+      .querySelector(".reload-btn")
+      .addEventListener("click", async () => {
+        document.querySelector(".join-request-list").innerHTML = "";
+        const res = await apiFetch(
+          `http://localhost:8080/api/group/join/request/${groupId}/admin`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
+        const data = await res.json();
+        for (let req of data.joinRequests) {
+          createJoinRequestCard(req);
+        }
+        //adding listeners to btns
+        acceptJoinRequest();
+        declineJoinReq();
+      });
   });
 
 //!accept join request btn code
@@ -638,8 +639,8 @@ function acceptJoinRequest() {
   });
 }
 //!decline btn code
-function declineJoinReq(){
-  const allRejBtns = document.querySelectorAll(".decline-join-req-btn")
+function declineJoinReq() {
+  const allRejBtns = document.querySelectorAll(".decline-join-req-btn");
   allRejBtns.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const parentEle = e.target.parentElement.parentElement;
@@ -659,23 +660,48 @@ function declineJoinReq(){
   });
 }
 //!search join request
-function searchRequests(){
-  document.getElementById("search-join-requests").addEventListener("input", async (e) => {
-    const groupId = new URLSearchParams(window.location.search).get("id");
-    const res = await apiFetch(
-      `http://localhost:8080/api/group/join/request/${groupId}/admin/search?q=${e.target.value}`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
-    const data = await res.json();
-    document.querySelector(".search-join-requests").innerHTML = "";
-    for (let req of data.joinRequests) {
-      createJoinRequestCard(req);
-    }
-     //adding listeners to btns
-      acceptJoinRequest();
-      declineJoinReq()
-  });
+function searchRequests() {
+  document
+    .getElementById("search-join-requests")
+    .addEventListener("input", async (e) => {
+      const groupId = new URLSearchParams(window.location.search).get("id");
+      if (!groupId) return;
+
+      if (e.target.value.length > 0) {
+        const res = await apiFetch(
+          `http://localhost:8080/api/group/join/request/${groupId}/admin/search?q=${e.target.value}`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
+        const data = await res.json();
+        console.log("data", data);
+        document.querySelector(".join-request-list").innerHTML = "";
+        for (let req of data) {
+          createJoinRequestCard(req);
+        }
+        //adding listeners to btns
+        acceptJoinRequest();
+        declineJoinReq();
+      }
+
+      if (e.target.value.length === 0) {
+        document.querySelector(".join-request-list").innerHTML = "";
+        const res = await apiFetch(
+          `http://localhost:8080/api/group/join/request/${groupId}/admin`,
+          {
+            method: "GET",
+            credentials: "include",
+          },
+        );
+        const data = await res.json();
+        for (let req of data.joinRequests) {
+          createJoinRequestCard(req);
+        }
+        //adding listeners to btns
+        acceptJoinRequest();
+        declineJoinReq();
+      }
+    });
 }

@@ -839,8 +839,8 @@ app.post("/api/group/join/request/:userId/admin/decline",authorizationToken,asyn
 app.get("/api/group/join/request/:groupId/admin/search",authorizationToken,async(req,res,next)=>{
   try{
     const { groupId } = req.params;
-    const userId = req.query.q;
-    if (!groupId || !userId) return res.sendStatus(400);
+    const val = req.query.q;
+    if (!groupId || !val  ) return res.sendStatus(400);
 
     const curUser = req.user.userId;
     if (!curUser) return res.sendStatus(401);
@@ -857,9 +857,12 @@ app.get("/api/group/join/request/:groupId/admin/search",authorizationToken,async
         .select("joinRequests")
         .populate("joinRequests.userId", "name");
 
-  console.log(requests)
+    const regex = new RegExp(val,"i")
+ const members= requests.joinRequests.filter((mem)=>{
+    return regex.test(mem.userId.name)
+  })
 
-  // res.json({ joinRequests: filteredRequests });
+  res.json(members)
   }catch(err){
     next(err)
   }
