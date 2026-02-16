@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 //cookie option
-const isProd = process.env.ENVIRONMENT === "production";
 const cookieOption = {
   httpOnly: true,
   secure: true,

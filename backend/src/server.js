@@ -4,7 +4,7 @@ require("dotenv").config();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 // Routes
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/auth.routes");
 
 //Middlewares
 const { authorizationToken } = require("./middlewares/auth.middleware");
@@ -45,12 +45,12 @@ app.get("/", (req, res) => {
 //? Auth section
 app.use("/auth", authRoutes);
 //! create groups
-app.post("/creategroup", authorizationToken, async (req, res, next) => {
+// app.use("/group",groupRoutes)
+app.post("/group/create", authorizationToken, async (req, res, next) => {
   try {
     const {
       groupname,
       description,
-      visibility,
       joinapproval,
       imageuploadpermission,
     } = req.body;
@@ -65,6 +65,7 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
       members: [{ userId: req.user.userId, role: "admin" }],
     });
     await newGroup.save();
+    console.log("working")
     res.sendStatus(200);
   } catch (err) {
     next(err);
