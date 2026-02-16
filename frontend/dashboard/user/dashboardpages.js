@@ -209,8 +209,7 @@ function createIndSearchCard(group) {
 
   const approvalSpan = document.createElement("span");
 
-
-  badgesDiv.append( approvalSpan);
+  badgesDiv.append(approvalSpan);
   contentBox.append(h3, badgesDiv);
   indSearchLeft.append(img, contentBox);
 
@@ -220,14 +219,14 @@ function createIndSearchCard(group) {
     joinTypeBtn.className = "join-status";
     joinTypeBtn.innerText = "Join";
     joinTypeBtn.dataset.groupId = group._id;
-      approvalSpan.textContent = "open";
+    approvalSpan.textContent = "open";
   }
   //?request button
   if (group.joinType === "request") {
     joinTypeBtn.className = "request-status";
     joinTypeBtn.innerText = "Request";
     joinTypeBtn.dataset.groupId = group._id;
-      approvalSpan.textContent = "approval needed";
+    approvalSpan.textContent = "approval needed";
   }
 
   // Assemble card
