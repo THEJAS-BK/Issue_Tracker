@@ -776,7 +776,8 @@ app.post(
         return mem.userId.toString() === curUser;
       }).role;
 
-    if(curUserRole!=="admin"&& curUserRole!=="coadmin") return res.status(403).json({message:"unauthorized"})
+      if (curUserRole !== "admin" && curUserRole !== "coadmin")
+        return res.status(403).json({ message: "unauthorized" });
 
       await CreateGroup.updateOne(
         {
@@ -805,9 +806,12 @@ app.post(
   },
 );
 //!decline join requests
-app.post("/api/group/join/request/:userId/admin/decline",authorizationToken,async(req,res,next)=>{
-  try{
-       const { userId } = req.params;
+app.post(
+  "/api/group/join/request/:userId/admin/decline",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { userId } = req.params;
       const groupId = req.query.q;
       if (!groupId || !userId) return res.sendStatus(400);
 
@@ -820,53 +824,94 @@ app.post("/api/group/join/request/:userId/admin/decline",authorizationToken,asyn
         return mem.userId.toString() === curUser;
       }).role;
 
-    if(curUserRole!=="admin"&& curUserRole!=="coadmin") return res.status(403).json({message:"unauthorized"})
+      if (curUserRole !== "admin" && curUserRole !== "coadmin")
+        return res.status(403).json({ message: "unauthorized" });
 
-      await CreateGroup.updateOne({
-        _id:groupId
-      },
-      {
-        $pull: {
-          joinRequests: { userId: userId },
+      await CreateGroup.updateOne(
+        {
+          _id: groupId,
         },
-      })
-      res.sendStatus(201)
-  }catch(err){
-    next(err)
-  }
-})
+        {
+          $pull: {
+            joinRequests: { userId: userId },
+          },
+        },
+      );
+      res.sendStatus(201);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 //!search join request
-app.get("/api/group/join/request/:groupId/admin/search",authorizationToken,async(req,res,next)=>{
-  try{
-    const { groupId } = req.params;
-    const val = req.query.q;
-    if (!groupId || !val  ) return res.sendStatus(400);
+app.get(
+  "/api/group/join/request/:groupId/admin/search",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { groupId } = req.params;
+      const val = req.query.q;
+      if (!groupId || !val) return res.sendStatus(400);
 
-    const curUser = req.user.userId;
-    if (!curUser) return res.sendStatus(401);
+      const curUser = req.user.userId;
+      if (!curUser) return res.sendStatus(401);
 
-    const allmembers = await CreateGroup.findById(groupId).select("members");
+      const allmembers = await CreateGroup.findById(groupId).select("members");
 
-    const curUserRole = allmembers.members.find((mem) => {
-      return mem.userId.toString() === curUser;
-    }).role;
+      const curUserRole = allmembers.members.find((mem) => {
+        return mem.userId.toString() === curUser;
+      }).role;
 
-  if(curUserRole!=="admin"&& curUserRole!=="coadmin") return res.status(403).json({message:"unauthorized"})
+      if (curUserRole !== "admin" && curUserRole !== "coadmin")
+        return res.status(403).json({ message: "unauthorized" });
 
-  const requests = await CreateGroup.findById(groupId)
+      const requests = await CreateGroup.findById(groupId)
         .select("joinRequests")
         .populate("joinRequests.userId", "name");
 
-    const regex = new RegExp(val,"i")
- const members= requests.joinRequests.filter((mem)=>{
-    return regex.test(mem.userId.name)
-  })
+      const regex = new RegExp(val, "i");
+      const members = requests.joinRequests.filter((mem) => {
+        return regex.test(mem.userId.name);
+      });
 
-  res.json(members)
-  }catch(err){
-    next(err)
-  }
-})
+      res.json(members);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+//!delete issue by admin privilages
+app.delete(
+  "/api/:issueId/delete/admin",
+  authorizationToken,
+  async (req, res, next) => {
+    try {
+      const { issueId } = req.params;
+      const groupId = req.query.q;
+      if (!groupId || !issueId) return res.sendStatus(400);
+
+      const curUser = req.user.userId;
+      if (!curUser) return res.sendStatus(401);
+
+      const allmembers = await CreateGroup.findById(groupId).select("members");
+
+      const curUserRole = allmembers.members.find((mem) => {
+        return mem.userId.toString() === curUser;
+      }).role;
+
+      if (curUserRole !== "admin" && curUserRole !== "coadmin")
+        return res.status(403).json({ message: "unauthorized" });
+
+      await Issue.deleteOne({
+        _id: issueId,
+        group: groupId,
+      });
+      res.sendStatus(201);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 //404 route
 app.all("/*splat", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

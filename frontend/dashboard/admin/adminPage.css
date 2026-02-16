@@ -604,3 +604,19 @@ p {
 .close-join-requests-tab{
   font-size:2rem;
 }
+/* render issue dropdown more info and delete */
+.right-issues-dropdown{
+  position: absolute;
+  top:100%;
+  width:100px ;
+  background-color: grey;
+  right:0.5rem;
+  display: none;
+  flex-direction: column;
+}
+.right-issue-options:hover > .right-issues-dropdown{
+  display: flex;
+}
+.right-issue-options{
+  position: relative;
+}

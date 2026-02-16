@@ -86,11 +86,12 @@ function AddIssueEvents() {
       );
       const data = await res.json();
       updateIssuesOnRightSide(data.issue);
-      //blue border
+      //delete issue btn by admin privilages
+      deleteIssueByAdmin() 
     });
   });
 }
-//render right contents
+//!render right contents
 function updateIssuesOnRightSide(issue) {
   const title = document.querySelector(".issue-title");
   const name = document.querySelector(".name-right");
@@ -98,6 +99,8 @@ function updateIssuesOnRightSide(issue) {
   const description = document.querySelector(".description-body-content");
   const markInProgress = document.querySelector(".desc-inprogress");
   const markResolved = document.querySelector(".desc-resolved");
+  const moreInfoBtn = document.querySelector(".user-info-btn");
+  const deleteIssueBtn = document.querySelector(".delete-issue-btn");
 
   title.textContent = issue.title;
   name.textContent = issue.createdBy.name;
@@ -109,8 +112,11 @@ function updateIssuesOnRightSide(issue) {
   // adding their states
   markInProgress.dataset.state = "inprogress";
   markResolved.dataset.state = "resolved";
+  //delete issue btn and more info btn
+  moreInfoBtn.dataset.userId = issue.createdBy._id;
+  deleteIssueBtn.dataset.issueId = issue._id;
 }
-//already selected issue
+//!already selected issue
 async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
   if (allIssues[0]) {
@@ -125,10 +131,44 @@ async function firstValSelected() {
     updateIssuesOnRightSide(data.issue);
     //add blue border
     allIssues[0].classList.add("blue-border");
+    //deleteIssue btn
+    deleteIssueByAdmin() 
   }
 }
+//!delete issue function
+function deleteIssueByAdmin() {
+  const deleteBtn = document.querySelector(".delete-issue-btn");
+  deleteBtn.addEventListener("click", async (e) => {
+    const groupId = new URLSearchParams(window.location.search).get("id");
+    const res = await apiFetch(
+      `http://localhost:8080/api/${e.target.dataset.issueId}/delete/admin?q=${groupId}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      },
+    );
+    if (res.ok) {
+      const state = document.getElementById("filter-select").value;
+      const res = await apiFetch(
+        `http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${state}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+      document.querySelector(".issue-contents").innerHTML = "";
+      const data = await res.json();
+      console.log(data)
+      for (let issue of data.issues) {
+        insertIssueCard(issue);
+      }
+      firstValSelected();
+      AddIssueEvents();
+    }
+  });
+}
 
-//serach code
+//!search code
 const search = document.getElementById("search");
 search.addEventListener("input", async (e) => {
   const searchTerm = e.target.value.toLowerCase();
@@ -165,7 +205,7 @@ search.addEventListener("input", async (e) => {
   }
 });
 
-//select filter
+//! select filter
 const selectStatus = document.getElementById("filter-select");
 selectStatus.addEventListener("change", async (e) => {
   document.querySelector(".issue-contents").innerHTML = "";
