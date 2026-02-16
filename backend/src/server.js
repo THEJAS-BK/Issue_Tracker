@@ -58,8 +58,6 @@ app.post("/creategroup", authorizationToken, async (req, res, next) => {
     const newGroup = new CreateGroup({
       groupname,
       description,
-
-      visibility,
       joinType: joinapproval,
       imageuploadpermission,
       inviteCode,
@@ -378,6 +376,37 @@ app.get("/api/members/:groupId/user",authorizationToken,async(req,res,next)=>{
     next(err)
   }
 })
+//?send request to join group
+app.post("/api/group/join/request/:groupId", authorizationToken, async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+    if (!groupId) return res.sendStatus(400);
+
+    const curUser = req.user.userId;
+    if (!curUser) return res.sendStatus(401);
+
+    if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+    const group = await CreateGroup.findById(groupId);
+    if (!group) return res.sendStatus(404);
+
+    const isMember = group.members.some((member) => member.userId.toString() === curUser);
+    if (isMember) return res.status(409).json({code: "already_member", message: "Already a member" });
+
+    const isRequested = group.joinRequests.some((request) => request.userId.toString() === curUser);
+    if (isRequested) return res.status(409).json({ code: "already_requested", message: "Already requested" });
+     
+
+  await CreateGroup.findByIdAndUpdate(groupId, {
+      $push: {
+        joinRequests:{userId:curUser},
+      },
+    });
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+});
 //!!! admin routes
 //send issues
 app.get(
@@ -475,7 +504,7 @@ app.get(
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
       const groupInfo = await CreateGroup.findById(groupId).select(
-        "groupname description visibility joinType imageuploadpermission",
+        "groupname description joinType imageuploadpermission",
       );
       res.json({ groupInfo });
     } catch (err) {
@@ -503,14 +532,12 @@ app.patch(
       const {
         groupname,
         description,
-        visibility,
         joinapproval,
         imageuploadpermission,
       } = req.body;
       await CreateGroup.findByIdAndUpdate(groupId, {
         groupname,
         description,
-        visibility,
         joinType: joinapproval,
         imageuploadpermission,
       });

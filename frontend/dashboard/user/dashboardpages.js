@@ -1,3 +1,4 @@
+
 import { apiFetch } from "../../utils/helper.js";
 
 //Create group option
@@ -38,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       createIndSearchCard(indgroup);
     }
     idForSearchResults();
+    joinRequest();
   }
 });
 
@@ -179,6 +181,7 @@ searchInp.addEventListener("input", async () => {
       createIndSearchCard(indgroup);
     }
     idForSearchResults();
+        joinRequest();
   }
 });
 
@@ -239,6 +242,7 @@ function createIndSearchCard(group) {
 
 async function idForSearchResults() {
   const joinGroupBtn = document.querySelectorAll(".join-status");
+  if(!joinGroupBtn) return;
   joinGroupBtn.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const res = await apiFetch(
@@ -307,5 +311,30 @@ async function inputClearDataReload() {
   renderIssues(data.issues);
 }
 
-//! join request for search code
-function joinRequest() {}
+//! join request for search group globally code
+async function joinRequest() {
+  const allReqBtns = document.querySelectorAll(".request-status");
+  allReqBtns.forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      const res = await apiFetch(
+        `http://localhost:8080/api/group/join/request/${btn.dataset.groupId}`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
+      if(!res.ok || res.status===409){
+        const data = await res.json();
+        if(data.code==="already_member"){
+          alert("already member")
+        }
+        else if(data.code==="already_requested"){
+          alert("already requested")
+        }
+        else{
+          alert(data.message)
+        }
+      }
+    });
+  });
+}
