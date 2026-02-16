@@ -5,6 +5,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 // Routes
 const authRoutes = require("./routes/auth.routes");
+const groupRoutes=require("./routes/group.routes")
 
 //Middlewares
 const { authorizationToken } = require("./middlewares/auth.middleware");
@@ -36,7 +37,7 @@ const CreateGroup = require("./models/group");
 const ExpressError = require("./utils/ExpressError");
 const Issue = require("./models/issue");
 //uitls
-const { getUniqueInviteCode } = require("./utils/inviteCode");
+
 
 //! Routes
 app.get("/", (req, res) => {
@@ -45,76 +46,8 @@ app.get("/", (req, res) => {
 //? Auth section
 app.use("/auth", authRoutes);
 //! create groups
-// app.use("/group",groupRoutes)
-app.post("/group/create", authorizationToken, async (req, res, next) => {
-  try {
-    const {
-      groupname,
-      description,
-      joinapproval,
-      imageuploadpermission,
-    } = req.body;
-    const inviteCode = await getUniqueInviteCode();
-    const newGroup = new CreateGroup({
-      groupname,
-      description,
-      joinType: joinapproval,
-      imageuploadpermission,
-      inviteCode,
-      createdBy: req.user.userId,
-      members: [{ userId: req.user.userId, role: "admin" }],
-    });
-    await newGroup.save();
-    console.log("working")
-    res.sendStatus(200);
-  } catch (err) {
-    next(err);
-  }
-});
-//!user pages
-app.get("/groups", authorizationToken, async (req, res) => {
-  try {
-    const curUser = req.user.userId;
-    if (!curUser) return res.status(401);
+app.use("/groups",groupRoutes)
 
-    const allGroups = await CreateGroup.find({
-      members: { $elemMatch: { userId: req.user.userId } },
-    }).select("groupname description inviteCode");
-
-    const allissues = await Issue.find({
-      group: { $in: allGroups.map((g) => g._id) },
-    });
-    const issues = allissues.filter(
-      (issue) => issue.createdBy.toString() === curUser,
-    );
-
-    res.json({ allGroups, issues });
-  } catch (err) {
-    res.status(500);
-  }
-});
-app.post("/groups/search", authorizationToken, async (req, res) => {
-  try {
-    const { q } = req.query;
-    if (q.length == 6) {
-      const allGroups = await CreateGroup.findOne({ inviteCode: q })
-        .select("groupname visibility joinType")
-        .populate("createdBy", "name");
-
-      if (allGroups) {
-        return res.json({ allGroups: [allGroups] });
-      }
-    }
-    const allGroups = await CreateGroup.find({
-      groupname: { $regex: q, $options: "i" },
-    })
-      .select("groupname visibility joinType")
-      .populate("createdBy", "name");
-    res.json({ allGroups });
-  } catch (err) {
-    res.status(500);
-  }
-});
 //joined groups
 app.post("/searchjoined", authorizationToken, async (req, res) => {
   try {
@@ -919,9 +852,21 @@ app.all("/*splat", (req, res, next) => {
 });
 //error middleware
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).json({ message });
+  const statusCode = err.statusCode || 500;
+  const message =
+    err.message || "Something went wrong";
+
+  // log unexpected errors
+  if (!err.isOperational) {
+    console.error(err);
+  }
+
+  res.status(statusCode).json({
+    success: false,
+    message
+  });
 });
+
 
 //server start
 app.listen(8080, () => {
