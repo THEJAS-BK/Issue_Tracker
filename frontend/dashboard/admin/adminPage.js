@@ -517,8 +517,8 @@ function kickMember() {
 }
 
 //! join requests code
-createJoinRequestCard();  
-function createJoinRequestCard(userReq="") {
+
+function createJoinRequestCard(req) {
   const container = document.querySelector(".join-request-list");
 
   // card
@@ -536,14 +536,15 @@ function createJoinRequestCard(userReq="") {
 
   // right
   const right = document.createElement("div");
-  right.className="join-tab-right"
+  right.className = "join-tab-right";
 
   const acceptBtn = document.createElement("button");
   acceptBtn.textContent = "Accept";
+  acceptBtn.className = "accept-join-req-btn";
 
   const declineBtn = document.createElement("button");
   declineBtn.textContent = "Decline";
-
+  declineBtn.className = "decline-join-req-btn";
   right.append(acceptBtn, declineBtn);
 
   // assemble
@@ -552,17 +553,129 @@ function createJoinRequestCard(userReq="") {
   // insert at bottom
   container.appendChild(card);
   //add data
-  nameEl.textContent = "user";
-  timeEl.textContent = `requestedAt`;
+  nameEl.textContent = req.userId.name;
+  timeEl.textContent = calcTime(req.requestedAt);
+  //accept and decline btn
+  acceptBtn.dataset.userId = req.userId._id;
+  declineBtn.dataset.userId = req.userId._id;
 }
 
 //join request tab close
-document.querySelector(".close-join-requests-tab").addEventListener("click", () => {
-  document.querySelector(".confirm-backdrop-join-request").style.display = "none";
-});
-//open join request tab 
-document.getElementById("dropdown-join-requests").addEventListener("click", () => {
-  document.querySelector(".confirm-backdrop-join-request").style.display = "flex";
-  //get all request initially
-  
-}); 
+document
+  .querySelector(".close-join-requests-tab")
+  .addEventListener("click", () => {
+    document.querySelector(".confirm-backdrop-join-request").style.display =
+      "none";
+  });
+//open join request tab
+document
+  .getElementById("dropdown-join-requests")
+  .addEventListener("click", async () => {
+    document.querySelector(".confirm-backdrop-join-request").style.display =
+      "flex";
+
+    //get all request initially
+    const groupId = new URLSearchParams(window.location.search).get("id");
+    const res = await apiFetch(
+      `http://localhost:8080/api/group/join/request/${groupId}/admin`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+    const data = await res.json();
+    for (let req of data.joinRequests) {
+      createJoinRequestCard(req);
+    }
+    //adding listeners to btns
+    acceptJoinRequest();
+    declineJoinReq()
+
+
+    //!reload requests
+    document.querySelector(".reload-btn").addEventListener("click", async () => {
+      document.querySelector(".join-request-list").innerHTML = "";
+      const res = await apiFetch(
+        `http://localhost:8080/api/group/join/request/${groupId}/admin`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+      const data = await res.json();
+      for (let req of data.joinRequests) {
+        createJoinRequestCard(req);
+      }
+      //adding listeners to btns
+      acceptJoinRequest();
+      declineJoinReq()
+      //enabling search 
+      searchRequests()
+    });
+  });
+
+//!accept join request btn code
+function acceptJoinRequest() {
+  const allBtns = document.querySelectorAll(".accept-join-req-btn");
+  allBtns.forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      btn.parentElement.parentElement;
+      const parentEle = e.target.parentElement.parentElement;
+      const userId = e.target.dataset.userId;
+      const groupId = new URLSearchParams(window.location.search).get("id");
+      const res = await apiFetch(
+        `http://localhost:8080/api/group/join/request/${userId}/admin?q=${groupId}`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
+      if (res.ok) {
+        parentEle.remove();
+        alert("member added");
+      }
+    });
+  });
+}
+//!decline btn code
+function declineJoinReq(){
+  const allRejBtns = document.querySelectorAll(".decline-join-req-btn")
+  allRejBtns.forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      const parentEle = e.target.parentElement.parentElement;
+      const userId = e.target.dataset.userId;
+      const groupId = new URLSearchParams(window.location.search).get("id");
+      const res = await apiFetch(
+        `http://localhost:8080/api/group/join/request/${userId}/admin/decline?q=${groupId}`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
+      if (res.ok) {
+        parentEle.remove();
+      }
+    });
+  });
+}
+//!search join request
+function searchRequests(){
+  document.getElementById("search-join-requests").addEventListener("input", async (e) => {
+    const groupId = new URLSearchParams(window.location.search).get("id");
+    const res = await apiFetch(
+      `http://localhost:8080/api/group/join/request/${groupId}/admin/search?q=${e.target.value}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+    const data = await res.json();
+    document.querySelector(".search-join-requests").innerHTML = "";
+    for (let req of data.joinRequests) {
+      createJoinRequestCard(req);
+    }
+     //adding listeners to btns
+      acceptJoinRequest();
+      declineJoinReq()
+  });
+}

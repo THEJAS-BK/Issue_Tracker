@@ -527,8 +527,7 @@ p {
 .confirm-backdrop-join-request{
     position: fixed;
   inset: 0;
-
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
 
@@ -575,6 +574,13 @@ p {
 .join-request-list{
   flex:1;
   overflow: auto;
+}
+/* reload  */
+.request-search{
+  display: flex;
+}
+.request-search>i{
+  align-self: center;
 }
 /* each tab  */
 .join-tab{

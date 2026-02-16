@@ -55,7 +55,7 @@ const GroupSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
-      joinedAt:{
+      requestedAt:{
         type:Date,
         default:Date.now(),
       }

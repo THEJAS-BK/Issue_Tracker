@@ -315,7 +315,7 @@ async function inputClearDataReload() {
 async function joinRequest() {
   const allReqBtns = document.querySelectorAll(".request-status");
   allReqBtns.forEach((btn) => {
-    btn.addEventListener("click", async (e) => {
+    btn.addEventListener("click", async () => {
       const res = await apiFetch(
         `http://localhost:8080/api/group/join/request/${btn.dataset.groupId}`,
         {
