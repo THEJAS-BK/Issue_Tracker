@@ -166,3 +166,68 @@ module.exports.searchJoinedGroups=async (req, res,next) => {
     next(err);
   }
 }
+/* 
+
+?group interface code 
+
+*/
+//? get group info for user interface
+module.exports.getGroupUserInterface= async (req, res, next) => {
+    try {
+      const { groupId } = req.params;
+      const issues = await Issue.find({ group: groupId })
+        .select("title createdBy createdAt status stayAnonymous")
+        .populate("createdBy", "name");
+      //send cur user
+      const curUser = req.user.userId;
+      //send all member
+      const allmembers = await Group.findById(groupId)
+        .select("members")
+        .populate("members");
+      //get invite code and group name
+      const groupDetails = await Group.findOne({ _id: groupId }).select(
+        "groupname description inviteCode",
+      );
+      res.json({ issues, allmembers, curUser, groupDetails });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+//? get all members in user interface
+module.exports.getGroupUserInterfaceMembers=  async (req, res, next) => {
+    try {
+      const { groupId } = req.params;
+      if (!groupId) return res.sendStatus(400);
+
+      const members = await Group.findById(groupId)
+        .select("members")
+        .populate("members.userId", "name");
+      res.json({ members });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  //? search group members in user interface
+  module.exports.searchGroupMembersUserInterface= async (req, res, next) => {
+      try {
+        const { groupId } = req.params;
+        if (!groupId) return res.sendStatus(400);
+  
+        const val = req.query.q;
+        if (!val) return res.sendStatus(400);
+  
+        const allmembers = await Group.findById(groupId)
+          .select("members")
+          .populate("members.userId", "name");
+  
+        const regex = new RegExp(val, "i");
+        const members = allmembers.members.filter((mem) => {
+          return regex.test(mem.userId.name);
+        });
+        res.json({ members });
+      } catch (err) {
+        next(err);
+      }
+    }
