@@ -5,7 +5,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 // Routes
 const authRoutes = require("./routes/auth.routes");
-const groupRoutes=require("./routes/group.routes")
+const groupRoutes=require("./routes/group.routes");
+const issueRoutes = require("./routes/issue.routes")
 
 //Middlewares
 const { authorizationToken } = require("./middlewares/auth.middleware");
@@ -33,7 +34,7 @@ async function main() {
   await mongoose.connect(process.env.MONGO_URL);
 }
 //Schemas
-const CreateGroup = require("./models/group");
+const Group = require("./models/group");
 const ExpressError = require("./utils/ExpressError");
 const Issue = require("./models/issue");
 //uitls
@@ -45,29 +46,12 @@ app.get("/", (req, res) => {
 });
 //? Auth section
 app.use("/auth", authRoutes);
-//! create groups
-app.use("/groups",groupRoutes)
+//? groups
+app.use("/groups",groupRoutes);
+//?issues
+app.use("/issues",issueRoutes);
 
-//joined groups
-//!add pages
-app.post("/add/:groupId", authorizationToken, async (req, res, next) => {
-  try {
-    const { groupId } = req.params;
-    const { title, description, stayAnonymous } = req.body;
-    const newIssue = new Issue({
-      title,
-      description,
-      stayAnonymous,
-      group: groupId,
-      createdBy: req.user.userId,
-    });
-    await newIssue.save();
 
-    res.sendStatus(200);
-  } catch (err) {
-    next(err);
-  }
-});
 //edit issues
 app.get("/edit/:issueId", authorizationToken, async (req, res, next) => {
   try {
@@ -121,11 +105,11 @@ app.get(
       //send cur user
       const curUser = req.user.userId;
       //send all member
-      const allmembers = await CreateGroup.findById(groupId)
+      const allmembers = await Group.findById(groupId)
         .select("members")
         .populate("members");
       //get invite code and group name
-      const groupDetails = await CreateGroup.findOne({ _id: groupId }).select(
+      const groupDetails = await Group.findOne({ _id: groupId }).select(
         "groupname description inviteCode",
       );
       res.json({ issues, allmembers, curUser, groupDetails });
@@ -244,7 +228,7 @@ app.get(
       const val = req.query.q;
       if (!val) return res.sendStatus(400);
 
-      const allmembers = await CreateGroup.findById(groupId)
+      const allmembers = await Group.findById(groupId)
         .select("members")
         .populate("members.userId", "name");
 
@@ -266,7 +250,7 @@ app.get(
       const { groupId } = req.params;
       if (!groupId) return res.sendStatus(400);
 
-      const members = await CreateGroup.findById(groupId)
+      const members = await Group.findById(groupId)
         .select("members")
         .populate("members.userId", "name");
       res.json({ members });
@@ -305,7 +289,7 @@ app.get("/api/:groupid/admin", authorizationToken, async (req, res, next) => {
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 
-    const groupDetails = await CreateGroup.findById(groupid).select(
+    const groupDetails = await Group.findById(groupid).select(
       "groupname description inviteCode",
     );
     res.json({ issues, groupDetails });
@@ -351,10 +335,10 @@ app.delete(
 
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-      const group = await CreateGroup.findById(groupId);
+      const group = await Group.findById(groupId);
       if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
 
-      await CreateGroup.findOneAndDelete({ _id: groupId });
+      await Group.findOneAndDelete({ _id: groupId });
       res.sendStatus(201);
     } catch (err) {
       next(err);
@@ -371,7 +355,7 @@ app.get(
       if (!groupId) return res.sendStatus(400);
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-      const groupInfo = await CreateGroup.findById(groupId).select(
+      const groupInfo = await Group.findById(groupId).select(
         "groupname description joinType imageuploadpermission",
       );
       res.json({ groupInfo });
@@ -394,12 +378,12 @@ app.patch(
 
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-      const group = await CreateGroup.findById(groupId);
+      const group = await Group.findById(groupId);
       if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
 
       const { groupname, description, joinapproval, imageuploadpermission } =
         req.body;
-      await CreateGroup.findByIdAndUpdate(groupId, {
+      await Group.findByIdAndUpdate(groupId, {
         groupname,
         description,
         joinType: joinapproval,
@@ -425,7 +409,7 @@ app.get(
 
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-      const members = await CreateGroup.findById(groupId)
+      const members = await Group.findById(groupId)
         .select("members")
         .populate("members.userId", "name email");
 
@@ -456,7 +440,7 @@ app.get(
 
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-      const allmembers = await CreateGroup.findById(groupId)
+      const allmembers = await Group.findById(groupId)
         .select("members")
         .populate("members.userId", "name email");
 
@@ -490,10 +474,10 @@ app.put(
 
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-      const group = await CreateGroup.findById(groupId);
+      const group = await Group.findById(groupId);
       if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
 
-      const val = await CreateGroup.updateOne(
+      const val = await Group.updateOne(
         {
           _id: groupId,
           "members.userId": userId,
@@ -524,10 +508,10 @@ app.put(
 
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-      const group = await CreateGroup.findById(groupId);
+      const group = await Group.findById(groupId);
       if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
 
-      await CreateGroup.updateOne(
+      await Group.updateOne(
         {
           _id: groupId,
           "members.userId": userId,
@@ -555,7 +539,7 @@ app.delete(
       if (!groupId || !userId) return res.sendStatus(400);
 
       if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
-      await CreateGroup.updateOne(
+      await Group.updateOne(
         {
           _id: groupId,
         },
@@ -586,7 +570,7 @@ app.get(
       const curUser = req.user.userId;
       if (!curUser) return res.sendStatus(401);
 
-      const allmembers = await CreateGroup.findById(groupId).select("members");
+      const allmembers = await Group.findById(groupId).select("members");
 
       const curUserRole = allmembers.members.find((mem) => {
         return mem.userId.toString() === curUser;
@@ -594,7 +578,7 @@ app.get(
 
       if (!curUserRole || curUserRole === "member") return res.sendStatus(403);
 
-      const requests = await CreateGroup.findById(groupId)
+      const requests = await Group.findById(groupId)
         .select("joinRequests")
         .populate("joinRequests.userId", "name");
 
@@ -617,7 +601,7 @@ app.post(
       const curUser = req.user.userId;
       if (!curUser) return res.sendStatus(401);
 
-      const allmembers = await CreateGroup.findById(groupId).select("members");
+      const allmembers = await Group.findById(groupId).select("members");
 
       const curUserRole = allmembers.members.find((mem) => {
         return mem.userId.toString() === curUser;
@@ -626,7 +610,7 @@ app.post(
       if (curUserRole !== "admin" && curUserRole !== "coadmin")
         return res.status(403).json({ message: "unauthorized" });
 
-      await CreateGroup.updateOne(
+      await Group.updateOne(
         {
           _id: groupId,
         },
@@ -636,7 +620,7 @@ app.post(
           },
         },
       );
-      await CreateGroup.updateOne(
+      await Group.updateOne(
         {
           _id: groupId,
         },
@@ -665,7 +649,7 @@ app.post(
       const curUser = req.user.userId;
       if (!curUser) return res.sendStatus(401);
 
-      const allmembers = await CreateGroup.findById(groupId).select("members");
+      const allmembers = await Group.findById(groupId).select("members");
 
       const curUserRole = allmembers.members.find((mem) => {
         return mem.userId.toString() === curUser;
@@ -674,7 +658,7 @@ app.post(
       if (curUserRole !== "admin" && curUserRole !== "coadmin")
         return res.status(403).json({ message: "unauthorized" });
 
-      await CreateGroup.updateOne(
+      await Group.updateOne(
         {
           _id: groupId,
         },
@@ -703,7 +687,7 @@ app.get(
       const curUser = req.user.userId;
       if (!curUser) return res.sendStatus(401);
 
-      const allmembers = await CreateGroup.findById(groupId).select("members");
+      const allmembers = await Group.findById(groupId).select("members");
 
       const curUserRole = allmembers.members.find((mem) => {
         return mem.userId.toString() === curUser;
@@ -712,7 +696,7 @@ app.get(
       if (curUserRole !== "admin" && curUserRole !== "coadmin")
         return res.status(403).json({ message: "unauthorized" });
 
-      const requests = await CreateGroup.findById(groupId)
+      const requests = await Group.findById(groupId)
         .select("joinRequests")
         .populate("joinRequests.userId", "name");
 
@@ -740,7 +724,7 @@ app.delete(
       const curUser = req.user.userId;
       if (!curUser) return res.sendStatus(401);
 
-      const allmembers = await CreateGroup.findById(groupId).select("members");
+      const allmembers = await Group.findById(groupId).select("members");
 
       const curUserRole = allmembers.members.find((mem) => {
         return mem.userId.toString() === curUser;

@@ -2,9 +2,14 @@ import { apiFetch } from "../../utils/helper.js";
 //!add issue tab
 const addIssueForm = document.querySelector(".issue-form");
 addIssueForm.addEventListener("submit", async (e) => {
+  const groupId=new URLSearchParams(window.location.search).get("id");
+  if(!groupId) {
+    alert("Invalid group ID");
+    return;
+  }
   e.preventDefault();
   const anonSwitch = document.getElementById("anonymousSwitch").checked;
-  const res = await apiFetch(`http://localhost:8080/add/${new URLSearchParams(window.location.search).get("id")}`,
+  const res = await apiFetch(`http://localhost:8080/issues/add/${groupId}`,
   {
     method: "POST",
     headers: { "Content-type": "application/json" },
@@ -16,10 +21,10 @@ addIssueForm.addEventListener("submit", async (e) => {
     }),
   });
   if (res.ok) {
-    window.location.href = "/frontend/dashboard/user/groupInterface.html?id="+new URLSearchParams(window.location.search).get("id");
+    window.location.href = "/frontend/dashboard/user/groupInterface.html?id="+groupId;
   }
 });
 const cancelBtn = document.querySelector(".cancel")
 cancelBtn.addEventListener("click",()=>{
-  window.location.href="/frontend/dashboard/user/groupInterface.html?id="+new URLSearchParams(window.location.search).get("id")
+  window.location.href="/frontend/dashboard/user/groupInterface.html?id="+groupId
 })
