@@ -52,20 +52,7 @@ app.use("/groups",groupRoutes);
 app.use("/issues",issueRoutes);
 
 
-//edit issues
-app.get("/edit/:issueId", authorizationToken, async (req, res, next) => {
-  try {
-    const { issueId } = req.params;
-    if (!issueId) return res.sendStatus(400);
 
-    const issue = await Issue.findById(issueId).select(
-      "title description stayAnonymous",
-    );
-    res.json({ issue });
-  } catch (err) {
-    next(err);
-  }
-});
 //confirm changes
 app.patch("/edit/:issueId", authorizationToken, async (req, res, next) => {
   try {
