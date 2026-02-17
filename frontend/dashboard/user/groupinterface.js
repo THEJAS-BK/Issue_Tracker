@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   //admin dashboard btn code
   const adminDashboardBtn = document.querySelector(".admin-dashboard-btn");
   adminDashboardBtn.addEventListener("click", () => {
-    window.location.href = `/frontend/dashboard/admin/adminPage.html?id=${id}`;
+    window.location.href = `/frontend/dashboard/admin/adminPage.html?id=${groupId}`;
   });
   const curUser = data.curUser;
   for (let member of data.allmembers.members) {

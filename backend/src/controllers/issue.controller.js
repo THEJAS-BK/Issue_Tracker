@@ -1,4 +1,4 @@
-const mongoose =require("mongoose")
+const mongoose = require("mongoose");
 
 //?schemas
 const Group = require("../models/group");
@@ -6,7 +6,7 @@ const ExpressError = require("../utils/ExpressError");
 const Issue = require("../models/issue");
 
 //!add issue to the group
-module.exports.addIssue=async (req, res, next) => {
+module.exports.addIssue = async (req, res, next) => {
   try {
     const { groupId } = req.params;
     const { title, description, stayAnonymous } = req.body;
@@ -23,9 +23,9 @@ module.exports.addIssue=async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 //!get edit issue page
-module.exports.getEditIssuePage= async (req, res, next) => {
+module.exports.getEditIssuePage = async (req, res, next) => {
   try {
     const { issueId } = req.params;
     if (!issueId) return res.sendStatus(400);
@@ -37,9 +37,9 @@ module.exports.getEditIssuePage= async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 //!confirm edited issue change
-module.exports.confirmEditIssue= async (req, res, next) => {
+module.exports.confirmEditIssue = async (req, res, next) => {
   try {
     const { issueId } = req.params;
     if (!issueId) return res.sendStatus(400);
@@ -63,9 +63,9 @@ module.exports.confirmEditIssue= async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 //! search issues in group user interface
-module.exports.searchIssueInGroupUserInterface=async (req, res, next) => {
+module.exports.searchIssueInGroupUserInterface = async (req, res, next) => {
   try {
     const { q } = req.query;
     if (!q) {
@@ -80,9 +80,9 @@ module.exports.searchIssueInGroupUserInterface=async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 //! get complete details about an issue and render it on the right side
-module.exports.getIssueDetailsUserInterface=async (req, res, next) => {
+module.exports.getIssueDetailsUserInterface = async (req, res, next) => {
   try {
     const { issueid } = req.params;
     if (!issueid) return res.sendStatus(400);
@@ -113,9 +113,9 @@ module.exports.getIssueDetailsUserInterface=async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 //! filter groups acc to pending,all,resolved,inprogress
-module.exports.filterIssuesInGroupUserInterface=async (req, res, next) => {
+module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
   try {
     const { state } = req.query;
     const { groupId } = req.params;
@@ -132,29 +132,102 @@ module.exports.filterIssuesInGroupUserInterface=async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 //!delete issue by owner in user interface
-module.exports.deleteIssueByOwner= async (req, res, next) => {
+module.exports.deleteIssueByOwner = async (req, res, next) => {
+  try {
+    const curUser = req.user.userId;
+    if (!curUser) return res.sendStatus(401);
+
+    const { issueId } = req.params;
+    if (!issueId) return res.sendStatus(400);
+
+    //check if id is valid or not
+    if (!mongoose.Types.ObjectId.isValid(issueId)) return res.sendStatus(404);
+
+    const issue = await Issue.findById(issueId);
+    if (!issue) return res.sendStatus(404);
+
+    //check validations
+    if (issue.createdBy.toString() !== req.user.userId)
+      return res.sendStatus(403);
+
+    await Issue.findByIdAndDelete(issueId);
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+};
+/*
+
+! admin page issues code
+
+*/
+
+//?get the admin dashboard page
+module.exports.getIssuesInAdminPage = async (req, res, next) => {
+  try {
+    const { issueid } = req.params;
+    if (!issueid) return res.sendStatus(400);
+
+    if (!mongoose.Types.ObjectId.isValid(issueid)) return res.sendStatus(404);
+
+    const issue = await Issue.findById(issueid)
+      .select("title description createdAt createdBy status")
+      .populate("createdBy", "name");
+    res.json({ issue });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//? mark as read and progress updation
+module.exports.markIssueAsReadInAdminPage= async (req, res, next) => {
     try {
-      const curUser = req.user.userId;
-      if (!curUser) return res.sendStatus(401);
-
       const { issueId } = req.params;
-      if (!issueId) return res.sendStatus(400);
-
-      //check if id is valid or not
-      if (!mongoose.Types.ObjectId.isValid(issueId)) return res.sendStatus(404);
-
-      const issue = await Issue.findById(issueId);
-      if (!issue) return res.sendStatus(404);
-
-      //check validations
-      if (issue.createdBy.toString() !== req.user.userId)
-        return res.sendStatus(403);
-
-      await Issue.findByIdAndDelete(issueId);
-      res.sendStatus(204);
+      const { state } = req.body;
+      await Issue.findByIdAndUpdate(
+        issueId,
+        {
+          status: state,
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+      res.sendStatus(200);
     } catch (err) {
       next(err);
     }
   }
+
+
+//? delete issues by admin privilages
+module.exports.deleteIssueByAdmin = async (req, res, next) => {
+  try {
+    const { issueId } = req.params;
+    const groupId = req.query.q;
+    if (!groupId || !issueId) return res.sendStatus(400);
+
+    const curUser = req.user.userId;
+    if (!curUser) return res.sendStatus(401);
+
+    const allmembers = await Group.findById(groupId).select("members");
+
+    const curUserRole = allmembers.members.find((mem) => {
+      return mem.userId.toString() === curUser;
+    }).role;
+
+    if (curUserRole !== "admin" && curUserRole !== "coadmin")
+      return res.status(403).json({ message: "unauthorized" });
+
+    await Issue.deleteOne({
+      _id: issueId,
+      group: groupId,
+    });
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+};

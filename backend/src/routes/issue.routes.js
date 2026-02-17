@@ -30,8 +30,19 @@ router.get("/filter/:groupId", authorizationToken, issueController.filterIssuesI
 //?delete issue by the owner in user interface
 router.delete("/delete/:issueId", authorizationToken, issueController.deleteIssueByOwner)
 
+/*
 
+admin page issues code
 
+*/
+//?get issues rendered in left side
+router.get("/details/:issueid/admin", authorizationToken, issueController.getIssuesInAdminPage)
+
+//?mark as read in admin page
+router.post("/:issueId/update/admin", authorizationToken, issueController.markIssueAsReadInAdminPage)
+
+//?delete issues by admin/coadmin privilages
+router.delete("/:issueId/delete/admin", authorizationToken, issueController.deleteIssueByAdmin)
 
 
 

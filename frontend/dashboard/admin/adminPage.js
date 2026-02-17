@@ -2,7 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const groupid = params.get("id");
-  const res = await apiFetch(`http://localhost:8080/api/${groupid}/admin`, {
+  const res = await apiFetch(`http://localhost:8080/groups/${groupid}/admin`, {
     method: "GET",
     credentials: "include",
   });
@@ -81,13 +81,18 @@ function AddIssueEvents() {
         issue.classList.remove("blue-border");
       });
       issue.classList.add("blue-border");
+      const issueId = issue.dataset.issueId;
       const res = await apiFetch(
-        `http://localhost:8080/api/indissue/${issue.dataset.issueId}/admin`,
+        `http://localhost:8080/issues/details/${issueId}/admin`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
       );
       const data = await res.json();
       updateIssuesOnRightSide(data.issue);
       //delete issue btn by admin privilages
-      deleteIssueByAdmin() 
+      deleteIssueByAdmin();
     });
   });
 }
@@ -120,8 +125,9 @@ function updateIssuesOnRightSide(issue) {
 async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
   if (allIssues[0]) {
+    const issueId =allIssues[0].dataset.issueId;
     const res = await apiFetch(
-      `http://localhost:8080/api/indissue/${allIssues[0].dataset.issueId}/admin`,
+      `http://localhost:8080/issues/details/${issueId}/admin`,
       {
         method: "GET",
         credentials: "include",
@@ -132,7 +138,7 @@ async function firstValSelected() {
     //add blue border
     allIssues[0].classList.add("blue-border");
     //deleteIssue btn
-    deleteIssueByAdmin() 
+    deleteIssueByAdmin();
   }
 }
 //!delete issue function
@@ -140,8 +146,9 @@ function deleteIssueByAdmin() {
   const deleteBtn = document.querySelector(".delete-issue-btn");
   deleteBtn.addEventListener("click", async (e) => {
     const groupId = new URLSearchParams(window.location.search).get("id");
+    const issueId=e.target.dataset.issueId;
     const res = await apiFetch(
-      `http://localhost:8080/api/${e.target.dataset.issueId}/delete/admin?q=${groupId}`,
+      `http://localhost:8080/issues/${issueId}/delete/admin?q=${groupId}`,
       {
         method: "DELETE",
         credentials: "include",
@@ -150,7 +157,7 @@ function deleteIssueByAdmin() {
     if (res.ok) {
       const state = document.getElementById("filter-select").value;
       const res = await apiFetch(
-        `http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${state}`,
+        `http://localhost:8080/issues/filter/${groupId}?state=${state}`,
         {
           method: "GET",
           credentials: "include",
@@ -158,7 +165,6 @@ function deleteIssueByAdmin() {
       );
       document.querySelector(".issue-contents").innerHTML = "";
       const data = await res.json();
-      console.log(data)
       for (let issue of data.issues) {
         insertIssueCard(issue);
       }
@@ -175,7 +181,7 @@ search.addEventListener("input", async (e) => {
 
   if (searchTerm.length > 0) {
     const res = await apiFetch(
-      `http://localhost:8080/issue/search?q=${encodeURIComponent(searchTerm)}`,
+      `http://localhost:8080/issues/search?q=${encodeURIComponent(searchTerm)}`,
       {
         method: "GET",
         credentials: "include",
@@ -192,7 +198,7 @@ search.addEventListener("input", async (e) => {
   if (searchTerm.length === 0) {
     const id = new URLSearchParams(window.location.search).get("id");
     document.querySelector(".issue-contents").innerHTML = "";
-    const res = await apiFetch(`http://localhost:8080/groupinterface/${id}`, {
+    const res = await apiFetch(`http://localhost:8080/groups/interface/${id}`, {
       method: "GET",
       credentials: "include",
     });
@@ -209,8 +215,9 @@ search.addEventListener("input", async (e) => {
 const selectStatus = document.getElementById("filter-select");
 selectStatus.addEventListener("change", async (e) => {
   document.querySelector(".issue-contents").innerHTML = "";
+  const groupId = new URLSearchParams(window.location.search).get("id");
   const res = await apiFetch(
-    `http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${e.target.value}`,
+    `http://localhost:8080/issues/filter/${groupId}?state=${e.target.value}`,
     {
       method: "GET",
       credentials: "include",
@@ -228,8 +235,9 @@ selectStatus.addEventListener("change", async (e) => {
 const updateBtns = document.querySelectorAll(".update-state-btns");
 updateBtns.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
+    const issueId=e.target.dataset.issueId;
     const res = await apiFetch(
-      `http://localhost:8080/api/${e.target.dataset.issueId}/update/admin`,
+      `http://localhost:8080/issues/${issueId}/update/admin`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -240,8 +248,9 @@ updateBtns.forEach((btn) => {
     );
     if (res.status == 200) {
       const state = document.getElementById("filter-select").value;
+      const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/filter/${new URLSearchParams(window.location.search).get("id")}?state=${state}`,
+        `http://localhost:8080/issues/filter/${groupId}?state=${state}`,
         {
           method: "GET",
           credentials: "include",
@@ -272,9 +281,9 @@ deleteGroupBtn.addEventListener("click", () => {
   document
     .querySelector(".confirm-delete")
     .addEventListener("click", async () => {
-      const id = new URLSearchParams(window.location.search).get("id");
+      const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/api/delete/${id}/admin`,
+        `http://localhost:8080/groups/delete/${groupId}/admin`,
         {
           method: "DELETE",
           credentials: "include",
@@ -411,7 +420,7 @@ document
     if (!groupId) return alert("invalid");
     document.querySelector(".member-list").innerHTML = "";
     const res = await apiFetch(
-      `http://localhost:8080/api/members/${groupId}/admin`,
+      `http://localhost:8080/groups/members/${groupId}/admin`,
       {
         method: "GET",
         credentials: "include",
@@ -423,16 +432,16 @@ document
       addMemberCard(member, data.curUserRole);
     }
 
-    //search
+    //search members
     const searchInput = document.getElementById("search-members");
 
     searchInput.addEventListener("input", async (e) => {
       const val = e.target.value;
       const groupId = new URLSearchParams(window.location.search).get("id");
 
-      if (searchInput.value.length > 1) {
+      if (searchInput.value.length > 0) {
         const res = await apiFetch(
-          `http://localhost:8080/api/members/search/${groupId}/admin/?q=${val}`,
+          `http://localhost:8080/groups/members/search/${groupId}/admin?q=${val}`,
           {
             method: "GET",
             credentials: "include",
@@ -451,7 +460,7 @@ document
       if (searchInput.value.length === 0) {
         document.querySelector(".member-list").innerHTML = "";
         const res = await apiFetch(
-          `http://localhost:8080/api/members/${groupId}/admin`,
+          `http://localhost:8080/groups/members/${groupId}/admin`,
           {
             method: "GET",
             credentials: "include",
@@ -487,7 +496,7 @@ function promoteToCoAdmin() {
         const userId = e.target.dataset.userId;
         const groupId = new URLSearchParams(window.location.search).get("id");
         const res = await apiFetch(
-          `http://localhost:8080/api/members/promote/${groupId}/${userId}/admin`,
+          `http://localhost:8080/groups/members/promote/${groupId}/${userId}/admin`,
           {
             method: "PUT",
             credentials: "include",
@@ -515,7 +524,7 @@ function demoteToMember() {
         const userId = e.target.dataset.userId;
         const groupId = new URLSearchParams(window.location.search).get("id");
         const res = await apiFetch(
-          `http://localhost:8080/api/members/demote/${groupId}/${userId}/admin`,
+          `http://localhost:8080/groups/members/demote/${groupId}/${userId}/admin`,
           {
             method: "PUT",
             credentials: "include",
@@ -543,7 +552,7 @@ function kickMember() {
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/api/members/kick/${groupId}/${userId}/admin`,
+        `http://localhost:8080/groups/members/kick/${groupId}/${userId}/admin`,
         {
           method: "DELETE",
           credentials: "include",
@@ -617,7 +626,7 @@ document
     //get all request initially
     const groupId = new URLSearchParams(window.location.search).get("id");
     const res = await apiFetch(
-      `http://localhost:8080/api/group/join/request/${groupId}/admin`,
+      `http://localhost:8080/groups/join/request/${groupId}/admin`,
       {
         method: "GET",
         credentials: "include",
@@ -639,7 +648,7 @@ document
       .addEventListener("click", async () => {
         document.querySelector(".join-request-list").innerHTML = "";
         const res = await apiFetch(
-          `http://localhost:8080/api/group/join/request/${groupId}/admin`,
+          `http://localhost:8080/groups/join/request/${groupId}/admin`,
           {
             method: "GET",
             credentials: "include",
@@ -665,7 +674,7 @@ function acceptJoinRequest() {
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/api/group/join/request/${userId}/admin?q=${groupId}`,
+        `http://localhost:8080/groups/join/request/${userId}/admin?q=${groupId}`,
         {
           method: "POST",
           credentials: "include",
@@ -687,9 +696,9 @@ function declineJoinReq() {
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/api/group/join/request/${userId}/admin/decline?q=${groupId}`,
+        `http://localhost:8080/groups/join/request/${userId}/admin?q=${groupId}`,
         {
-          method: "POST",
+          method: "DELETE",
           credentials: "include",
         },
       );
@@ -709,7 +718,7 @@ function searchRequests() {
 
       if (e.target.value.length > 0) {
         const res = await apiFetch(
-          `http://localhost:8080/api/group/join/request/${groupId}/admin/search?q=${e.target.value}`,
+          `http://localhost:8080/groups/join/request/${groupId}/admin/search?q=${e.target.value}`,
           {
             method: "GET",
             credentials: "include",
@@ -729,7 +738,7 @@ function searchRequests() {
       if (e.target.value.length === 0) {
         document.querySelector(".join-request-list").innerHTML = "";
         const res = await apiFetch(
-          `http://localhost:8080/api/group/join/request/${groupId}/admin`,
+          `http://localhost:8080/groups/join/request/${groupId}/admin`,
           {
             method: "GET",
             credentials: "include",

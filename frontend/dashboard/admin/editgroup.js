@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!groupId) return;
 
   const res = await apiFetch(
-    `http://localhost:8080/api/edit/group/${groupId}/admin`,
+    `http://localhost:8080/groups/edit/${groupId}/admin`,
     {
       method: "GET",
       credentials: "include",
@@ -32,7 +32,7 @@ createGroupForm.addEventListener("submit", async (e) => {
   const groupId = new URLSearchParams(window.location.search).get("id");
   e.preventDefault();
   const res = await apiFetch(
-    `http://localhost:8080/api/update/group/${groupId}/admin`,
+    `http://localhost:8080/groups/update/${groupId}/admin`,
     {
       method: "PATCH",
       headers: {
