@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const createGroupForm = document.querySelector("#create-group-form");
   createGroupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const res = await apiFetch("http://localhost:8080/group/create", {
+    const res = await apiFetch("http://localhost:8080/groups/create", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

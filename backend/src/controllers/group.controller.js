@@ -1,3 +1,5 @@
+const mongoose =require("mongoose")
+
 //?schemas
 const Group = require("../models/group");
 const ExpressError = require("../utils/ExpressError");
@@ -78,5 +80,89 @@ module.exports.searchAllGroups=async (req, res,next) => {
     res.json({ allGroups });
   } catch (err) {
     next(err)
+  }
+}
+//!open to join group join btn
+module.exports.joinSearchedGroups=async (req, res, next) => {
+  try {
+    const { groupid } = req.params;
+    const checkIfExist = await Group.findOne({
+      _id: groupid,
+      members: { $elemMatch: { userId: req.user.userId } },
+    });
+    if (checkIfExist) {
+      return res.sendStatus(409);
+    }
+
+    await Group.findByIdAndUpdate(
+      groupid,
+      { $addToSet: { members: { userId: req.user.userId, role: "member" } } },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+}
+//! reqest to join group code in global search
+module.exports.joinGroupRequest= async (req, res, next) => {
+    try {
+      const { groupId } = req.params;
+      if (!groupId) return res.sendStatus(400);
+
+      const curUser = req.user.userId;
+      if (!curUser) return res.sendStatus(401);
+
+      if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
+
+      const group = await Group.findById(groupId);
+      if (!group) return res.sendStatus(404);
+
+      const isMember = group.members.some(
+        (member) => member.userId.toString() === curUser,
+      );
+      if (isMember)
+        return res
+          .status(409)
+          .json({ code: "already_member", message: "Already a member" });
+
+      const isRequested = group.joinRequests.some(
+        (request) => request.userId.toString() === curUser,
+      );
+      if (isRequested)
+        return res
+          .status(409)
+          .json({ code: "already_requested", message: "Already requested" });
+
+      await Group.findByIdAndUpdate(groupId, {
+        $push: {
+          joinRequests: { userId: curUser },
+        },
+      });
+      res.sendStatus(201);
+    } catch (err) {
+      next(err);
+    }
+  }
+//!search the groups you joined
+module.exports.searchJoinedGroups=async (req, res,next) => {
+  try {
+    const { val } = req.body;
+    if (val.length == 6) {
+      const allGroups = await Group.findOne({ inviteCode: val });
+      if (allGroups) {
+        return res.json({ allGroups });
+      }
+    }
+
+    const allGroups = await Group.find({
+      groupname: { $regex: val, $options: "i" },
+    });
+    res.json({ allGroups });
+  } catch (err) {
+    next(err);
   }
 }

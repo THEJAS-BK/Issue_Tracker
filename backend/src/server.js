@@ -49,24 +49,6 @@ app.use("/auth", authRoutes);
 app.use("/groups",groupRoutes)
 
 //joined groups
-app.post("/searchjoined", authorizationToken, async (req, res) => {
-  try {
-    const { val } = req.body;
-    if (val.length == 6) {
-      const allGroups = await CreateGroup.findOne({ inviteCode: val });
-      if (allGroups) {
-        return res.json({ allGroups });
-      }
-    }
-
-    const allGroups = await CreateGroup.find({
-      groupname: { $regex: val, $options: "i" },
-    });
-    res.json({ allGroups });
-  } catch (err) {
-    res.status(500);
-  }
-});
 //!add pages
 app.post("/add/:groupId", authorizationToken, async (req, res, next) => {
   try {
@@ -221,31 +203,6 @@ app.get("/filter/:groupId", authorizationToken, async (req, res, next) => {
     next(err);
   }
 });
-//add new user to group
-app.get("/addmember/:groupid", authorizationToken, async (req, res, next) => {
-  try {
-    const { groupid } = req.params;
-    const checkIfExist = await CreateGroup.findOne({
-      _id: groupid,
-      members: { $elemMatch: { userId: req.user.userId } },
-    });
-    if (checkIfExist) {
-      return res.sendStatus(409);
-    }
-
-    await CreateGroup.findByIdAndUpdate(
-      groupid,
-      { $addToSet: { members: { userId: req.user.userId, role: "member" } } },
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
-    res.sendStatus(200);
-  } catch (err) {
-    next(err);
-  }
-});
 //delete issues by owner
 app.delete(
   "/delete/issue/:issueId",
@@ -313,50 +270,6 @@ app.get(
         .select("members")
         .populate("members.userId", "name");
       res.json({ members });
-    } catch (err) {
-      next(err);
-    }
-  },
-);
-//?send request to join group
-app.post(
-  "/api/group/join/request/:groupId",
-  authorizationToken,
-  async (req, res, next) => {
-    try {
-      const { groupId } = req.params;
-      if (!groupId) return res.sendStatus(400);
-
-      const curUser = req.user.userId;
-      if (!curUser) return res.sendStatus(401);
-
-      if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
-
-      const group = await CreateGroup.findById(groupId);
-      if (!group) return res.sendStatus(404);
-
-      const isMember = group.members.some(
-        (member) => member.userId.toString() === curUser,
-      );
-      if (isMember)
-        return res
-          .status(409)
-          .json({ code: "already_member", message: "Already a member" });
-
-      const isRequested = group.joinRequests.some(
-        (request) => request.userId.toString() === curUser,
-      );
-      if (isRequested)
-        return res
-          .status(409)
-          .json({ code: "already_requested", message: "Already requested" });
-
-      await CreateGroup.findByIdAndUpdate(groupId, {
-        $push: {
-          joinRequests: { userId: curUser },
-        },
-      });
-      res.sendStatus(201);
     } catch (err) {
       next(err);
     }

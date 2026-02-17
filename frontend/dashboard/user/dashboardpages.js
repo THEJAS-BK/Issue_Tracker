@@ -246,9 +246,9 @@ async function idForSearchResults() {
   joinGroupBtn.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const res = await apiFetch(
-        `http://localhost:8080/addmember/${btn.dataset.groupId}`,
+        `http://localhost:8080/groups/member/add/${btn.dataset.groupId}`,
         {
-          method: "GET",
+          method: "POST",
           credentials: "include",
         },
       );
@@ -273,7 +273,7 @@ searchJoinedGroups.addEventListener("input", async (e) => {
   const val = searchJoinedGroups.value;
 
   if (val.length > 1) {
-    const res = await apiFetch("http://localhost:8080/searchjoined", {
+    const res = await apiFetch("http://localhost:8080/groups/search/joined", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -317,7 +317,7 @@ async function joinRequest() {
   allReqBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const res = await apiFetch(
-        `http://localhost:8080/api/group/join/request/${btn.dataset.groupId}`,
+        `http://localhost:8080/groups/join/request/${btn.dataset.groupId}`,
         {
           method: "POST",
           credentials: "include",
