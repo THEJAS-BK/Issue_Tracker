@@ -345,6 +345,7 @@ main {
   height: 200px;
   flex-direction: column;
   border:5px solid black;
+  text-align: center;
 }
 .confirm-modal>p{
   margin-top:0.5rem
@@ -353,6 +354,7 @@ main {
   margin-top: 1rem;
   display: flex;
   gap:1rem;
+  justify-content: center;
 }
 .actions>button{
   padding:0.5rem 1rem;

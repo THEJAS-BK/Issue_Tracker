@@ -145,32 +145,49 @@ async function firstValSelected() {
 function deleteIssueByAdmin() {
   const deleteBtn = document.querySelector(".delete-issue-btn");
   deleteBtn.addEventListener("click", async (e) => {
-    const groupId = new URLSearchParams(window.location.search).get("id");
-    const issueId = e.target.dataset.issueId;
-    const res = await apiFetch(
-      `http://localhost:8080/issues/${issueId}/delete/admin?q=${groupId}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      },
+    const confirmDelete = document.querySelector(
+      ".confirm-issue-delete-backdrop",
     );
-    if (res.ok) {
-      const state = document.getElementById("filter-select").value;
-      const res = await apiFetch(
-        `http://localhost:8080/issues/filter/${groupId}?state=${state}`,
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
-      document.querySelector(".issue-contents").innerHTML = "";
-      const data = await res.json();
-      for (let issue of data.issues) {
-        insertIssueCard(issue);
-      }
-      firstValSelected();
-      AddIssueEvents();
-    }
+    confirmDelete.style.display = "flex";
+    document
+      .querySelector(".confirm-delete-issue")
+      .addEventListener("click", async (e) => {
+        const groupId = new URLSearchParams(window.location.search).get("id");
+        const issueId = deleteBtn.dataset.issueId;
+        const res = await apiFetch(
+          `http://localhost:8080/issues/${issueId}/delete/admin?q=${groupId}`,
+          {
+            method: "DELETE",
+            credentials: "include",
+          },
+        );
+        if (res.ok) {
+          confirmDelete.style.display = "none";
+          const state = document.getElementById("filter-select").value;
+          const res = await apiFetch(
+            `http://localhost:8080/issues/filter/${groupId}?state=${state}`,
+            {
+              method: "GET",
+              credentials: "include",
+            },
+          );
+          document.querySelector(".issue-contents").innerHTML = "";
+          const data = await res.json();
+          for (let issue of data.issues) {
+            insertIssueCard(issue);
+          }
+          firstValSelected();
+          AddIssueEvents();
+        }
+      });
+
+    //cancel delete
+    document
+      .querySelector(".confirm-cancel-issue")
+      .addEventListener("click", () => {
+        document.querySelector(".confirm-issue-delete-backdrop").style.display =
+          "none";
+      });
   });
 }
 
