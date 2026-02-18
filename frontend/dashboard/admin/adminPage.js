@@ -441,10 +441,10 @@ document
     searchInput.addEventListener("input", async (e) => {
       const val = e.target.value;
       const groupId = new URLSearchParams(window.location.search).get("id");
-
+      const role = document.getElementById("filter-members").value;
       if (searchInput.value.length > 0) {
         const res = await apiFetch(
-          `http://localhost:8080/groups/members/search/${groupId}/admin?q=${val}`,
+          `http://localhost:8080/groups/members/search/${groupId}/admin?q=${val}&state=${role}`,
           {
             method: "GET",
             credentials: "include",
@@ -463,7 +463,7 @@ document
       if (searchInput.value.length === 0) {
         document.querySelector(".member-list").innerHTML = "";
         const res = await apiFetch(
-          `http://localhost:8080/groups/members/${groupId}/admin`,
+          `http://localhost:8080/groups/members/${groupId}/admin?state=${role}`,
           {
             method: "GET",
             credentials: "include",
@@ -471,7 +471,7 @@ document
         );
         const data = await res.json();
         //render all members
-        for (let member of data.members.members) {
+        for (let member of data.members) {
           addMemberCard(member, data.curUserRole);
         }
       }

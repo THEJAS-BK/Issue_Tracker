@@ -360,6 +360,11 @@ module.exports.searchGroupMembersAdminPage = async (req, res, next) => {
 
     const searchText = req.query.q;
     if (!searchText) return res.sendStatus(400);
+    
+    const state= req.query.state;
+    if(!state ||!["all","coadmin","member"].includes(state)){
+     return  res.status(400).json({mes:"Your not a part of the group"})
+    }
 
     const curUser = req.user.userId;
     if (!curUser) return res.sendStatus(401);
@@ -371,10 +376,24 @@ module.exports.searchGroupMembersAdminPage = async (req, res, next) => {
       .populate("members.userId", "name email");
 
     const regex = new RegExp(searchText, "i");
-
-    const members = allmembers.members.filter((mem) => {
-      return regex.test(mem.userId.name);
-    });
+    let members;
+    if(state==="all"){
+      console.log("gfjgks;")
+       members = allmembers.members.filter((mem) => {
+        return regex.test(mem.userId.name);
+      });
+    }
+    else if(state==="coadmin"){
+      members = allmembers.members.filter((mem) => {
+        return regex.test(mem.userId.name) && mem.role === state;
+      });
+    }
+    else if(state==="member"){
+      members = allmembers.members.filter((mem) => {
+        return regex.test(mem.userId.name) && mem.role === state;
+      });
+    }
+    console.log(members)
 
     const curUserRole = allmembers.members.find(
       (mem) => mem.userId._id.toString() === curUser,
@@ -399,7 +418,7 @@ module.exports.promoteToCoAdmin = async (req, res, next) => {
     const group = await Group.findById(groupId);
     if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
 
-    const val = await Group.updateOne(
+   await Group.updateOne(
       {
         _id: groupId,
         "members.userId": userId,
