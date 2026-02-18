@@ -19,6 +19,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.querySelector(".group-description").textContent =
     groupDetails.description;
   document.querySelector(".invite-code").textContent = groupDetails.inviteCode;
+
+  //remove edit and delete group btn for coadmins
+  if(data.role==="coadmin"){
+    document.getElementById("dropdown-edit").remove()
+    document.getElementById("dropdown-delete").remove();
+  }
 });
 
 function insertIssueCard(issue) {

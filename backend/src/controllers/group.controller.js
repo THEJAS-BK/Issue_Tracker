@@ -240,8 +240,6 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
 
     const regex = new RegExp(val, "i");
 
-
-
     if (state === "all") {
       members = members.members.filter((mem) => {
         return regex.test(mem.userId.name);
@@ -250,7 +248,7 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
       members = members.members.filter((mem) => {
         return regex.test(mem.userId.name) && mem.role == "coadmin";
       });
-            console.log("coadmin members",members)
+      console.log("coadmin members", members);
     } else if (state === "member") {
       members = members.members.filter((mem) => {
         return regex.test(mem.userId.name) && mem.role == "member";
@@ -258,7 +256,6 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
     } else {
       next(new ExpressError("invalid state", 500));
     }
-
 
     res.json({ members });
   } catch (err) {
@@ -277,14 +274,26 @@ module.exports.getAdminPage = async (req, res, next) => {
     const { groupid } = req.params;
     if (!groupid) return res.sendStatus(400);
 
+    const curUser = req.user.userId;
+    if (!curUser) return res.sendStatus(401);
+
     const issues = await Issue.find({ group: groupid })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 
+    const members = await Group.findById(groupid)
+      .select("members")
+      .populate("members.userId", "_id");
+
+    const role = members.members.find((mem) => {
+      return curUser === mem.userId._id.toString();
+    }).role;
+
+
     const groupDetails = await Group.findById(groupid).select(
       "groupname description inviteCode",
     );
-    res.json({ issues, groupDetails });
+    res.json({ issues, groupDetails,role });
   } catch (err) {
     next(err);
   }
