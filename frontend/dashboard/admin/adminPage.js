@@ -25,6 +25,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("dropdown-edit").remove()
     document.getElementById("dropdown-delete").remove();
   }
+
+  //go back to user interface btn
+  const returnToUserPageBtn=document.getElementById("user-interface");
+  returnToUserPageBtn.addEventListener("click",()=>{
+    const groupId=new URLSearchParams(window.location.search).get("id")
+    window.location.href=`/frontend/dashboard/user/groupInterface.html?id=${groupId}`
+})
 });
 
 function insertIssueCard(issue) {
@@ -126,6 +133,18 @@ function updateIssuesOnRightSide(issue) {
   markInProgress.dataset.issueId = issue._id;
   markResolved.dataset.issueId = issue._id;
   // adding their states
+  if(issue.status==="inprogress"){
+    markInProgress.style.display="none";
+    markResolved.style.display="block";
+  }
+  else if(issue.status==="resolved"){
+    markInProgress.style.display="none";
+    markResolved.style.display="none";
+  }
+  else if(issue.status==="pending"){
+    markInProgress.style.display="block";
+    markResolved.style.display="block";
+  }
   markInProgress.dataset.state = "inprogress";
   markResolved.dataset.state = "resolved";
   //delete issue btn and more info btn
@@ -274,6 +293,7 @@ updateBtns.forEach((btn) => {
       },
     );
     if (res.status == 200) {
+      btn.style.display="none"
       const state = document.getElementById("filter-select").value;
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(

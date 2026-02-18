@@ -249,10 +249,6 @@ module.exports.markIssueAsReadInAdminPage = async (req, res, next) => {
         },
       );
     }
-
-    const issues=await Issue.findById(issueId)
-    console.log(issues)
-
     res.sendStatus(200);
   } catch (err) {
     next(err);
