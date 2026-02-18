@@ -240,7 +240,7 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
 
     const regex = new RegExp(val, "i");
 
-    console.log("kfngsdfkjlgdj", state);
+
 
     if (state === "all") {
       members = members.members.filter((mem) => {
@@ -250,6 +250,7 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
       members = members.members.filter((mem) => {
         return regex.test(mem.userId.name) && mem.role == "coadmin";
       });
+            console.log("coadmin members",members)
     } else if (state === "member") {
       members = members.members.filter((mem) => {
         return regex.test(mem.userId.name) && mem.role == "member";
@@ -258,7 +259,6 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
       next(new ExpressError("invalid state", 500));
     }
 
-    console.log(members);
 
     res.json({ members });
   } catch (err) {

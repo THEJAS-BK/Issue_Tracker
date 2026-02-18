@@ -378,7 +378,7 @@ document.getElementById("show-members").addEventListener("click", async () => {
 
   //enabling filter
   enablingFilterOptionForMember();
-  
+
   const data = await res.json();
   //clear existing members
   document.querySelector(".member-list").innerHTML = "";
@@ -388,6 +388,7 @@ document.getElementById("show-members").addEventListener("click", async () => {
   }
 
   searchInput.addEventListener("input", async (e) => {
+    const role = document.getElementById("filter-members").value;
     const val = e.target.value;
     if (searchInput.value.length > 0) {
       const res = await apiFetch(
@@ -408,6 +409,7 @@ document.getElementById("show-members").addEventListener("click", async () => {
     }
     //cleared input
     if (searchInput.value.length === 0) {
+      const role = document.getElementById("filter-members").value;
       document.querySelector(".member-list").innerHTML = "";
       const res = await apiFetch(
         `http://localhost:8080/groups/members/${groupId}?state=${role}`,
