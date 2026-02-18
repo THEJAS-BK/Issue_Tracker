@@ -46,7 +46,7 @@
           >group Interface</a
         >
         <a href="/frontend/dashboard/admin/adminPage.html">admin page</a>
-         <a href="/frontend/dashboard/user/editIssue.html">edit issue</a>
+        <a href="/frontend/dashboard/user/editIssue.html">edit issue</a>
         <a href="/frontend/dashboard/user/#">Settings</a>
         <a href="/frontend/dashboard/user/#">Logout</a>
       </div>
@@ -64,8 +64,7 @@
       </div>
     </div>
 
-
-     <!-- members info part  -->
+    <!-- members info part  -->
     <div class="confirm-backdrop-members">
       <div class="members-tab">
         <div class="member-head">
@@ -106,7 +105,9 @@
         <label for="menu-toggle">
           <i class="fa-solid fa-bars"></i>
         </label>
-        <button id="show-members">members (<span class="show-total-members">90</span>) </button>
+        <button id="show-members">
+          members (<span class="show-total-members">90</span>)
+        </button>
       </div>
       <div class="mid">
         <h2>User dashboard</h2>
@@ -148,6 +149,7 @@
             </div>
             <select name="filer" id="search-filter">
               <option value="all">all</option>
+              <option value="myIssues">My Issues</option>
               <option value="pending">pending</option>
               <option value="inprogress">In progress</option>
               <option value="resolved">resolved</option>
@@ -160,7 +162,7 @@
             <div class="head-title">
               <h3></h3>
               <div class="issue-options">
-                <i class="fa-solid fa-ellipsis "></i>
+                <i class="fa-solid fa-ellipsis"></i>
                 <div class="issue-options-dropdown">
                   <button id="edit-issue">Edit</button>
                   <button id="delete-issue">Delete</button>

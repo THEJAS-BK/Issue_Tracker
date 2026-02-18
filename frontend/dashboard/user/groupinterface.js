@@ -264,6 +264,7 @@ const selectStatus = document.getElementById("search-filter");
 selectStatus.addEventListener("change", async (e) => {
   const groupId = new URLSearchParams(window.location.search).get("id");
   const searchVal = e.target.value;
+  console.log(searchVal)
   const res = await apiFetch(
     `http://localhost:8080/issues/filter/${groupId}?state=${searchVal}`,
     {

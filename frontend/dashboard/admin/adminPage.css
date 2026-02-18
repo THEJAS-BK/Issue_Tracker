@@ -663,3 +663,44 @@ p {
     box-shadow: 0 0 3px grey;
 
 }
+/* confirm kickout  */
+.confirm-kickout-backdrop{
+    position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+}
+.confirm-kickout-modal{
+   background: #efeeee;
+    padding: 20px 24px;
+    border-radius: 10px;
+    width: min(90%, 400px);
+    display: flex;
+    height: 300px;
+    flex-direction: column;
+    border: 5px solid black;
+    text-align: center;
+    justify-content: center;
+}
+.confirm-kickout-modal>p{
+  margin-top:1rem; ;
+}
+.confirm-kickout-actions{
+  margin-top:2rem;
+  display: flex;
+  justify-content: center;
+  gap:1rem;
+}
+.confirm-kickout-actions>button{
+      padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 3px grey;
+
+}

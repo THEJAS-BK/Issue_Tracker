@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Group = require("../models/group");
 const ExpressError = require("../utils/ExpressError");
 const Issue = require("../models/issue");
+const group = require("../models/group");
 
 //!add issue to the group
 module.exports.addIssue = async (req, res, next) => {
@@ -119,12 +120,25 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
   try {
     const { state } = req.query;
     const { groupId } = req.params;
+
+    if(!state ||!groupId)return res.sendStatus(400)
+
+    if(!req.user.userId) return res.sendStatus(403)
+
     if (state === "all") {
       const issues = await Issue.find({ group: groupId })
         .select("title createdBy createdAt status")
         .populate("createdBy", "name");
       return res.json({ issues });
     }
+    if(state==="myIssues"){
+      const issues = await Issue.find({ group: groupId, createdBy: req.user.userId })
+        .select("title createdBy createdAt status")
+        .populate("createdBy", "name");
+      return res.json({ issues });
+    }
+
+
     const issues = await Issue.find({ group: groupId, status: state })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
