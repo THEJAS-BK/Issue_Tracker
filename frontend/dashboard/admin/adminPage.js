@@ -125,7 +125,7 @@ function updateIssuesOnRightSide(issue) {
 async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
   if (allIssues[0]) {
-    const issueId =allIssues[0].dataset.issueId;
+    const issueId = allIssues[0].dataset.issueId;
     const res = await apiFetch(
       `http://localhost:8080/issues/details/${issueId}/admin`,
       {
@@ -146,7 +146,7 @@ function deleteIssueByAdmin() {
   const deleteBtn = document.querySelector(".delete-issue-btn");
   deleteBtn.addEventListener("click", async (e) => {
     const groupId = new URLSearchParams(window.location.search).get("id");
-    const issueId=e.target.dataset.issueId;
+    const issueId = e.target.dataset.issueId;
     const res = await apiFetch(
       `http://localhost:8080/issues/${issueId}/delete/admin?q=${groupId}`,
       {
@@ -235,7 +235,7 @@ selectStatus.addEventListener("change", async (e) => {
 const updateBtns = document.querySelectorAll(".update-state-btns");
 updateBtns.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
-    const issueId=e.target.dataset.issueId;
+    const issueId = e.target.dataset.issueId;
     const res = await apiFetch(
       `http://localhost:8080/issues/${issueId}/update/admin`,
       {
@@ -419,8 +419,9 @@ document
     const groupId = new URLSearchParams(window.location.search).get("id");
     if (!groupId) return alert("invalid");
     document.querySelector(".member-list").innerHTML = "";
+  
     const res = await apiFetch(
-      `http://localhost:8080/groups/members/${groupId}/admin`,
+      `http://localhost:8080/groups/members/${groupId}/admin?state=all`,
       {
         method: "GET",
         credentials: "include",
@@ -428,10 +429,11 @@ document
     );
     const data = await res.json();
     //render all members
-    for (let member of data.members.members) {
+    for (let member of data.members) {
       addMemberCard(member, data.curUserRole);
     }
-
+    //enablining filter option
+    enableFilterOptions(groupId);
     //search members
     const searchInput = document.getElementById("search-members");
 
@@ -486,6 +488,36 @@ document
     //kick member
     kickMember();
   });
+
+//enabling filteration of group members
+function enableFilterOptions(groupId) {
+  document
+    .getElementById("filter-members")
+    .addEventListener("change", async (e) => {
+        document.querySelector(".member-list").innerHTML = "";
+      let role = e.target.value;
+      console.log("enable",role)
+
+      const res = await apiFetch(
+        `http://localhost:8080/groups/members/${groupId}/admin?state=${role}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+     if(res.ok){
+       const data = await res.json();
+      //render all members
+      for (let member of data.members) {
+        addMemberCard(member, data.curUserRole);
+      }
+     }
+     else{
+      alert("invalid")
+     }
+    });
+}
 
 //members option in admin
 function promoteToCoAdmin() {

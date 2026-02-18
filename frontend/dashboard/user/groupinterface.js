@@ -18,7 +18,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     credentials: "include",
   });
   const data = await res.json();
+  
+  //?show total members in group
+  document.querySelector(".show-total-members").textContent = data.allmembers.members.length;
 
+
+  
   //load group name and description
   const groupName = document.querySelector(".group-name");
   const groupDesc = document.querySelector(".group-description");

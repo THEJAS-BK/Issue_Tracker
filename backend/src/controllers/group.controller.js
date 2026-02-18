@@ -320,12 +320,17 @@ module.exports.getGroupMembersAdminPage = async (req, res, next) => {
     const { groupId } = req.params;
     if (!groupId) return res.sendStatus(400);
 
+    const state= req.query.state;
+    if(!state ||!["all","coadmin","member"].includes(state)){
+     return  res.status(400).json({mes:"Your not a part of the group"})
+    }
+
     const curUser = req.user.userId;
     if (!curUser) res.sendStatus(401);
 
     if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
-    const members = await Group.findById(groupId)
+    let members = await Group.findById(groupId)
       .select("members")
       .populate("members.userId", "name email");
 
@@ -333,6 +338,15 @@ module.exports.getGroupMembersAdminPage = async (req, res, next) => {
       (mem) => mem.userId._id.toString() === curUser,
     ).role;
 
+     if(state==="coadmin"){
+       members = members.members.filter((mem)=> mem.role==="coadmin")
+     }
+     else if(state==="member"){
+       members = members.members.filter((mem)=> mem.role==="member")
+     }
+     else if(state==="all"){
+       members = members.members
+     }
     res.json({ members, curUserRole });
   } catch (err) {
     next(err);
