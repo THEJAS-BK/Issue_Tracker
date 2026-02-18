@@ -121,9 +121,9 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
     const { state } = req.query;
     const { groupId } = req.params;
 
-    if(!state ||!groupId)return res.sendStatus(400)
+    if (!state || !groupId) return res.sendStatus(400);
 
-    if(!req.user.userId) return res.sendStatus(403)
+    if (!req.user.userId) return res.sendStatus(403);
 
     if (state === "all") {
       const issues = await Issue.find({ group: groupId })
@@ -131,13 +131,15 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
         .populate("createdBy", "name");
       return res.json({ issues });
     }
-    if(state==="myIssues"){
-      const issues = await Issue.find({ group: groupId, createdBy: req.user.userId })
+    if (state === "myIssues") {
+      const issues = await Issue.find({
+        group: groupId,
+        createdBy: req.user.userId,
+      })
         .select("title createdBy createdAt status")
         .populate("createdBy", "name");
       return res.json({ issues });
     }
-
 
     const issues = await Issue.find({ group: groupId, status: state })
       .select("title createdBy createdAt status")
@@ -196,26 +198,66 @@ module.exports.getIssuesInAdminPage = async (req, res, next) => {
 };
 
 //? mark as read and progress updation
-module.exports.markIssueAsReadInAdminPage= async (req, res, next) => {
-    try {
-      const { issueId } = req.params;
-      const { state } = req.body;
-      await Issue.findByIdAndUpdate(
-        issueId,
+module.exports.markIssueAsReadInAdminPage = async (req, res, next) => {
+  try {
+    const { issueId } = req.params;
+    const { state } = req.body;
+
+    if(!state||!issueId) return res.sendStatus(400)
+
+    const curUser = req.user.userId;
+
+    if (state === "inprogress") {
+      await Issue.updateOne(
         {
-          status: state,
+          _id: issueId,
         },
         {
-          new: true,
-          runValidators: true,
+          $set: {
+            status: "inprogress",
+            markInprogress: {
+              by: curUser,
+              at: new Date(),
+            },
+          },
         },
       );
-      res.sendStatus(200);
-    } catch (err) {
-      next(err);
     }
-  }
 
+    if (state === "resolved") {
+      const issue = await Issue.findById(issueId);
+
+      if (state === "resolved" && issue.status !== "inprogress") {
+        throw new ExpressError(
+          "Issue must be in progress before resolving",
+          400,
+        );
+      }
+
+      await Issue.updateOne(
+        {
+          _id: issueId,
+        },
+        {
+          $set: {
+            status: "resolved",
+            resolved: {
+              by: curUser,
+              at: new Date(),
+            },
+          },
+        },
+      );
+    }
+
+    const issues=await Issue.findById(issueId)
+    console.log(issues)
+
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+};
 
 //? delete issues by admin privilages
 module.exports.deleteIssueByAdmin = async (req, res, next) => {

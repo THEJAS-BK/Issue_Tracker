@@ -258,7 +258,6 @@ selectStatus.addEventListener("change", async (e) => {
   AddIssueEvents();
   firstValSelected();
 });
-
 // mark in progress and solved btns
 const updateBtns = document.querySelectorAll(".update-state-btns");
 updateBtns.forEach((btn) => {
@@ -290,7 +289,22 @@ updateBtns.forEach((btn) => {
         insertIssueCard(issue);
       }
       AddIssueEvents();
+    //getBlue border after updation
+    const filterval=document.getElementById("filter-select").value;
+    if(filterval==="all"){
+      const allIssues=document.querySelectorAll(".content-bars")
+      console.log(allIssues)
+      for(let i=0;i<allIssues.length;i++){
+        if(allIssues[i].dataset.issueId===issueId){
+          allIssues[i].classList.add("blue-border");
+          break;
+        }
+      }
+    }
+    else{
       firstValSelected();
+    }
+
     }
   });
 });

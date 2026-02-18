@@ -156,11 +156,13 @@ main {
 }
 /* issues */
 .issues {
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0 2rem;
-  overflow: scroll;
+     height: 90%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 2rem;
+    overflow-y: auto;
+    padding-bottom: 1rem;
+    overflow-x: hidden;
 }
 .issue-card {
   height: 12%;
@@ -181,6 +183,7 @@ main {
 }
 .card-content {
   margin-left: 1rem;
+  margin-top: 2px;
 }
 .badge {
   background-color: rgb(228, 228, 228);

@@ -167,7 +167,10 @@ main {
   border: 2px solid transparent;
 }
 .issue-contents {
-  height: 100%;
+  height: 90%;
+  overflow-x:hidden;
+  overflow-y: auto;
+  padding-bottom: 16px; 
 }
 .content-bars {
   height: 12%;

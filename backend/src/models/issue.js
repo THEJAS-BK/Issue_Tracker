@@ -27,14 +27,30 @@ const issueSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
   status: {
     type: String,
     enum: ["pending", "inprogress", "resolved"],
     default: "pending",
+  },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
+  markInprogress:{
+    by:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    at:{
+      type:Date
+    }
+  },
+    resolved: {
+    by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    at: Date,
   },
   
 });
