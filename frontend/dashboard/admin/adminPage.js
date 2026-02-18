@@ -419,7 +419,7 @@ document
     const groupId = new URLSearchParams(window.location.search).get("id");
     if (!groupId) return alert("invalid");
     document.querySelector(".member-list").innerHTML = "";
-  
+
     const res = await apiFetch(
       `http://localhost:8080/groups/members/${groupId}/admin?state=all`,
       {
@@ -434,6 +434,7 @@ document
     }
     //enablining filter option
     enableFilterOptions(groupId);
+    //reload icon
     //search members
     const searchInput = document.getElementById("search-members");
 
@@ -488,15 +489,38 @@ document
     //kick member
     kickMember();
   });
+//reload icon code
+async function reloadFilters(groupId) {
+  const state = document.getElementById("filter-members").value;
+  document.querySelector(".member-list").innerHTML = "";
 
+  const res = await apiFetch(
+    `http://localhost:8080/groups/members/${groupId}/admin?state=${state}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+  const data = await res.json();
+  //render all members
+  for (let member of data.members) {
+    addMemberCard(member, data.curUserRole);
+  }
+
+  //promote to co admin
+  promoteToCoAdmin();
+  //demotion logic
+  demoteToMember();
+  //kick member
+  kickMember();
+}
 //enabling filteration of group members
 function enableFilterOptions(groupId) {
   document
     .getElementById("filter-members")
     .addEventListener("change", async (e) => {
-        document.querySelector(".member-list").innerHTML = "";
+      document.querySelector(".member-list").innerHTML = "";
       let role = e.target.value;
-      console.log("enable",role)
 
       const res = await apiFetch(
         `http://localhost:8080/groups/members/${groupId}/admin?state=${role}`,
@@ -506,16 +530,23 @@ function enableFilterOptions(groupId) {
         },
       );
 
-     if(res.ok){
-       const data = await res.json();
-      //render all members
-      for (let member of data.members) {
-        addMemberCard(member, data.curUserRole);
+      if (res.ok) {
+        const data = await res.json();
+        document.querySelector(".member-list").innerHTML = "";
+        //render all members
+        for (let member of data.members) {
+          addMemberCard(member, data.curUserRole);
+        }
+        //promote to co admin
+        promoteToCoAdmin();
+        //demotion logic
+        demoteToMember();
+        //kick member
+        kickMember();
+        //reload options
+      } else {
+        alert("invalid");
       }
-     }
-     else{
-      alert("invalid")
-     }
     });
 }
 
@@ -540,6 +571,7 @@ function promoteToCoAdmin() {
           for (let status of allStatus) {
             if (userId === status.dataset.userId) {
               status.textContent = "coadmin";
+              reloadFilters(groupId);
             }
           }
         }
@@ -568,6 +600,7 @@ function demoteToMember() {
           for (let status of allStatus) {
             if (userId === status.dataset.userId) {
               status.textContent = "member";
+              reloadFilters(groupId);
             }
           }
         }
@@ -592,6 +625,7 @@ function kickMember() {
       );
       if (res.ok) {
         parentEle.remove();
+        reloadFilters(groupId);
       }
     });
   });
