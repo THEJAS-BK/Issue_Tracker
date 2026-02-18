@@ -194,10 +194,28 @@ module.exports.getGroupUserInterfaceMembers = async (req, res, next) => {
     const { groupId } = req.params;
     if (!groupId) return res.sendStatus(400);
 
-    const members = await Group.findById(groupId)
+    const state = req.query.state;
+    if (!state || !["all", "coadmin", "member"].includes(state))
+      return res.sendStatus(400);
+
+    let members = await Group.findById(groupId)
       .select("members")
       .populate("members.userId", "name");
-    res.json({ members });
+
+    if (state === "all") {
+      members = members.members;
+    } else if (state === "coadmin") {
+      members = members.members.filter((mem) => {
+        return mem.role === "coadmin";
+      });
+    } else if (state === "member") {
+      members = members.members.filter((mem) => {
+        return mem.role === "member";
+      });
+    } else {
+      throw new ExpressError("invalid state", 500);
+    }
+    res.json(members);
   } catch (err) {
     next(err);
   }
@@ -212,14 +230,36 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
     const val = req.query.q;
     if (!val) return res.sendStatus(400);
 
-    const allmembers = await Group.findById(groupId)
+    const state = req.query.state;
+    if (!state || !["all", "coadmin", "member"].includes(state))
+      return res.sendStatus(400);
+
+    let members = await Group.findById(groupId)
       .select("members")
       .populate("members.userId", "name");
 
     const regex = new RegExp(val, "i");
-    const members = allmembers.members.filter((mem) => {
-      return regex.test(mem.userId.name);
-    });
+
+    console.log("kfngsdfkjlgdj", state);
+
+    if (state === "all") {
+      members = members.members.filter((mem) => {
+        return regex.test(mem.userId.name);
+      });
+    } else if (state === "coadmin") {
+      members = members.members.filter((mem) => {
+        return regex.test(mem.userId.name) && mem.role == "coadmin";
+      });
+    } else if (state === "member") {
+      members = members.members.filter((mem) => {
+        return regex.test(mem.userId.name) && mem.role == "member";
+      });
+    } else {
+      next(new ExpressError("invalid state", 500));
+    }
+
+    console.log(members);
+
     res.json({ members });
   } catch (err) {
     next(err);
@@ -320,9 +360,9 @@ module.exports.getGroupMembersAdminPage = async (req, res, next) => {
     const { groupId } = req.params;
     if (!groupId) return res.sendStatus(400);
 
-    const state= req.query.state;
-    if(!state ||!["all","coadmin","member"].includes(state)){
-     return  res.status(400).json({mes:"Your not a part of the group"})
+    const state = req.query.state;
+    if (!state || !["all", "coadmin", "member"].includes(state)) {
+      return res.status(400).json({ mes: "Your not a part of the group" });
     }
 
     const curUser = req.user.userId;
@@ -338,15 +378,13 @@ module.exports.getGroupMembersAdminPage = async (req, res, next) => {
       (mem) => mem.userId._id.toString() === curUser,
     ).role;
 
-     if(state==="coadmin"){
-       members = members.members.filter((mem)=> mem.role==="coadmin")
-     }
-     else if(state==="member"){
-       members = members.members.filter((mem)=> mem.role==="member")
-     }
-     else if(state==="all"){
-       members = members.members
-     }
+    if (state === "coadmin") {
+      members = members.members.filter((mem) => mem.role === "coadmin");
+    } else if (state === "member") {
+      members = members.members.filter((mem) => mem.role === "member");
+    } else if (state === "all") {
+      members = members.members;
+    }
     res.json({ members, curUserRole });
   } catch (err) {
     next(err);
@@ -360,10 +398,10 @@ module.exports.searchGroupMembersAdminPage = async (req, res, next) => {
 
     const searchText = req.query.q;
     if (!searchText) return res.sendStatus(400);
-    
-    const state= req.query.state;
-    if(!state ||!["all","coadmin","member"].includes(state)){
-     return  res.status(400).json({mes:"Your not a part of the group"})
+
+    const state = req.query.state;
+    if (!state || !["all", "coadmin", "member"].includes(state)) {
+      return res.status(400).json({ mes: "Your not a part of the group" });
     }
 
     const curUser = req.user.userId;
@@ -377,24 +415,19 @@ module.exports.searchGroupMembersAdminPage = async (req, res, next) => {
 
     const regex = new RegExp(searchText, "i");
     let members;
-    if(state==="all"){
-      console.log("gfjgks;")
-       members = allmembers.members.filter((mem) => {
+    if (state === "all") {
+      members = allmembers.members.filter((mem) => {
         return regex.test(mem.userId.name);
       });
-    }
-    else if(state==="coadmin"){
+    } else if (state === "coadmin") {
+      members = allmembers.members.filter((mem) => {
+        return regex.test(mem.userId.name) && mem.role === state;
+      });
+    } else if (state === "member") {
       members = allmembers.members.filter((mem) => {
         return regex.test(mem.userId.name) && mem.role === state;
       });
     }
-    else if(state==="member"){
-      members = allmembers.members.filter((mem) => {
-        return regex.test(mem.userId.name) && mem.role === state;
-      });
-    }
-    console.log(members)
-
     const curUserRole = allmembers.members.find(
       (mem) => mem.userId._id.toString() === curUser,
     ).role;
@@ -418,7 +451,7 @@ module.exports.promoteToCoAdmin = async (req, res, next) => {
     const group = await Group.findById(groupId);
     if (group.createdBy.toString() !== curUser) return res.sendStatus(403);
 
-   await Group.updateOne(
+    await Group.updateOne(
       {
         _id: groupId,
         "members.userId": userId,
@@ -596,35 +629,35 @@ module.exports.declineJoinRequest = async (req, res, next) => {
   }
 };
 //?search join requests
-module.exports.searchJoinRequestsForAdmin= async (req, res, next) => {
-    try {
-      const { groupId } = req.params;
-      const val = req.query.q;
-      if (!groupId || !val) return res.sendStatus(400);
+module.exports.searchJoinRequestsForAdmin = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+    const val = req.query.q;
+    if (!groupId || !val) return res.sendStatus(400);
 
-      const curUser = req.user.userId;
-      if (!curUser) return res.sendStatus(401);
+    const curUser = req.user.userId;
+    if (!curUser) return res.sendStatus(401);
 
-      const allmembers = await Group.findById(groupId).select("members");
+    const allmembers = await Group.findById(groupId).select("members");
 
-      const curUserRole = allmembers.members.find((mem) => {
-        return mem.userId.toString() === curUser;
-      }).role;
+    const curUserRole = allmembers.members.find((mem) => {
+      return mem.userId.toString() === curUser;
+    }).role;
 
-      if (curUserRole !== "admin" && curUserRole !== "coadmin")
-        return res.status(403).json({ message: "unauthorized" });
+    if (curUserRole !== "admin" && curUserRole !== "coadmin")
+      return res.status(403).json({ message: "unauthorized" });
 
-      const requests = await Group.findById(groupId)
-        .select("joinRequests")
-        .populate("joinRequests.userId", "name");
+    const requests = await Group.findById(groupId)
+      .select("joinRequests")
+      .populate("joinRequests.userId", "name");
 
-      const regex = new RegExp(val, "i");
-      const members = requests.joinRequests.filter((mem) => {
-        return regex.test(mem.userId.name);
-      });
+    const regex = new RegExp(val, "i");
+    const members = requests.joinRequests.filter((mem) => {
+      return regex.test(mem.userId.name);
+    });
 
-      res.json(members);
-    } catch (err) {
-      next(err);
-    }
+    res.json(members);
+  } catch (err) {
+    next(err);
   }
+};

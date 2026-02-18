@@ -13,17 +13,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   //show contents
-  const res = await apiFetch(`http://localhost:8080/groups/interface/${groupId}`, {
-    method: "GET",
-    credentials: "include",
-  });
+  const res = await apiFetch(
+    `http://localhost:8080/groups/interface/${groupId}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
   const data = await res.json();
-  
+
   //?show total members in group
-  document.querySelector(".show-total-members").textContent = data.allmembers.members.length;
+  document.querySelector(".show-total-members").textContent =
+    data.allmembers.members.length;
 
-
-  
   //load group name and description
   const groupName = document.querySelector(".group-name");
   const groupDesc = document.querySelector(".group-description");
@@ -223,7 +225,7 @@ async function addEventToIssueCards() {
   //first issue border
   if (allIssueCards[0]) {
     allIssueCards[0].classList.add("addBorder");
-    const issueId=allIssueCards[0].dataset.issueId
+    const issueId = allIssueCards[0].dataset.issueId;
     const firstEntryres = await apiFetch(
       `http://localhost:8080/issues/details/${issueId}`,
       {
@@ -243,7 +245,7 @@ async function addEventToIssueCards() {
         card.classList.remove("addBorder");
       });
       issueCard.classList.add("addBorder");
-      const issueId=issueCard.dataset.issueId;
+      const issueId = issueCard.dataset.issueId;
       const Completeres = await apiFetch(
         `http://localhost:8080/issues/details/${issueId}`,
         {
@@ -260,8 +262,8 @@ async function addEventToIssueCards() {
 //filter states code
 const selectStatus = document.getElementById("search-filter");
 selectStatus.addEventListener("change", async (e) => {
-  const groupId=new URLSearchParams(window.location.search).get("id");
-  const searchVal=e.target.value;
+  const groupId = new URLSearchParams(window.location.search).get("id");
+  const searchVal = e.target.value;
   const res = await apiFetch(
     `http://localhost:8080/issues/filter/${groupId}?state=${searchVal}`,
     {
@@ -361,33 +363,35 @@ document.querySelector(".close-members-tab").addEventListener("click", () => {
   document.querySelector(".confirm-backdrop-members").style.display = "none";
 });
 //open search
-document.getElementById("show-members").addEventListener("click",async () => {
+document.getElementById("show-members").addEventListener("click", async () => {
   document.querySelector(".confirm-backdrop-members").style.display = "flex";
   const searchInput = document.getElementById("search-members");
   const groupId = new URLSearchParams(window.location.search).get("id");
+  const role = document.getElementById("filter-members").value;
+  const res = await apiFetch(
+    `http://localhost:8080/groups/members/${groupId}?state=${role}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
 
-   const res = await apiFetch(
-        `http://localhost:8080/groups/members/${groupId}`,
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
-
-      const data = await res.json();
-      //clear existing members
-      document.querySelector(".member-list").innerHTML = "";
-      //render filtered member
-      for (let member of data.members.members) {
-        addMemberCard(member);
-      }
-
+  //enabling filter
+  enablingFilterOptionForMember();
+  
+  const data = await res.json();
+  //clear existing members
+  document.querySelector(".member-list").innerHTML = "";
+  //render filtered member
+  for (let member of data) {
+    addMemberCard(member);
+  }
 
   searchInput.addEventListener("input", async (e) => {
-      const val = e.target.value;
+    const val = e.target.value;
     if (searchInput.value.length > 0) {
       const res = await apiFetch(
-        `http://localhost:8080/groups/members/search/${groupId}?q=${val}`,
+        `http://localhost:8080/groups/members/search/${groupId}?q=${val}&state=${role}`,
         {
           method: "GET",
           credentials: "include",
@@ -405,8 +409,8 @@ document.getElementById("show-members").addEventListener("click",async () => {
     //cleared input
     if (searchInput.value.length === 0) {
       document.querySelector(".member-list").innerHTML = "";
-       const res = await apiFetch(
-        `http://localhost:8080/groups/members/${groupId}`,
+      const res = await apiFetch(
+        `http://localhost:8080/groups/members/${groupId}?state=${role}`,
         {
           method: "GET",
           credentials: "include",
@@ -417,10 +421,33 @@ document.getElementById("show-members").addEventListener("click",async () => {
       //clear existing members
       document.querySelector(".member-list").innerHTML = "";
       //render filtered member
-      for (let member of data.members.members) {
+      for (let member of data) {
         addMemberCard(member);
       }
-
     }
   });
 });
+
+//?enabling filter
+function enablingFilterOptionForMember() {
+  document
+    .getElementById("filter-members")
+    .addEventListener("change", async (e) => {
+      const role = e.target.value;
+      const groupId = new URLSearchParams(window.location.search).get("id");
+      const res = await apiFetch(
+        `http://localhost:8080/groups/members/${groupId}?state=${role}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+      const data = await res.json();
+      //clear existing members
+      document.querySelector(".member-list").innerHTML = "";
+      //render filtered member
+      for (let member of data) {
+        addMemberCard(member);
+      }
+    });
+}

@@ -383,6 +383,8 @@ main {
 .members-search {
   margin-top: 1rem;
   height: 3rem;
+  display: flex;
+  align-items: center;
 }
 .searchInp-members {
   background-color: white;
