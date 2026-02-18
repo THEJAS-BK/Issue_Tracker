@@ -67,6 +67,11 @@ function insertIssueCard(issue) {
 
 function calcTime(time) {
   const now = Date.now();
+  const year=new Date(time).getFullYear();
+  const mon=new Date(time).getMonth();
+  const date=new Date(time).getDate();
+  const fullDate=`on ${date}/${mon+1}/${year}`
+
   const past = new Date(time).getTime();
   const diff = Math.floor((now - past) / 1000);
 
@@ -75,7 +80,7 @@ function calcTime(time) {
   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
   if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`;
   if (diff < 31536000) return `${Math.floor(diff / 2592000)}mo ago`;
-  return `${Math.floor(diff / 31536000)}y ago`;
+  return fullDate;
 }
 
 // select issue on the left side
