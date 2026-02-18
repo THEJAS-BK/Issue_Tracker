@@ -377,7 +377,7 @@ function addMemberCard(member, role) {
     promoteBtn.textContent = "promote to coadmin";
     demoteBtn.textContent = "demote to member";
     infoBtn.textContent = "more info...";
-    kickBtn.textContent = "kick out";
+    kickBtn.textContent = "remove member";
   } else if (role === "coadmin") {
     const infoBtn = document.createElement("button");
     const kickBtn = document.createElement("button");
@@ -392,7 +392,7 @@ function addMemberCard(member, role) {
     dropdown.appendChild(kickBtn);
 
     infoBtn.textContent = "more info...";
-    kickBtn.textContent = "kick out";
+    kickBtn.textContent = "remove member";
   } else {
     alert(" invalid login");
   }
@@ -629,21 +629,40 @@ function demoteToMember() {
 function kickMember() {
   const kickBtn = document.querySelectorAll(".kickMember");
   kickBtn.forEach((btn) => {
-    btn.addEventListener("click", async (e) => {
-      const parentEle = e.target.parentElement.parentElement.parentElement;
-      const userId = e.target.dataset.userId;
-      const groupId = new URLSearchParams(window.location.search).get("id");
-      const res = await apiFetch(
-        `http://localhost:8080/groups/members/kick/${groupId}/${userId}/admin`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
-      if (res.ok) {
-        parentEle.remove();
-        reloadFilters(groupId);
-      }
+    btn.addEventListener("click", async () => {
+      document.querySelector(".confirm-kickout-backdrop").style.display =
+        "flex";
+
+      //? confirm delete button
+      document
+        .querySelector(".confirm-kickout-delete")
+        .addEventListener("click", async (e) => {
+          const parentEle = btn.parentElement.parentElement.parentElement;
+          const userId = btn.dataset.userId;
+          const groupId = new URLSearchParams(window.location.search).get("id");
+          const res = await apiFetch(
+            `http://localhost:8080/groups/members/kick/${groupId}/${userId}/admin`,
+            {
+              method: "DELETE",
+              credentials: "include",
+            },
+          );
+          if (res.ok) {
+            parentEle.remove();
+            document.querySelector(".confirm-kickout-backdrop").style.display =
+              "none";
+              document.querySelector(".member-list").innerHTML=""
+            reloadFilters(groupId);
+          }
+        });
+
+      //cancel kickout btn
+      document
+        .querySelector(".confirm-kickout-cancel")
+        .addEventListener("click", () => {
+          document.querySelector(".confirm-kickout-backdrop").style.display =
+            "none";
+        });
     });
   });
 }
