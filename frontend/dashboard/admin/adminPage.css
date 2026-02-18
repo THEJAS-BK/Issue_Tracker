@@ -707,3 +707,82 @@ p {
     box-shadow: 0 0 3px grey;
 
 }
+/* More info abt the user btn  */
+.confirm-backdrop-user-info{
+     position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+}
+.confirm-modal-user-info{
+    background: #efeeee;
+    padding: 20px 24px;
+    border-radius: 10px;
+    width: min(90%, 574px);
+    display: flex;
+    height: 698px;
+    flex-direction: column;
+    border: 5px solid black;
+}
+.user-info-head{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.user-info-head>i{
+  font-size: 2rem;
+}
+/* info tables  */
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.info-table td {
+  padding: 8px 12px;
+  vertical-align: top; 
+   border:2px solid black;
+}
+
+.info-table td:first-child {
+  font-weight: 500;
+  color: #666;
+  width: 50%;
+}
+
+.info-table td:last-child {
+  color: #111;
+}
+.issue-history{
+  flex:1;
+  overflow: auto;
+  background-color: grey;
+}
+/* details and summary  */
+.issue-summary {
+  list-style: none;
+}
+
+.issue-summary::-webkit-details-marker {
+  display: none;
+}
+.issue-item {
+  border: 2px solid black;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+}
+
+.issue-summary {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.issue-item[open] {
+  background: #f9fafb;
+}

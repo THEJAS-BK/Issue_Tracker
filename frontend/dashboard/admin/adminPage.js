@@ -21,17 +21,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.querySelector(".invite-code").textContent = groupDetails.inviteCode;
 
   //remove edit and delete group btn for coadmins
-  if(data.role==="coadmin"){
-    document.getElementById("dropdown-edit").remove()
+  if (data.role === "coadmin") {
+    document.getElementById("dropdown-edit").remove();
     document.getElementById("dropdown-delete").remove();
   }
 
   //go back to user interface btn
-  const returnToUserPageBtn=document.getElementById("user-interface");
-  returnToUserPageBtn.addEventListener("click",()=>{
-    const groupId=new URLSearchParams(window.location.search).get("id")
-    window.location.href=`/frontend/dashboard/user/groupInterface.html?id=${groupId}`
-})
+  const returnToUserPageBtn = document.getElementById("user-interface");
+  returnToUserPageBtn.addEventListener("click", () => {
+    const groupId = new URLSearchParams(window.location.search).get("id");
+    window.location.href = `/frontend/dashboard/user/groupInterface.html?id=${groupId}`;
+  });
 });
 
 function insertIssueCard(issue) {
@@ -74,10 +74,10 @@ function insertIssueCard(issue) {
 
 function calcTime(time) {
   const now = Date.now();
-  const year=new Date(time).getFullYear();
-  const mon=new Date(time).getMonth();
-  const date=new Date(time).getDate();
-  const fullDate=`on ${date}/${mon+1}/${year}`
+  const year = new Date(time).getFullYear();
+  const mon = new Date(time).getMonth();
+  const date = new Date(time).getDate();
+  const fullDate = `on ${date}/${mon + 1}/${year}`;
 
   const past = new Date(time).getTime();
   const diff = Math.floor((now - past) / 1000);
@@ -133,23 +133,22 @@ function updateIssuesOnRightSide(issue) {
   markInProgress.dataset.issueId = issue._id;
   markResolved.dataset.issueId = issue._id;
   // adding their states
-  if(issue.status==="inprogress"){
-    markInProgress.style.display="none";
-    markResolved.style.display="block";
-  }
-  else if(issue.status==="resolved"){
-    markInProgress.style.display="none";
-    markResolved.style.display="none";
-  }
-  else if(issue.status==="pending"){
-    markInProgress.style.display="block";
-    markResolved.style.display="block";
+  if (issue.status === "inprogress") {
+    markInProgress.style.display = "none";
+    markResolved.style.display = "block";
+  } else if (issue.status === "resolved") {
+    markInProgress.style.display = "none";
+    markResolved.style.display = "none";
+  } else if (issue.status === "pending") {
+    markInProgress.style.display = "block";
+    markResolved.style.display = "block";
   }
   markInProgress.dataset.state = "inprogress";
   markResolved.dataset.state = "resolved";
   //delete issue btn and more info btn
   moreInfoBtn.dataset.userId = issue.createdBy._id;
   deleteIssueBtn.dataset.issueId = issue._id;
+  OpenMoreInfo() 
 }
 //!already selected issue
 async function firstValSelected() {
@@ -293,7 +292,7 @@ updateBtns.forEach((btn) => {
       },
     );
     if (res.status == 200) {
-      btn.style.display="none"
+      btn.style.display = "none";
       const state = document.getElementById("filter-select").value;
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
@@ -309,22 +308,19 @@ updateBtns.forEach((btn) => {
         insertIssueCard(issue);
       }
       AddIssueEvents();
-    //getBlue border after updation
-    const filterval=document.getElementById("filter-select").value;
-    if(filterval==="all"){
-      const allIssues=document.querySelectorAll(".content-bars")
-      console.log(allIssues)
-      for(let i=0;i<allIssues.length;i++){
-        if(allIssues[i].dataset.issueId===issueId){
-          allIssues[i].classList.add("blue-border");
-          break;
+      //getBlue border after updation
+      const filterval = document.getElementById("filter-select").value;
+      if (filterval === "all") {
+        const allIssues = document.querySelectorAll(".content-bars");
+        for (let i = 0; i < allIssues.length; i++) {
+          if (allIssues[i].dataset.issueId === issueId) {
+            allIssues[i].classList.add("blue-border");
+            break;
+          }
         }
+      } else {
+        firstValSelected();
       }
-    }
-    else{
-      firstValSelected();
-    }
-
     }
   });
 });
@@ -407,7 +403,7 @@ function addMemberCard(member, role) {
     //giving classes
     promoteBtn.classList.add("promoteToCoadmin");
     demoteBtn.classList.add("demoteToMember");
-    infoBtn.classList.add("memberInfo");
+    infoBtn.classList.add("user-info-btn");
     kickBtn.classList.add("kickMember");
     //giving datasets
     promoteBtn.dataset.userId = member.userId._id;
@@ -427,7 +423,7 @@ function addMemberCard(member, role) {
     const infoBtn = document.createElement("button");
     const kickBtn = document.createElement("button");
     //giving classes
-    infoBtn.classList.add("memberInfo");
+    infoBtn.classList.add("user-info-btn");
     kickBtn.classList.add("kickMember");
     //giving dataset
     infoBtn.dataset.userId = member.userId._id;
@@ -462,7 +458,7 @@ function addMemberCard(member, role) {
     dropdown.innerHTML = "";
     dropdown.style.backgroundColor = "grey";
     const infoBtn = document.createElement("button");
-    infoBtn.classList.add("memberInfo");
+    infoBtn.classList.add("user-info-btn");
     dropdown.appendChild(infoBtn);
     infoBtn.textContent = "more info...";
   }
@@ -496,7 +492,6 @@ document
     }
     //enablining filter option
     enableFilterOptions(groupId);
-    //reload icon
     //search members
     const searchInput = document.getElementById("search-members");
 
@@ -520,6 +515,8 @@ document
         for (let member of data.members) {
           addMemberCard(member, data.curUserRole);
         }
+           //more info
+    OpenMoreInfo()
       }
       //cleared input
       if (searchInput.value.length === 0) {
@@ -543,6 +540,8 @@ document
       demoteToMember();
       //kick member
       kickMember();
+         //more info
+    OpenMoreInfo()
     });
     //promote to co admin
     promoteToCoAdmin();
@@ -550,6 +549,8 @@ document
     demoteToMember();
     //kick member
     kickMember();
+    //more info
+    OpenMoreInfo()
   });
 //reload icon code
 async function reloadFilters(groupId) {
@@ -575,6 +576,8 @@ async function reloadFilters(groupId) {
   demoteToMember();
   //kick member
   kickMember();
+  //moreinfo
+  OpenMoreInfo()
 }
 //enabling filteration of group members
 function enableFilterOptions(groupId) {
@@ -605,7 +608,8 @@ function enableFilterOptions(groupId) {
         demoteToMember();
         //kick member
         kickMember();
-        //reload options
+        //more info 
+        OpenMoreInfo()
       } else {
         alert("invalid");
       }
@@ -696,7 +700,7 @@ function kickMember() {
             parentEle.remove();
             document.querySelector(".confirm-kickout-backdrop").style.display =
               "none";
-              document.querySelector(".member-list").innerHTML=""
+            document.querySelector(".member-list").innerHTML = "";
             reloadFilters(groupId);
           }
         });
@@ -900,4 +904,23 @@ function searchRequests() {
         declineJoinReq();
       }
     });
+}
+
+//?more info at the admin side
+//close open info tab
+document
+  .querySelector(".close-user-info-tab")
+  .addEventListener("click", (e) => {
+    document.querySelector(".confirm-backdrop-user-info").style.display =
+      "none";
+  });
+//open info tab
+function OpenMoreInfo() {
+  const moreInfoUserBtns = document.querySelectorAll(".user-info-btn");
+  moreInfoUserBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const userId = e.target.dataset.userId;
+          document.querySelector(".confirm-backdrop-user-info").style.display ="flex"
+    });
+  });
 }
