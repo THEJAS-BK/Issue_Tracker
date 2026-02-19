@@ -711,7 +711,7 @@ p {
 .confirm-backdrop-user-info{
      position: fixed;
   inset: 0;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.45);
@@ -773,7 +773,6 @@ p {
 .issue-item {
   border: 2px solid black;
   border-radius: 6px;
-  margin-bottom: 8px;
   padding: 6px 10px;
 }
 

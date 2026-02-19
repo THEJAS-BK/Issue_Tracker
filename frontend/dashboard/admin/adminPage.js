@@ -108,7 +108,8 @@ function AddIssueEvents() {
         },
       );
       const data = await res.json();
-      updateIssuesOnRightSide(data.issue);
+
+      updateIssuesOnRightSide(data.issue[0]);
       //delete issue btn by admin privilages
       deleteIssueByAdmin();
     });
@@ -163,7 +164,7 @@ async function firstValSelected() {
       },
     );
     const data = await res.json();
-    updateIssuesOnRightSide(data.issue);
+    updateIssuesOnRightSide(data.issue[0]);
     //add blue border
     allIssues[0].classList.add("blue-border");
     //deleteIssue btn
@@ -409,6 +410,7 @@ function addMemberCard(member, role) {
     promoteBtn.dataset.userId = member.userId._id;
     demoteBtn.dataset.userId = member.userId._id;
     kickBtn.dataset.userId = member.userId._id;
+    infoBtn.dataset.userId = member.userId._id;
 
     dropdown.appendChild(promoteBtn);
     dropdown.appendChild(demoteBtn);
@@ -428,6 +430,7 @@ function addMemberCard(member, role) {
     //giving dataset
     infoBtn.dataset.userId = member.userId._id;
     kickBtn.dataset.userId = member.userId._id;
+    infoBtn.dataset.userId = member.userId._id;
     //assemble
     dropdown.appendChild(infoBtn);
     dropdown.appendChild(kickBtn);
@@ -459,6 +462,7 @@ function addMemberCard(member, role) {
     dropdown.style.backgroundColor = "grey";
     const infoBtn = document.createElement("button");
     infoBtn.classList.add("user-info-btn");
+    infoBtn.dataset.userId = member.userId._id;
     dropdown.appendChild(infoBtn);
     infoBtn.textContent = "more info...";
   }
@@ -876,7 +880,6 @@ function searchRequests() {
           },
         );
         const data = await res.json();
-        console.log("data", data);
         document.querySelector(".join-request-list").innerHTML = "";
         for (let req of data) {
           createJoinRequestCard(req);
@@ -913,6 +916,8 @@ document
   .addEventListener("click", (e) => {
     document.querySelector(".confirm-backdrop-user-info").style.display =
       "none";
+       //moreinfo
+  OpenMoreInfo();
   });
 //open info tab
 function OpenMoreInfo() {
@@ -924,12 +929,126 @@ function OpenMoreInfo() {
         "flex";
       //get issue logs data
       const groupId = new URLSearchParams(window.location.search).get("id");
-      const res = await apiFetch(`http://localhost:8080/issues/${userId}/logs/history?groupId=${groupId}`,{
-        method:"GET",
-        credentials:"include"
-      });
+      const res = await apiFetch(
+        `http://localhost:8080/issues/${userId}/logs/history?groupId=${groupId}`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+  
       const data = await res.json();
-      console.log("data", data);
+      insertHistory(data);
+      //insert history
+      document.querySelector(".issue-history").innerHTML=""
+      for (let issue of data.historyData) {
+        addIssueHistoryItem(issue);
+      }
     });
   });
+}
+//!rendering more info
+
+function insertHistory(history) {
+  document.querySelector(".info-table-name").textContent =
+    history.userName.name;
+
+  document.querySelector(".info-table-role").textContent =
+    history.curUserDetails.role;
+
+  document.querySelector(".info-table-joined-at").textContent = new Date(
+    history.curUserDetails.joinedAt,
+  ).toLocaleDateString();
+
+  document.querySelector(".info-table-issues-raised").textContent =
+    history.totalIssueRaised;
+
+  document.querySelector(".info-table-issues-resolved").textContent =
+    history.totalIssueResolved;
+
+  document.querySelector(".info-table-issues-in-progress").textContent =
+    history.totalIssuesInProgress;
+
+  document.querySelector(".info-table-issue-deleted-by-user").textContent =
+    history.totalIssuesDeletedByUser;
+
+  document.querySelector(".info-table-issue-deleted-by-admin").textContent =
+    history.totalIssueDeletedByAdmin;
+}
+
+//creatin issues
+function createDetailLine(label, date, by) {
+  const div = document.createElement("div");
+  div.className = `issue-details-${label.toLowerCase().replace(/\s/g, "")}`;
+
+  const formattedDate = new Date(date).toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  div.textContent = `${label}: ${formattedDate}${by ? " · " + by : ""}`;
+  return div;
+}
+
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+function addIssueHistoryItem(issue) {
+
+  const container = document.querySelector(".issue-history");
+  if (!container) return;
+
+  const details = document.createElement("details");
+  details.className = "issue-item";
+
+  const summary = document.createElement("summary");
+  summary.className = "issue-summary";
+
+  const title = document.createElement("div");
+  title.className = "summary-title";
+  title.textContent = issue.title;
+
+  const status = document.createElement("div");
+  status.className = "summary-day";
+  if (issue.isDeleted) {
+    status.innerHTML = `deleted
+    <i class="fa-solid fa-caret-down"></i>`;
+  } else {
+    status.innerHTML = `${capitalize(issue.status)}
+    <i class="fa-solid fa-caret-down"></i>`;
+  }
+
+  summary.append(title, status);
+
+  const issueDetails = document.createElement("div");
+  issueDetails.className = "issue-details";
+
+  issueDetails.appendChild(createDetailLine("Raised", issue.createdAt));
+
+  if (issue.markInprogress) {
+    issueDetails.appendChild(
+      createDetailLine(
+        "Marked in progress",
+        issue.markInprogress.at,
+        issue.markInprogress.by.name,
+      ),
+    );
+  }
+
+  if (issue.resolved) {
+    issueDetails.appendChild(
+      createDetailLine("Resolved", issue.resolved.at, issue.resolved.by.name),
+    );
+  }
+  if (issue.isDeleted) {
+    issueDetails.appendChild(
+      createDetailLine("Deleted", issue.deleted.at, issue.deleted.by.name),
+    );
+  }
+
+  details.append(summary, issueDetails);
+  container.appendChild(details);
 }

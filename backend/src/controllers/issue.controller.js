@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 const Group = require("../models/group");
 const ExpressError = require("../utils/ExpressError");
 const Issue = require("../models/issue");
-const group = require("../models/group");
 
+const User = require("../models/user");
 //!add issue to the group
 module.exports.addIssue = async (req, res, next) => {
   try {
@@ -92,7 +92,11 @@ module.exports.getIssueDetailsUserInterface = async (req, res, next) => {
     if (!curUser) return res.sendStatus(401);
 
     isIssueOwner = false;
-    const getIssue = await Issue.findOne({ _id: issueid, createdBy: curUser });
+    const getIssue = await Issue.findOne({
+      _id: issueid,
+      createdBy: curUser,
+      isDeleted: false,
+    });
     if (getIssue) {
       isIssueOwner = true;
     }
@@ -126,7 +130,7 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
     if (!req.user.userId) return res.sendStatus(403);
 
     if (state === "all") {
-      const issues = await Issue.find({ group: groupId })
+      const issues = await Issue.find({ group: groupId, isDeleted: false })
         .select("title createdBy createdAt status")
         .populate("createdBy", "name");
       return res.json({ issues });
@@ -135,13 +139,18 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
       const issues = await Issue.find({
         group: groupId,
         createdBy: req.user.userId,
+        isDeleted: false,
       })
         .select("title createdBy createdAt status")
         .populate("createdBy", "name");
       return res.json({ issues });
     }
 
-    const issues = await Issue.find({ group: groupId, status: state })
+    const issues = await Issue.find({
+      group: groupId,
+      status: state,
+      isDeleted: false,
+    })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
     res.json({ issues });
@@ -171,7 +180,7 @@ module.exports.deleteIssueByOwner = async (req, res, next) => {
     issue.isDeleted = true;
 
     issue.deleted = {
-      by: req.user._id,
+      by: curUser,
       role: "member",
       reason: "User deleted",
       at: new Date(),
@@ -197,7 +206,7 @@ module.exports.getIssuesInAdminPage = async (req, res, next) => {
 
     if (!mongoose.Types.ObjectId.isValid(issueid)) return res.sendStatus(404);
 
-    const issue = await Issue.findById(issueid)
+    const issue = await Issue.find({ _id: issueid, isDeleted: false })
       .select("title description createdAt createdBy status")
       .populate("createdBy", "name");
     res.json({ issue });
@@ -311,10 +320,15 @@ module.exports.getHistoryTabData = async (req, res, next) => {
 
     const historyData = await Issue.find({
       createdBy: userId,
-      isDeleted: false,
+      group: groupId,
     })
-      .select("title description createdAt status")
-      .populate("createdBy", "name");
+      .select(
+        "title createdAt status markInprogress resolved isDeleted deleted",
+      )
+      .populate("createdBy", "name")
+      .populate("deleted.by", "name")
+      .populate("markInprogress.by", "name")
+      .populate("resolved.by", "name");
 
     const totalIssueRaised = await Issue.countDocuments({
       group: groupId,
@@ -352,9 +366,11 @@ module.exports.getHistoryTabData = async (req, res, next) => {
     });
     const allDetails = await Group.findById(groupId).select("members");
 
-    const curUserDetails=allDetails.members.find((mem) => {
+    const curUserDetails = allDetails.members.find((mem) => {
       return mem.userId.toString() === userId;
     });
+    const userName = await User.findById(userId).select("name");
+
     const history = {
       historyData,
       totalIssueRaised,
@@ -362,9 +378,10 @@ module.exports.getHistoryTabData = async (req, res, next) => {
       totalIssuesInProgress,
       totalIssuesDeletedByUser,
       totalIssueDeletedByAdmin,
-      curUserDetails
+      curUserDetails,
+      userName,
     };
-
+    //history of each issue
     res.json(history);
   } catch (err) {
     next(err);

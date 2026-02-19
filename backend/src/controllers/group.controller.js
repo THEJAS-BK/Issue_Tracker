@@ -248,7 +248,6 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
       members = members.members.filter((mem) => {
         return regex.test(mem.userId.name) && mem.role == "coadmin";
       });
-      console.log("coadmin members", members);
     } else if (state === "member") {
       members = members.members.filter((mem) => {
         return regex.test(mem.userId.name) && mem.role == "member";
