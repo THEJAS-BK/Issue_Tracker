@@ -44,7 +44,8 @@ router.post("/:issueId/update/admin", authorizationToken, issueController.markIs
 //?delete issues by admin/coadmin privilages
 router.delete("/:issueId/delete/admin", authorizationToken, issueController.deleteIssueByAdmin)
 
-
+//?get data for history tab of each user
+router.get("/:userId/logs/history", authorizationToken, issueController.getHistoryTabData)
 
 
 module.exports=router;

@@ -169,7 +169,7 @@ module.exports.searchJoinedGroups = async (req, res, next) => {
 module.exports.getGroupUserInterface = async (req, res, next) => {
   try {
     const { groupId } = req.params;
-    const issues = await Issue.find({ group: groupId })
+    const issues = await Issue.find({ group: groupId,isDeleted:false })
       .select("title createdBy createdAt status stayAnonymous")
       .populate("createdBy", "name");
     //send cur user
@@ -277,7 +277,7 @@ module.exports.getAdminPage = async (req, res, next) => {
     const curUser = req.user.userId;
     if (!curUser) return res.sendStatus(401);
 
-    const issues = await Issue.find({ group: groupid })
+    const issues = await Issue.find({ group: groupid,isDeleted:false })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 

@@ -20,38 +20,66 @@ const issueSchema = mongoose.Schema({
   group: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Group",
-    required: false,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
+
   status: {
     type: String,
     enum: ["pending", "inprogress", "resolved"],
     default: "pending",
   },
+
   createdAt: {
     type: Date,
-    default: new Date(),
+    default: Date.now,
   },
-  markInprogress:{
-    by:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    at:{
-      type:Date
-    }
+
+
+  updatedAt: {
+    type: Date,
   },
-    resolved: {
+
+  editedAt: {
+    type: Date,
+  },
+
+  markInprogress: {
     by: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
     at: Date,
   },
-  
+
+  resolved: {
+    by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    at: Date,
+  },
+
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
+
+  deleted: {
+    by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    role: {
+      type: String,
+      enum: ["admin", "coadmin", "member"],
+    },
+    reason: String,
+    at: Date,
+  },
 });
+
 module.exports = mongoose.model("Issue", issueSchema);

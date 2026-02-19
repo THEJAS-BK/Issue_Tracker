@@ -168,7 +168,16 @@ module.exports.deleteIssueByOwner = async (req, res, next) => {
     if (issue.createdBy.toString() !== req.user.userId)
       return res.sendStatus(403);
 
-    await Issue.findByIdAndDelete(issueId);
+    issue.isDeleted = true;
+
+    issue.deleted = {
+      by: req.user._id,
+      role: "member",
+      reason: "User deleted",
+      at: new Date(),
+    };
+    await issue.save();
+
     res.sendStatus(204);
   } catch (err) {
     next(err);
@@ -203,7 +212,7 @@ module.exports.markIssueAsReadInAdminPage = async (req, res, next) => {
     const { issueId } = req.params;
     const { state } = req.body;
 
-    if(!state||!issueId) return res.sendStatus(400)
+    if (!state || !issueId) return res.sendStatus(400);
 
     const curUser = req.user.userId;
 
@@ -274,11 +283,89 @@ module.exports.deleteIssueByAdmin = async (req, res, next) => {
     if (curUserRole !== "admin" && curUserRole !== "coadmin")
       return res.status(403).json({ message: "unauthorized" });
 
-    await Issue.deleteOne({
-      _id: issueId,
-      group: groupId,
-    });
+    const issue = await Issue.findById(issueId);
+    if (!issue) return res.sendStatus(404);
+
+    issue.isDeleted = true;
+    issue.deleted = {
+      by: curUser,
+      role: curUserRole,
+      reason: "Admin deleted",
+      at: new Date(),
+    };
+    await issue.save();
+
     res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+};
+//!get user history data
+module.exports.getHistoryTabData = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) return res.sendStatus(400);
+
+    const groupId = req.query.groupId;
+    if (!groupId) return res.sendStatus(400);
+
+    const historyData = await Issue.find({
+      createdBy: userId,
+      isDeleted: false,
+    })
+      .select("title description createdAt status")
+      .populate("createdBy", "name");
+
+    const totalIssueRaised = await Issue.countDocuments({
+      group: groupId,
+      createdBy: {
+        _id: userId,
+      },
+    });
+
+    const totalIssueResolved = await Issue.countDocuments({
+      group: groupId,
+      status: "resolved",
+      createdBy: {
+        _id: userId,
+      },
+    });
+    const totalIssuesInProgress = await Issue.countDocuments({
+      group: groupId,
+      status: "inprogress",
+      createdBy: {
+        _id: userId,
+      },
+    });
+    const totalIssuesDeletedByUser = await Issue.countDocuments({
+      group: groupId,
+      isDeleted: true,
+      createdBy: {
+        _id: userId,
+      },
+    });
+    const totalIssueDeletedByAdmin = await Issue.countDocuments({
+      createdBy: userId,
+      group: groupId,
+      isDeleted: true,
+      "deleted.role": { $in: ["admin", "coadmin"] },
+    });
+    const allDetails = await Group.findById(groupId).select("members");
+
+    const curUserDetails=allDetails.members.find((mem) => {
+      return mem.userId.toString() === userId;
+    });
+    const history = {
+      historyData,
+      totalIssueRaised,
+      totalIssueResolved,
+      totalIssuesInProgress,
+      totalIssuesDeletedByUser,
+      totalIssueDeletedByAdmin,
+      curUserDetails
+    };
+
+    res.json(history);
   } catch (err) {
     next(err);
   }

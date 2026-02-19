@@ -148,7 +148,7 @@ function updateIssuesOnRightSide(issue) {
   //delete issue btn and more info btn
   moreInfoBtn.dataset.userId = issue.createdBy._id;
   deleteIssueBtn.dataset.issueId = issue._id;
-  OpenMoreInfo() 
+  OpenMoreInfo();
 }
 //!already selected issue
 async function firstValSelected() {
@@ -515,8 +515,8 @@ document
         for (let member of data.members) {
           addMemberCard(member, data.curUserRole);
         }
-           //more info
-    OpenMoreInfo()
+        //more info
+        OpenMoreInfo();
       }
       //cleared input
       if (searchInput.value.length === 0) {
@@ -540,8 +540,8 @@ document
       demoteToMember();
       //kick member
       kickMember();
-         //more info
-    OpenMoreInfo()
+      //more info
+      OpenMoreInfo();
     });
     //promote to co admin
     promoteToCoAdmin();
@@ -550,7 +550,7 @@ document
     //kick member
     kickMember();
     //more info
-    OpenMoreInfo()
+    OpenMoreInfo();
   });
 //reload icon code
 async function reloadFilters(groupId) {
@@ -577,7 +577,7 @@ async function reloadFilters(groupId) {
   //kick member
   kickMember();
   //moreinfo
-  OpenMoreInfo()
+  OpenMoreInfo();
 }
 //enabling filteration of group members
 function enableFilterOptions(groupId) {
@@ -608,8 +608,8 @@ function enableFilterOptions(groupId) {
         demoteToMember();
         //kick member
         kickMember();
-        //more info 
-        OpenMoreInfo()
+        //more info
+        OpenMoreInfo();
       } else {
         alert("invalid");
       }
@@ -918,9 +918,18 @@ document
 function OpenMoreInfo() {
   const moreInfoUserBtns = document.querySelectorAll(".user-info-btn");
   moreInfoUserBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       const userId = e.target.dataset.userId;
-          document.querySelector(".confirm-backdrop-user-info").style.display ="flex"
+      document.querySelector(".confirm-backdrop-user-info").style.display =
+        "flex";
+      //get issue logs data
+      const groupId = new URLSearchParams(window.location.search).get("id");
+      const res = await apiFetch(`http://localhost:8080/issues/${userId}/logs/history?groupId=${groupId}`,{
+        method:"GET",
+        credentials:"include"
+      });
+      const data = await res.json();
+      console.log("data", data);
     });
   });
 }
