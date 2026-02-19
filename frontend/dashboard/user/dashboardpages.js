@@ -13,6 +13,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   const data = await res.json();
   renderGroups(data.allGroups);
+  //render name on the home page
+  const userName = document.querySelector(".get-user-name");
+  if (data.userName && data.userName.name) {
+    userName.innerText = data.userName.name;
+  }
   //query from url on reload
   const params = new URLSearchParams(window.location.search);
   const q = params.get("q");

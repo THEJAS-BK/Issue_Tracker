@@ -1,4 +1,19 @@
 import { apiFetch } from "../../utils/helper.js";
+
+document.querySelector(".username").addEventListener("click", (e) => {
+  e.stopPropagation();
+  const dropdown = document.querySelector(".dropdown-user");
+  dropdown.classList.toggle("hidden");
+});
+
+document.addEventListener("click", (e) => {
+  const dropdown = document.querySelector(".dropdown-user");
+  const btn = document.querySelector(".username");
+  if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+    dropdown.classList.add("hidden");
+  }
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("id");
@@ -264,7 +279,7 @@ const selectStatus = document.getElementById("search-filter");
 selectStatus.addEventListener("change", async (e) => {
   const groupId = new URLSearchParams(window.location.search).get("id");
   const searchVal = e.target.value;
-  console.log(searchVal)
+  console.log(searchVal);
   const res = await apiFetch(
     `http://localhost:8080/issues/filter/${groupId}?state=${searchVal}`,
     {

@@ -18,40 +18,8 @@
       href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../hambugerMenu.css" />
   </head>
   <body>
-    <input type="checkbox" id="menu-toggle" hidden />
-    <div class="menu">
-      <div class="menu-top">
-        <div class="menu-profile">
-          <div class="headAcc head-width">
-            <div>
-              <p>J</p>
-            </div>
-            <h3>Jhon Doe</h3>
-          </div>
-        </div>
-        <div class="close-btn">
-          <label for="menu-toggle">
-            <i class="fa-solid fa-xmark"></i>
-          </label>
-        </div>
-      </div>
-      <div class="menu-links">
-        <a href="/frontend/dashboard/user/userpage.html">home</a>
-        <a href="/frontend/dashboard/user/addIssue.html">add Issue</a>
-        <a href="/frontend/dashboard/user/creategroup.html">create group</a>
-        <a href="/frontend/dashboard/user/groupInterface.html"
-          >group Interface</a
-        >
-        <a href="/frontend/dashboard/admin/adminPage.html">admin page</a>
-        <a href="/frontend/dashboard/user/editIssue.html">edit issue</a>
-        <a href="/frontend/dashboard/user/#">Settings</a>
-        <a href="/frontend/dashboard/user/#">Logout</a>
-      </div>
-    </div>
-
     <div class="confirm-backdrop">
       <div class="confirm-modal">
         <h1>Delete item?</h1>
@@ -101,25 +69,19 @@
       </div>
     </div>
     <header>
-      <div class="navleft">
-        <label for="menu-toggle">
-          <i class="fa-solid fa-bars"></i>
-        </label>
-        <button id="show-members">
-          members (<span class="show-total-members">90</span>)
+      <div class="left-section">
+        <h2>User Dashboard</h2>
+      </div>
+      <div class="rightSection"> 
+        <a class="home-btn-dashboard" href='/frontend/dashboard/user/userpage.html'>Home</a>
+        <button class="username">
+         <span class="get-user-name">Thejas BK</span> <i class="fa-solid fa-angle-down"></i>
         </button>
-      </div>
-      <div class="mid">
-        <h2>User dashboard</h2>
-      </div>
-      <div class="leftSection">
-        <button class="admin-dashboard-btn">admin dashboard</button>
-        <div class="headAcc">
-          <div>
-            <p>J</p>
-          </div>
-          <i class="fa-solid fa-angle-down"></i>
+        <div class="dropdown-user hidden">
+           <button class="admin-dashboard-btn">admin dashboard</button>
+             <button id="show-members">members (<span class="show-total-members">90</span>)</button>
         </div>
+      </div>
       </div>
     </header>
     <main>
@@ -130,6 +92,7 @@
             issue related to bus routes and schedules
           </p>
           <p>invite code : <span class="invite-code"></span></p>
+         
         </div>
         <button class="addIssue-btn">+ Add Issue</button>
       </div>
@@ -158,6 +121,7 @@
           <div class="issues"></div>
         </div>
         <div class="mainright">
+          <button class="go-back-btn">go back</button>
           <div class="right-head">
             <div class="head-title">
               <h3></h3>
@@ -177,7 +141,7 @@
                 <p class="name"></p>
                 <p class="time-ago"></p>
               </div>
-              <div class="badge"></div>
+              <div class="badge right-content"></div>
             </div>
           </div>
           <div class="right-description">

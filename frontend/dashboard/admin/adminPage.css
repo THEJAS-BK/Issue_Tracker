@@ -785,3 +785,218 @@ p {
 .issue-item[open] {
   background: #f9fafb;
 }
+/* media queries  */
+@media (max-width: 480px) {
+  header {
+    padding: 0 1rem;
+  }
+
+  .head-left h3 {
+    font-size: 1rem;
+  }
+
+  #user-interface {
+    display: none;
+  }
+
+  /* Side menu */
+  .menu {
+    width: 85%;
+  }
+
+  .groupInfo {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .groupInfo-settings {
+    align-self: flex-end;
+  }
+
+  .issue-status {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .main-content {
+    flex-direction: column;
+    position: relative;
+  }
+
+  .content-left {
+    width: 100%;
+  }
+
+  .content-right {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    width: 98%;
+    height: 85vh;
+    background: white;
+    z-index: 999;
+    overflow-y: auto;
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .issues-status-bar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  #filter-select {
+    width: 100%;
+  }
+
+  .content-bars {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .badge {
+    align-self: flex-start;
+    margin-left: 28px;
+  }
+
+  /* Modals */
+  .confirm-modal,
+  .members-tab,
+  .confirm-modal-user-info,
+  .join-requests-tab,
+  .confirm-kickout-modal,
+  .confirm-issue-delete-model {
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  header {
+    padding: 0 2rem;
+  }
+
+  .menu {
+    width: 60%;
+  }
+
+  .groupInfo {
+    padding: 0.75rem 1.5rem;
+  }
+
+  .issue-status {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .main-content {
+    flex-direction: column;
+    position: relative;
+  }
+
+  .content-left {
+    width: 100%;
+  }
+
+  /* Slide-over details panel */
+  .content-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 85%;
+    max-width: 520px;
+    height: 85vh;
+    background: white;
+    z-index: 900;
+    overflow-y: auto;
+    padding: 1rem;
+    box-shadow: -6px 0 16px rgba(0,0,0,0.15);
+    border-radius: 12px 0 0 12px;
+  }
+
+  .issues-status-bar {
+    gap: 0.75rem;
+  }
+
+  .content-bars {
+    gap: 0.5rem;
+  }
+
+  .badge {
+    margin-left: 32px;
+  }
+
+  /* Modals */
+  .confirm-modal,
+  .members-tab,
+  .confirm-modal-user-info,
+  .join-requests-tab {
+    width: 80%;
+    max-height: 85vh;
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .menu {
+    width: 35%;
+  }
+
+  .groupInfo {
+    padding: 1rem 2rem;
+  }
+
+  .issue-status {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+
+  .main-content {
+    gap: 0.5rem;
+  }
+
+  .content-left {
+    width: 38%;
+  }
+
+  .content-right {
+    width: 58%;
+  }
+
+  .issues-status-bar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  #filter-select {
+    width: 100%;
+  }
+
+  .content-bars {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .badge {
+    align-self: flex-start;
+    margin-left: 28px;
+  }
+
+  /* Modals */
+  .confirm-modal,
+  .members-tab,
+  .confirm-modal-user-info {
+    width: 70%;
+  }
+}
+@media (min-width: 1025px) {
+  .content-right {
+    position: static;
+    height: auto;
+  }
+
+  .menu {
+    width: 280px;
+  }
+}

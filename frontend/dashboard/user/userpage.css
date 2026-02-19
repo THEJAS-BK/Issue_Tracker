@@ -22,6 +22,7 @@ header h2 {
 .dropdown-user {
     position: absolute;
     top: 100%;
+    right:0.5rem;
     width: 11rem;
     border-radius: 10px;
     overflow: hidden;
@@ -83,6 +84,7 @@ main {
   box-shadow: 0 0 2px black;
   padding-top: 1rem;
   border-radius:30px ;
+  overflow: hidden;
 }
 .mainLeft>h2{
   padding-left: 1rem;
@@ -114,6 +116,7 @@ main {
 }
 .mainLeft img {
   width: 90px;
+  border-radius: 50%;
 }
 /* Left bottom  */
 .left-bottom {
@@ -153,6 +156,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;;
 }
 
 .search-header .title {
@@ -200,7 +204,6 @@ a {
   display: flex;
   justify-content: space-between;
   margin-top: 0.5rem;
-  background-color: lightblue;
   padding:0.25rem;
   border:2px solid black;
   align-items: center;

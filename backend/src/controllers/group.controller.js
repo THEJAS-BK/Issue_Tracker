@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Group = require("../models/group");
 const ExpressError = require("../utils/ExpressError");
 const Issue = require("../models/issue");
+const User = require("../models/user")
 
 //utils
 const { getUniqueInviteCode } = require("../utils/inviteCode");
@@ -35,12 +36,15 @@ module.exports.getAllGroups = async (req, res, next) => {
     const curUser = req.user.userId;
     if (!curUser) return res.status(401);
 
+    const userName= await User.findById(curUser).select("name");
+    
+
     const allGroups = await Group.find({
       members: { $elemMatch: { userId: req.user.userId } },
     }).select("groupname description members");
 
 
-    res.json({ allGroups });
+    res.json({ allGroups,userName });
   } catch (err) {
     next(err);
   }
