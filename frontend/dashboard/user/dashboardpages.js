@@ -1,4 +1,3 @@
-
 import { apiFetch } from "../../utils/helper.js";
 
 //Create group option
@@ -14,7 +13,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   const data = await res.json();
   renderGroups(data.allGroups);
-  renderIssues(data.issues);
   //query from url on reload
   const params = new URLSearchParams(window.location.search);
   const q = params.get("q");
@@ -42,102 +40,72 @@ document.addEventListener("DOMContentLoaded", async () => {
     joinRequest();
   }
 });
-
+// you name btn
+document.querySelector(".username").addEventListener("click", (e) => {
+  e.stopPropagation();
+  const dropdown = document.querySelector(".dropdown-user");
+  dropdown.classList.toggle("hidden");
+});
+document.addEventListener("click", (e) => {
+  const dropdown = document.querySelector(".dropdown-user");
+  const btn = document.querySelector(".username");
+  if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+    dropdown.classList.add("hidden");
+  }
+});
 function renderGroups(groups) {
   const groupContainer = document.querySelector(".space-holder");
-  //individual group
-  //Parent tab
+
   for (const group of groups) {
+    // Anchor wrapper
+    const anchor = document.createElement("a");
+    anchor.href = `/frontend/dashboard/user/groupInterface.html?id=${group._id}`;
+
+    // Main parent
     const parent = document.createElement("div");
     parent.classList.add("leftTab-Tab");
-    //creating a tag
-    const anchorTag = document.createElement("a");
-    anchorTag.setAttribute(
-      "href",
-      `/frontend/dashboard/user/groupInterface.html?id=${group._id}`,
-    );
-    anchorTag.append(parent);
-    groupContainer.insertAdjacentElement("beforebegin", anchorTag);
-    //! parent left contents
-    const parentLeftContent = document.createElement("div");
-    parentLeftContent.classList.add("leftTab-left");
-    parent.append(parentLeftContent);
-    //left Contents
+    anchor.append(parent);
+
+    // Insert into DOM
+    groupContainer.insertAdjacentElement("beforebegin", anchor);
+
+    /* ---------------- Left Section ---------------- */
+    const leftSection = document.createElement("div");
+    leftSection.classList.add("leftTab-left");
+
+    // Image
     const img = document.createElement("img");
     img.classList.add("group-img");
-    //creating attributes
-    img.setAttribute("alt", "Categories");
-    //Appending
-    const parentLeftContentCenterContent = document.createElement("div");
-    parentLeftContentCenterContent.classList.add("leftTab-left-center");
-    parentLeftContent.append(img, parentLeftContentCenterContent);
-    //?parentLeftContentCenterContent Childern
-    const groupCategory = document.createElement("h4");
-    groupCategory.classList.add("group-category");
+    img.src = "/frontend/assets/images.jpg";
+    img.alt = "Group category";
+
+    // Center content
+    const centerContent = document.createElement("div");
+    centerContent.classList.add("leftTab-left-center");
+
+    const groupName = document.createElement("h4");
+    groupName.classList.add("group-name");
+    groupName.innerText = group.groupname;
+
     const groupDescription = document.createElement("p");
     groupDescription.classList.add("group-description");
-    const BadgesContainer = document.createElement("div");
-    BadgesContainer.classList.add("badges");
-    parentLeftContentCenterContent.append(
-      groupCategory,
-      groupDescription,
-      BadgesContainer,
-    );
-    //badge container children
-    const openBadgeContainer = document.createElement("div");
-    openBadgeContainer.classList.add("bg1");
-    const solvedBadgeContainer = document.createElement("div");
-    solvedBadgeContainer.classList.add("bg2");
-
-    BadgesContainer.append(openBadgeContainer, solvedBadgeContainer);
-    //actual badges
-    const openBadge = document.createElement("span");
-    const closedBadge = document.createElement("span");
-    openBadgeContainer.append(openBadge);
-    solvedBadgeContainer.append(closedBadge);
-    //!Parent Right contents
-    const parentRightContent = document.createElement("p");
-    parentRightContent.classList.add("status");
-    parent.append(parentRightContent);
-
-    //*********************************************//
-    //fields to change
-    /*
-  images(bus,hostel,campus..)=> img
-  Categories(bus issue,hostel issue etc)=> groupCategory
-  Description(short idea on what we solve)=> groupDescription
-  OpenIssueBadge(issues open) =>openBadge
-  ClosedIssueBadge(issues closed)=>closedBadge
-  status(Joined or requested)=>parentRightContent
-  */
-    img.setAttribute("src", "/frontend/assets/OIP.jpg");
-    groupCategory.innerText = group.groupname;
     groupDescription.innerText = group.description;
-    openBadge.innerText = `${2} Open`;
-    closedBadge.innerText = `${6} solved`;
-    parentRightContent.innerText = "Joined";
-  }
-}
-function renderIssues(issues) {
-  const rightTabMain = document.querySelector(".space-holder-issues");
-  if (!rightTabMain) return;
-  // outer container
-  for (const issue of issues) {
-    const issueDiv = document.createElement("div");
-    issueDiv.className = "issuemes";
-    // title
-    const h3 = document.createElement("h3");
-    h3.textContent = issue.title;
-    // description
-    const p = document.createElement("p");
-    p.textContent = issue.description;
-    // badge
-    const badge = document.createElement("div");
-    badge.className = "badge-pending";
-    badge.textContent = "Pending Approval";
 
-    issueDiv.append(h3, p, badge);
-    rightTabMain.insertAdjacentElement("beforebegin", issueDiv);
+    const groupmembers=document.createElement("p");
+    groupmembers.innerText=`members : ${group.members.length}`
+    groupmembers.classList.add("group-members");
+
+    centerContent.append(groupName, groupDescription, groupmembers);
+    leftSection.append(img, centerContent);
+
+    /* ---------------- Right Section ---------------- */
+    const status = document.createElement("p");
+    status.classList.add("badge-joined");
+    status.classList.add("badge")
+    status.innerText = "Joined";
+
+    /* ---------------- Append All ---------------- */
+    parent.append(leftSection, status);
   }
 }
 //close search group
@@ -181,7 +149,7 @@ searchInp.addEventListener("input", async () => {
       createIndSearchCard(indgroup);
     }
     idForSearchResults();
-        joinRequest();
+    joinRequest();
   }
 });
 
@@ -196,7 +164,7 @@ function createIndSearchCard(group) {
 
   // Image
   const img = document.createElement("img");
-  img.src = "../../assets/OIP.jpg";
+  img.src = "../../assets/images.jpg";
   img.alt = "group image";
 
   // Content box
@@ -242,7 +210,7 @@ function createIndSearchCard(group) {
 
 async function idForSearchResults() {
   const joinGroupBtn = document.querySelectorAll(".join-status");
-  if(!joinGroupBtn) return;
+  if (!joinGroupBtn) return;
   joinGroupBtn.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const res = await apiFetch(
@@ -308,7 +276,6 @@ async function inputClearDataReload() {
   });
   const data = await res.json();
   renderGroups(data.allGroups);
-  renderIssues(data.issues);
 }
 
 //! join request for search group globally code
@@ -323,16 +290,14 @@ async function joinRequest() {
           credentials: "include",
         },
       );
-      if(!res.ok || res.status===409){
+      if (!res.ok || res.status === 409) {
         const data = await res.json();
-        if(data.code==="already_member"){
-          alert("already member")
-        }
-        else if(data.code==="already_requested"){
-          alert("already requested")
-        }
-        else{
-          alert(data.message)
+        if (data.code === "already_member") {
+          alert("already member");
+        } else if (data.code === "already_requested") {
+          alert("already requested");
+        } else {
+          alert(data.message);
         }
       }
     });

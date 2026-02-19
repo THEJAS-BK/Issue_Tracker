@@ -37,15 +37,10 @@ module.exports.getAllGroups = async (req, res, next) => {
 
     const allGroups = await Group.find({
       members: { $elemMatch: { userId: req.user.userId } },
-    }).select("groupname description inviteCode");
+    }).select("groupname description members");
 
-    const allissues = await Issue.find({
-      group: { $in: allGroups.map((g) => g._id) },
-    });
-    const issues = allissues.filter(
-      (issue) => issue.createdBy.toString() === curUser,
-    );
-    res.json({ allGroups, issues });
+
+    res.json({ allGroups });
   } catch (err) {
     next(err);
   }

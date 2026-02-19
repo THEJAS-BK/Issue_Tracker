@@ -6,73 +6,46 @@
 }
 /* Header styling  */
 header {
-  background-color: blue;
+  background-color: #007bff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 64px;
+  padding: 0 5rem;
+}
+header h2 {
+  color: white;
+}
+.right-section {
   position: relative;
 }
-
-.navleft {
-  margin-left: 2rem;
+.dropdown-user {
+    position: absolute;
+    top: 100%;
+    width: 11rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgb(125, 128, 129);
 }
-header i {
-  color: white;
-  font-size: 25px;
+.hidden{
+  display: none;
+}
+.create-group-btn{
+     background-color: #ffffff;
+    color: black;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.4s ease;
+    outline: none;
+    overflow: hidden;
+    font-weight: bold;
+    padding: 1rem;
+    border:5px solid black;
+    border-radius:5px
 }
 /* Mid section  */
 
-.mid {
-  color: white;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-/* left section */
-.leftSection {
-  display: flex;
-}
-.leftSection button {
-  border: none;
-  background-color: white;
-  color: blue;
-  margin-right: 1rem;
-  padding: 0.5rem 2rem;
-  border-radius: 10px;
-}
-.leftSection i {
-  color: gray;
-  font-size: 15px;
-}
-.headAcc {
-  width: 6rem;
-  display: flex;
-  align-items: center;
-}
-.headAcc div {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.headAcc div p {
-  width: 70%;
-  height: 70%;
-  background-color: blue;
-  border-radius: 50%;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bolder;
-}
-.headAcc i {
-  margin: 0;
-}
 /* Issue section  */
 .issues {
   height: 20vh;
@@ -101,27 +74,24 @@ main {
   display: flex;
   justify-content: center;
   height: 91vh;
-  margin-top: 3rem;
-  gap: 1rem;
+  margin-top:1rem;
   margin-bottom: 8rem;
 }
 /* Left section  */
 .mainLeft {
-  width: 51%;
+  width: min(90%, 700px);
+  box-shadow: 0 0 2px black;
+  padding-top: 1rem;
+  border-radius:30px ;
 }
-
-.right-Tab {
+.mainLeft>h2{
+  padding-left: 1rem;
+  font-size: 2rem;
+}
+.leftTab {
   box-shadow: 0 0 2px black;
   border: none;
   width: 100%;
-  height: 100%;
-  position: relative;
-}
-.leftTab{
-   box-shadow: 0 0 2px black;
-  border: none;
-  width: 100%;
-  height: 90%;
   position: relative;
 }
 .leftTab-Tab {
@@ -138,7 +108,6 @@ main {
 .leftTab-left-center {
   margin-left: 1rem;
   width: 30vw;
-  line-height: 2rem;
 }
 .status {
   padding: 1rem;
@@ -160,81 +129,23 @@ main {
   padding: 0.5rem;
   text-align: center;
 }
-.badges {
-  display: flex;
-  gap: 1.5rem;
-}
-.bg1,
-.bg2 {
-  padding: 0.25rem 2rem;
-  background-color: chocolate;
-  border-radius: 10px;
-  color: white;
-}
-/* Main right  */
-.mainRight {
-  width: 30%;
-}
-.right-Tab {
-  position: relative;
-  display: flex;
-}
-.right-Tab-Main {
-  width: 100%;
-  line-height: 2rem;
-  overflow-y: auto;
-}
-.badge-pending {
-  padding: 0.25rem 0.5rem;
-  background-color: blanchedalmond;
-  width: 40%;
-  border-radius: 10px;
-}
-.right-view-request {
-  border-top: 1px solid black;
-  position: absolute;
-  bottom: 0px;
-  padding: 0.75rem 0;
-  text-align: center;
-  width: 100%;
-  color: blue;
-  background-color: lightskyblue;
-}
-.issuemes {
-  padding: 1rem;
-  border-bottom: 2px solid black;
-}
-.mainLeft {
-  position: relative;
-}
-.leftTab {
-   overflow-y: auto;
-}
-.left-bottom {
-  position: absolute;
-  bottom: 0px;
-}
-.space-holder,
-.space-holder-issues {
-  height: 9rem;
-}
 a {
   text-decoration: none;
   color: black;
 }
 /* search groups  */
 #group-search {
-    width: 482px;
-    height: 517px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-    z-index: 999;
-    left: 34%;
-    top: 14%;
+  width: min(95%,500px);
+  height: 517px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  left: 34%;
+  top: 14%;
 }
 
 /* Header */
@@ -242,7 +153,6 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
 }
 
 .search-header .title {
@@ -258,18 +168,17 @@ a {
 }
 
 /* Input */
-#search-overlay{
+#search-overlay {
   position: fixed;
   inset: 0;
   z-index: 1000;
   display: none;
   justify-content: center;
   align-items: center;
-   backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   background: rgba(0, 0, 0, 0.45);
 }
-
 
 #searchInput {
   width: 100%;
@@ -286,67 +195,240 @@ a {
   border-top: 1px solid #eee;
   padding-top: 8px;
 }
-.ind-search{
-    border-radius: 10px;
-  padding:1rem;
+.ind-search {
+  border-radius: 10px;
   display: flex;
   justify-content: space-between;
-  border:2px solid grey;
-  margin-top:0.5rem;
+  margin-top: 0.5rem;
+  background-color: lightblue;
+  padding:0.25rem;
+  border:2px solid black;
+  align-items: center;
 }
 .ind-search-content {
-  color:grey;
-  font-size:1rem;
+  color: grey;
+  font-size: 1rem;
   line-height: 1rem;
-
 }
-.join-status{
+.join-status {
   padding: 0.5rem 1rem;
-  border:none;
+  border: none;
   border-radius: 10px;
   box-shadow: 0 0 2px black;
+  color:white;
+  background-color: #007bff;
+  font-weight: 400;
 }
-.ind-search-left{
+.ind-search-left {
   display: flex;
 }
-.ind-search-left>img{
-  width:56px;
+.ind-search-left > img {
+  width: 56px;
   aspect-ratio: 1/1;
-    margin-right: 1rem;
-  border:2px solid blue;
+  margin-right: 1rem;
+
   border-radius: 50%;
 }
-.ind-search-left>div{
+.ind-search-left > div {
   line-height: 2rem;
 }
+.ind-search-content>p{
+  font-size:0.25rem;
+}
 /* search joined groups  */
-.left-search-bar{
-  background-color: lightgray;
-  display:flex;
-  padding:1rem
+.left-search-bar {
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
 }
-#searchjoinedGroups{
-  width: 57%;
-  font-size:1.25rem;
- padding: 0.5rem 0.25rem;
-  border:none;
-  border-radius: 10px;
-  box-shadow: 0 0 2px black;
-  outline:none
+.search-left{
+  width:min(80%, 600px);
+  border:2px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 1rem;
 }
-#joinGroup{
-  margin-left: 8rem;
-   border:none;
-  border-radius: 10px;
-  box-shadow: 0 0 2px black;
-  outline:none;
-  padding:0 1rem;
+#searchjoinedGroups {
+  width: 88%;
+  font-size: 1.25rem;
+  padding: 0.5rem 0.25rem;
+  border: none;
+  outline: none;
+  flex:1;
+  height:100%;
+  padding-left:0.5rem ;
 }
-#clear-search{
-  margin-left:5px;
-   border:none;
+#joinGroup,.request-status {
+  border: none;
   border-radius: 10px;
-  box-shadow: 0 0 2px black;
-  outline:none;
-  padding:0 1rem;
+  outline: none;
+  color:white;
+  background-color:#007bff;
+  padding:0.5rem 1rem;
+  font-size:1rem;
+}
+
+.username {
+  padding: 15px 30px;
+  border: 2px solid #2c2c2c;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+}
+.group-name{
+  font-size:1.5rem
+}
+.group-description{
+  color:grey;
+  margin-top:0.25rem;
+  margin-bottom:0.25rem;
+  font-size: 1rem;
+}
+.group-members{
+  color:grey;
+  font-size:0.8rem;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 999px;
+  white-space: nowrap;
+  align-self: center;
+  margin-right: 1rem;
+}
+
+.badge-joined {
+  background-color: #e0e7ff;  
+  color: #2563eb;              
+}
+/* media queries  */
+@media (max-width: 480px) {
+  header {
+    padding: 0 1rem;
+  }
+
+  header h2 {
+    font-size: 1.2rem;
+  }
+
+  .username {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+
+  main {
+    height: auto;
+    margin-bottom: 2rem;
+  }
+
+  .mainLeft {
+    width: 95%;
+    border-radius: 16px;
+  }
+
+  .leftTab-Tab {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .leftTab-left {
+    padding: 0.5rem;
+  }
+
+  .leftTab-left-center {
+    width: 100%;
+  }
+
+  .status {
+    padding: 0.5rem 1rem;
+    align-self: flex-end;
+  }
+
+  .mainLeft img {
+    width: 56px;
+  }
+
+  .left-search-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .search-left {
+    width: 100%;
+  }
+
+  #joinGroup {
+    width: 100%;
+  }
+
+  #group-search {
+    width: 99%;
+    height: 80%;
+    left: unset;
+    top: unset;
+    padding-right:0
+  }
+  .leftTab-left{
+    width: 100%;
+  }
+
+  .badge-joined{
+    align-self:start ;
+    margin-left:0.5rem
+  }
+
+  .ind-search-left{
+    width:90%
+  }
+
+  .request-status{
+    font-size: 0.75rem;
+    padding:0.5rem 1rem
+  }
+  .ind-search-left>img{
+    margin-right: 0.25rem;
+  }
+   
+}
+@media (max-width: 768px) {
+  header {
+    padding: 0 2rem;
+  }
+
+  .mainLeft {
+    width: 95%;
+  }
+
+  .leftTab-left-center {
+    width: auto;
+  }
+
+  .issues {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .issuetab {
+    width: 90%;
+  }
+
+  .left-search-bar {
+    gap: 1rem;
+  }
+
+  #group-search {
+    height: 70%;
+  }
 }
