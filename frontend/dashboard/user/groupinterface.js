@@ -1,5 +1,6 @@
 import { apiFetch } from "../../utils/helper.js";
-
+import {sendApiBase} from "../../utils/apiBase.js"
+const API_BASE = sendApiBase();
 document.querySelector(".username").addEventListener("click", (e) => {
   e.stopPropagation();
   const dropdown = document.querySelector(".dropdown-user");
@@ -47,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   //show contents
   const res = await apiFetch(
-    `http://localhost:8080/groups/interface/${groupId}`,
+    `${API_BASE}/groups/interface/${groupId}`,
     {
       method: "GET",
       credentials: "include",
@@ -235,7 +236,7 @@ search.addEventListener("input", async () => {
   const val = search.value;
   if (val.length > 0) {
     const res = await apiFetch(
-      `http://localhost:8080/issues/search?q=${encodeURIComponent(val)}`,
+      `${API_BASE}/issues/search?q=${encodeURIComponent(val)}`,
       {
         method: "GET",
         credentials: "include",
@@ -251,7 +252,7 @@ search.addEventListener("input", async () => {
   if (val.length === 0) {
     const id = new URLSearchParams(window.location.search).get("id");
     document.querySelector(".issues").innerHTML = "";
-    const res = await apiFetch(`http://localhost:8080/groups/interface/${id}`, {
+    const res = await apiFetch(`${API_BASE}/groups/interface/${id}`, {
       method: "GET",
       credentials: "include",
     });
@@ -271,7 +272,7 @@ async function addEventToIssueCards() {
     allIssueCards[0].classList.add("addBorder");
     const issueId = allIssueCards[0].dataset.issueId;
     const firstEntryres = await apiFetch(
-      `http://localhost:8080/issues/details/${issueId}`,
+      `${API_BASE}/issues/details/${issueId}`,
       {
         method: "GET",
         credentials: "include",
@@ -300,7 +301,7 @@ async function addEventToIssueCards() {
       issueCard.classList.add("addBorder");
       const issueId = issueCard.dataset.issueId;
       const Completeres = await apiFetch(
-        `http://localhost:8080/issues/details/${issueId}`,
+        `${API_BASE}/issues/details/${issueId}`,
         {
           method: "GET",
           credentials: "include",
@@ -319,7 +320,7 @@ selectStatus.addEventListener("change", async (e) => {
   const searchVal = e.target.value;
   console.log(searchVal);
   const res = await apiFetch(
-    `http://localhost:8080/issues/filter/${groupId}?state=${searchVal}`,
+    `${API_BASE}/issues/filter/${groupId}?state=${searchVal}`,
     {
       method: "GET",
       credentials: "include",
@@ -354,7 +355,7 @@ deleteIssueBtn.addEventListener("click", () => {
       }
       if (issueId) {
         const res = await apiFetch(
-          `http://localhost:8080/issues/delete/${issueId}`,
+          `${API_BASE}/issues/delete/${issueId}`,
           {
             method: "DELETE",
             credentials: "include",
@@ -423,7 +424,7 @@ document.getElementById("show-members").addEventListener("click", async () => {
   const groupId = new URLSearchParams(window.location.search).get("id");
   const role = document.getElementById("filter-members").value;
   const res = await apiFetch(
-    `http://localhost:8080/groups/members/${groupId}?state=${role}`,
+    `${API_BASE}/groups/members/${groupId}?state=${role}`,
     {
       method: "GET",
       credentials: "include",
@@ -446,7 +447,7 @@ document.getElementById("show-members").addEventListener("click", async () => {
     const val = e.target.value;
     if (searchInput.value.length > 0) {
       const res = await apiFetch(
-        `http://localhost:8080/groups/members/search/${groupId}?q=${val}&state=${role}`,
+        `${API_BASE}/groups/members/search/${groupId}?q=${val}&state=${role}`,
         {
           method: "GET",
           credentials: "include",
@@ -466,7 +467,7 @@ document.getElementById("show-members").addEventListener("click", async () => {
       const role = document.getElementById("filter-members").value;
       document.querySelector(".member-list").innerHTML = "";
       const res = await apiFetch(
-        `http://localhost:8080/groups/members/${groupId}?state=${role}`,
+        `${API_BASE}/groups/members/${groupId}?state=${role}`,
         {
           method: "GET",
           credentials: "include",
@@ -492,7 +493,7 @@ function enablingFilterOptionForMember() {
       const role = e.target.value;
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/groups/members/${groupId}?state=${role}`,
+        `${API_BASE}/groups/members/${groupId}?state=${role}`,
         {
           method: "GET",
           credentials: "include",
@@ -515,7 +516,7 @@ document.getElementById("exit-group").addEventListener("click", async () => {
     .addEventListener("click", async () => {
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/groups/leave/${groupId}`,
+        `${API_BASE}/groups/leave/${groupId}`,
         {
           method: "DELETE",
           credentials: "include",

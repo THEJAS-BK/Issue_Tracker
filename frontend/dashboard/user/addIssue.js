@@ -1,4 +1,6 @@
 import { apiFetch } from "../../utils/helper.js";
+import {sendApiBase} from "../../utils/apiBase.js"
+const API_BASE = sendApiBase();
 //!add issue tab
 const addIssueForm = document.querySelector(".issue-form");
 addIssueForm.addEventListener("submit", async (e) => {
@@ -9,7 +11,7 @@ addIssueForm.addEventListener("submit", async (e) => {
   }
   e.preventDefault();
   const anonSwitch = document.getElementById("anonymousSwitch").checked;
-  const res = await apiFetch(`http://localhost:8080/issues/add/${groupId}`,
+  const res = await apiFetch(`${API_BASE}/issues/add/${groupId}`,
   {
     method: "POST",
     headers: { "Content-type": "application/json" },

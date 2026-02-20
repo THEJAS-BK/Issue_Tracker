@@ -1,4 +1,6 @@
 import { apiFetch } from "../../utils/helper.js";
+import {sendApiBase} from "../../utils/apiBase.js"
+const API_BASE = sendApiBase();
 
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
@@ -7,7 +9,7 @@ createGroupBtn.addEventListener("click", () => {
 });
 //Load userpage Groups
 document.addEventListener("DOMContentLoaded", async () => {
-  const res = await apiFetch("http://localhost:8080/groups", {
+  const res = await apiFetch(`${API_BASE}/groups`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -28,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (q.length < 3) return;
 
     const res = await apiFetch(
-      `http://localhost:8080/groups/search?q=${encodeURIComponent(q.trim())}`,
+      `${API_BASE}/groups/search?q=${encodeURIComponent(q.trim())}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -140,7 +142,7 @@ searchInp.addEventListener("input", async () => {
     return;
   } else {
     const res = await apiFetch(
-      `http://localhost:8080/groups/search?q=${encodeURIComponent(value)}`,
+      `${API_BASE}/groups/search?q=${encodeURIComponent(value)}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -219,7 +221,7 @@ async function idForSearchResults() {
   joinGroupBtn.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const res = await apiFetch(
-        `http://localhost:8080/groups/member/add/${btn.dataset.groupId}`,
+        `${API_BASE}/groups/member/add/${btn.dataset.groupId}`,
         {
           method: "POST",
           credentials: "include",
@@ -247,7 +249,7 @@ searchJoinedGroups.addEventListener("input", async (e) => {
 
   if (val.length > 1) {
     console.log("here problem")
-    const res = await apiFetch(`http://localhost:8080/groups/search/joined?q=${val}`, {
+    const res = await apiFetch(`${API_BASE}/groups/search/joined?q=${val}`, {
       method: "GET",
       credentials: "include",   
     });
@@ -274,7 +276,7 @@ searchJoinedGroups.addEventListener("input", async (e) => {
 });
 
 async function inputClearDataReload() {
-  const res = await apiFetch("http://localhost:8080/groups", {
+  const res = await apiFetch(`${API_BASE}/groups`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -288,7 +290,7 @@ async function joinRequest() {
   allReqBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const res = await apiFetch(
-        `http://localhost:8080/groups/join/request/${btn.dataset.groupId}`,
+        `${API_BASE}/groups/join/request/${btn.dataset.groupId}`,
         {
           method: "POST",
           credentials: "include",

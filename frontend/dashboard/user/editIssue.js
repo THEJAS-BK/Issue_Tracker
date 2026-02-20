@@ -1,11 +1,13 @@
 import { apiFetch } from "../../utils/helper.js";
+import {sendApiBase} from "../../utils/apiBase.js"
+const API_BASE = sendApiBase();
 document.addEventListener("DOMContentLoaded", async () => {
   const issueId=new URLSearchParams(window.location.search).get("issueid");
   if(!issueId) {
     window.location.href="/frontend/dashboard/user/dashboard.html";
   }
   const res = await apiFetch(
-    `http://localhost:8080/issues/edit/${issueId}`,
+    `${API_BASE}/issues/edit/${issueId}`,
     {
       method: "GET",
       credentials: "include",
@@ -29,7 +31,7 @@ addIssueForm.addEventListener("submit", async (e) => {
   const groupId = new URLSearchParams(window.location.search).get("groupid");
   console.log(issueId, groupId);
   const anonSwitch = document.getElementById("anonymousSwitch").checked;
-  const res = await apiFetch(`http://localhost:8080/issues/edit/${issueId}`, {
+  const res = await apiFetch(`${API_BASE}/issues/edit/${issueId}`, {
     method: "PATCH",
     headers: { "Content-type": "application/json" },
     credentials: "include",

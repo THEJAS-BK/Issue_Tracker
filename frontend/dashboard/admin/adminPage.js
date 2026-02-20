@@ -1,4 +1,6 @@
 import { apiFetch } from "../../utils/helper.js";
+import {sendApiBase} from "../../utils/apiBase.js"
+const API_BASE = sendApiBase();
 window.addEventListener("resize",()=>{
   if(window.innerWidth < 768){
     document.querySelector(".content-right").style.display = "none";
@@ -9,7 +11,7 @@ window.addEventListener("resize",()=>{
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const groupid = params.get("id");
-  const res = await apiFetch(`http://localhost:8080/groups/${groupid}/admin`, {
+  const res = await apiFetch(`${API_BASE}/groups/${groupid}/admin`, {
     method: "GET",
     credentials: "include",
   });
@@ -127,7 +129,7 @@ function AddIssueEvents() {
       issue.classList.add("blue-border");
       const issueId = issue.dataset.issueId;
       const res = await apiFetch(
-        `http://localhost:8080/issues/details/${issueId}/admin`,
+        `${API_BASE}/issues/details/${issueId}/admin`,
         {
           method: "GET",
           credentials: "include",
@@ -192,7 +194,7 @@ async function firstValSelected() {
   if (allIssues[0]) {
     const issueId = allIssues[0].dataset.issueId;
     const res = await apiFetch(
-      `http://localhost:8080/issues/details/${issueId}/admin`,
+      `${API_BASE}/issues/details/${issueId}/admin`,
       {
         method: "GET",
         credentials: "include",
@@ -220,7 +222,7 @@ function deleteIssueByAdmin() {
         const groupId = new URLSearchParams(window.location.search).get("id");
         const issueId = deleteBtn.dataset.issueId;
         const res = await apiFetch(
-          `http://localhost:8080/issues/${issueId}/delete/admin?q=${groupId}`,
+          `${API_BASE}/issues/${issueId}/delete/admin?q=${groupId}`,
           {
             method: "DELETE",
             credentials: "include",
@@ -230,7 +232,7 @@ function deleteIssueByAdmin() {
           confirmDelete.style.display = "none";
           const state = document.getElementById("filter-select").value;
           const res = await apiFetch(
-            `http://localhost:8080/issues/filter/${groupId}?state=${state}`,
+            `${API_BASE}/issues/filter/${groupId}?state=${state}`,
             {
               method: "GET",
               credentials: "include",
@@ -263,7 +265,7 @@ search.addEventListener("input", async (e) => {
 
   if (searchTerm.length > 0) {
     const res = await apiFetch(
-      `http://localhost:8080/issues/search?q=${encodeURIComponent(searchTerm)}`,
+      `${API_BASE}/issues/search?q=${encodeURIComponent(searchTerm)}`,
       {
         method: "GET",
         credentials: "include",
@@ -280,7 +282,7 @@ search.addEventListener("input", async (e) => {
   if (searchTerm.length === 0) {
     const id = new URLSearchParams(window.location.search).get("id");
     document.querySelector(".issue-contents").innerHTML = "";
-    const res = await apiFetch(`http://localhost:8080/groups/interface/${id}`, {
+    const res = await apiFetch(`${API_BASE}/groups/interface/${id}`, {
       method: "GET",
       credentials: "include",
     });
@@ -299,7 +301,7 @@ selectStatus.addEventListener("change", async (e) => {
   document.querySelector(".issue-contents").innerHTML = "";
   const groupId = new URLSearchParams(window.location.search).get("id");
   const res = await apiFetch(
-    `http://localhost:8080/issues/filter/${groupId}?state=${e.target.value}`,
+    `${API_BASE}/issues/filter/${groupId}?state=${e.target.value}`,
     {
       method: "GET",
       credentials: "include",
@@ -318,7 +320,7 @@ updateBtns.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
     const issueId = e.target.dataset.issueId;
     const res = await apiFetch(
-      `http://localhost:8080/issues/${issueId}/update/admin`,
+      `${API_BASE}/issues/${issueId}/update/admin`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -332,7 +334,7 @@ updateBtns.forEach((btn) => {
       const state = document.getElementById("filter-select").value;
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/issues/filter/${groupId}?state=${state}`,
+        `${API_BASE}/issues/filter/${groupId}?state=${state}`,
         {
           method: "GET",
           credentials: "include",
@@ -377,7 +379,7 @@ deleteGroupBtn.addEventListener("click", () => {
     .addEventListener("click", async () => {
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/groups/delete/${groupId}/admin`,
+        `${API_BASE}/groups/delete/${groupId}/admin`,
         {
           method: "DELETE",
           credentials: "include",
@@ -518,7 +520,7 @@ document
     document.querySelector(".member-list").innerHTML = "";
 
     const res = await apiFetch(
-      `http://localhost:8080/groups/members/${groupId}/admin?state=all`,
+      `${API_BASE}/groups/members/${groupId}/admin?state=all`,
       {
         method: "GET",
         credentials: "include",
@@ -540,7 +542,7 @@ document
       const role = document.getElementById("filter-members").value;
       if (searchInput.value.length > 0) {
         const res = await apiFetch(
-          `http://localhost:8080/groups/members/search/${groupId}/admin?q=${val}&state=${role}`,
+          `${API_BASE}/groups/members/search/${groupId}/admin?q=${val}&state=${role}`,
           {
             method: "GET",
             credentials: "include",
@@ -561,7 +563,7 @@ document
       if (searchInput.value.length === 0) {
         document.querySelector(".member-list").innerHTML = "";
         const res = await apiFetch(
-          `http://localhost:8080/groups/members/${groupId}/admin?state=${role}`,
+          `${API_BASE}/groups/members/${groupId}/admin?state=${role}`,
           {
             method: "GET",
             credentials: "include",
@@ -597,7 +599,7 @@ async function reloadFilters(groupId) {
   document.querySelector(".member-list").innerHTML = "";
 
   const res = await apiFetch(
-    `http://localhost:8080/groups/members/${groupId}/admin?state=${state}`,
+    `${API_BASE}/groups/members/${groupId}/admin?state=${state}`,
     {
       method: "GET",
       credentials: "include",
@@ -627,7 +629,7 @@ function enableFilterOptions(groupId) {
       let role = e.target.value;
 
       const res = await apiFetch(
-        `http://localhost:8080/groups/members/${groupId}/admin?state=${role}`,
+        `${API_BASE}/groups/members/${groupId}/admin?state=${role}`,
         {
           method: "GET",
           credentials: "include",
@@ -664,7 +666,7 @@ function promoteToCoAdmin() {
         const userId = e.target.dataset.userId;
         const groupId = new URLSearchParams(window.location.search).get("id");
         const res = await apiFetch(
-          `http://localhost:8080/groups/members/promote/${groupId}/${userId}/admin`,
+          `${API_BASE}/groups/members/promote/${groupId}/${userId}/admin`,
           {
             method: "PUT",
             credentials: "include",
@@ -693,7 +695,7 @@ function demoteToMember() {
         const userId = e.target.dataset.userId;
         const groupId = new URLSearchParams(window.location.search).get("id");
         const res = await apiFetch(
-          `http://localhost:8080/groups/members/demote/${groupId}/${userId}/admin`,
+          `${API_BASE}/groups/members/demote/${groupId}/${userId}/admin`,
           {
             method: "PUT",
             credentials: "include",
@@ -729,7 +731,7 @@ function kickMember() {
           const userId = btn.dataset.userId;
           const groupId = new URLSearchParams(window.location.search).get("id");
           const res = await apiFetch(
-            `http://localhost:8080/groups/members/kick/${groupId}/${userId}/admin`,
+            `${API_BASE}/groups/members/kick/${groupId}/${userId}/admin`,
             {
               method: "DELETE",
               credentials: "include",
@@ -816,7 +818,7 @@ document
     //get all request initially
     const groupId = new URLSearchParams(window.location.search).get("id");
     const res = await apiFetch(
-      `http://localhost:8080/groups/join/request/${groupId}/admin`,
+      `${API_BASE}/groups/join/request/${groupId}/admin`,
       {
         method: "GET",
         credentials: "include",
@@ -838,7 +840,7 @@ document
       .addEventListener("click", async () => {
         document.querySelector(".join-request-list").innerHTML = "";
         const res = await apiFetch(
-          `http://localhost:8080/groups/join/request/${groupId}/admin`,
+          `${API_BASE}/groups/join/request/${groupId}/admin`,
           {
             method: "GET",
             credentials: "include",
@@ -864,7 +866,7 @@ function acceptJoinRequest() {
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/groups/join/request/${userId}/admin?q=${groupId}`,
+        `${API_BASE}/groups/join/request/${userId}/admin?q=${groupId}`,
         {
           method: "POST",
           credentials: "include",
@@ -886,7 +888,7 @@ function declineJoinReq() {
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/groups/join/request/${userId}/admin?q=${groupId}`,
+        `${API_BASE}/groups/join/request/${userId}/admin?q=${groupId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -908,7 +910,7 @@ function searchRequests() {
 
       if (e.target.value.length > 0) {
         const res = await apiFetch(
-          `http://localhost:8080/groups/join/request/${groupId}/admin/search?q=${e.target.value}`,
+          `${API_BASE}/groups/join/request/${groupId}/admin/search?q=${e.target.value}`,
           {
             method: "GET",
             credentials: "include",
@@ -927,7 +929,7 @@ function searchRequests() {
       if (e.target.value.length === 0) {
         document.querySelector(".join-request-list").innerHTML = "";
         const res = await apiFetch(
-          `http://localhost:8080/groups/join/request/${groupId}/admin`,
+          `${API_BASE}/groups/join/request/${groupId}/admin`,
           {
             method: "GET",
             credentials: "include",
@@ -965,7 +967,7 @@ function OpenMoreInfo() {
       //get issue logs data
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/issues/${userId}/logs/history?groupId=${groupId}`,
+        `${API_BASE}/issues/${userId}/logs/history?groupId=${groupId}`,
         {
           method: "GET",
           credentials: "include",
@@ -1095,7 +1097,7 @@ document.getElementById("exit-group").addEventListener("click", async () => {
     .addEventListener("click", async () => {
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
-        `http://localhost:8080/groups/leave/${groupId}`,
+        `${API_BASE}/groups/leave/${groupId}`,
         {
           method: "DELETE",
           credentials: "include",

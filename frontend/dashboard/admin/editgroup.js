@@ -1,10 +1,12 @@
 import { apiFetch } from "../../utils/helper.js";
+import {sendApiBase} from "../../utils/apiBase.js"
+const API_BASE = sendApiBase();
 document.addEventListener("DOMContentLoaded", async () => {
   const groupId = new URLSearchParams(window.location.search).get("id");
   if (!groupId) return;
 
   const res = await apiFetch(
-    `http://localhost:8080/groups/edit/${groupId}/admin`,
+    `${API_BASE}/groups/edit/${groupId}/admin`,
     {
       method: "GET",
       credentials: "include",
@@ -32,7 +34,7 @@ createGroupForm.addEventListener("submit", async (e) => {
   const groupId = new URLSearchParams(window.location.search).get("id");
   e.preventDefault();
   const res = await apiFetch(
-    `http://localhost:8080/groups/update/${groupId}/admin`,
+    `${API_BASE}/groups/update/${groupId}/admin`,
     {
       method: "PATCH",
       headers: {
