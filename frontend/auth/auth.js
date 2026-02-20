@@ -1,6 +1,6 @@
 // Signup page code
 
-const API_BASE = "https://issue-tracker-ro93.onrender.com"
+const API_BASE = "http://localhost:8080"
 //--------------------
 // show password toggle
 document.addEventListener("DOMContentLoaded", () => {
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const signupForm = document.getElementById("signUpForm");
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
+    console.log("clicked")
     e.preventDefault();
     const res = await fetch(`${API_BASE}/auth/signup`, {
       method: "POST",
@@ -50,7 +51,7 @@ if (loginForm) {
     });
     if (res.status === 401) {
       alert("User not found");
-    } else if (res.status === 200) {
+    } else if (res.ok) {
       window.location.href="../dashboard/user/userpage.html";
     } else {
       alert("server not working");
