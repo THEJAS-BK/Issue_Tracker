@@ -1,6 +1,6 @@
 // Signup page code
 
-const API_BASE = "http://localhost:8080"
+const API_BASE = "https://issue-tracker-ro93.onrender.com"
 //--------------------
 // show password toggle
 document.addEventListener("DOMContentLoaded", () => {
@@ -39,6 +39,7 @@ if (signupForm) {
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
+
     e.preventDefault();
     const res = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
