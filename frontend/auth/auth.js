@@ -20,6 +20,7 @@ if (signupForm) {
     const res = await fetch(`${API_BASE}/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials:"include",
       body: JSON.stringify({
         name: signupForm.name.value,
         email: signupForm.email.value,
