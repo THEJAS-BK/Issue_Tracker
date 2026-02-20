@@ -63,6 +63,7 @@ main {
   align-items: center;
   height: 12vh;
   padding: 0 2rem;
+
 }
 .main-content {
   height: 88vh;
@@ -491,6 +492,7 @@ p {
 
   z-index: 1000;
 }
+
 
 .confirm-modal-exit{
     background: #efeeee;

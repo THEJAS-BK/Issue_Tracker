@@ -26,7 +26,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("dropdown-delete").remove();
   }
 
-  //go back to user interface btn
+  if(data.role==="admin"){
+    document.getElementById("exit-group").remove();
+  }
+
+ 
+
+  //dropdown
+  const dropdownBtn = document.querySelector(".username");
+  const dropdown = document.querySelector(".dropdown-user");
+  dropdownBtn.addEventListener("click", () => {
+
+    dropdown.classList.toggle("hidden");
+  });
+   //go back to user interface btn
   const returnToUserPageBtn = document.getElementById("user-interface");
   returnToUserPageBtn.addEventListener("click", () => {
     const groupId = new URLSearchParams(window.location.search).get("id");
@@ -133,6 +146,8 @@ function updateIssuesOnRightSide(issue) {
   //mark in progress and mark as resolved
   markInProgress.dataset.issueId = issue._id;
   markResolved.dataset.issueId = issue._id;
+  //badge on the right side
+  document.querySelector(".right-badge").textContent=issue.status;
   // adding their states
   if (issue.status === "inprogress") {
     markInProgress.style.display = "none";
@@ -1052,3 +1067,26 @@ function addIssueHistoryItem(issue) {
   details.append(summary, issueDetails);
   container.appendChild(details);
 }
+//!exit group 
+document.getElementById("exit-group").addEventListener("click", async () => {
+  document.querySelector(".confirm-backdrop-exit").style.display = "flex";
+  document
+    .querySelector(".confirm-exit")
+    .addEventListener("click", async () => {
+      const groupId = new URLSearchParams(window.location.search).get("id");
+      const res = await apiFetch(
+        `http://localhost:8080/groups/leave/${groupId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+      if (res.ok) {
+        window.location.href = "/frontend/dashboard/user/userpage.html";
+      }
+    });
+    document.querySelector(".confirm-exit-cancel").addEventListener("click",()=>{
+  document.querySelector(".confirm-backdrop-exit").style.display = "none";
+
+    })
+});

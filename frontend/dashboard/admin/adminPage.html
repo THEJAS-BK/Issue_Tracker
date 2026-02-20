@@ -27,36 +27,6 @@
     <link rel="stylesheet" href="../hambugerMenu.css" />
   </head>
   <body>
-    <input type="checkbox" id="menu-toggle" hidden />
-    <div class="menu">
-      <div class="menu-top">
-        <div class="menu-profile">
-          <div class="headAcc head-width">
-            <div>
-              <p>J</p>
-            </div>
-            <h3>Jhon Doe</h3>
-          </div>
-        </div>
-        <div class="close-btn">
-          <label for="menu-toggle">
-            <i class="fa-solid fa-xmark"></i>
-          </label>
-        </div>
-      </div>
-      <div class="menu-links">
-        <a href="/frontend/dashboard/user/userpage.html">home</a>
-        <a href="/frontend/dashboard/user/addIssue.html">add Issue</a>
-        <a href="/frontend/dashboard/user/creategroup.html">create group</a>
-        <a href="/frontend/dashboard/user/groupInterface.html"
-          >group Interface</a
-        >
-        <a href="/frontend/dashboard/admin/adminPage.html">admin page</a>
-        <a href="/frontend/dashboard/user/#">Join group</a>
-        <a href="/frontend/dashboard/user/#">Settings</a>
-        <a href="/frontend/dashboard/user/#">Logout</a>
-      </div>
-    </div>
 
     <!-- confirm delete group part  -->
     <div class="confirm-backdrop">
@@ -203,21 +173,34 @@
       </div>
     </div>
 
-    <header>
-      <div class="head-left">
-        <label for="menu-toggle">
-          <i class="fa-solid fa-bars"></i>
-        </label>
-        <h3>Admin Dashboard</h3>
-      </div>
-      <div class="head-right">
-        <button id="user-interface">user dashboard</button>
-        <div class="headAcc">
-          <div>
-            <p>J</p>
-          </div>
-          <i class="fa-solid fa-angle-down"></i>
+      <!-- confirm member exit  -->
+     <div class="confirm-backdrop-exit">
+      <div class="confirm-modal-exit">
+        <h1>Exit Group?</h1>
+        <p>Are you sure you want to exit this group?</p>
+
+        <div class="actions actions-exit">
+          <button class="confirm-exit-cancel">Cancel</button>
+          <button class="confirm-exit">Exit group</button>
         </div>
+      </div>
+    </div>
+
+    <header>
+       <div class="left-section">
+        <h2>User Dashboard</h2>
+      </div>
+      <div class="rightSection"> 
+        <a class="home-btn-dashboard" href='/frontend/dashboard/user/userpage.html'>Home</a>
+        <button class="username">
+         <span class="get-user-name">Thejas BK</span> <i class="fa-solid fa-angle-down"></i>
+        </button>
+        <div class="dropdown-user hidden">
+           <button id="user-interface">user dashboard</button>
+             <button class="home-btn-dashboard dropdown-home-btn" onclick="window.location.href='/frontend/dashboard/user/userpage.html'">Home</button>
+             <button id="exit-group">exit group</button>
+        </div>
+      </div>
       </div>
     </header>
     <div class="groupInfo">
@@ -229,7 +212,7 @@
         <p>invite code : <span class="invite-code"></span></p>
       </div>
       <div class="groupInfo-settings">
-        <i class="fa-solid fa-gear"></i>
+        <i class="fa-solid fa-bars"></i>
         <div class="settings-dropdown">
           <button id="dropdown-edit">edit group</button>
           <button id="dropdown-members">view members</button>
@@ -238,6 +221,7 @@
         </div>
       </div>
     </div>
+    <hr>
     <div class="issue-status">
       <div class="issue-Tab">
         <h5>Total Issues</h5>
@@ -295,12 +279,12 @@
                 </div>
               </div>
             </div>
-            <div class="head-user">
-              <div class="profile-img">
-                <img src="/frontend/assets/OIP.jpg" alt="" />
-              </div>
-              <p class="name-right"></p>
+            <div class="head-user d-flex justify-content-between">
+              <div class="d-flex">
+                <p class="name-right"></p>
               <p class="time-ago"></p>
+              </div>
+              <div class="badge right-badge"></div>
             </div>
           </div>
           <div class="content-right-description">

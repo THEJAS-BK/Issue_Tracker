@@ -211,6 +211,13 @@ function updateIssueDetail(issue, isIssueOwner) {
   if (issueImg) {
     issueImg.src = "/frontend/assets/OIP.jpg";
   }
+  // click event addded
+  const dropdownRight = document.querySelector(".get-dropdown-right");
+  dropdownRight.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const dropdown = document.querySelector(".issue-options-dropdown");
+    dropdown.classList.toggle("hidden");
+  });
 }
 
 function calcTimeAgo(time) {

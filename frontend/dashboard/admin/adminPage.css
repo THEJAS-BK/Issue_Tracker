@@ -8,7 +8,13 @@ p {
   margin: 0;
   color: black;
 }
+.groupInfo-settings>i{
+  font-size:3rem ;
+}
 /* Header  */
+.settings-dropdown{
+  z-index:999
+}
 header {
   background-color: blue;
   display: flex;
@@ -168,9 +174,9 @@ main {
 }
 .issue-contents {
   height: 90%;
-  overflow-x:hidden;
+  overflow-x: hidden;
   overflow-y: auto;
-  padding-bottom: 16px; 
+  padding-bottom: 16px;
 }
 .content-bars {
   height: 12%;
@@ -335,7 +341,6 @@ main {
 }
 /* Group info section  */
 .groupInfo {
-  background-color: grey;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -640,35 +645,34 @@ p {
 /* Confirm isssue delete model  */
 .confirm-issue-delete-model {
   background: #efeeee;
-    padding: 20px 24px;
-    border-radius: 10px;
-    width: min(90%, 360px);
-    display: flex;
-    height: 200px;
-    flex-direction: column;
-    border: 5px solid black;
-    text-align: center;
+  padding: 20px 24px;
+  border-radius: 10px;
+  width: min(90%, 360px);
+  display: flex;
+  height: 200px;
+  flex-direction: column;
+  border: 5px solid black;
+  text-align: center;
 }
-.issue-delete-actions{
+.issue-delete-actions {
   margin-top: 1rem;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
-.confirm-issue-delete-model>p{
-  margin-top:0.5rem;
+.confirm-issue-delete-model > p {
+  margin-top: 0.5rem;
 }
-.issue-delete-actions>button{
-      padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 3px grey;
-
+.issue-delete-actions > button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 3px grey;
 }
 /* confirm kickout  */
-.confirm-kickout-backdrop{
-    position: fixed;
+.confirm-kickout-backdrop {
+  position: fixed;
   inset: 0;
   display: none;
   align-items: center;
@@ -678,38 +682,37 @@ p {
   -webkit-backdrop-filter: blur(6px);
   z-index: 1000;
 }
-.confirm-kickout-modal{
-   background: #efeeee;
-    padding: 20px 24px;
-    border-radius: 10px;
-    width: min(90%, 400px);
-    display: flex;
-    height: 300px;
-    flex-direction: column;
-    border: 5px solid black;
-    text-align: center;
-    justify-content: center;
+.confirm-kickout-modal {
+  background: #efeeee;
+  padding: 20px 24px;
+  border-radius: 10px;
+  width: min(90%, 400px);
+  display: flex;
+  height: 300px;
+  flex-direction: column;
+  border: 5px solid black;
+  text-align: center;
+  justify-content: center;
 }
-.confirm-kickout-modal>p{
-  margin-top:1rem; ;
+.confirm-kickout-modal > p {
+  margin-top: 1rem;
 }
-.confirm-kickout-actions{
-  margin-top:2rem;
+.confirm-kickout-actions {
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
-  gap:1rem;
+  gap: 1rem;
 }
-.confirm-kickout-actions>button{
-      padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 3px grey;
-
+.confirm-kickout-actions > button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 3px grey;
 }
 /* More info abt the user btn  */
-.confirm-backdrop-user-info{
-     position: fixed;
+.confirm-backdrop-user-info {
+  position: fixed;
   inset: 0;
   display: none;
   align-items: center;
@@ -719,22 +722,22 @@ p {
   -webkit-backdrop-filter: blur(6px);
   z-index: 1000;
 }
-.confirm-modal-user-info{
-    background: #efeeee;
-    padding: 20px 24px;
-    border-radius: 10px;
-    width: min(90%, 574px);
-    display: flex;
-    height: 698px;
-    flex-direction: column;
-    border: 5px solid black;
+.confirm-modal-user-info {
+  background: #efeeee;
+  padding: 20px 24px;
+  border-radius: 10px;
+  width: min(90%, 574px);
+  display: flex;
+  height: 698px;
+  flex-direction: column;
+  border: 5px solid black;
 }
-.user-info-head{
+.user-info-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.user-info-head>i{
+.user-info-head > i {
   font-size: 2rem;
 }
 /* info tables  */
@@ -744,8 +747,8 @@ p {
 }
 .info-table td {
   padding: 8px 12px;
-  vertical-align: top; 
-   border:2px solid black;
+  vertical-align: top;
+  border: 2px solid black;
 }
 
 .info-table td:first-child {
@@ -757,8 +760,8 @@ p {
 .info-table td:last-child {
   color: #111;
 }
-.issue-history{
-  flex:1;
+.issue-history {
+  flex: 1;
   overflow: auto;
   background-color: grey;
 }
@@ -785,6 +788,99 @@ p {
 .issue-item[open] {
   background: #f9fafb;
 }
+.left-section {
+  display: flex;
+  color: white;
+  font-weight: bold;
+}
+.username {
+  padding: 8px 30px;
+  border: 2px solid #2c2c2c;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+}
+.dropdown-user {
+  position: absolute;
+
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgb(125, 128, 129);
+  border: 4px solid black;
+  z-index: 999999;
+  right: 3rem;
+}
+.dropdown-user > button {
+  background-color: #ffffff;
+  color: black;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.4s ease;
+  outline: none;
+  overflow: hidden;
+  font-weight: bold;
+  padding: 0.5rem;
+}
+.hidden {
+  display: none;
+}
+.home-btn-dashboard {
+  color: white;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+.confirm-backdrop-exit {
+  position: fixed;
+  inset: 0;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  z-index: 1000;
+}
+.actions-exit{
+  justify-content: center;
+}
+.confirm-modal-exit {
+  background: #efeeee;
+  padding: 20px 24px;
+  border-radius: 10px;
+  width: min(90%, 360px);
+  display: flex;
+  height: 200px;
+  flex-direction: column;
+  border: 5px solid black;
+  text-align: center;
+}
+.confirm-modal-exit > p {
+  margin-top: 5px;
+  color: red;
+}
+.confirm-exit {
+  background-color: red;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+#exit-group {
+  color: red;
+}
+.dropdown-home-btn {
+  display: none;
+}
 /* media queries  */
 @media (max-width: 480px) {
   header {
@@ -793,10 +889,6 @@ p {
 
   .head-left h3 {
     font-size: 1rem;
-  }
-
-  #user-interface {
-    display: none;
   }
 
   /* Side menu */
@@ -873,10 +965,19 @@ p {
     max-height: 85vh;
     overflow-y: auto;
   }
+  .home-btn-dashboard {
+    display: none;
+  }
+  .dropdown-home-btn {
+    display: inline;
+  }
 }
 @media (min-width: 481px) and (max-width: 768px) {
   header {
     padding: 0 2rem;
+  }
+  .home-btn-dashboard {
+    display: none;
   }
 
   .menu {
@@ -913,7 +1014,7 @@ p {
     z-index: 900;
     overflow-y: auto;
     padding: 1rem;
-    box-shadow: -6px 0 16px rgba(0,0,0,0.15);
+    box-shadow: -6px 0 16px rgba(0, 0, 0, 0.15);
     border-radius: 12px 0 0 12px;
   }
 
