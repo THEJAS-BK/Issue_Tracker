@@ -54,6 +54,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
   );
   const data = await res.json();
+  //!insert username
+  document.querySelector(".get-user-name").textContent = data.curUserName;
 
   //!admin is not allowed to exit group
   if (data.curUserRole === "admin") {

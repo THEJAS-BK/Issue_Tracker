@@ -61,7 +61,6 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: lightgray;
   height: 12vh;
   padding: 0 2rem;
 }
@@ -132,6 +131,7 @@ main {
   justify-content: space-between;
   border-radius: 10px;
   margin-top: 0.5rem;
+  border:1px solid grey
 }
 .issue-card i {
   font-size: 0.5rem;

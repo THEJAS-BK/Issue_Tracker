@@ -173,6 +173,9 @@ module.exports.getGroupUserInterface = async (req, res, next) => {
       .populate("createdBy", "name");
     //send cur user
     const curUser = req.user.userId;
+    //cur user name
+    const getcurUser = await User.findById(curUser).select("name");
+    const curUserName=getcurUser.name
     //send all member
     const allmembers = await Group.findById(groupId)
       .select("members")
@@ -185,7 +188,7 @@ module.exports.getGroupUserInterface = async (req, res, next) => {
     const groupDetails = await Group.findOne({ _id: groupId }).select(
       "groupname description inviteCode",
     );
-    res.json({ issues, allmembers, curUser, groupDetails, curUserRole });
+    res.json({ issues, allmembers, curUser, groupDetails, curUserRole,curUserName });
   } catch (err) {
     next(err);
   }
