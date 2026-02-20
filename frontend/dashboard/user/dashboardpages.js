@@ -83,7 +83,7 @@ function renderGroups(groups) {
     // Image
     const img = document.createElement("img");
     img.classList.add("group-img");
-    img.src = "/frontend/assets/images.jpg";
+    img.src = "../../assets/images.jpg";
     img.alt = "Group category";
 
     // Center content
