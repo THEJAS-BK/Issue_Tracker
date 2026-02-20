@@ -143,7 +143,7 @@ module.exports.joinGroupRequest = async (req, res, next) => {
 //!search the groups you joined
 module.exports.searchJoinedGroups = async (req, res, next) => {
   try {
-    const { val } = req.body;
+    const val = req.query.q;
     if (val.length == 6) {
       const allGroups = await Group.findOne({ inviteCode: val });
       if (allGroups) {

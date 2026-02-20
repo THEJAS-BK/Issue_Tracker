@@ -578,14 +578,17 @@ p {
   .search {
     flex-direction: column;
     gap: 0.5rem;
+    height:5rem;
   }
 
   .searchInp {
     width: 100%;
+ 
   }
 
   #search-filter {
     width: 100%;
+    padding: 0.5rem;
   }
 
   .issues {

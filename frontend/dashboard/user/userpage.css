@@ -95,6 +95,8 @@ main {
   border: none;
   width: 100%;
   position: relative;
+  height: 100%;
+  overflow:auto;
 }
 .leftTab-Tab {
   border-bottom: 2px solid black;
@@ -403,7 +405,7 @@ a {
   .ind-search-left>img{
     margin-right: 0.25rem;
   }
-   
+
 }
 @media (max-width: 768px) {
   header {
