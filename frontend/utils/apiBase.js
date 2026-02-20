@@ -1,3 +1,3 @@
 export function sendApiBase(){
-    return "http://localhost:8080"
+    return "https://issue-tracker-ro93.onrender.com"
 }
