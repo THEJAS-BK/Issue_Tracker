@@ -29,7 +29,6 @@ addIssueForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const issueId = new URLSearchParams(window.location.search).get("issueid");
   const groupId = new URLSearchParams(window.location.search).get("groupid");
-  console.log(issueId, groupId);
   const anonSwitch = document.getElementById("anonymousSwitch").checked;
   const res = await apiFetch(`${API_BASE}/issues/edit/${issueId}`, {
     method: "PATCH",
