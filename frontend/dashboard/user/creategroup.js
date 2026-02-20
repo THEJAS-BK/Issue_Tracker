@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }),
     });
       if(res.ok){
-          window.location.href="/frontend/dashboard/user/userpage.html"
+          window.location.href="./userpage.html"
       }
   });
 });

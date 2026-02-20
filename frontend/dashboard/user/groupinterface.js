@@ -37,13 +37,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("id");
   if (!groupId) {
-    window.location.href = "/frontend/dashboard/user/dashboard.html";
+    window.location.href = "./userpage.html";
   }
 
   //add issues
   const addIssueBtn = document.querySelector(".addIssue-btn");
   addIssueBtn.addEventListener("click", () => {
-    window.location.href = `/frontend/dashboard/user/addIssue.html?id=${groupId}`;
+    window.location.href = `./addIssue.html?id=${groupId}`;
   });
 
   //show contents
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   //admin dashboard btn code
   const adminDashboardBtn = document.querySelector(".admin-dashboard-btn");
   adminDashboardBtn.addEventListener("click", () => {
-    window.location.href = `/frontend/dashboard/admin/adminPage.html?id=${groupId}`;
+    window.location.href = `../admin/adminPage.html?id=${groupId}`;
   });
   const curUser = data.curUser;
   for (let member of data.allmembers.members) {
@@ -206,7 +206,7 @@ function updateIssueDetail(issue, isIssueOwner) {
   }
 
   if (issueImg) {
-    issueImg.src = "/frontend/assets/OIP.jpg";
+    issueImg.src = "../../assets/OIP.jpg";
   }
   // click event addded
   const dropdownRight = document.querySelector(".get-dropdown-right");
@@ -376,7 +376,7 @@ document.getElementById("edit-issue").addEventListener("click", () => {
     alert("something went wrong");
   }
   if (issueId) {
-    window.location.href = `/frontend/dashboard/user/editIssue.html?issueid=${issueId}&groupid=${groupId}`;
+    window.location.href = `./editIssue.html?issueid=${issueId}&groupid=${groupId}`;
   }
 });
 //!search members btn
@@ -523,7 +523,7 @@ document.getElementById("exit-group").addEventListener("click", async () => {
         },
       );
       if (res.ok) {
-        window.location.href = "/frontend/dashboard/user/userpage.html";
+        window.location.href = "./userpage.html";
       }
     });
     document.querySelector(".confirm-exit-cancel").addEventListener("click",()=>{

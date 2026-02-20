@@ -5,7 +5,7 @@ const API_BASE = sendApiBase();
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
 createGroupBtn.addEventListener("click", () => {
-  window.location.href = "/frontend/dashboard/user/creategroup.html";
+  window.location.href = "./creategroup.html";
 });
 //Load userpage Groups
 document.addEventListener("DOMContentLoaded", async () => {
@@ -66,7 +66,7 @@ function renderGroups(groups) {
   for (const group of groups) {
     // Anchor wrapper
     const anchor = document.createElement("a");
-    anchor.href = `/frontend/dashboard/user/groupInterface.html?id=${group._id}`;
+    anchor.href = `./groupInterface.html?id=${group._id}`;
 
     // Main parent
     const parent = document.createElement("div");

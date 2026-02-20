@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="groupInterface.css" />
+    <link rel="stylesheet" href="./groupInterface.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -88,14 +88,14 @@
         <h2>User Dashboard</h2>
       </div>
       <div class="rightSection"> 
-        <a class="home-btn-dashboard" href='/frontend/dashboard/user/userpage.html'>Home</a>
+        <a class="home-btn-dashboard" href='./userpage.html'>Home</a>
         <button class="username">
          <span class="get-user-name">Thejas BK</span> <i class="fa-solid fa-angle-down"></i>
         </button>
         <div class="dropdown-user hidden">
            <button class="admin-dashboard-btn">admin dashboard</button>
              <button id="show-members">members (<span class="show-total-members">90</span>)</button>
-             <button class="home-btn-dashboard dropdown-home-btn" onclick="window.location.href='/frontend/dashboard/user/userpage.html'">Home</button>
+             <button class="home-btn-dashboard dropdown-home-btn" onclick="window.location.href='./userpage.html'">Home</button>
              <button id="exit-group">exit group</button>
         </div>
       </div>
@@ -167,7 +167,7 @@
             <div class="description-body">
               <img
                 class="right-image"
-                src="/frontend/assets/OIP.jpg"
+                src="../../assets/OIP.jpg"
                 alt="Issue Image"
               />
               <p class="description-body-content"></p>
@@ -180,6 +180,6 @@
   </body>
   <script
     type="module"
-    src="/frontend/dashboard/user/groupinterface.js"
+    src="./groupInterface.js"
   ></script>
 </html>

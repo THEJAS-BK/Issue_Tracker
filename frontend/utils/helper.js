@@ -1,21 +1,20 @@
 export async function apiFetch(url, options = {},retry=true) {
-    console.log("inside apifetch")
   const res = await fetch(url, {
     ...options,
     credentials: "include",
   });
   if (res.status === 403&&retry) {
-    const refresh = await fetch("http://localhost:8080/auth/refreshtoken", {
+    const refresh = await fetch("https://issue-tracker-ro93.onrender.com/auth/refreshtoken", {
       method: "POST",
       credentials: "include",
     });
     if(refresh.ok){
        return apiFetch(url,options,false)
     }
-    window.location.href="/frontend/auth/index.html"
+    window.location.href="../index.html"
   }
    if(res.status==401){
-    window.location.href="/frontend/auth/index.html"
+    window.location.href="../index.html"
     return;
   }
   return res;

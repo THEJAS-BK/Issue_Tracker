@@ -4,7 +4,7 @@ const API_BASE = sendApiBase();
 document.addEventListener("DOMContentLoaded", async () => {
   const issueId=new URLSearchParams(window.location.search).get("issueid");
   if(!issueId) {
-    window.location.href="/frontend/dashboard/user/dashboard.html";
+    window.location.href="./userpage.html";
   }
   const res = await apiFetch(
     `${API_BASE}/issues/edit/${issueId}`,
@@ -42,11 +42,11 @@ addIssueForm.addEventListener("submit", async (e) => {
     }),
   });
   if (res.ok) {
-    window.location.href = `/frontend/dashboard/user/groupInterface.html?id=${groupId}`;
+    window.location.href = `./groupInterface.html?id=${groupId}`;
   }
 });
 const cancelBtn = document.querySelector(".cancel");
 cancelBtn.addEventListener("click", () => {
   const groupId = new URLSearchParams(window.location.search).get("groupid");
-  window.location.href = `/frontend/dashboard/user/groupInterface.html?id=${groupId}`;
+  window.location.href = `./groupInterface.html?id=${groupId}`;
 });

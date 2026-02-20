@@ -23,10 +23,10 @@ addIssueForm.addEventListener("submit", async (e) => {
     }),
   });
   if (res.ok) {
-    window.location.href = "/frontend/dashboard/user/groupInterface.html?id="+groupId;
+    window.location.href = "./groupInterface.html?id="+groupId;
   }
 });
 const cancelBtn = document.querySelector(".cancel")
 cancelBtn.addEventListener("click",()=>{
-  window.location.href="/frontend/dashboard/user/groupInterface.html?id="+groupId
+  window.location.href="./groupInterface.html?id="+groupId
 })
