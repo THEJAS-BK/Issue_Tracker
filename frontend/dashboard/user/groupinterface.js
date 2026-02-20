@@ -166,7 +166,6 @@ function updateIssueDetail(issue, isIssueOwner) {
 
   // HEADER
   const h3 = mainRight.querySelector(".head-title h3");
-  const img = mainRight.querySelector(".profile img");
   const name = mainRight.querySelector(".name");
   const timeAgo = mainRight.querySelector(".time-ago");
   const badge = mainRight.querySelector(".badge");
@@ -177,7 +176,6 @@ function updateIssueDetail(issue, isIssueOwner) {
 
   // -------- DATA UPDATE ONLY --------
   h3.textContent = issue.title;
-  img.src = "/frontend/assets/OIP.jpg";
   if (issue.createdBy) {
     name.textContent = issue.createdBy.name;
   } else {
@@ -192,9 +190,7 @@ function updateIssueDetail(issue, isIssueOwner) {
   if (isIssueOwner) {
     //if user is owner of issue
     const ownerEditBtn = document.querySelector(".issue-options");
-    const upvoteBtn = document.querySelector(".sameIssues");
     ownerEditBtn.style.display = "block";
-    upvoteBtn.style.display = "none";
     //edit and delete issue dropdown
     const editBtn = document.getElementById("edit-issue");
     const deleteBtn = document.getElementById("delete-issue");

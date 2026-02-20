@@ -1,4 +1,11 @@
 import { apiFetch } from "../../utils/helper.js";
+window.addEventListener("resize",()=>{
+  if(window.innerWidth < 768){
+    document.querySelector(".content-right").style.display = "none";
+  }else{
+    document.querySelector(".content-right").style.display = "block";
+  }
+})
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const groupid = params.get("id");
@@ -6,6 +13,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     method: "GET",
     credentials: "include",
   });
+  if(window.innerWidth<768){
+    document.querySelector(".content-right").style.display = "none";
+  }
   const data = await res.json();
   for (let issue of data.issues) {
     insertIssueCard(issue);
@@ -111,6 +121,9 @@ function AddIssueEvents() {
       allIssues.forEach((issue) => {
         issue.classList.remove("blue-border");
       });
+      if(window.innerWidth < 768){
+        document.querySelector(".content-right").style.display = "block";
+      }
       issue.classList.add("blue-border");
       const issueId = issue.dataset.issueId;
       const res = await apiFetch(
@@ -164,6 +177,13 @@ function updateIssuesOnRightSide(issue) {
   //delete issue btn and more info btn
   moreInfoBtn.dataset.userId = issue.createdBy._id;
   deleteIssueBtn.dataset.issueId = issue._id;
+  //go back btn
+  document.querySelector(".go-back-btn").addEventListener("click",()=>{
+    document.querySelector(".content-right").style.display="none"
+  })
+  document.querySelector(".edit-more-info").addEventListener("click",()=>{
+    document.querySelector(".right-issues-dropdown").classList.toggle("hidden")
+  })
   OpenMoreInfo();
 }
 //!already selected issue
