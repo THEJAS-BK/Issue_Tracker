@@ -886,35 +886,53 @@ p {
   header {
     padding: 0 1rem;
   }
-
-  .head-left h3 {
-    font-size: 1rem;
+  h2{
+    font-size:1rem;
+    padding: 0;
   }
-
   /* Side menu */
   .menu {
     width: 85%;
   }
 
   .groupInfo {
-    flex-direction: column;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
   }
-
   .groupInfo-settings {
     align-self: flex-end;
   }
 
   .issue-status {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    padding: 0.5rem;
+   display: flex;
+   flex-wrap: wrap;
+   height:100%;
+   gap:0.5rem;
+   margin-top:0.5rem;
+  }
+  .issue-Tab{
+    width:45%;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height:2rem
+  }
+  .issue-Tab>h5{
+    font-size:1rem;
+    width:80%
+  }
+  .issue-Tab>p{
+    font-size:1rem;
   }
 
   .main-content {
     flex-direction: column;
     position: relative;
+  }
+  .fa-bars{
+    font-size:1rem
   }
 
   .content-left {
@@ -970,6 +988,10 @@ p {
   }
   .dropdown-home-btn {
     display: inline;
+  }
+  .username{
+    padding:0.75rem 0.5rem;
+    font-size:0.75rem
   }
 }
 @media (min-width: 481px) and (max-width: 768px) {
@@ -1037,6 +1059,30 @@ p {
   .join-requests-tab {
     width: 80%;
     max-height: 85vh;
+  }
+ .issue-status {
+   display: flex;
+   flex-wrap: wrap;
+   height:100%;
+   gap:0.5rem;
+   margin-top:0.5rem;
+  }
+  .issue-Tab{
+    width:45%;
+    height: 30%;
+    padding:0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height:3rem
+  }
+  .issue-Tab>h5{
+    font-size:1.75rem;
+    width:80%
+  }
+  .issue-Tab>p{
+    font-size:1.75rem;
   }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
