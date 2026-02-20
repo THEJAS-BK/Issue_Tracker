@@ -50,11 +50,11 @@ createGroupForm.addEventListener("submit", async (e) => {
     },
   );
   if (res.ok) {
-    window.location.href = `/frontend/dashboard/admin/adminPage.html?id=${groupId}`;
+    window.location.href = `./adminPage.html?id=${groupId}`;
   }
 });
 //cancel btn
 document.querySelector(".cancel-update").addEventListener("click", () => {
   const groupId = new URLSearchParams(window.location.search).get("id");
-  window.location.href = `/frontend/dashboard/admin/adminPage.html?id=${groupId}`;
+  window.location.href = `./adminPage.html?id=${groupId}`;
 });

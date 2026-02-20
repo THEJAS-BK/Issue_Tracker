@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -26,11 +26,7 @@
       </header>
       <main>
         <h3>Create Account</h3>
-        <form
-          id="signUpForm"
-          method="post"
-          action="http://localhost:8080/signup"
-        >
+        <form id="signUpForm">
           <div class="contents">
             <div class="inpField">
               <i class="fa-solid fa-user"></i>
@@ -63,11 +59,9 @@
           </div>
           <button class="signupBtn">Sign Up</button>
         </form>
-        <p>
-          Already have an account? <a href="/frontend/auth/index.html">Login</a>
-        </p>
+        <p>Already have an account? <a href="../index.html">Login</a></p>
       </main>
     </div>
   </body>
-  <script src="auth.js"></script>
+  <script src="./auth.js"></script>
 </html>

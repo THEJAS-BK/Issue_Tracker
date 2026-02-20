@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const returnToUserPageBtn = document.getElementById("user-interface");
   returnToUserPageBtn.addEventListener("click", () => {
     const groupId = new URLSearchParams(window.location.search).get("id");
-    window.location.href = `/frontend/dashboard/user/groupInterface.html?id=${groupId}`;
+    window.location.href = `../user/groupInterface.html?id=${groupId}`;
   });
 });
 
@@ -394,7 +394,7 @@ deleteGroupBtn.addEventListener("click", () => {
       }
 
       if (res.ok) {
-        window.location.href = "/frontend/dashboard/user/userpage.html";
+        window.location.href = "../user/userpage.html";
       }
     });
 });
@@ -403,7 +403,7 @@ deleteGroupBtn.addEventListener("click", () => {
 const editGroupBtn = document.getElementById("dropdown-edit");
 editGroupBtn.addEventListener("click", () => {
   const groupId = new URLSearchParams(window.location.search).get("id");
-  window.location.href = `/frontend/dashboard/admin/editgroup.html?id=${groupId}`;
+  window.location.href = `../admin/editgroup.html?id=${groupId}`;
 });
 
 //members section code
@@ -1105,7 +1105,7 @@ document.getElementById("exit-group").addEventListener("click", async () => {
         },
       );
       if (res.ok) {
-        window.location.href = "/frontend/dashboard/user/userpage.html";
+        window.location.href = "../user/userpage.html";
       }
     });
     document.querySelector(".confirm-exit-cancel").addEventListener("click",()=>{
