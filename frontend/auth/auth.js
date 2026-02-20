@@ -1,4 +1,6 @@
 // Signup page code
+import {sendApiBase} from "../utils/apiBase.js"
+const API_BASE = sendApiBase();
 //--------------------
 // show password toggle
 document.addEventListener("DOMContentLoaded", () => {

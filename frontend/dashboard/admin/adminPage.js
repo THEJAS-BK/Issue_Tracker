@@ -1,6 +1,7 @@
 import { apiFetch } from "../../utils/helper.js";
 import {sendApiBase} from "../../utils/apiBase.js"
 const API_BASE = sendApiBase();
+console.log(API_BASE)
 window.addEventListener("resize",()=>{
   if(window.innerWidth < 768){
     document.querySelector(".content-right").style.display = "none";
