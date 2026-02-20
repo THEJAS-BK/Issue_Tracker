@@ -1,6 +1,6 @@
 // Signup page code
-import {sendApiBase} from "../utils/apiBase.js"
-const API_BASE = sendApiBase();
+
+const API_BASE = "https://issue-tracker-ro93.onrender.com"
 //--------------------
 // show password toggle
 document.addEventListener("DOMContentLoaded", () => {
