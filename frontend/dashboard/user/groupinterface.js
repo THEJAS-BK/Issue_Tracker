@@ -14,7 +14,25 @@ document.addEventListener("click", (e) => {
   }
 });
 
+//?go back btn for smaller screen sizes
+window.addEventListener("resize", () => {
+  const mainRight = document.querySelector(".mainright");
+
+  if (window.innerWidth < 768) {
+    mainRight.classList.add("hidden");
+  } else {
+    mainRight.classList.remove("hidden");
+  }
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
+  if (window.innerWidth < 768) {
+    const mainRight = document.querySelector(".mainright");
+    mainRight.classList.add("hidden");
+  } else {
+    document.querySelector(".mainright").classList.remove("hidden");
+  }
+
   const params = new URLSearchParams(window.location.search);
   const groupId = params.get("id");
   if (!groupId) {
@@ -36,6 +54,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
   );
   const data = await res.json();
+
+  //!admin is not allowed to exit group
+  if (data.curUserRole === "admin") {
+    const exitGroupBtn = document.getElementById("exit-group");
+    exitGroupBtn.remove();
+  }
 
   //?show total members in group
   document.querySelector(".show-total-members").textContent =
@@ -259,6 +283,15 @@ async function addEventToIssueCards() {
       allIssueCards.forEach((card) => {
         card.classList.remove("addBorder");
       });
+      //small screen sizes
+      if (window.innerWidth < 768) {
+        const mainRight = document.querySelector(".mainright");
+        mainRight.classList.remove("hidden");
+        const goBackBtn = document.querySelector(".go-back-btn");
+        goBackBtn.addEventListener("click", () => {
+          mainRight.classList.add("hidden");
+        });
+      }
       issueCard.classList.add("addBorder");
       const issueId = issueCard.dataset.issueId;
       const Completeres = await apiFetch(
@@ -469,3 +502,26 @@ function enablingFilterOptionForMember() {
       }
     });
 }
+//!exit group functionlity
+document.getElementById("exit-group").addEventListener("click", async () => {
+  document.querySelector(".confirm-backdrop-exit").style.display = "flex";
+  document
+    .querySelector(".confirm-exit")
+    .addEventListener("click", async () => {
+      const groupId = new URLSearchParams(window.location.search).get("id");
+      const res = await apiFetch(
+        `http://localhost:8080/groups/leave/${groupId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+      if (res.ok) {
+        window.location.href = "/frontend/dashboard/user/userpage.html";
+      }
+    });
+    document.querySelector(".confirm-exit-cancel").addEventListener("click",()=>{
+  document.querySelector(".confirm-backdrop-exit").style.display = "none";
+
+    })
+});

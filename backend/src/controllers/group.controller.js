@@ -177,11 +177,15 @@ module.exports.getGroupUserInterface = async (req, res, next) => {
     const allmembers = await Group.findById(groupId)
       .select("members")
       .populate("members");
+      //cur user role
+      const curUserRole=allmembers.members.find((mem)=>{
+        return mem.userId.toString() === curUser;
+      }).role;
     //get invite code and group name
     const groupDetails = await Group.findOne({ _id: groupId }).select(
       "groupname description inviteCode",
     );
-    res.json({ issues, allmembers, curUser, groupDetails });
+    res.json({ issues, allmembers, curUser, groupDetails, curUserRole });
   } catch (err) {
     next(err);
   }
@@ -260,6 +264,32 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
     next(err);
   }
 };
+
+//!exit group by user
+module.exports.exitGroup=async(req,res,next)=>{
+  try{
+    const {groupId} = req.params;
+    const curUser = req.user.userId;
+
+    if(!groupId || !curUser) return res.sendStatus(400);
+
+    const group = await Group.findById(groupId);
+    if(!group) return res.sendStatus(404);
+
+    const memberIndex = group.members.findIndex((member) => {
+      return member.userId.toString() === curUser;
+    });
+
+    if (memberIndex === -1) return res.sendStatus(403);
+    group.members.splice(memberIndex, 1);
+    
+    
+    await group.save();
+    res.json({message:"Successfully exited the group"});
+  }catch(err){
+    next(err);
+  }
+}
 /*
 
     admin pages code

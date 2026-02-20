@@ -12,10 +12,10 @@ header {
   justify-content: space-between;
   height: 64px;
   position: relative;
-  padding:0 2rem;
+  padding: 0 2rem;
 }
-.left-section{
-  color:white
+.left-section {
+  color: white;
 }
 /* Mid section  */
 
@@ -29,8 +29,8 @@ header {
 .leftSection {
   display: flex;
 }
-.leftSection i{
-  color:black
+.leftSection i {
+  color: black;
 }
 /* Add Issue btn  */
 .addIssue-btn {
@@ -115,13 +115,13 @@ main {
 }
 /* issues */
 .issues {
-     height: 90%;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 2rem;
-    overflow-y: auto;
-    padding-bottom: 1rem;
-    overflow-x: hidden;
+  height: 90%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 2rem;
+  overflow-y: auto;
+  padding-bottom: 1rem;
+  overflow-x: hidden;
 }
 .issue-card {
   height: 12%;
@@ -251,35 +251,34 @@ main {
   cursor: pointer;
 }
 /* js material  */
-.addBorder{
-  border:2px solid blue;
+.addBorder {
+  border: 2px solid blue;
 }
 /* issue options delete and edit */
-.issue-options{
-  position:relative;
+.issue-options {
+  position: relative;
   display: none;
 }
-.issue-options-dropdown{
-    position: absolute;
-    top: 100%;
-    right: 0rem;
-    background-color: aqua;
-    height: 120px;
-    width: 144px;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    border:3px solid black;
-    border-radius:10px;
-    overflow: hidden;
+.issue-options-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0rem;
+  background-color: aqua;
+  height: 120px;
+  width: 144px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  border: 3px solid black;
+  border-radius: 10px;
+  overflow: hidden;
 }
-.issue-options-dropdown>button{
-  padding:1rem 0.5rem;
-  outline:none;
+.issue-options-dropdown > button {
+  padding: 1rem 0.5rem;
+  outline: none;
   height: 50%;
-  
 }
-.issue-options:hover> .issue-options-dropdown{
+.issue-options:hover > .issue-options-dropdown {
   display: flex;
 }
 /* confirmation delete  */
@@ -306,20 +305,20 @@ main {
   display: flex;
   height: 200px;
   flex-direction: column;
-  border:5px solid black;
+  border: 5px solid black;
   text-align: center;
 }
-.confirm-modal>p{
-  margin-top:0.5rem
+.confirm-modal > p {
+  margin-top: 0.5rem;
 }
-.actions{
+.actions {
   margin-top: 1rem;
   display: flex;
-  gap:1rem;
+  gap: 1rem;
   justify-content: center;
 }
-.actions>button{
-  padding:0.5rem 1rem;
+.actions > button {
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -406,11 +405,11 @@ p {
 
   z-index: 1000;
 }
-.joined-at{
+.joined-at {
   font-size: 0.75rem;
   margin-top: 0.2rem;
 }
-.username{
+.username {
   padding: 15px 30px;
   border: 2px solid #2c2c2c;
   font-size: 1.2rem;
@@ -420,50 +419,48 @@ p {
   outline: none;
   position: relative;
   overflow: hidden;
-  font-weight: bold;  
+  font-weight: bold;
 }
-.dropdown-user{
-  position:absolute;
-      top: 100%;
-    width: 15rem;
-    right:2rem;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: rgb(125, 128, 129);
-    border:4px solid black;
-        z-index: 999999;
+.dropdown-user {
+  position: absolute;
+  top: 100%;
+  width: 15rem;
+  right: 2rem;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgb(125, 128, 129);
+  border: 4px solid black;
+  z-index: 999999;
 }
-.hidden{
+.hidden {
   display: none;
 }
-.left-section{
+.left-section {
   display: flex;
 }
-.home-btn-dashboard{
-
-  border-radius:10px;
-  cursor:pointer;
+.home-btn-dashboard {
+  border-radius: 10px;
+  cursor: pointer;
   font-weight: 700;
   align-content: center;
   text-decoration: underline white;
-  color:white;
+  color: white;
   margin-right: 1.5rem;
 }
-.dropdown-user>button{
-   background-color: #ffffff;
-    color: black;
-    font-size: 1.2rem;
-    cursor: pointer;
-    width: 100%;
-    transition: all 0.4s ease;
-    outline: none;
-    overflow: hidden;
-    font-weight: bold;
-    padding: 0.5rem;
-
+.dropdown-user > button {
+  background-color: #ffffff;
+  color: black;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.4s ease;
+  outline: none;
+  overflow: hidden;
+  font-weight: bold;
+  padding: 0.5rem;
 }
-#filter-members{
-   appearance: none;          /* remove default arrow */
+#filter-members {
+  appearance: none; /* remove default arrow */
   -webkit-appearance: none;
   -moz-appearance: none;
 
@@ -480,13 +477,50 @@ p {
   outline: none;
   transition: all 0.2s ease;
 }
+.confirm-backdrop-exit{
+    position: fixed;
+  inset: 0;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  z-index: 1000;
+}
+
+.confirm-modal-exit{
+    background: #efeeee;
+  padding: 20px 24px;
+  border-radius: 10px;
+  width: min(90%, 360px);
+  display: flex;
+  height: 200px;
+  flex-direction: column;
+  border: 5px solid black;
+  text-align: center;
+}
+.confirm-modal-exit>p{
+  margin-top:5px;
+  color:red
+}
+.confirm-exit {
+  background-color: red;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
 @media (max-width: 480px) {
   header {
     padding: 0 1rem;
   }
 
-
-  .home-btn-dashboard{
+  .home-btn-dashboard {
     display: none;
   }
 
@@ -499,11 +533,10 @@ p {
     font-size: 0.9rem;
   }
 
-
   .head {
     flex-direction: column;
     align-items: flex-start;
-    height:17vh ;
+    height: 17vh;
   }
 
   .addIssue-btn {
@@ -518,25 +551,25 @@ p {
 
   .mainleft {
     width: 100%;
-    padding:1rem;
+    padding: 1rem;
   }
-  .mainright{
-    position:absolute;
+  .mainright {
+    position: absolute;
     width: 98%;
     z-index: 999;
     background-color: white;
-    padding:0;
+    padding: 0;
     height: 80vh;
-    top:0;
+    top: 0;
     left: 5px;
     overflow: auto;
   }
-  .go-back-btn{
-    margin:1.2rem 0 0 1.2rem;
-    padding:0.5rem 1rem;
+  .go-back-btn {
+    margin: 1.2rem 0 0 1.2rem;
+    padding: 0.5rem 1rem;
     background-color: red;
     border-radius: 10px;
-    color:white;
+    color: white;
     font-weight: 600;
   }
 
@@ -561,19 +594,20 @@ p {
   .issue-card {
     flex-direction: column;
     align-items: flex-start;
-    padding:0.2rem 1rem;
+    padding: 0.2rem 1rem;
   }
 
-  .card-content>h3{
+  .card-content > h3 {
     font-size: 1.2rem;
   }
-  .name,.time-ago{
+  .name,
+  .time-ago {
     font-size: 0.85rem;
   }
   .badge {
     align-self: flex-start;
-    margin-left:24px;
-    margin-top:0.2rem;
+    margin-left: 24px;
+    margin-top: 0.2rem;
   }
 
   .right-head {
@@ -591,25 +625,29 @@ p {
   }
 
   /* Modals */
-   .members-tab{
-    padding:0.5rem 0.75rem;
+  .members-tab {
+    padding: 0.5rem 0.75rem;
   }
-  .right-content{
-    font-size:0.75rem;
-    align-self:center
+  .right-content {
+    font-size: 0.75rem;
+    align-self: center;
   }
-  .searchInp-members{
+  .searchInp-members {
     width: 100%;
 
-    height:3rem
+    height: 3rem;
   }
-  #filter-members{
+  #filter-members {
     width: 100%;
-    padding:0.5rem 1rem;
+    padding: 0.5rem 1rem;
   }
-  .members-search{
+  .members-search {
     flex-direction: column;
-    height:5rem;
+    height: 5rem;
+  }
+  .dropdown-home-btn {
+    display: block;
+    border-radius: 0;
   }
 }
 @media (min-width: 480px) and (max-width: 768px) {
@@ -617,7 +655,7 @@ p {
     padding: 0 2rem;
   }
 
-   .home-btn-dashboard{
+  .home-btn-dashboard {
     margin-right: 0.5rem;
   }
 
@@ -632,7 +670,7 @@ p {
 
   .head {
     height: auto;
-    padding:0 1rem;
+    padding: 0 1rem;
   }
 
   .addIssue-btn {
@@ -656,7 +694,7 @@ p {
     width: 95%;
     height: 85vh;
     top: 0;
-    left:15px;
+    left: 15px;
     z-index: 900;
     background-color: white;
     padding: 0.75rem;
@@ -666,11 +704,11 @@ p {
   }
 
   .go-back-btn {
-     margin:1.2rem 0 0 1.2rem;
-    padding:0.5rem 1rem;
+    margin: 1.2rem 0 0 1.2rem;
+    padding: 0.5rem 1rem;
     background-color: red;
     border-radius: 10px;
-    color:white;
+    color: white;
     font-weight: 600;
   }
 
@@ -679,7 +717,7 @@ p {
   }
   .issues {
     height: auto;
-    padding:0;
+    padding: 0;
   }
 
   .issue-card {
@@ -712,17 +750,20 @@ p {
     max-height: 85vh;
     overflow-y: auto;
   }
+  .dropdown-home-btn {
+    display: none;
+  }
 }
-@media(min-width:769px) and (max-width: 1024px) { 
-  .main-content{
-    gap:0.25rem
+@media (min-width: 769px) and (max-width: 1024px) {
+  .main-content {
+    gap: 0.25rem;
   }
   .mainleft {
     width: 38%;
     padding: 1rem 1.25rem;
   }
-  .mainright{
-    width:58%
+  .mainright {
+    width: 58%;
   }
 
   .go-back-btn {
@@ -734,7 +775,7 @@ p {
   }
   .issues {
     height: auto;
-    padding:0;
+    padding: 0;
   }
 
   .issue-card {
@@ -779,8 +820,8 @@ p {
   #search-filter {
     width: 100%;
   }
-   .issues {
-    padding:0.25rem 0;
+  .issues {
+    padding: 0.25rem 0;
   }
 
   .issue-card {
@@ -788,16 +829,25 @@ p {
     align-items: flex-start;
   }
 
-  .card-content>h3{
+  .card-content > h3 {
     font-size: 1.2rem;
   }
   .badge {
     align-self: flex-start;
-    margin-left:24px;
+    margin-left: 24px;
   }
-}
-@media (min-width:1024px){
-  .go-back-btn{
+  .dropdown-home-btn {
     display: none;
   }
+}
+@media (min-width: 1024px) {
+  .go-back-btn {
+    display: none;
+  }
+  .dropdown-home-btn {
+    display: none;
+  }
+}
+#exit-group {
+  color: red;
 }

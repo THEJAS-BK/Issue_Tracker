@@ -62,6 +62,13 @@ router.get(
   groupController.searchGroupMembersUserInterface,
 );
 
+//?exit group
+router.delete(
+  "/leave/:groupId",
+  authorizationToken,
+  groupController.exitGroup,
+);
+
 //! group admin interface code
 
 //? get admin page

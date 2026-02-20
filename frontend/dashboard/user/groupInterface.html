@@ -68,6 +68,21 @@
         </div>
       </div>
     </div>
+
+    <!-- confirm member exit  -->
+     <div class="confirm-backdrop-exit">
+      <div class="confirm-modal-exit">
+        <h1>Exit Group?</h1>
+        <p>Are you sure you want to exit this group?</p>
+
+        <div class="actions">
+          <button class="confirm-exit-cancel">Cancel</button>
+          <button class="confirm-exit">Exit group</button>
+        </div>
+      </div>
+    </div>
+
+
     <header>
       <div class="left-section">
         <h2>User Dashboard</h2>
@@ -80,6 +95,8 @@
         <div class="dropdown-user hidden">
            <button class="admin-dashboard-btn">admin dashboard</button>
              <button id="show-members">members (<span class="show-total-members">90</span>)</button>
+             <button class="home-btn-dashboard dropdown-home-btn" onclick="window.location.href='/frontend/dashboard/user/userpage.html'">Home</button>
+             <button id="exit-group">exit group</button>
         </div>
       </div>
       </div>

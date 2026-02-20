@@ -254,6 +254,7 @@ searchJoinedGroups.addEventListener("input", async (e) => {
         val: val,
       }),
     });
+
     //inserting things
     const searchContainer = document.querySelector(".leftTab");
     searchContainer.innerHTML = "";
@@ -265,6 +266,7 @@ searchJoinedGroups.addEventListener("input", async (e) => {
   }
   //clear searches
   if (!val) {
+  
     const searchContainer = document.querySelector(".leftTab");
     searchContainer.innerHTML = "";
     const div = document.createElement("div");
