@@ -10,7 +10,6 @@ const User = require("../models/user");
 module.exports.addIssue = async (req, res, next) => {
   try {
     const { groupId } = req.params;
-    console.log(req.file)
     const { title, description, stayAnonymous } = req.body;
     const newIssue = new Issue({
       title,
