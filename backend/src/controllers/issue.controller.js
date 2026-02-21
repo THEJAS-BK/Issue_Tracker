@@ -68,14 +68,17 @@ module.exports.confirmEditIssue = async (req, res, next) => {
 //! search issues in group user interface
 module.exports.searchIssueInGroupUserInterface = async (req, res, next) => {
   try {
-    const { q } = req.query;
+    const { q,groupId } = req.query;
+
     if (!q) {
       return res.sendStatus(404);
     }
     const issues = await Issue.find({
       title: { $regex: q, $options: "i" },
+      group:groupId,
+      isDeleted: false,
     })
-      .select("title createdBy createdAt")
+      .select("title createdBy createdAt status")
       .populate("createdBy", "name");
     res.json({ issues });
   } catch (err) {
