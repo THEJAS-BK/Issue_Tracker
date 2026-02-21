@@ -1,6 +1,7 @@
 // Signup page code
 
-const API_BASE = "https://issue-tracker-ro93.onrender.com"
+// const API_BASE = "https://issue-tracker-ro93.onrender.com"
+const API_BASE="http://localhost:8080"
 //--------------------
 // show password toggle
 document.addEventListener("DOMContentLoaded", () => {
@@ -54,7 +55,8 @@ if (loginForm) {
     if (res.status === 401) {
       alert("User not found");
     } else if (res.ok) {
-      window.location.href="../dashboard/user/userpage.html";
+
+      window.location.href="/dashboard/user/userpage.html";//!here
     } else {
       alert("server not working");
     }
