@@ -1,95 +1,120 @@
 /* Sign up Page  */
-*{
-    margin:0;
-    padding:0;
-    font-family: "Plus Jakarta Sans", sans-serif;
-        font-optical-sizing: auto;
-        font-style: normal;
-        box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  box-sizing: border-box;
 }
-.signUpContainer{
-    margin:5rem auto;
-    width:500px;
-    height:70vh;
-    border-radius:1rem;
-    text-align: center;
-    box-shadow: 0 0 1px black;
-   overflow: hidden;
+.signUpContainer {
+  margin: 5rem auto;
+  width: min(500px, 90vw);
+  height: 70vh;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 0 1px black;
+  overflow: hidden;
 }
-.signUpContainer header{
-    background-color: blue;
-    color:white;
-    font-weight: 600;
-    height:10%;
-    display:flex;
-    align-items: center;
-    justify-content: center;
+.signUpContainer header {
+  background-color: blue;
+  color: white;
+  font-weight: 600;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.signUpContainer header p{
-    font-size:1.5rem;
+.signUpContainer header p {
+  font-size: 1.5rem;
 }
 
 /* Main content  */
-main{
-    margin-top:2rem ;
+main {
+  margin-top: 2rem;
 }
-main h3{
-    font-size:1.5rem;
-    margin-bottom: 1rem;
+main h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
-.contents{
-    display:flex;
-    justify-content: center;
-    height:40%;
-    align-items: center;
-    flex-wrap: wrap;
-    gap:0.5rem;
-    margin-top: 2rem;
-    margin-bottom:1rem;
+.contents {
+  display: flex;
+  justify-content: center;
+  height: 40%;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
-.inpField{
-    background-color: white;
-    width:80%;
-    height:3rem;
-    box-shadow: 0 0 2px grey;
-    display:flex;
-    align-items: center;
-    overflow: hidden;
+.inpField {
+  background-color: white;
+  width: 80%;
+  height: 3rem;
+  box-shadow: 0 0 2px grey;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
-.inpField input{
-    flex:1;
-    height:100%;
-    border:none;
-    margin-left:0.3rem;
-    font-size:1.25rem;
-    outline:none;
+.inpField input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  margin-left: 0.3rem;
+  font-size: 1.25rem;
+  outline: none;
 }
-.inpField i{
-    font-size:1.25rem; 
-    padding-right:1.25rem;
-    padding-left:1.25rem;
-    color:grey;
+.inpField i {
+  font-size: 1.25rem;
+  padding-right: 1.25rem;
+  padding-left: 1.25rem;
+  color: grey;
 }
-span{
-    width: 1px;
-        height: 100%;
-        background-color: grey;
-        margin: 0 12px;
+span {
+  width: 1px;
+  height: 100%;
+  background-color: grey;
+  margin: 0 12px;
 }
 /* Sign up btn  */
-.signupBtn{
-    margin-top: 1rem;
-    margin-bottom:1rem ;
-    padding:1rem 3rem;
-    font-size:1rem;
-    border-radius: 1rem;
-    border:none;
-    background-color: blue;
-    color:white
+.signupBtn {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem 3rem;
+  font-size: 1rem;
+  border-radius: 1rem;
+  border: none;
+  background-color: blue;
+  color: white;
 }
 /* Code linked to js part  */
-.inpField .fa-eye{
-    padding:0;
-    margin:0;
-    margin-right:1rem;
+.inpField .fa-eye {
+  padding: 0;
+  margin: 0;
+  margin-right: 1rem;
+}
+@media (max-width: 480px) {
+  .inpField {
+    width: 98%;
+  }
+  .signUpContainer {
+    width: 99%;
+    height: 60vh;
+  }
+}
+@media (max-width: 350px) {
+  .inpField {
+    width: 100%;
+  }
+  .signUpContainer {
+    width: 99%;
+    height: 60vh;
+  }
+  span {
+    margin: 0;
+    margin-left: 0.75rem;
+  }
+  .inpField i {
+    padding: 0 0.5rem;
+  }
 }

@@ -235,7 +235,7 @@ search.addEventListener("input", async () => {
   const val = search.value;
   if (val.length > 0) {
     const res = await apiFetch(
-      `${API_BASE}/issues/search?q=${encodeURIComponent(val)}`,
+      `${API_BASE}/issues/search?q=${encodeURIComponent(val)}&groupId=${new URLSearchParams(window.location.search).get("id")}`,
       {
         method: "GET",
         credentials: "include",
