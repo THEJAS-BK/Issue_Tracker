@@ -12,12 +12,41 @@ const cookieOption = {
 module.exports.signUp = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({
-      name: name,
-      email: email,
+
+    const newUser = await User.create({
+      name,
+      email,
       password: hashedPassword,
     });
+
+    // create tokens immediately
+    const accessToken = jwt.sign(
+      { userId: newUser._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    const refreshToken = jwt.sign(
+      { userId: newUser._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    newUser.refreshToken = refreshToken;
+    await newUser.save();
+
+    res
+      .cookie("accessToken", accessToken, {
+        ...cookieOption,
+        maxAge: 15 * 60 * 1000,
+      })
+      .cookie("refreshToken", refreshToken, {
+        ...cookieOption,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
     res.json({ success: true });
   } catch (err) {
     next(err);
@@ -39,7 +68,7 @@ module.exports.login = async (req, res, next) => {
       { userId: curUser._id },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: "5s",
+        expiresIn: "15m",
       },
     );
     const refreshToken = jwt.sign(
