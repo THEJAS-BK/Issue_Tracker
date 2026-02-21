@@ -202,7 +202,6 @@ function updateIssueDetail(issue, isIssueOwner) {
   } else {
     //if not owner
     document.querySelector(".issue-options").style.display = "none";
-    document.querySelector(".sameIssues").style.display = "flex";
   }
 
   if (issueImg) {
