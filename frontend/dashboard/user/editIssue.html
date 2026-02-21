@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Add Issue</title>
-
-    <link
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+   <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
       crossorigin="anonymous"
@@ -37,13 +37,11 @@
         </div>
       </div>
     </header>
-
     <main class="d-flex justify-content-center">
       <div class="main-content mt-2 p-4">
         <h2 class="mt-0">Edit Issue</h2>
         <p class="title-desc">Update an existing issue in your group</p>
         <hr />
-
         <form class="issue-form">
           <div class="mb-1">
             <label class="form-label" for="title">Issue Title</label>
@@ -56,7 +54,6 @@
               required
             />
           </div>
-
           <div class="upload mt-3" id="uploadBox">
             <input
               type="file"
@@ -78,7 +75,6 @@
               class="form-control"
               placeholder="Describe the issue in detail..."
               name="description"
-              id="description"
               required
             ></textarea>
           </div>
@@ -101,7 +97,7 @@
         </form>
       </div>
     </main>
-
-    <script type="module" src="editIssue.js"></script>
-  </body>
+  
+</body>
+<script type="module" src="./editIssue.js"></script>
 </html>
