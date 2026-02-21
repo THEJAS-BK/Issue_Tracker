@@ -29,7 +29,7 @@ if (signupForm) {
     });
     const data = await res.json();
     if (data.success) {
-      window.location.href = "index.html";
+      window.location.href = "../index.html";
     } else {
       alert("Something went wrong");
       window.location.reload();
@@ -55,7 +55,7 @@ if (loginForm) {
       alert("User not found");
     } else if (res.ok) {
 
-      window.location.href="/dashboard/user/userpage.html";//!here
+      window.location.href="/dashboard/user/userpage.html";
     } else {
       alert("server not working");
     }
