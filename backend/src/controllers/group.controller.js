@@ -47,9 +47,6 @@ module.exports.getAllGroups = async (req, res, next) => {
     const allGroups = await Group.find({
       members: { $elemMatch: { userId: req.user.userId } },
     }).select("groupname description members image");
-
-    console.log(allGroups);
-
     res.json({ allGroups, userName });
   } catch (err) {
     next(err);
@@ -335,7 +332,17 @@ module.exports.getAdminPage = async (req, res, next) => {
     const groupDetails = await Group.findById(groupid).select(
       "groupname description inviteCode",
     );
-    res.json({ issues, groupDetails, role });
+    //get all states
+    const allIssuesForStates=await Issue.find({group:groupid,isDeleted:false})
+
+    const states={
+      total:allIssuesForStates.length,
+      pending:allIssuesForStates.filter(issue=>issue.status==="pending").length,
+      inprogress:allIssuesForStates.filter(issue=>issue.status==="inprogress").length,
+      resolved:allIssuesForStates.filter(issue=>issue.status==="resolved").length
+    }
+    res.json({ issues, groupDetails, role,states });
+
   } catch (err) {
     next(err);
   }

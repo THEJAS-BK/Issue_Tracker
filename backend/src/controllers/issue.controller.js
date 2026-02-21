@@ -17,10 +17,10 @@ module.exports.addIssue = async (req, res, next) => {
       stayAnonymous,
       group: groupId,
       createdBy: req.user.userId,
-      image:{
-        url:req.file.path,
-        publicId:req.file.filename
-      }
+      image: {
+        url: req.file.path,
+        publicId: req.file.filename,
+      },
     });
     await newIssue.save();
 
@@ -63,10 +63,10 @@ module.exports.confirmEditIssue = async (req, res, next) => {
       title,
       description,
       stayAnonymous,
-      image:{
-        url:req.file.path,
-        publicId:req.file.filename
-      }
+      image: {
+        url: req.file.path,
+        publicId: req.file.filename,
+      },
     });
     res.sendStatus(204);
   } catch (err) {
@@ -76,14 +76,14 @@ module.exports.confirmEditIssue = async (req, res, next) => {
 //! search issues in group user interface
 module.exports.searchIssueInGroupUserInterface = async (req, res, next) => {
   try {
-    const { q,groupId } = req.query;
+    const { q, groupId } = req.query;
 
     if (!q) {
       return res.sendStatus(404);
     }
     const issues = await Issue.find({
       title: { $regex: q, $options: "i" },
-      group:groupId,
+      group: groupId,
       isDeleted: false,
     })
       .select("title createdBy createdAt status")
@@ -140,11 +140,28 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
 
     if (!req.user.userId) return res.sendStatus(403);
 
+     const allIssuesForStates = await Issue.find({
+      group: groupId,
+      isDeleted: false,
+    });
+
+    const states = {
+      total: allIssuesForStates.length,
+      pending: allIssuesForStates.filter((issue) => issue.status === "pending")
+        .length,
+      inprogress: allIssuesForStates.filter(
+        (issue) => issue.status === "inprogress",
+      ).length,
+      resolved: allIssuesForStates.filter(
+        (issue) => issue.status === "resolved",
+      ).length,
+    };
+
     if (state === "all") {
       const issues = await Issue.find({ group: groupId, isDeleted: false })
         .select("title createdBy createdAt status ")
         .populate("createdBy", "name");
-      return res.json({ issues });
+      return res.json({ issues, states });
     }
     if (state === "myIssues") {
       const issues = await Issue.find({
@@ -154,7 +171,7 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
       })
         .select("title createdBy createdAt status")
         .populate("createdBy", "name");
-      return res.json({ issues });
+      return res.json({ issues, states });
     }
 
     const issues = await Issue.find({
@@ -164,7 +181,10 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
     })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
-    res.json({ issues });
+
+   
+
+    res.json({ issues, states });
   } catch (err) {
     next(err);
   }
@@ -218,7 +238,7 @@ module.exports.getIssuesInAdminPage = async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(issueid)) return res.sendStatus(404);
 
     const issue = await Issue.find({ _id: issueid, isDeleted: false })
-      .select("title description createdAt createdBy status")
+      .select("title description createdAt createdBy status image")
       .populate("createdBy", "name");
     res.json({ issue });
   } catch (err) {
