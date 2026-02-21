@@ -162,7 +162,7 @@ function createIssueCards(issue) {
 }
 
 function updateIssueDetail(issue, isIssueOwner) {
-  console.log(issue)
+
   const mainRight = document.querySelector(".mainright");
   if (!mainRight) return;
 

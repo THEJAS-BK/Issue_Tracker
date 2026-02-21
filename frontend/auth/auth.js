@@ -29,7 +29,7 @@ if (signupForm) {
     });
     const data = await res.json();
     if (data.success) {
-      window.location.href = "../index.html";
+      window.location.href = "/dashboard/user/userpage.html";
     } else {
       alert("Something went wrong");
       window.location.reload();

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     headers: { "Content-Type": "application/json" },
   });
   const data = await res.json();
-  console.log(data)
+
   renderGroups(data.allGroups);
   //render name on the home page
   const userName = document.querySelector(".get-user-name");
@@ -255,7 +255,7 @@ searchJoinedGroups.addEventListener("input", async (e) => {
   const val = searchJoinedGroups.value;
 
   if (val.length > 1) {
-    console.log("here problem")
+
     const res = await apiFetch(`${API_BASE}/groups/search/joined?q=${val}`, {
       method: "GET",
       credentials: "include",   
