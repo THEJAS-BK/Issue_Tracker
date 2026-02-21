@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   name.textContent = nameData.username;
   const createGroupForm = document.querySelector("#create-group-form");
   createGroupForm.addEventListener("submit", async (e) => {
+    document.body.classList.add("loading"); 
     const formData = new FormData();
 
     formData.append("groupname", createGroupForm.groupname.value);

@@ -27,6 +27,7 @@ window.addEventListener("resize", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
+  document.body.classList.add("loading");
   if (window.innerWidth < 768) {
     const mainRight = document.querySelector(".mainright");
     mainRight.classList.add("hidden");
@@ -54,6 +55,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       credentials: "include",
     },
   );
+  if(res.ok){
+    document.body.classList.remove("loading");
+  }
   const data = await res.json();
   //!insert username
   document.querySelector(".get-user-name").textContent = data.curUserName;

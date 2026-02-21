@@ -9,10 +9,14 @@ createGroupBtn.addEventListener("click", () => {
 });
 //Load userpage Groups
 document.addEventListener("DOMContentLoaded", async () => {
+  document.body.classList.add("loading");
   const res = await apiFetch(`${API_BASE}/groups`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
+  if(res.ok){
+    document.body.classList.remove("loading");
+  }
   const data = await res.json();
 
   renderGroups(data.allGroups);

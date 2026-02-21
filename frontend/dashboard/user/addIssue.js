@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded",async ()=>{
 })
 
 addIssueForm.addEventListener("submit", async (e) => {
+  document.body.classList.add("loading");
   const groupId=new URLSearchParams(window.location.search).get("id");
   if(!groupId) {
     alert("Invalid group ID");
@@ -40,7 +41,6 @@ addIssueForm.addEventListener("submit", async (e) => {
   const res = await apiFetch(`${API_BASE}/issues/add/${groupId}`,
   {
     method: "POST",
-
     credentials: "include",
     body:formData
   });

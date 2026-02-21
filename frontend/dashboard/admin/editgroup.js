@@ -2,6 +2,8 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 document.addEventListener("DOMContentLoaded", async () => {
+  document.body.classList.add("loading");
+  
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
@@ -21,6 +23,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     method: "GET",
     credentials: "include",
   });
+  if(res.ok){
+    document.body.classList.remove("loading");
+  }
+  else{
+    alert("something went wrong");
+  }
   const data = await res.json();
   const groupDetails = data.groupInfo;
   //insert data
@@ -40,6 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 //updation
 const createGroupForm = document.querySelector("#create-group-form");
 createGroupForm.addEventListener("submit", async (e) => {
+  document.body.classList.add("loading");
   const groupId = new URLSearchParams(window.location.search).get("id");
   e.preventDefault();
   

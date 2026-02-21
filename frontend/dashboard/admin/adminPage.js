@@ -160,7 +160,6 @@ function AddIssueEvents() {
 }
 //!render right contents
 function updateIssuesOnRightSide(issue) {
-  console.log(issue)
   const title = document.querySelector(".issue-title");
   const name = document.querySelector(".name-right");
   const timeAgo = document.querySelector(".time-ago");
@@ -401,6 +400,7 @@ deleteGroupBtn.addEventListener("click", () => {
   document
     .querySelector(".confirm-delete")
     .addEventListener("click", async () => {
+      document.body.classList.add("loading");
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(`${API_BASE}/groups/delete/${groupId}/admin`, {
         method: "DELETE",
@@ -1120,6 +1120,7 @@ document.getElementById("exit-group").addEventListener("click", async () => {
   document
     .querySelector(".confirm-exit")
     .addEventListener("click", async () => {
+      document.body.classList.add("loading");
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(`${API_BASE}/groups/leave/${groupId}`, {
         method: "DELETE",
