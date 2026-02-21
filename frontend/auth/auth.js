@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
 const signupForm = document.getElementById("signUpForm");
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
-    console.log("clicked")
     e.preventDefault();
     const res = await fetch(`${API_BASE}/auth/signup`, {
       method: "POST",
@@ -30,7 +29,7 @@ if (signupForm) {
     });
     const data = await res.json();
     if (data.success) {
-      window.location.href = "../index.html";
+      window.location.href = "index.html";
     } else {
       alert("Something went wrong");
       window.location.reload();
