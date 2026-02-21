@@ -10,6 +10,7 @@ const User = require("../models/user");
 module.exports.addIssue = async (req, res, next) => {
   try {
     const { groupId } = req.params;
+    console.log(req.file)
     const { title, description, stayAnonymous } = req.body;
     const newIssue = new Issue({
       title,
@@ -17,6 +18,10 @@ module.exports.addIssue = async (req, res, next) => {
       stayAnonymous,
       group: groupId,
       createdBy: req.user.userId,
+      image:{
+        url:req.file.path,
+        publicId:req.file.filename
+      }
     });
     await newIssue.save();
 
@@ -32,7 +37,7 @@ module.exports.getEditIssuePage = async (req, res, next) => {
     if (!issueId) return res.sendStatus(400);
 
     const issue = await Issue.findById(issueId).select(
-      "title description stayAnonymous",
+      "title description stayAnonymous image",
     );
     res.json({ issue });
   } catch (err) {
@@ -59,6 +64,10 @@ module.exports.confirmEditIssue = async (req, res, next) => {
       title,
       description,
       stayAnonymous,
+      image:{
+        url:req.file.path,
+        publicId:req.file.filename
+      }
     });
     res.sendStatus(204);
   } catch (err) {
@@ -109,13 +118,13 @@ module.exports.getIssueDetailsUserInterface = async (req, res, next) => {
       await Issue.findById(issueid).select("stayAnonymous");
     if (checkAnonymous.stayAnonymous) {
       const issue = await Issue.findById(issueid).select(
-        "title description createdAt status",
+        "title description createdAt status image",
       );
       return res.json({ issue, isIssueOwner });
     }
 
     const issue = await Issue.findById(issueid)
-      .select("title description createdAt createdBy status")
+      .select("title description createdAt createdBy status image")
       .populate("createdBy", "name");
     res.json({ issue, isIssueOwner });
   } catch (err) {
@@ -134,7 +143,7 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
 
     if (state === "all") {
       const issues = await Issue.find({ group: groupId, isDeleted: false })
-        .select("title createdBy createdAt status")
+        .select("title createdBy createdAt status ")
         .populate("createdBy", "name");
       return res.json({ issues });
     }

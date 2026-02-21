@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Group = require("../models/group");
 const ExpressError = require("../utils/ExpressError");
 const Issue = require("../models/issue");
-const User = require("../models/user")
+const User = require("../models/user");
 
 //utils
 const { getUniqueInviteCode } = require("../utils/inviteCode");
@@ -12,6 +12,8 @@ const { getUniqueInviteCode } = require("../utils/inviteCode");
 //!create group
 module.exports.createGroup = async (req, res, next) => {
   try {
+    if (!req.file)
+      return res.status(400).json({ message: "Image is required" });
     const { groupname, description, joinapproval, imageuploadpermission } =
       req.body;
     const inviteCode = await getUniqueInviteCode();
@@ -20,6 +22,10 @@ module.exports.createGroup = async (req, res, next) => {
       description,
       joinType: joinapproval,
       imageuploadpermission,
+      image: {
+        url: req.file.path,
+        publicId: req.file.filename,
+      },
       inviteCode,
       createdBy: req.user.userId,
       members: [{ userId: req.user.userId, role: "admin" }],
@@ -36,15 +42,15 @@ module.exports.getAllGroups = async (req, res, next) => {
     const curUser = req.user.userId;
     if (!curUser) return res.status(401);
 
-    const userName= await User.findById(curUser).select("name");
-    
+    const userName = await User.findById(curUser).select("name");
 
     const allGroups = await Group.find({
       members: { $elemMatch: { userId: req.user.userId } },
-    }).select("groupname description members");
+    }).select("groupname description members image");
 
+    console.log(allGroups);
 
-    res.json({ allGroups,userName });
+    res.json({ allGroups, userName });
   } catch (err) {
     next(err);
   }
@@ -168,27 +174,34 @@ module.exports.searchJoinedGroups = async (req, res, next) => {
 module.exports.getGroupUserInterface = async (req, res, next) => {
   try {
     const { groupId } = req.params;
-    const issues = await Issue.find({ group: groupId,isDeleted:false })
+    const issues = await Issue.find({ group: groupId, isDeleted: false })
       .select("title createdBy createdAt status stayAnonymous")
       .populate("createdBy", "name");
     //send cur user
     const curUser = req.user.userId;
     //cur user name
     const getcurUser = await User.findById(curUser).select("name");
-    const curUserName=getcurUser.name
+    const curUserName = getcurUser.name;
     //send all member
     const allmembers = await Group.findById(groupId)
       .select("members")
       .populate("members");
-      //cur user role
-      const curUserRole=allmembers.members.find((mem)=>{
-        return mem.userId.toString() === curUser;
-      }).role;
+    //cur user role
+    const curUserRole = allmembers.members.find((mem) => {
+      return mem.userId.toString() === curUser;
+    }).role;
     //get invite code and group name
     const groupDetails = await Group.findOne({ _id: groupId }).select(
       "groupname description inviteCode",
     );
-    res.json({ issues, allmembers, curUser, groupDetails, curUserRole,curUserName });
+    res.json({
+      issues,
+      allmembers,
+      curUser,
+      groupDetails,
+      curUserRole,
+      curUserName,
+    });
   } catch (err) {
     next(err);
   }
@@ -269,15 +282,15 @@ module.exports.searchGroupMembersUserInterface = async (req, res, next) => {
 };
 
 //!exit group by user
-module.exports.exitGroup=async(req,res,next)=>{
-  try{
-    const {groupId} = req.params;
+module.exports.exitGroup = async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
     const curUser = req.user.userId;
 
-    if(!groupId || !curUser) return res.sendStatus(400);
+    if (!groupId || !curUser) return res.sendStatus(400);
 
     const group = await Group.findById(groupId);
-    if(!group) return res.sendStatus(404);
+    if (!group) return res.sendStatus(404);
 
     const memberIndex = group.members.findIndex((member) => {
       return member.userId.toString() === curUser;
@@ -285,14 +298,13 @@ module.exports.exitGroup=async(req,res,next)=>{
 
     if (memberIndex === -1) return res.sendStatus(403);
     group.members.splice(memberIndex, 1);
-    
-    
+
     await group.save();
-    res.json({message:"Successfully exited the group"});
-  }catch(err){
+    res.json({ message: "Successfully exited the group" });
+  } catch (err) {
     next(err);
   }
-}
+};
 /*
 
     admin pages code
@@ -308,7 +320,7 @@ module.exports.getAdminPage = async (req, res, next) => {
     const curUser = req.user.userId;
     if (!curUser) return res.sendStatus(401);
 
-    const issues = await Issue.find({ group: groupid,isDeleted:false })
+    const issues = await Issue.find({ group: groupid, isDeleted: false })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 
@@ -320,11 +332,10 @@ module.exports.getAdminPage = async (req, res, next) => {
       return curUser === mem.userId._id.toString();
     }).role;
 
-
     const groupDetails = await Group.findById(groupid).select(
       "groupname description inviteCode",
     );
-    res.json({ issues, groupDetails,role });
+    res.json({ issues, groupDetails, role });
   } catch (err) {
     next(err);
   }
@@ -338,7 +349,7 @@ module.exports.getEditGroupByAdminPage = async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(groupId)) return res.sendStatus(404);
 
     const groupInfo = await Group.findById(groupId).select(
-      "groupname description joinType imageuploadpermission",
+      "groupname description joinType imageuploadpermission image",
     );
     res.json({ groupInfo });
   } catch (err) {
@@ -366,6 +377,10 @@ module.exports.updateGroupByAdmin = async (req, res, next) => {
       description,
       joinType: joinapproval,
       imageuploadpermission,
+      image:{
+        url:req.file.path,
+        publicId:req.file.filename
+      }
     });
     res.sendStatus(204);
   } catch (err) {

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Issue = require("./issue")
+const Issue = require("./issue");
 const GroupSchema = new mongoose.Schema({
   groupname: {
     type: String,
@@ -17,6 +17,10 @@ const GroupSchema = new mongoose.Schema({
   imageuploadpermission: {
     type: String,
     required: false,
+  },
+  image: {
+     url: String,
+  publicId: String,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -55,17 +59,17 @@ const GroupSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
-      requestedAt:{
-        type:Date,
-        default:Date.now(),
-      }
+      requestedAt: {
+        type: Date,
+        default: Date.now(),
+      },
     },
   ],
 });
-GroupSchema.post("findOneAndDelete",async(data)=>{
-  if(data){
-      await Issue.deleteMany({group:data._id})
+GroupSchema.post("findOneAndDelete", async (data) => {
+  if (data) {
+    await Issue.deleteMany({ group: data._id });
   }
-})
+});
 
 module.exports = mongoose.model("Group", GroupSchema);

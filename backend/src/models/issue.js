@@ -14,8 +14,8 @@ const issueSchema = mongoose.Schema({
     default: false,
   },
   image: {
-    type: String,
-    default: "",
+    url: String,
+    publicId: String,
   },
   group: {
     type: mongoose.Schema.Types.ObjectId,
@@ -37,7 +37,6 @@ const issueSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-
 
   updatedAt: {
     type: Date,

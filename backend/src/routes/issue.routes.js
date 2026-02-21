@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const upload = require("../middlewares/upload")
 
 //?controller
 const issueController=require("../controllers/issue.controller")
@@ -10,19 +10,19 @@ const { authorizationToken } = require("../middlewares/auth.middleware");
 
 
 //? add issue route
-router.post("/add/:groupId", authorizationToken, issueController.addIssue)
+router.post("/add/:groupId", authorizationToken,upload.single("issue-image"), issueController.addIssue)
 
 //? get edit page route
 router.get("/edit/:issueId", authorizationToken, issueController.getEditIssuePage)
 
 //? confirm edited issue route
-router.patch("/edit/:issueId", authorizationToken, issueController.confirmEditIssue)
+router.patch("/edit/:issueId", authorizationToken,upload.single("issue-image"), issueController.confirmEditIssue)
 
 //?search issue in group interface
 router.get("/search", authorizationToken, issueController.searchIssueInGroupUserInterface)
 
 //? get complete details abt issue and render it on the right side
-router.get("/details/:issueid", authorizationToken, issueController.getIssueDetailsUserInterface)
+router.get("/details/:issueid", authorizationToken,upload.single("issue-image"), issueController.getIssueDetailsUserInterface)
 
 //?filter issues. all,pending,in progress,resolved in user interface
 router.get("/filter/:groupId", authorizationToken, issueController.filterIssuesInGroupUserInterface)

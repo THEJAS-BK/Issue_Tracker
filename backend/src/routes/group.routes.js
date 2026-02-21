@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload=require("../middlewares/upload");
 
 //?controller
 const groupController = require("../controllers/group.controller");
@@ -9,7 +10,7 @@ const { authorizationToken } = require("../middlewares/auth.middleware");
 
 //!user home page routes
 //?create group
-router.post("/create", authorizationToken, groupController.createGroup);
+router.post("/create", authorizationToken,upload.single("group-profile"), groupController.createGroup);
 
 //?get all groups to home page
 router.get("/", authorizationToken, groupController.getAllGroups);
@@ -84,6 +85,7 @@ router.get(
 router.patch(
   "/update/:groupId/admin",
   authorizationToken,
+  upload.single("group-profile"),
   groupController.updateGroupByAdmin,
 );
 
