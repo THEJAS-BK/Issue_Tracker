@@ -39,15 +39,20 @@ addIssueForm.addEventListener("submit", async (e) => {
   const issueId = new URLSearchParams(window.location.search).get("issueid");
   const groupId = new URLSearchParams(window.location.search).get("groupid");
   const anonSwitch = document.getElementById("anonymousSwitch").checked;
+  const formData = new FormData();
+  formData.append("title", addIssueForm.title.value);
+  formData.append("description", addIssueForm.description.value);
+  formData.append("stayAnonymous", anonSwitch);
+ const fileInput = document.getElementById("issue-image").files[0];
+ if(fileInput){
+  formData.append("issue-image", fileInput);
+ }
+
+
   const res = await apiFetch(`${API_BASE}/issues/edit/${issueId}`, {
     method: "PATCH",
-    headers: { "Content-type": "application/json" },
     credentials: "include",
-    body: JSON.stringify({
-      title: addIssueForm.title.value,
-      description: addIssueForm.description.value,
-      stayAnonymous: anonSwitch,
-    }),
+    body: formData
   });
   if (res.ok) {
     window.location.href = `./groupInterface.html?id=${groupId}`;
@@ -55,7 +60,7 @@ addIssueForm.addEventListener("submit", async (e) => {
 });
 //drag and drop
 const uploadBox = document.getElementById("uploadBox");
-const fileInput = document.getElementById("group-profile");
+
 
 // Prevent default drag behaviors
 ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
@@ -79,22 +84,8 @@ const fileInput = document.getElementById("group-profile");
   });
 });
 
-// Handle drop
-uploadBox.addEventListener("drop", e => {
-  const file = e.dataTransfer.files[0];
-  if (file) {
-    fileInput.files = e.dataTransfer.files;
-    handleFile(file);
-  }
-});
 
-// Handle click selection
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
-  if (file) {
-    handleFile(file);
-  }
-});
+
 
 
 document.querySelector(".username").addEventListener("click", (e) => { 

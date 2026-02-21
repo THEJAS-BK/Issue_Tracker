@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     headers: { "Content-Type": "application/json" },
   });
   const data = await res.json();
+  console.log(data)
   renderGroups(data.allGroups);
   //render name on the home page
   const userName = document.querySelector(".get-user-name");
@@ -82,9 +83,15 @@ function renderGroups(groups) {
 
     // Image
     const img = document.createElement("img");
-    img.classList.add("group-img");
-    img.src = "../../assets/images.jpg";
     img.alt = "Group category";
+    img.classList.add("group-img");
+    if (group.image && group.image.url) {
+      img.src = group.image.url;
+    }
+    else{
+      img.src = "../../assets/images.jpg";
+    }
+    leftSection.append(img);
 
     // Center content
     const centerContent = document.createElement("div");

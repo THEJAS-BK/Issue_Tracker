@@ -42,19 +42,32 @@ const createGroupForm = document.querySelector("#create-group-form");
 createGroupForm.addEventListener("submit", async (e) => {
   const groupId = new URLSearchParams(window.location.search).get("id");
   e.preventDefault();
-  const res = await apiFetch(`${API_BASE}/groups/update/${groupId}/admin`, {
+  
+
+const formData = new FormData();
+
+formData.append("groupname", createGroupForm.groupname.value);
+formData.append("description", createGroupForm.description.value);
+formData.append("joinapproval", createGroupForm.joinapproval.value);
+formData.append(
+  "imageuploadpermission",
+  createGroupForm.imageuploadpermission.value
+);
+
+// append image ONLY if selected
+const file = document.getElementById("group-profile").files[0];
+if (file) {
+  formData.append("group-profile", file);
+}
+
+const res = await apiFetch(
+  `${API_BASE}/groups/update/${groupId}/admin`,
+  {
     method: "PATCH",
-    headers: {
-      "Content-type": "application/json",
-    },
     credentials: "include",
-    body: JSON.stringify({
-      groupname: createGroupForm.groupname.value,
-      description: createGroupForm.description.value,
-      joinapproval: createGroupForm.joinapproval.value,
-      imageuploadpermission: createGroupForm.imageuploadpermission.value,
-    }),
-  });
+    body: formData,
+  }
+);
   if (res.ok) {
     window.location.href = `./adminPage.html?id=${groupId}`;
   }
@@ -91,15 +104,6 @@ uploadBox.addEventListener("drop", (e) => {
   const file = e.dataTransfer.files[0];
   if (file) {
     fileInput.files = e.dataTransfer.files;
-    handleFile(file);
-  }
-});
-
-// Handle click selection
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
-  if (file) {
-    handleFile(file);
   }
 });
 

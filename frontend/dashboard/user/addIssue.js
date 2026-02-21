@@ -27,16 +27,22 @@ addIssueForm.addEventListener("submit", async (e) => {
   }
   e.preventDefault();
   const anonSwitch = document.getElementById("anonymousSwitch").checked;
+  const formData = new FormData();
+  formData.append("title", addIssueForm.title.value);
+  formData.append("description", addIssueForm.description.value);
+  formData.append("stayAnonymous", anonSwitch);
+
+  const file = document.getElementById("issue-image").files[0];
+  if (file) {
+    formData.append("issue-image", file);
+  }
+
   const res = await apiFetch(`${API_BASE}/issues/add/${groupId}`,
   {
     method: "POST",
-    headers: { "Content-type": "application/json" },
+
     credentials: "include",
-    body: JSON.stringify({
-      title: addIssueForm.title.value,
-      description: addIssueForm.description.value,
-      stayAnonymous:anonSwitch
-    }),
+    body:formData
   });
   if (res.ok) {
     window.location.href = "./groupInterface.html?id="+groupId;
@@ -74,17 +80,9 @@ uploadBox.addEventListener("drop", e => {
   const file = e.dataTransfer.files[0];
   if (file) {
     fileInput.files = e.dataTransfer.files;
-    handleFile(file);
   }
 });
 
-// Handle click selection
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
-  if (file) {
-    handleFile(file);
-  }
-});
 
 
 document.querySelector(".username").addEventListener("click", (e) => { 

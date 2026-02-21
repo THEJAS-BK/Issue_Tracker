@@ -162,6 +162,7 @@ function createIssueCards(issue) {
 }
 
 function updateIssueDetail(issue, isIssueOwner) {
+  console.log(issue)
   const mainRight = document.querySelector(".mainright");
   if (!mainRight) return;
 
@@ -205,7 +206,7 @@ function updateIssueDetail(issue, isIssueOwner) {
   }
 
   if (issueImg) {
-    issueImg.src = "../../assets/OIP.jpg";
+    issueImg.src = issue.image.url || "";
   }
   // click event addded
   const dropdownRight = document.querySelector(".get-dropdown-right");
