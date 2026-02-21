@@ -26,53 +26,38 @@
     />
   </head>
   <body>
-    <input type="checkbox" id="menu-toggle" hidden />
-    <div class="menu">
-      <div class="menu-top">
-        <div class="menu-profile">
-          <div class="headAcc head-width">
-            <div>
-              <p>J</p>
-            </div>
-            <h3>Jhon Doe</h3>
-          </div>
-        </div>
-        <div class="close-btn">
-          <label for="menu-toggle">
-            <i class="fa-solid fa-xmark"></i>
-          </label>
+    <header>
+      <h2>Create Group</h2>
+      <div class="right-section">
+        <a id="home" href="/dashboard/user/userpage.html">Home</a>
+        <button class="username">
+          <span class="get-user-name">Thejas BK</span>
+          <i class="fa-solid fa-angle-down"></i>
+        </button>
+        <div class="dropdown-user hidden">
+          <button class="home-btn" onclick="window.location.pathname='/dashboard/user/userpage.html'">Home</button>
         </div>
       </div>
-    </div>
-    <nav>
-      <label for="menu-toggle">
-        <i class="fa-solid fa-bars"></i>
-      </label>
-      <h2>Issue Tracker</h2>
-      <div class="headAcc">
-        <div>
-          <p>J</p>
-        </div>
-        <i class="fa-solid fa-angle-down"></i>
-      </div>
-    </nav>
+    </header>
 
-    <main>
-      <div class="main-content">
-        <h2>Edit Groups</h2>
+    <main class="d-flex justify-content-center">
+      <div class="main-content mt-5 p-4">
+        <h2>Create Groups</h2>
+        <p>Create a group to manage and track Community issues</p>
+        <hr />
         <form id="create-group-form">
-          <div class="mb-3">
+          <div class="mb-2">
             <label for="exampleFormControlInput1" class="form-label"
               >Group Name</label
             >
             <input
-              type="text"
               class="form-control"
               id="exampleFormControlInput1"
+              placeholder="Eg: library group"
               name="groupname"
             />
           </div>
-          <div class="mb-3">
+          <div>
             <label for="exampleFormControlTextarea1" class="form-label"
               >Description</label
             >
@@ -83,39 +68,56 @@
               name="description"
             ></textarea>
           </div>
-          <div class="selectGroup">
-            <div class="joinapproval">
-              <label for="join-approval" class="form-label"
-                >Join approval</label
-              >
-              <select
-                name="joinapproval"
-                class="form-select"
-                id="join-approval"
-                aria-label="Default select example"
-              >
-              <option  value="open">open</option>
-              <option  value="request">required</option>
-              </select>
-            </div>
-            <div class="imageupload">
-              <label for="image-upload" class="form-label">
-                Image upload permission
+          <div class="bottom-section">
+            <div class="upload" id="uploadBox">
+              <input
+                type="file"
+                name="group-profile"
+                id="group-profile"
+                hidden
+                accept="image/*" 
+              />
+              <label for="group-profile" id="group-profile-label">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <p>Click or drag and drop group profile </p>
               </label>
-              <select name="imageuploadpermission" id="image-upload" class="form-select">
-                <option value="allowed">allowed</option>
-                <option value="notallowed">not allowed</option>
-              </select>
             </div>
-          </div>
-          <br />
-          <div class="upload">
-            <input type="file" name="group-profile" id="group-profile" hidden />
-            <label for="group-profile" id="group-profile-label"></label>
-            <div class="buttons">
-              <button type="submit" class="btn btn-primary">edit</button>
-              <button type="button" class="btn btn-danger cancel-update">Cancel</button>
+            <div class="selectGroup">
+              <div class="joinapproval">
+                <label for="join-approval" class="form-label"
+                  >Join approval</label
+                >
+                <select
+                  name="joinapproval"
+                  class="form-select"
+                  id="join-approval"
+                  aria-label="Default select example"
+                >
+                  <option selected value="open">open</option>
+                  <option value="request">required</option>
+                </select>
+              </div>
+              <div class="imageupload">
+                <label for="image-upload" class="form-label">
+                  Image upload permission
+                </label>
+                <select
+                  name="imageuploadpermission"
+                  id="image-upload"
+                  class="form-select"
+                >
+                  <option value="allowed">allowed</option>
+                  <option value="notallowed">not allowed</option>
+                </select>
+                <div class="buttons">
+                  <button type="submit" class="btn btn-primary">
+                    create group
+                  </button>
+                  <button type="button" class="btn btn-danger cancel-update">Cancel</button>
+                </div>
+              </div>
             </div>
+            <br />
           </div>
         </form>
       </div>
