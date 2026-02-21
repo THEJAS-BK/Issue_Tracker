@@ -89,3 +89,15 @@ module.exports.refreshToken = (req, res) => {
     return res.sendStatus(200);
   });
 };
+//!send username
+module.exports.getUsername = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ username: user.name });
+  } catch (err) {
+    next(err);
+  }
+};
