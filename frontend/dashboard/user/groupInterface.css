@@ -63,7 +63,6 @@ main {
   align-items: center;
   height: 12vh;
   padding: 0 2rem;
-
 }
 .main-content {
   height: 88vh;
@@ -132,7 +131,7 @@ main {
   justify-content: space-between;
   border-radius: 10px;
   margin-top: 0.5rem;
-  border:1px solid grey
+  border: 1px solid grey;
 }
 .issue-card i {
   font-size: 0.5rem;
@@ -265,8 +264,6 @@ main {
   top: 100%;
   right: 0rem;
   background-color: aqua;
-  height: 120px;
-  width: 144px;
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -275,9 +272,16 @@ main {
   overflow: hidden;
 }
 .issue-options-dropdown > button {
-  padding: 1rem 0.5rem;
+  background-color: #ffffff;
+  color: black;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 10rem;
+  transition: all 0.4s ease;
   outline: none;
-  height: 50%;
+  overflow: hidden;
+  font-weight: bold;
+  padding: 0.5rem;
 }
 .issue-options:hover > .issue-options-dropdown {
   display: flex;
@@ -478,8 +482,8 @@ p {
   outline: none;
   transition: all 0.2s ease;
 }
-.confirm-backdrop-exit{
-    position: fixed;
+.confirm-backdrop-exit {
+  position: fixed;
   inset: 0;
 
   display: none;
@@ -493,9 +497,8 @@ p {
   z-index: 1000;
 }
 
-
-.confirm-modal-exit{
-    background: #efeeee;
+.confirm-modal-exit {
+  background: #efeeee;
   padding: 20px 24px;
   border-radius: 10px;
   width: min(90%, 360px);
@@ -505,9 +508,9 @@ p {
   border: 5px solid black;
   text-align: center;
 }
-.confirm-modal-exit>p{
-  margin-top:5px;
-  color:red
+.confirm-modal-exit > p {
+  margin-top: 5px;
+  color: red;
 }
 .confirm-exit {
   background-color: red;
@@ -578,12 +581,11 @@ p {
   .search {
     flex-direction: column;
     gap: 0.5rem;
-    height:5rem;
+    height: 5rem;
   }
 
   .searchInp {
     width: 100%;
- 
   }
 
   #search-filter {

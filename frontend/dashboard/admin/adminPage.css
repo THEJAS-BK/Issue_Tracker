@@ -40,48 +40,69 @@ h5 {
 }
 
 /* Right content  */
-.head-right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+/* container layout */
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin: 20px 0;
 }
-.head-right h5 {
-  color: white;
-  font-weight: 600;
+
+/* base card */
+
+.issue-tab {
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  transition: 0.25s ease;
 }
-.headAcc {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
+
+.issue-tab:hover {
+  transform: translateY(-4px);
 }
-.headAcc div {
-  background-color: white;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.headAcc p {
-  background-color: blue;
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
-  text-align: center;
+
+/* title */
+
+.issue-tab h5 {
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
+  font-size: 15px;
   font-weight: 600;
-  color: white;
+  opacity: 0.8;
 }
-.headAcc i {
-  color: grey;
-  font-size: 1.25rem;
+
+/* number */
+
+.count {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.issue-Tab-total {
+  background: #afc5d5;
+}
+.issue-Tab-total > p {
+  color: blue;
+}
+.issue-tab-pending {
+  background: #ffd695;
+}
+.issue-tab-pending > p {
+  color: #ef6c00;
+}
+.issue-tab-inprogress {
+  background: #cbb5ec;
+}
+.issue-tab-inprogress > p {
+  color: #5e35b1;
+}
+.issue-tab-resolved{
+  background:#84d28a;
+
+}
+.issue-tab-resolved>p{
+  color:#2E7D32;
 }
 /* Issue section */
 .issue-status {
@@ -93,19 +114,14 @@ h5 {
 }
 .issue-Tab {
   width: 22%;
-  background-color: lightblue;
   height: 80%;
   padding: 1rem 1.5rem;
   box-shadow: 0 0 2px black;
   border-radius: 10px;
 }
-.issue-Tab h5 {
-  font-size: 1.5rem;
-}
 .issue-Tab p {
   font-size: 2rem;
   font-weight: 600;
-  color: white;
 }
 /*main section*/
 main {
@@ -154,9 +170,9 @@ main {
   padding: 0.5rem;
 }
 .content-right {
-   width: 44%;;
+  width: 44%;
   border: 2px solid black;
-      height: 81vh;
+  height: 81vh;
 }
 /* Left main content  */
 .issues-status-bar {
@@ -187,7 +203,7 @@ main {
   align-items: center;
   padding: 1rem;
   border-radius: 10px;
-  margin-top:0.25rem;
+  margin-top: 0.25rem;
 }
 .content-bars h6 {
   padding: 0;
@@ -362,7 +378,7 @@ main {
   top: 100%;
   right: 0.45rem;
   width: 182px;
-  height: 200px;
+
   display: none;
   flex-direction: column;
   border: 3px solid black;
@@ -370,8 +386,16 @@ main {
   overflow: hidden;
 }
 .settings-dropdown > button {
-  height: 34%;
-  font-size: 1.25rem;
+     background-color: #ffffff;
+    color: black;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.4s ease;
+    outline: none;
+    overflow: hidden;
+    font-weight: bold;
+    padding: 0.5rem;
 }
 /* Hover open */
 .groupInfo-settings:hover > .settings-dropdown {
@@ -451,10 +475,10 @@ main {
   background-color: white;
   border: 1px solid black;
   border-radius: 5px;
-  height: 90%;
+  height: 100%;
   align-content: center;
   width: 100%;
-  padding: 0 1rem;
+ padding-left:0.5rem;
 }
 .searchInp-members input {
   margin-left: 1rem;
@@ -478,7 +502,6 @@ main {
   position: absolute;
   top: 100%;
   right: 0rem;
-  height: 120px;
   width: 200px;
   display: none;
   flex-direction: column;
@@ -620,11 +643,13 @@ p {
 .right-issues-dropdown {
   position: absolute;
   top: 100%;
-  width: 100px;
+  width: 150px;
   background-color: grey;
   right: 0.5rem;
   display: none;
   flex-direction: column;
+  border: 3px solid black;
+      border-radius: 10px;
 }
 .right-issue-options:hover > .right-issues-dropdown {
   display: flex;
@@ -894,11 +919,11 @@ p {
   display: none;
 }
 #filter-select {
-    text-align: center;
-    text-align: center;
-    font-size: 1rem;
-    height: 40px;
-    border-radius: 10px;
+  text-align: center;
+  text-align: center;
+  font-size: 1rem;
+  height: 40px;
+  border-radius: 10px;
 }
 /* media queries  */
 @media (max-width: 480px) {
@@ -988,24 +1013,24 @@ p {
     height: 60px;
   }
   .issue-contents {
-    height: 50%;
+    height: 80%;
+        margin-top: 1rem;
   }
 
   .content-bars {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
-    height:90px;
-    padding:0.25rem 0.5rem;
-       justify-content: center;
+    height: 90px;
+    padding: 0.25rem 0.5rem;
+    justify-content: center;
   }
 
   .badge {
     align-self: flex-start;
-    font-size:0.75rem;
-    padding:0.25rem;
-    margin-left:2.25rem ;
-
+    font-size: 0.75rem;
+    padding: 0.25rem;
+    margin-left: 2.25rem;
   }
 
   /* Modals */
@@ -1015,9 +1040,10 @@ p {
   .join-requests-tab,
   .confirm-kickout-modal,
   .confirm-issue-delete-model {
-    width: 90%;
+    width: 97%;
     max-height: 85vh;
     overflow-y: auto;
+    padding:0.5rem
   }
   .home-btn-dashboard {
     display: none;
@@ -1054,7 +1080,32 @@ p {
   }
   #filter-select {
     margin-top: 0.5rem;
+
   }
+  #filter-members{
+    width: 60px;
+  }
+  #search-members{
+    margin:0
+  }
+  .searchInp-join-request input{
+  margin:0;
+ }
+ .searchInp-join-request{
+  padding:0 0.5rem;
+ }
+}
+@media(max-width:320px) {
+ .members-tab{
+  padding:0.2rem;
+  width: 100%;
+ }
+ .searchInp-join-request input{
+  margin:0;
+ }
+ .searchInp-members{
+  padding:0
+ }
 }
 @media (min-width: 481px) and (max-width: 768px) {
   header {
@@ -1093,7 +1144,7 @@ p {
   /* Slide-over details panel */
   .content-right {
     position: absolute;
- 
+
     top: 0;
     width: 85%;
     max-width: 520px;
@@ -1142,16 +1193,15 @@ p {
   .issue-Tab > p {
     font-size: 1.75rem;
   }
- 
 }
 @media (min-width: 769px) and (max-width: 1024px) {
   .menu {
     width: 35%;
   }
-  .line{
+  .line {
     display: none;
   }
-   .issues-status-bar{
+  .issues-status-bar {
     gap: 0;
   }
 
@@ -1167,18 +1217,17 @@ p {
   .main-content {
     gap: 0.5rem;
   }
-    .username {
+  .username {
     padding: 0.75rem 0.5rem;
     font-size: 0.75rem;
   }
   .head-title > div > h5 {
     font-size: 1rem;
   }
-  .head-title{
-    padding-left:0.75rem;
+  .head-title {
+    padding-left: 0.75rem;
   }
   .head-user {
-
     margin-top: 0.25rem;
   }
   .content-right-description {
@@ -1211,28 +1260,28 @@ p {
 
   .issues-status-bar {
     flex-direction: column;
-    gap:0;
+    gap: 0;
     justify-content: right;
     height: 5.8rem;
   }
 
   #filter-select {
-           width: 100%;
-        padding: 0.5rem 1rem;
-        height: 60px;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    height: 60px;
   }
 
   .content-bars {
     flex-direction: column;
     align-items: flex-start;
-    padding:0.5rem;
+    padding: 0.5rem;
     height: 5rem;
   }
 
   .badge {
     align-self: flex-start;
     margin-left: 37px;
-    font-size:0.75rem;
+    font-size: 0.75rem;
   }
 
   /* Modals */
@@ -1243,11 +1292,37 @@ p {
   }
 }
 @media (min-width: 1025px) {
-   .line{
+  .line {
     display: none;
   }
 
   .menu {
     width: 280px;
+  }
+}
+.user-info-btn,.delete-issue-btn{
+      background-color: #ffffff;
+    color: black;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.4s ease;
+    outline: none;
+    overflow: hidden;
+    font-weight: bold;
+    padding: 0.5rem;
+}
+.rotate {
+  animation: rotate360 0.6s ease;
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+    color:blue
+  }
+  to {
+    transform: rotate(360deg);
+    color:blue
   }
 }

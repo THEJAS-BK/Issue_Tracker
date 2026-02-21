@@ -1,24 +1,42 @@
 import { apiFetch } from "../../utils/helper.js";
-import {sendApiBase} from "../../utils/apiBase.js"
+import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
-window.addEventListener("resize",()=>{
-  if(window.innerWidth < 768){
+window.addEventListener("resize", () => {
+  if (window.innerWidth < 768) {
     document.querySelector(".content-right").style.display = "none";
-  }else{
+  } else {
     document.querySelector(".content-right").style.display = "block";
   }
-})
+});
 document.addEventListener("DOMContentLoaded", async () => {
+  const name = document.querySelector(".get-user-name");
+  const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
+    method: "GET",
+    credentials: "include",
+  });
+  const nameData = await nameRes.json();
+  name.textContent = nameData.username;
   const params = new URLSearchParams(window.location.search);
   const groupid = params.get("id");
   const res = await apiFetch(`${API_BASE}/groups/${groupid}/admin`, {
     method: "GET",
     credentials: "include",
   });
-  if(window.innerWidth<768){
+  if (window.innerWidth < 768) {
     document.querySelector(".content-right").style.display = "none";
   }
   const data = await res.json();
+
+  //get all stats
+  const totalIssues = document.querySelector(".total-issues");
+  const pendingIssues = document.querySelector(".pending-issues");
+  const inProgressIssues = document.querySelector(".inprogress-issues");
+  const resolvedIssues = document.querySelector(".resolved-issues");
+  totalIssues.textContent = data.states.total;
+  pendingIssues.textContent = data.states.pending;
+  inProgressIssues.textContent = data.states.inprogress;
+  resolvedIssues.textContent = data.states.resolved;
+  //issues
   for (let issue of data.issues) {
     insertIssueCard(issue);
   }
@@ -38,20 +56,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("dropdown-delete").remove();
   }
 
-  if(data.role==="admin"){
+  if (data.role === "admin") {
     document.getElementById("exit-group").remove();
   }
-
- 
 
   //dropdown
   const dropdownBtn = document.querySelector(".username");
   const dropdown = document.querySelector(".dropdown-user");
   dropdownBtn.addEventListener("click", () => {
-
     dropdown.classList.toggle("hidden");
   });
-   //go back to user interface btn
+  //go back to user interface btn
   const returnToUserPageBtn = document.getElementById("user-interface");
   returnToUserPageBtn.addEventListener("click", () => {
     const groupId = new URLSearchParams(window.location.search).get("id");
@@ -123,7 +138,7 @@ function AddIssueEvents() {
       allIssues.forEach((issue) => {
         issue.classList.remove("blue-border");
       });
-      if(window.innerWidth < 768){
+      if (window.innerWidth < 768) {
         document.querySelector(".content-right").style.display = "block";
       }
       issue.classList.add("blue-border");
@@ -145,6 +160,7 @@ function AddIssueEvents() {
 }
 //!render right contents
 function updateIssuesOnRightSide(issue) {
+  console.log(issue)
   const title = document.querySelector(".issue-title");
   const name = document.querySelector(".name-right");
   const timeAgo = document.querySelector(".time-ago");
@@ -154,6 +170,10 @@ function updateIssuesOnRightSide(issue) {
   const moreInfoBtn = document.querySelector(".user-info-btn");
   const deleteIssueBtn = document.querySelector(".delete-issue-btn");
 
+  // image code
+  const img = document.querySelector(".right-image");
+  img.src = issue.image.url || "../../assets/images.jpg";
+
   title.textContent = issue.title;
   name.textContent = issue.createdBy.name;
   timeAgo.textContent = calcTime(issue.createdAt);
@@ -162,7 +182,7 @@ function updateIssuesOnRightSide(issue) {
   markInProgress.dataset.issueId = issue._id;
   markResolved.dataset.issueId = issue._id;
   //badge on the right side
-  document.querySelector(".right-badge").textContent=issue.status;
+  document.querySelector(".right-badge").textContent = issue.status;
   // adding their states
   if (issue.status === "inprogress") {
     markInProgress.style.display = "none";
@@ -180,12 +200,12 @@ function updateIssuesOnRightSide(issue) {
   moreInfoBtn.dataset.userId = issue.createdBy._id;
   deleteIssueBtn.dataset.issueId = issue._id;
   //go back btn
-  document.querySelector(".go-back-btn").addEventListener("click",()=>{
-    document.querySelector(".content-right").style.display="none"
-  })
-  document.querySelector(".edit-more-info").addEventListener("click",()=>{
-    document.querySelector(".right-issues-dropdown").classList.toggle("hidden")
-  })
+  document.querySelector(".go-back-btn").addEventListener("click", () => {
+    document.querySelector(".content-right").style.display = "none";
+  });
+  document.querySelector(".edit-more-info").addEventListener("click", () => {
+    document.querySelector(".right-issues-dropdown").classList.toggle("hidden");
+  });
   OpenMoreInfo();
 }
 //!already selected issue
@@ -193,13 +213,10 @@ async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
   if (allIssues[0]) {
     const issueId = allIssues[0].dataset.issueId;
-    const res = await apiFetch(
-      `${API_BASE}/issues/details/${issueId}/admin`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
+    const res = await apiFetch(`${API_BASE}/issues/details/${issueId}/admin`, {
+      method: "GET",
+      credentials: "include",
+    });
     const data = await res.json();
     updateIssuesOnRightSide(data.issue[0]);
     //add blue border
@@ -319,16 +336,13 @@ const updateBtns = document.querySelectorAll(".update-state-btns");
 updateBtns.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
     const issueId = e.target.dataset.issueId;
-    const res = await apiFetch(
-      `${API_BASE}/issues/${issueId}/update/admin`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          state: e.target.dataset.state,
-        }),
-      },
-    );
+    const res = await apiFetch(`${API_BASE}/issues/${issueId}/update/admin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        state: e.target.dataset.state,
+      }),
+    });
     if (res.status == 200) {
       btn.style.display = "none";
       const state = document.getElementById("filter-select").value;
@@ -340,8 +354,18 @@ updateBtns.forEach((btn) => {
           credentials: "include",
         },
       );
+      //update states
+
       document.querySelector(".issue-contents").innerHTML = "";
       const data = await res.json();
+      const totalIssues = document.querySelector(".total-issues");
+      const pendingIssues = document.querySelector(".pending-issues");
+      const inProgressIssues = document.querySelector(".inprogress-issues");
+      const resolvedIssues = document.querySelector(".resolved-issues");
+      totalIssues.textContent = data.states.total;
+      pendingIssues.textContent = data.states.pending;
+      inProgressIssues.textContent = data.states.inprogress;
+      resolvedIssues.textContent = data.states.resolved;
       for (let issue of data.issues) {
         insertIssueCard(issue);
       }
@@ -378,13 +402,10 @@ deleteGroupBtn.addEventListener("click", () => {
     .querySelector(".confirm-delete")
     .addEventListener("click", async () => {
       const groupId = new URLSearchParams(window.location.search).get("id");
-      const res = await apiFetch(
-        `${API_BASE}/groups/delete/${groupId}/admin`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
+      const res = await apiFetch(`${API_BASE}/groups/delete/${groupId}/admin`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
       if (!res.ok) {
         confirmDeleteInterface.style.display = "none";
@@ -838,6 +859,11 @@ document
     document
       .querySelector(".reload-btn")
       .addEventListener("click", async () => {
+        document.querySelector(".reload-btn").classList.add("rotate");
+        setTimeout(() => {
+          document.querySelector(".reload-btn").classList.remove("rotate");
+        }, 600);
+
         document.querySelector(".join-request-list").innerHTML = "";
         const res = await apiFetch(
           `${API_BASE}/groups/join/request/${groupId}/admin`,
@@ -953,8 +979,8 @@ document
   .addEventListener("click", (e) => {
     document.querySelector(".confirm-backdrop-user-info").style.display =
       "none";
-       //moreinfo
-  OpenMoreInfo();
+    //moreinfo
+    OpenMoreInfo();
   });
 //open info tab
 function OpenMoreInfo() {
@@ -973,11 +999,11 @@ function OpenMoreInfo() {
           credentials: "include",
         },
       );
-  
+
       const data = await res.json();
       insertHistory(data);
       //insert history
-      document.querySelector(".issue-history").innerHTML=""
+      document.querySelector(".issue-history").innerHTML = "";
       for (let issue of data.historyData) {
         addIssueHistoryItem(issue);
       }
@@ -1034,7 +1060,6 @@ function capitalize(text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 function addIssueHistoryItem(issue) {
-
   const container = document.querySelector(".issue-history");
   if (!container) return;
 
@@ -1089,26 +1114,24 @@ function addIssueHistoryItem(issue) {
   details.append(summary, issueDetails);
   container.appendChild(details);
 }
-//!exit group 
+//!exit group
 document.getElementById("exit-group").addEventListener("click", async () => {
   document.querySelector(".confirm-backdrop-exit").style.display = "flex";
   document
     .querySelector(".confirm-exit")
     .addEventListener("click", async () => {
       const groupId = new URLSearchParams(window.location.search).get("id");
-      const res = await apiFetch(
-        `${API_BASE}/groups/leave/${groupId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
+      const res = await apiFetch(`${API_BASE}/groups/leave/${groupId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
       if (res.ok) {
         window.location.href = "../user/userpage.html";
       }
     });
-    document.querySelector(".confirm-exit-cancel").addEventListener("click",()=>{
-  document.querySelector(".confirm-backdrop-exit").style.display = "none";
-
-    })
+  document
+    .querySelector(".confirm-exit-cancel")
+    .addEventListener("click", () => {
+      document.querySelector(".confirm-backdrop-exit").style.display = "none";
+    });
 });
