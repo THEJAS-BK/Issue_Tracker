@@ -512,12 +512,44 @@ main {
   z-index: 1000;
   overflow: hidden;
 }
-.options-dropdown > button {
-  outline: none;
-  height: 37%;
+/* accept and decline btn */
+.accept-join-req-btn{
+    padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+
+  background: #22c55e;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
-.options-dropdown > button:hover {
-  background-color: grey;
+.decline-join-req-btn{
+   padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+
+  background: #ef4444;
+  color: white;
+
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.options-dropdown > button {
+     background-color: #ffffff;
+    color: black;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.4s ease;
+    outline: none;
+    overflow: hidden;
+    font-weight: bold;
+    padding: 0.5rem;
 }
 .options:hover > .options-dropdown {
   display: flex;
@@ -598,7 +630,7 @@ p {
   border-radius: 5px;
   height: 90%;
   align-content: center;
-  width: 100%;
+  width: 92%;
   padding: 0 1rem;
 }
 .searchInp-join-request input {
@@ -616,6 +648,9 @@ p {
 }
 .request-search > i {
   align-self: center;
+}
+.reload-btn{
+      padding-left: 5px;
 }
 /* each tab  */
 .join-tab {
@@ -1016,69 +1051,100 @@ p {
     height: 80%;
         margin-top: 1rem;
   }
-  /* Disable interaction */
+ /* ============================= */
+/* Disable clicks while loading */
+/* ============================= */
+
 body.loading {
+  overflow: hidden;
   pointer-events: none;
 }
 
-/* Fullscreen overlay */
+/* ============================= */
+/* Fullscreen Loader Overlay */
+/* ============================= */
 
 .page-loader {
   position: fixed;
   inset: 0;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(6px);
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   z-index: 9999;
 
   opacity: 0;
   visibility: hidden;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-/* show loader */
+
 body.loading .page-loader {
   opacity: 1;
   visibility: visible;
 }
 
-/* center content */
 
 .loader-content {
   text-align: center;
   font-family: sans-serif;
 }
 
-/* spinner */
-
 .spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #e0e0e0;
-  border-top: 5px solid #1565C0;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+
+  border: 5px solid #e5e7eb;
+  border-top: 5px solid #2563eb;
+
+  animation: spin 0.8s linear infinite;
   margin: auto;
 }
 
-/* text */
-
 .loader-content p {
-  margin-top: 12px;
+  margin-top: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: #444;
+  letter-spacing: 0.5px;
 }
-
-/* animation */
 
 @keyframes spin {
   100% {
     transform: rotate(360deg);
   }
 }
+/* accept and decline btn */
+.accept-join-req-btn{
+    padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
 
+  background: #22c55e;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.decline-join-req-btn{
+   padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+
+  background: #ef4444;
+  color: white;
+
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+}
   .content-bars {
     flex-direction: column;
     align-items: flex-start;
@@ -1156,6 +1222,14 @@ body.loading .page-loader {
  .searchInp-join-request{
   padding:0 0.5rem;
  }
+ .decline-join-req-btn{
+  padding:0 0.5rem;
+  font-size:0.75rem;
+ }
+ .accept-join-req-btn{
+  padding: 0.5rem 0.5rem;
+  font-size: 0.75rem;
+ }
 }
 @media(max-width:320px) {
  .members-tab{
@@ -1167,6 +1241,17 @@ body.loading .page-loader {
  }
  .searchInp-members{
   padding:0
+ }
+  .decline-join-req-btn{
+  padding:0 0.5rem;
+  font-size:0.75rem;
+ }
+ .accept-join-req-btn{
+  padding: 0.5rem 0.5rem;
+  font-size: 0.75rem;
+ }
+ .join-tab-left>h4{
+  font-size: 0.75rem;
  }
 }
 @media (min-width: 481px) and (max-width: 768px) {

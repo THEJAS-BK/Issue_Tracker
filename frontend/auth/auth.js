@@ -6,7 +6,9 @@ const API_BASE = "https://issue-tracker-ro93.onrender.com"
 // show password toggle
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("togglePassword");
-  const passwordInput = document.getElementById("signuppassword")||document.getElementById("loginPassword")
+  const passwordInput =
+    document.getElementById("signuppassword") ||
+    document.getElementById("loginPassword");
   toggle.addEventListener("change", () => {
     passwordInput.type = toggle.checked ? "text" : "password";
   });
@@ -16,12 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
 const signupForm = document.getElementById("signUpForm");
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
-    document.body.classList.add("loading"); 
+    document.body.classList.add("loading");
     e.preventDefault();
     const res = await fetch(`${API_BASE}/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials:"include",
+      credentials: "include",
       body: JSON.stringify({
         name: signupForm.name.value,
         email: signupForm.email.value,
@@ -30,7 +32,7 @@ if (signupForm) {
     });
     const data = await res.json();
     if (data.success) {
-      document.body.classList.remove("loading"); 
+      document.body.classList.remove("loading");
       window.location.href = "/dashboard/user/userpage.html";
     } else {
       alert("Something went wrong");
@@ -42,22 +44,24 @@ if (signupForm) {
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
+    document.body.classList.add("loading");
 
     e.preventDefault();
     const res = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials:"include",
+      credentials: "include",
       body: JSON.stringify({
         email: loginForm.email.value,
         password: loginForm.password.value,
       }),
     });
     if (res.status === 401) {
+      document.body.classList.remove("loading");
+
       alert("User not found");
     } else if (res.ok) {
-
-      window.location.href="/dashboard/user/userpage.html";
+      window.location.href = "/dashboard/user/userpage.html";
     } else {
       alert("server not working");
     }

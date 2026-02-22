@@ -9,6 +9,7 @@ window.addEventListener("resize", () => {
   }
 });
 document.addEventListener("DOMContentLoaded", async () => {
+  document.body.classList.add("loading");
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
@@ -22,6 +23,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     method: "GET",
     credentials: "include",
   });
+  if(res.ok){
+    document.body.classList.remove("loading");
+  }
+  if(!res.ok){
+    document.body.classList.remove("loading");
+    alert("something went wrong")
+  }
   if (window.innerWidth < 768) {
     document.querySelector(".content-right").style.display = "none";
   }
@@ -430,7 +438,6 @@ editGroupBtn.addEventListener("click", () => {
 function addMemberCard(member, role) {
   const memberList = document.querySelector(".member-list");
   if (!memberList) return;
-
   // ---- create elements ----
   const memberTab = document.createElement("div");
   memberTab.classList.add("member-tab");
@@ -846,6 +853,7 @@ document
       },
     );
     const data = await res.json();
+    document.querySelector(".join-request-list").innerHTML = "";
     for (let req of data.joinRequests) {
       createJoinRequestCard(req);
     }

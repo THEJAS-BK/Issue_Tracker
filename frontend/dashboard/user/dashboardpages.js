@@ -5,6 +5,7 @@ const API_BASE = sendApiBase();
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
 createGroupBtn.addEventListener("click", () => {
+      document.body.classList.add("loading"); 
   window.location.href = "./creategroup.html";
 });
 //Load userpage Groups
@@ -149,7 +150,7 @@ searchInp.addEventListener("input", async () => {
     return;
   }
 
-  if (value.length < 3) {
+  if (value.length <1) {
     return;
   } else {
     const res = await apiFetch(

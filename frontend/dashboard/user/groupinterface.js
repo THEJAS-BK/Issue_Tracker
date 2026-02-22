@@ -210,7 +210,14 @@ function updateIssueDetail(issue, isIssueOwner) {
   }
 
   if (issueImg) {
-    issueImg.src = issue.image.url || "";
+    if(issue.image.url){
+      issueImg.style.display="block"
+      issueImg.src = issue.image.url;
+    }
+    else{
+      issueImg.style.display="none"
+    }
+   
   }
   // click event addded
   const dropdownRight = document.querySelector(".get-dropdown-right");
