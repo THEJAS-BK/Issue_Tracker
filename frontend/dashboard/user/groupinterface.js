@@ -211,10 +211,14 @@ function updateIssueDetail(issue, isIssueOwner) {
 
   if (issueImg) {
     if(issue.image.url){
+      document.querySelector(".desc-line").style.display = "block";
+
+      document.querySelector(".desc-line").style.margin = "1rem 0";
       issueImg.style.display="block"
       issueImg.src = issue.image.url;
     }
     else{
+      document.querySelector(".desc-line").style.display = "none";
       issueImg.style.display="none"
     }
    

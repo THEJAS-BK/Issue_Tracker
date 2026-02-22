@@ -234,6 +234,10 @@ main {
   width: 50%;
   box-shadow: 0 0 5px grey;
   border-radius: 10px;
+  margin: 0 auto;
+}
+.desc-line {
+  margin: 1rem 0;
 }
 .sameIssues {
   width: 100%;
@@ -563,10 +567,13 @@ p {
     z-index: 999;
     background-color: white;
     padding: 0;
-    height: 80vh;
+
+            width: 85%;
+        max-width: 520px;
     top: 0;
     left: 5px;
     overflow: auto;
+    align-self: center;
   }
   .go-back-btn {
     margin: 1.2rem 0 0 0.95rem;
@@ -625,10 +632,6 @@ p {
     gap: 0.25rem;
   }
 
-  .right-description img {
-    width: 100%;
-    height: auto;
-  }
 
   /* Modals */
   .members-tab {
@@ -654,6 +657,9 @@ p {
   .dropdown-home-btn {
     display: block;
     border-radius: 0;
+  }
+  .mainright{
+    width:100%;
   }
 }
 @media (min-width: 480px) and (max-width: 768px) {
@@ -686,7 +692,6 @@ p {
 
   .main-content {
     flex-direction: column;
-    position: relative;
   }
 
   .mainleft {
@@ -700,13 +705,17 @@ p {
     width: 95%;
     height: 85vh;
     top: 0;
-    left: 15px;
+
     z-index: 900;
+            width: 85%;
+        max-width: 520px;
     background-color: white;
     padding: 0.75rem;
     overflow-y: auto;
     box-shadow: -6px 0 16px rgba(0, 0, 0, 0.15);
     border-radius: 12px 0 0 12px;
+    align-self: center;
+    margin-top: 5rem;
   }
 
   .go-back-btn {
@@ -742,11 +751,6 @@ p {
 
   .right-head {
     gap: 0.75rem;
-  }
-
-  .right-description img {
-    width: 100%;
-    height: auto;
   }
 
   /* Modals */
@@ -866,7 +870,7 @@ body.loading {
 .page-loader {
   position: fixed;
   inset: 0;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
@@ -897,7 +901,7 @@ body.loading .page-loader {
   width: 50px;
   height: 50px;
   border: 5px solid #e0e0e0;
-  border-top: 5px solid #1565C0;
+  border-top: 5px solid #1565c0;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: auto;

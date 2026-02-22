@@ -1,11 +1,11 @@
 import { apiFetch } from "../../utils/helper.js";
-import {sendApiBase} from "../../utils/apiBase.js"
+import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
 createGroupBtn.addEventListener("click", () => {
-      document.body.classList.add("loading"); 
+  document.body.classList.add("loading");
   window.location.href = "./creategroup.html";
 });
 //Load userpage Groups
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
-  if(res.ok){
+  if (res.ok) {
     document.body.classList.remove("loading");
   }
   const data = await res.json();
@@ -92,8 +92,7 @@ function renderGroups(groups) {
     img.classList.add("group-img");
     if (group.image && group.image.url) {
       img.src = group.image.url;
-    }
-    else{
+    } else {
       img.src = "../../assets/images.jpg";
     }
     leftSection.append(img);
@@ -110,8 +109,8 @@ function renderGroups(groups) {
     groupDescription.classList.add("group-description");
     groupDescription.innerText = group.description;
 
-    const groupmembers=document.createElement("p");
-    groupmembers.innerText=`members : ${group.members.length}`
+    const groupmembers = document.createElement("p");
+    groupmembers.innerText = `members : ${group.members.length}`;
     groupmembers.classList.add("group-members");
 
     centerContent.append(groupName, groupDescription, groupmembers);
@@ -120,7 +119,7 @@ function renderGroups(groups) {
     /* ---------------- Right Section ---------------- */
     const status = document.createElement("p");
     status.classList.add("badge-joined");
-    status.classList.add("badge")
+    status.classList.add("badge");
     status.innerText = "Joined";
 
     /* ---------------- Append All ---------------- */
@@ -150,7 +149,7 @@ searchInp.addEventListener("input", async () => {
     return;
   }
 
-  if (value.length <1) {
+  if (value.length < 1) {
     return;
   } else {
     const res = await apiFetch(
@@ -260,10 +259,9 @@ searchJoinedGroups.addEventListener("input", async (e) => {
   const val = searchJoinedGroups.value;
 
   if (val.length > 1) {
-
     const res = await apiFetch(`${API_BASE}/groups/search/joined?q=${val}`, {
       method: "GET",
-      credentials: "include",   
+      credentials: "include",
     });
 
     //inserting things
@@ -277,7 +275,6 @@ searchJoinedGroups.addEventListener("input", async (e) => {
   }
   //clear searches
   if (!val) {
-  
     const searchContainer = document.querySelector(".leftTab");
     searchContainer.innerHTML = "";
     const div = document.createElement("div");

@@ -179,7 +179,18 @@ function updateIssuesOnRightSide(issue) {
 
   // image code
   const img = document.querySelector(".right-image");
-  img.src = issue.image.url || "../../assets/images.jpg";
+  const hr = document.querySelector(".img-line");
+  if(issue.image.url){
+    hr.style.display="block"
+    img.style.display="block"
+    img.src = issue.image.url;
+
+  }
+  else{
+    hr.style.display="none"
+
+    img.style.display="none"
+  }
 
   title.textContent = issue.title;
   name.textContent = issue.createdBy.name;
