@@ -9,23 +9,34 @@ const User = require("../models/user");
 //!add issue to the group
 module.exports.addIssue = async (req, res, next) => {
   try {
+    console.log("here");
+
     const { groupId } = req.params;
     const { title, description, stayAnonymous } = req.body;
+
+    let imageData = {};
+    if (req.file) {
+      imageData = {
+        url: req.file.path,
+        publicId: req.file.filename,
+      };
+    }
+
     const newIssue = new Issue({
       title,
       description,
       stayAnonymous,
       group: groupId,
       createdBy: req.user.userId,
-      image: {
-        url: req.file.path,
-        publicId: req.file.filename,
-      },
+      image: imageData,
     });
+
     await newIssue.save();
 
     res.sendStatus(200);
+
   } catch (err) {
+    console.error(err);
     next(err);
   }
 };
@@ -58,15 +69,20 @@ module.exports.confirmEditIssue = async (req, res, next) => {
 
     if (checkIssue.createdBy.toString() !== curUser) return res.sendStatus(403);
 
+     let imageData = {};
+    if (req.file) {
+      imageData = {
+        url: req.file.path,
+        publicId: req.file.filename,
+      };
+    }
+
     const { title, description, stayAnonymous } = req.body;
     await Issue.findByIdAndUpdate(issueId, {
       title,
       description,
       stayAnonymous,
-      image: {
-        url: req.file.path,
-        publicId: req.file.filename,
-      },
+      image: imageData,
     });
     res.sendStatus(204);
   } catch (err) {

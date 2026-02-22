@@ -22,7 +22,7 @@ router.patch("/edit/:issueId", authorizationToken,upload.single("issue-image"), 
 router.get("/search", authorizationToken, issueController.searchIssueInGroupUserInterface)
 
 //? get complete details abt issue and render it on the right side
-router.get("/details/:issueid", authorizationToken,upload.single("issue-image"), issueController.getIssueDetailsUserInterface)
+router.get("/details/:issueid", authorizationToken, issueController.getIssueDetailsUserInterface)
 
 //?filter issues. all,pending,in progress,resolved in user interface
 router.get("/filter/:groupId", authorizationToken, issueController.filterIssuesInGroupUserInterface)
