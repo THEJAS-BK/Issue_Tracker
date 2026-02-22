@@ -1,7 +1,7 @@
 // Signup page code
 
-const API_BASE = "https://issue-tracker-ro93.onrender.com"
-// const API_BASE="http://localhost:8080"
+// const API_BASE = "https://issue-tracker-ro93.onrender.com"
+const API_BASE="http://localhost:8080"
 //--------------------
 // show password toggle
 document.addEventListener("DOMContentLoaded", () => {

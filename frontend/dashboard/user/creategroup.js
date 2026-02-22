@@ -3,6 +3,7 @@ import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 //create group option
 document.addEventListener("DOMContentLoaded", async () => {
+  document.querySelector(".groupImg").style.display="none"
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const nameData = await nameRes.json();
   name.textContent = nameData.username;
   const createGroupForm = document.querySelector("#create-group-form");
+
   createGroupForm.addEventListener("submit", async (e) => {
     document.body.classList.add("loading"); 
     const formData = new FormData();
@@ -24,7 +26,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     // image input  
     const fileInput = document.querySelector("#group-profile");
+    if(!fileInput.files[0]){
+      alert("group image is required")
+      document.body.classList.remove("loading");
+      return;
+    }
     formData.append("group-profile", fileInput.files[0]);
+
     e.preventDefault();
     const res = await apiFetch(`${API_BASE}/groups/create`, {
       method: "POST",
@@ -65,13 +73,30 @@ const fileInput = document.getElementById("group-profile");
 uploadBox.addEventListener("drop", (e) => {
   const file = e.dataTransfer.files[0];
   if (file) {
+  document.querySelector(".groupImg").style.display="flex"
+
     fileInput.files = e.dataTransfer.files;
+    const issueImg = document.querySelector(".groupImg");
+    document.getElementById("uploadBox").style.padding="0"
+    issueImg.src = window.URL.createObjectURL(file);
+        document.querySelectorAll(".remove-this").forEach((el) => {
+      el.style.display = "none";
+    });
   }
 });
 
-// Handle click selection
 fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
+  if (file) {
+  document.querySelector(".groupImg").style.display="flex"
+
+    const issueImg = document.querySelector(".groupImg");
+        document.getElementById("uploadBox").style.padding="0"
+    issueImg.src = window.URL.createObjectURL(file);
+    document.querySelectorAll(".remove-this").forEach((el) => {
+      el.style.display = "none";
+    });
+  }
 });
 
 document.querySelector(".username").addEventListener("click", (e) => {

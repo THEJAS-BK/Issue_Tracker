@@ -209,3 +209,13 @@ body.loading .page-loader {
     transform: rotate(360deg);
   }
 }
+/* group image hadnling  */
+
+#uploadBox{
+  position: relative;
+}
+.groupImg{
+  width:70%;
+  height:fit-content;
+  object-fit: cover;
+}

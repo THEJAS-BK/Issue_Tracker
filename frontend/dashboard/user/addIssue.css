@@ -263,7 +263,12 @@ body.loading .page-loader {
   font-weight: 600;
   color: #444;
 }
-
+#uploadBox{
+  position: relative;
+}
+.issueImg{
+  width: 50%;
+}
 /* animation */
 
 @keyframes spin {

@@ -198,7 +198,7 @@ main {
   color: grey;
 }
 .name {
-  font-weight: 600;
+  color:grey
 }
 /* Description  */
 .right-description {
@@ -717,7 +717,9 @@ p {
     align-self: center;
     margin-top: 5rem;
   }
-
+.hidden{
+  display: none;
+}
   .go-back-btn {
     margin: 1.2rem 0 0 0.95rem;
     padding: 0.5rem 1rem;

@@ -92,7 +92,14 @@ body.loading .page-loader {
 }
 
 /* text */
-
+#uploadBox{
+  position: relative;
+}
+.groupImg{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
 .loader-content p {
   margin-top: 12px;
   font-weight: 600;

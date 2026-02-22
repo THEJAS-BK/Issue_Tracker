@@ -23,13 +23,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     method: "GET",
     credentials: "include",
   });
-  if(res.ok){
-    document.body.classList.remove("loading"); 
-  }
-  else{
-    alert("something went wrong")
+  if (res.ok) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("something went wrong");
   }
   const data = await res.json();
+  if (data.issue.image) {
+    const issueImg = document.querySelector(".issueImg");
+    document.getElementById("uploadBox").style.padding = "0";
+    issueImg.src = data.issue.image.url;
+    document.querySelectorAll(".remove-this").forEach((el) => {
+      el.style.display = "none";
+    });
+  }
   //insert data
   document.getElementById("title").value = data.issue.title;
   document.getElementById("description").value = data.issue.description;
@@ -51,53 +58,72 @@ addIssueForm.addEventListener("submit", async (e) => {
   formData.append("title", addIssueForm.title.value);
   formData.append("description", addIssueForm.description.value);
   formData.append("stayAnonymous", anonSwitch);
- const fileInput = document.getElementById("issue-image").files[0];
- if(fileInput){
-  formData.append("issue-image", fileInput);
- }
-
+  const fileInput = document.getElementById("issue-image").files[0];
+  if (fileInput) {
+    formData.append("issue-image", fileInput);
+  }
 
   const res = await apiFetch(`${API_BASE}/issues/edit/${issueId}`, {
     method: "PATCH",
     credentials: "include",
-    body: formData
+    body: formData,
   });
   if (res.ok) {
-    
     window.location.href = `./groupInterface.html?id=${groupId}`;
   }
 });
 //drag and drop
 const uploadBox = document.getElementById("uploadBox");
-
+const fileInput = document.getElementById("issue-image");
 
 // Prevent default drag behaviors
-["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
-  uploadBox.addEventListener(eventName, e => {
+["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+  uploadBox.addEventListener(eventName, (e) => {
     e.preventDefault();
     e.stopPropagation();
   });
 });
 
 // Highlight on drag over
-["dragenter", "dragover"].forEach(eventName => {
+["dragenter", "dragover"].forEach((eventName) => {
   uploadBox.addEventListener(eventName, () => {
     uploadBox.classList.add("dragover");
   });
 });
 
 // Remove highlight
-["dragleave", "drop"].forEach(eventName => {
+["dragleave", "drop"].forEach((eventName) => {
   uploadBox.addEventListener(eventName, () => {
     uploadBox.classList.remove("dragover");
   });
 });
 
+uploadBox.addEventListener("drop", (e) => {
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    fileInput.files = e.dataTransfer.files;
+    const issueImg = document.querySelector(".issueImg");
+    document.getElementById("uploadBox").style.padding = "0";
+    issueImg.src = window.URL.createObjectURL(file);
+    document.querySelectorAll(".remove-this").forEach((el) => {
+      el.style.display = "none";
+    });
+  }
+});
 
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (file) {
+    const issueImg = document.querySelector(".issueImg");
+    document.getElementById("uploadBox").style.padding = "0";
+    issueImg.src = window.URL.createObjectURL(file);
+    document.querySelectorAll(".remove-this").forEach((el) => {
+      el.style.display = "none";
+    });
+  }
+});
 
-
-
-document.querySelector(".username").addEventListener("click", (e) => { 
+document.querySelector(".username").addEventListener("click", (e) => {
   const dropdown = document.querySelector(".dropdown-user");
   dropdown.classList.toggle("hidden");
-})
+});

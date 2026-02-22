@@ -257,7 +257,12 @@ body.loading .page-loader {
 }
 
 /* text */
-
+#uploadBox{
+  position: relative;
+}
+.issueImg{
+  width: 50%;
+}
 .loader-content p {
   margin-top: 12px;
   font-weight: 600;

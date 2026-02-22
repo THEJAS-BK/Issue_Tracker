@@ -27,11 +27,11 @@
   </head>
   <body>
     <div class="page-loader">
-  <div class="loader-content">
-    <div class="spinner"></div>
-    <p>Loading...</p>
-  </div>
-</div>
+      <div class="loader-content">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    </div>
     <header>
       <h2>Create Group</h2>
       <div class="right-section">
@@ -41,7 +41,12 @@
           <i class="fa-solid fa-angle-down"></i>
         </button>
         <div class="dropdown-user hidden">
-          <button class="home-btn" onclick="window.location.pathname='/dashboard/user/userpage.html'">Home</button>
+          <button
+            class="home-btn"
+            onclick="window.location.pathname = '/dashboard/user/userpage.html'"
+          >
+            Home
+          </button>
         </div>
       </div>
     </header>
@@ -78,14 +83,15 @@
             <div class="upload" id="uploadBox">
               <input
                 type="file"
-                name="g roup-profile"
+                name="group-profile"
                 id="group-profile"
                 hidden
-                accept="image/*" 
+                accept="image/*"
               />
               <label for="group-profile" id="group-profile-label">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <p>Click or drag and drop group profile </p>
+                <i class="fa-solid fa-cloud-arrow-up remove-this"></i>
+                <p class="remove-this">Click or drag and drop group profile</p>
+                <img src="" alt="" class="groupImg" />
               </label>
             </div>
             <div class="selectGroup">
@@ -119,7 +125,14 @@
                   <button type="submit" class="btn btn-primary">
                     create group
                   </button>
-                  <button class="btn btn-danger" onclick="window.location.pathname='/dashboard/user/userpage.html'">cancel</button>
+                  <button
+                    class="btn btn-danger"
+                    onclick="
+                      window.location.pathname = '/dashboard/user/userpage.html'
+                    "
+                  >
+                    cancel
+                  </button>
                 </div>
               </div>
             </div>

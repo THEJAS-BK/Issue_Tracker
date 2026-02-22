@@ -3,7 +3,7 @@ import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
-  
+
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
@@ -23,13 +23,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     method: "GET",
     credentials: "include",
   });
-  if(res.ok){
+  if (res.ok) {
     document.body.classList.remove("loading");
-  }
-  else{
+  } else {
     alert("something went wrong");
   }
   const data = await res.json();
+  const issueImg = document.querySelector(".groupImg");
+  document.getElementById("uploadBox").style.padding = "0";
+  issueImg.src =data.groupInfo.image.url
+  document.querySelectorAll(".remove-this").forEach((el) => {
+    el.style.display = "none";
+  });
   const groupDetails = data.groupInfo;
   //insert data
   const groupName = document.getElementById("exampleFormControlInput1");
@@ -51,32 +56,28 @@ createGroupForm.addEventListener("submit", async (e) => {
   document.body.classList.add("loading");
   const groupId = new URLSearchParams(window.location.search).get("id");
   e.preventDefault();
-  
 
-const formData = new FormData();
+  const formData = new FormData();
 
-formData.append("groupname", createGroupForm.groupname.value);
-formData.append("description", createGroupForm.description.value);
-formData.append("joinapproval", createGroupForm.joinapproval.value);
-formData.append(
-  "imageuploadpermission",
-  createGroupForm.imageuploadpermission.value
-);
+  formData.append("groupname", createGroupForm.groupname.value);
+  formData.append("description", createGroupForm.description.value);
+  formData.append("joinapproval", createGroupForm.joinapproval.value);
+  formData.append(
+    "imageuploadpermission",
+    createGroupForm.imageuploadpermission.value,
+  );
 
-// append image ONLY if selected
-const file = document.getElementById("group-profile").files[0];
-if (file) {
-  formData.append("group-profile", file);
-}
+  // append image ONLY if selected
+  const file = document.getElementById("group-profile").files[0];
+  if (file) {
+    formData.append("group-profile", file);
+  }
 
-const res = await apiFetch(
-  `${API_BASE}/groups/update/${groupId}/admin`,
-  {
+  const res = await apiFetch(`${API_BASE}/groups/update/${groupId}/admin`, {
     method: "PATCH",
     credentials: "include",
     body: formData,
-  }
-);
+  });
   if (res.ok) {
     window.location.href = `./adminPage.html?id=${groupId}`;
   }
@@ -115,7 +116,31 @@ uploadBox.addEventListener("drop", (e) => {
     fileInput.files = e.dataTransfer.files;
   }
 });
+// Handle drop
+uploadBox.addEventListener("drop", (e) => {
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    fileInput.files = e.dataTransfer.files;
+    const issueImg = document.querySelector(".groupImg");
+    document.getElementById("uploadBox").style.padding="0"
+    issueImg.src = window.URL.createObjectURL(file);
+        document.querySelectorAll(".remove-this").forEach((el) => {
+      el.style.display = "none";
+    });
+  }
+});
 
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (file) {
+    const issueImg = document.querySelector(".groupImg");
+        document.getElementById("uploadBox").style.padding="0"
+    issueImg.src = window.URL.createObjectURL(file);
+    document.querySelectorAll(".remove-this").forEach((el) => {
+      el.style.display = "none";
+    });
+  }
+});
 document.querySelector(".username").addEventListener("click", (e) => {
   const dropdown = document.querySelector(".dropdown-user");
   dropdown.classList.toggle("hidden");
