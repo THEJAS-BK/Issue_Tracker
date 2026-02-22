@@ -60,7 +60,7 @@ module.exports.searchAllGroups = async (req, res, next) => {
       return next(new ExpressError("search query is required", 400));
     }
     if (q.length == 6) {
-      const allGroups = await Group.findOne({ inviteCode: q })
+      const allGroups = await Group.findOne({ inviteCode: q.toUpperCase() })
         .select("groupname visibility joinType")
         .populate("createdBy", "name");
 
