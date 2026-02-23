@@ -131,15 +131,15 @@ module.exports.searchIssueInGroupUserInterface = async (req, res, next) => {
 //! get complete details about an issue and render it on the right side
 module.exports.getIssueDetailsUserInterface = async (req, res, next) => {
   try {
-    const { issueid } = req.params;
-    if (!issueid) return res.sendStatus(400);
+    const { issueId } = req.params;
+    if (!issueId) return res.sendStatus(400);
 
     const curUser = req.user.userId;
     if (!curUser) return res.sendStatus(401);
 
     isIssueOwner = false;
     const getIssue = await Issue.findOne({
-      _id: issueid,
+      _id: issueId,
       createdBy: curUser,
       isDeleted: false,
     });
@@ -149,15 +149,13 @@ module.exports.getIssueDetailsUserInterface = async (req, res, next) => {
 
     //check anonymous
     const checkAnonymous =
-      await Issue.findById(issueid).select("stayAnonymous");
+      await Issue.findById(issueId).select("stayAnonymous");
     if (checkAnonymous.stayAnonymous) {
-      const issue = await Issue.findById(issueid).select(
-        "title description createdAt status image editedAt",
-      );
+      const issue = await Issue.findById(issueId)
       return res.json({ issue, isIssueOwner });
     }
 
-    const issue = await Issue.findById(issueid)
+    const issue = await Issue.findById(issueId)
       .select("title description createdAt createdBy status image editedAt")
       .populate("createdBy", "name");
     res.json({ issue, isIssueOwner });
@@ -265,12 +263,12 @@ module.exports.deleteIssueByOwner = async (req, res, next) => {
 //?get the admin dashboard page
 module.exports.getIssuesInAdminPage = async (req, res, next) => {
   try {
-    const { issueid } = req.params;
-    if (!issueid) return res.sendStatus(400);
+    const { issueId } = req.params;
+    if (!issueId) return res.sendStatus(400);
 
-    if (!mongoose.Types.ObjectId.isValid(issueid)) return res.sendStatus(404);
+    if (!mongoose.Types.ObjectId.isValid(issueId)) return res.sendStatus(404);
 
-    const issue = await Issue.find({ _id: issueid, isDeleted: false })
+    const issue = await Issue.find({ _id: issueId, isDeleted: false })
       .select("title description createdAt createdBy status image")
       .populate("createdBy", "name");
     res.json({ issue });

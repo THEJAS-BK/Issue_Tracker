@@ -1,16 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const upload=require("../middlewares/upload");
+const upload = require("../middlewares/upload");
 
 //?controller
 const groupController = require("../controllers/group.controller");
 
 //middlewares
 const { authorizationToken } = require("../middlewares/auth.middleware");
+const { isPartOfGroup } = require("../middlewares/memvalidation");
+const { isAdminOrCoAdmin } = require("../middlewares/memvalidation");
 
 //!user home page routes
 //?create group
-router.post("/create", authorizationToken,upload.single("group-profile"), groupController.createGroup);
+router.post(
+  "/create",
+  authorizationToken,
+  upload.single("group-profile"),
+  groupController.createGroup,
+);
 
 //?get all groups to home page
 router.get("/", authorizationToken, groupController.getAllGroups);
@@ -46,6 +53,7 @@ router.get(
 router.get(
   "/interface/:groupId",
   authorizationToken,
+  isPartOfGroup,
   groupController.getGroupUserInterface,
 );
 
@@ -53,6 +61,7 @@ router.get(
 router.get(
   "/members/:groupId",
   authorizationToken,
+  isPartOfGroup,
   groupController.getGroupUserInterfaceMembers,
 );
 
@@ -60,6 +69,7 @@ router.get(
 router.get(
   "/members/search/:groupId",
   authorizationToken,
+  isPartOfGroup,
   groupController.searchGroupMembersUserInterface,
 );
 
@@ -67,25 +77,36 @@ router.get(
 router.delete(
   "/leave/:groupId",
   authorizationToken,
+  isPartOfGroup,
   groupController.exitGroup,
 );
 
 //! group admin interface code
 
 //? get admin page
-router.get("/:groupid/admin", authorizationToken, groupController.getAdminPage);
+router.get(
+  "/:groupId/admin",
+  authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
+  groupController.getAdminPage,
+);
 
 //? get edit group page by admin
 router.get(
   "/edit/:groupId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.getEditGroupByAdminPage,
 );
 //? confirm edit group by admin
 router.patch(
   "/update/:groupId/admin",
   authorizationToken,
+  isAdminOrCoAdmin,
   upload.single("group-profile"),
+
   groupController.updateGroupByAdmin,
 );
 
@@ -93,6 +114,8 @@ router.patch(
 router.delete(
   "/delete/:groupId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.deleteGroupByAdmin,
 );
 
@@ -102,12 +125,16 @@ router.delete(
 router.get(
   "/members/:groupId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.getGroupMembersAdminPage,
 );
 //? search members inadmin dashboard
 router.get(
   "/members/search/:groupId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.searchGroupMembersAdminPage,
 );
 
@@ -115,6 +142,8 @@ router.get(
 router.put(
   "/members/promote/:groupId/:userId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.promoteToCoAdmin,
 );
 
@@ -122,6 +151,8 @@ router.put(
 router.put(
   "/members/demote/:groupId/:userId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.demoteToMember,
 );
 
@@ -129,6 +160,8 @@ router.put(
 router.delete(
   "/members/kick/:groupId/:userId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.kickMemberFromGroup,
 );
 
@@ -136,6 +169,8 @@ router.delete(
 router.get(
   "/join/request/:groupId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.getJoinRequestsForAdmin,
 );
 
@@ -143,6 +178,9 @@ router.get(
 router.post(
   "/join/request/:userId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
+
   groupController.acceptJoinRequest,
 );
 
@@ -150,6 +188,8 @@ router.post(
 router.delete(
   "/join/request/:userId/admin",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.declineJoinRequest,
 );
 
@@ -157,6 +197,8 @@ router.delete(
 router.get(
   "/join/request/:groupId/admin/search",
   authorizationToken,
+  isPartOfGroup,
+  isAdminOrCoAdmin,
   groupController.searchJoinRequestsForAdmin,
 );
 

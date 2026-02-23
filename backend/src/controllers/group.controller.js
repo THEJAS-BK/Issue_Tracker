@@ -8,7 +8,6 @@ const User = require("../models/user");
 
 //utils
 const { getUniqueInviteCode } = require("../utils/inviteCode");
-
 //!create group
 module.exports.createGroup = async (req, res, next) => {
   try {
@@ -311,17 +310,17 @@ module.exports.exitGroup = async (req, res, next) => {
 //? get the admin page
 module.exports.getAdminPage = async (req, res, next) => {
   try {
-    const { groupid } = req.params;
-    if (!groupid) return res.sendStatus(400);
+    const { groupId } = req.params;
+    if (!groupId) return res.sendStatus(400);
 
     const curUser = req.user.userId;
     if (!curUser) return res.sendStatus(401);
 
-    const issues = await Issue.find({ group: groupid, isDeleted: false })
+    const issues = await Issue.find({ group: groupId, isDeleted: false })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 
-    const members = await Group.findById(groupid)
+    const members = await Group.findById(groupId)
       .select("members")
       .populate("members.userId", "_id");
 
@@ -329,12 +328,12 @@ module.exports.getAdminPage = async (req, res, next) => {
       return curUser === mem.userId._id.toString();
     }).role;
 
-    const groupDetails = await Group.findById(groupid).select(
+    const groupDetails = await Group.findById(groupId).select(
       "groupname description inviteCode",
     );
     //get all states
     const allIssuesForStates = await Issue.find({
-      group: groupid,
+      group: groupId,
       isDeleted: false,
     });
 
