@@ -37,11 +37,6 @@ const issueSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-
-  updatedAt: {
-    type: Date,
-  },
-
   editedAt: {
     type: Date,
   },

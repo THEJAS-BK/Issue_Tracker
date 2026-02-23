@@ -15,8 +15,8 @@ const GroupSchema = new mongoose.Schema({
     default: "open",
   },
   imageuploadpermission: {
-    type: String,
-    required: false,
+    type: Boolean,
+    required: true,
   },
   image: {
      url: String,

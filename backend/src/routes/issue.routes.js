@@ -24,6 +24,9 @@ router.get("/search", authorizationToken, issueController.searchIssueInGroupUser
 //? get complete details abt issue and render it on the right side
 router.get("/details/:issueid", authorizationToken, issueController.getIssueDetailsUserInterface)
 
+//? route to check if image upload is allowed for issues
+router.get("/imageUploadAllowed/:groupId", authorizationToken, issueController.checkIfImageUploadIsAllowed)
+
 //?filter issues. all,pending,in progress,resolved in user interface
 router.get("/filter/:groupId", authorizationToken, issueController.filterIssuesInGroupUserInterface)
 

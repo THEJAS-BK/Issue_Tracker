@@ -333,16 +333,23 @@ module.exports.getAdminPage = async (req, res, next) => {
       "groupname description inviteCode",
     );
     //get all states
-    const allIssuesForStates=await Issue.find({group:groupid,isDeleted:false})
+    const allIssuesForStates = await Issue.find({
+      group: groupid,
+      isDeleted: false,
+    });
 
-    const states={
-      total:allIssuesForStates.length,
-      pending:allIssuesForStates.filter(issue=>issue.status==="pending").length,
-      inprogress:allIssuesForStates.filter(issue=>issue.status==="inprogress").length,
-      resolved:allIssuesForStates.filter(issue=>issue.status==="resolved").length
-    }
-    res.json({ issues, groupDetails, role,states });
-
+    const states = {
+      total: allIssuesForStates.length,
+      pending: allIssuesForStates.filter((issue) => issue.status === "pending")
+        .length,
+      inprogress: allIssuesForStates.filter(
+        (issue) => issue.status === "inprogress",
+      ).length,
+      resolved: allIssuesForStates.filter(
+        (issue) => issue.status === "resolved",
+      ).length,
+    };
+    res.json({ issues, groupDetails, role, states });
   } catch (err) {
     next(err);
   }
@@ -379,16 +386,26 @@ module.exports.updateGroupByAdmin = async (req, res, next) => {
 
     const { groupname, description, joinapproval, imageuploadpermission } =
       req.body;
-    await Group.findByIdAndUpdate(groupId, {
-      groupname,
-      description,
-      joinType: joinapproval,
-      imageuploadpermission,
-      image:{
-        url:req.file.path,
-        publicId:req.file.filename
-      }
-    });
+
+    if (req.file) {
+      await Group.findByIdAndUpdate(groupId, {
+        groupname,
+        description,
+        joinType: joinapproval,
+        imageuploadpermission,
+        image: {
+          url: req.file.path,
+          publicId: req.file.filename,
+        },
+      });
+    } else {
+      await Group.findByIdAndUpdate(groupId, {
+        groupname,
+        description,
+        joinType: joinapproval,
+        imageuploadpermission,
+      });
+    }
     res.sendStatus(204);
   } catch (err) {
     next(err);
