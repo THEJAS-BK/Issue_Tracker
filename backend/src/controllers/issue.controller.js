@@ -11,7 +11,6 @@ module.exports.addIssue = async (req, res, next) => {
   try {
     const { groupId } = req.params;
     const { title, description, stayAnonymous } = req.body;
-
     let imageData = {};
     if (req.file) {
       imageData = {
