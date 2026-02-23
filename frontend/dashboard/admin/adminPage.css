@@ -167,7 +167,7 @@ main {
 .content-left {
   width: 37%;
   border: 2px solid black;
-  height: 90%;
+      height: 86vh;
   overflow: hidden;
   border-radius: 10px;
   padding: 0.5rem;
@@ -175,7 +175,8 @@ main {
 .content-right {
   width: 44%;
   border: 2px solid black;
-  height: 81vh;
+     height: 86vh;
+     overflow: auto;
 }
 /* Left main content  */
 .issues-status-bar {
@@ -268,7 +269,6 @@ main {
 .head-user {
   display: flex;
   padding-left: 2rem;
-  margin-right: 1rem;
   margin-bottom: 0.25rem;
 }
 .profile-img {
@@ -307,6 +307,15 @@ main {
   margin-left: 0.5rem;
   border: 2px solid black;
 }
+.description-body-content{
+      margin-top: 1rem;
+    line-height: 1.25rem;
+    height: 25vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    color: rgb(41, 39, 39);
+    margin-bottom: 0.75rem;
+}
 .desc-inprogress {
   background-color: #f59e0b; /* main color */
   color: white;
@@ -336,7 +345,7 @@ main {
   transition: all 0.2s ease;
 }
 .right-image {
-  width: 50%;
+     width: 37%;
   box-shadow: 0 0 5px grey;
   border-radius: 10px;
   margin-bottom: 1rem;
@@ -974,7 +983,6 @@ p {
 }
 .head-user {
   margin-left: 0;
-  padding-left: 0.5rem;
 }
 .name-right {
   margin: 0;
@@ -1002,6 +1010,9 @@ p {
   header {
     padding: 0 1rem;
   }
+  .issue-details-resolved,.issue-details-markedinprogress,.issue-details-raised{
+font-size:0.85rem
+}
   .description-head {
     justify-content: center;
   }
@@ -1301,6 +1312,13 @@ p {
   header {
     padding: 0 2rem;
   }
+  .right-image {
+    width: 45%;
+    box-shadow: 0 0 5px grey;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    margin: 0 auto;
+}
   .home-btn-dashboard {
     display: none;
   }
@@ -1501,9 +1519,6 @@ p {
   .line {
     display: none;
   }
-  .right-image {
-    margin-top: 1rem;
-  }
   .content-right{
     padding: 2rem;
   }
@@ -1537,5 +1552,17 @@ p {
   to {
     transform: rotate(360deg);
     color: blue;
+  }
+}
+
+@media (max-height: 768px) {
+  .right-image {
+    width: 27%;
+    margin-top:0
+  }
+}
+@media (min-height: 1000px) {
+  .right-image {
+    width: 50%;
   }
 }

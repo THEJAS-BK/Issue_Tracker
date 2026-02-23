@@ -83,6 +83,7 @@ main {
   box-shadow: 0 0 5px grey;
   border-radius: 4px;
   height: 100%;
+      overflow: auto;
 }
 /* Main left code section  */
 .search {
@@ -159,7 +160,6 @@ main {
 /* right section code  */
 .mainright {
   padding: 0.5rem 1rem;
-  overflow: hidden;
 }
 .right-head {
   display: flex;
@@ -224,7 +224,7 @@ main {
 .description-body-content {
   margin-top: 1rem;
   line-height: 1.25rem;
-  height: 32%;
+    height: 35%;
   overflow: scroll;
   overflow-x: hidden;
   color: rgb(41, 39, 39);

@@ -72,7 +72,6 @@ createGroupForm.addEventListener("submit", async (e) => {
   if (file) {
     formData.append("group-profile", file);
   }
-
   const res = await apiFetch(`${API_BASE}/groups/update/${groupId}/admin`, {
     method: "PATCH",
     credentials: "include",
@@ -80,6 +79,10 @@ createGroupForm.addEventListener("submit", async (e) => {
   });
   if (res.ok) {
     window.location.href = `./adminPage.html?id=${groupId}`;
+  }
+  if(!res.ok){
+  document.body.classList.remove("loading");
+  alert("something went wrong")
   }
 });
 

@@ -11,10 +11,10 @@ export async function apiFetch(url, options = {},retry=true) {
     if(refresh.ok){
        return apiFetch(url,options,false)
     }
-    window.location.href="../index.html"
+    window.location.href="/index.html"
   }
    if(res.status==401){
-    window.location.href="../index.html"
+    window.location.href="/index.html"
     return;
   }
   return res;

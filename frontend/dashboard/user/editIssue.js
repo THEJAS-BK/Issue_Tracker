@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (res.ok) {
     document.body.classList.remove("loading");
   } else {
+    document.body.classList.remove("loading");
     alert("something went wrong");
   }
   const data = await res.json();
@@ -70,6 +71,10 @@ addIssueForm.addEventListener("submit", async (e) => {
   });
   if (res.ok) {
     window.location.href = `./groupInterface.html?id=${groupId}`;
+  }
+  if(!res.ok){
+      document.body.classList.remove("loading");
+      alert("something went wrong")
   }
 });
 //drag and drop
