@@ -353,7 +353,15 @@ selectStatus.addEventListener("change", async (e) => {
 const updateBtns = document.querySelectorAll(".update-state-btns");
 updateBtns.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
+    if(btn.dataset.state==="resolved"){
+     const markInProBtn=document.querySelector(".desc-inprogress");
+     if(markInProBtn.style.display!=="none"){
+     alert("issue must be in progress first");
+     return;
+     }
+    }
     const issueId = e.target.dataset.issueId;
+
     const res = await apiFetch(`${API_BASE}/issues/${issueId}/update/admin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
