@@ -12,6 +12,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   const nameData = await nameRes.json();
   name.textContent = nameData.username;
+  //check if image upload is allowed
+  const groupId=new URLSearchParams(window.location.search).get("id");
+  const res=await apiFetch(`${API_BASE}/issues/imageUploadAllowed/${groupId}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  const isImageUploadAllowed = await res.json();
+  if (!isImageUploadAllowed.imageuploadpermission) {
+    document.getElementById("uploadBox").style.display = "none";
+    document.querySelector(".main-content").style.marginTop = "5rem";
+  }
 
   document.querySelector(".cancel-btn").addEventListener("click", () => {
     const groupId = new URLSearchParams(window.location.search).get("id");

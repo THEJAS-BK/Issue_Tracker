@@ -2,6 +2,20 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 document.addEventListener("DOMContentLoaded", async () => {
+  //?check if image upload is allowed or not
+  const groupId=new URLSearchParams(window.location.search).get("groupid");
+    const imgRes=await apiFetch(`${API_BASE}/issues/imageUploadAllowed/${groupId}`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const isImageUploadAllowed = await imgRes.json();
+    if (!isImageUploadAllowed.imageuploadpermission) {
+      document.getElementById("uploadBox").style.display = "none";
+      document.querySelector(".main-content").classList.remove("mt-2");
+
+      document.querySelector(".main-content").style.marginTop = "5rem";
+    }
+
   document.body.classList.add("loading");
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
@@ -63,6 +77,7 @@ addIssueForm.addEventListener("submit", async (e) => {
   if (fileInput) {
     formData.append("issue-image", fileInput);
   }
+
 
   const res = await apiFetch(`${API_BASE}/issues/edit/${issueId}`, {
     method: "PATCH",

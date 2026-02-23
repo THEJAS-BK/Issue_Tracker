@@ -181,7 +181,13 @@ function updateIssueDetail(issue, isIssueOwner) {
   const descText = mainRight.querySelector(".description-body-content");
 
   // -------- DATA UPDATE ONLY --------
-  h3.textContent = issue.title;
+  if(issue.editedAt){
+
+    h3.textContent = `${issue.title} (edited)`;
+  }
+  else{
+    h3.textContent=issue.title
+  }
   if (issue.createdBy) {
     name.textContent = issue.createdBy.name;
   } else {

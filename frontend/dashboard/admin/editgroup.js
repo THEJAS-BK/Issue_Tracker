@@ -64,7 +64,7 @@ createGroupForm.addEventListener("submit", async (e) => {
   formData.append("joinapproval", createGroupForm.joinapproval.value);
   formData.append(
     "imageuploadpermission",
-    createGroupForm.imageuploadpermission.value,
+    JSON.parse(createGroupForm.imageuploadpermission.value),
   );
 
   // append image ONLY if selected

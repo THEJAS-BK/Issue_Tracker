@@ -14,15 +14,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const createGroupForm = document.querySelector("#create-group-form");
 
   createGroupForm.addEventListener("submit", async (e) => {
-    document.body.classList.add("loading"); 
     const formData = new FormData();
-
     formData.append("groupname", createGroupForm.groupname.value);
     formData.append("description", createGroupForm.description.value);
     formData.append("joinapproval", createGroupForm.joinapproval.value);
     formData.append(
       "imageuploadpermission",
-      createGroupForm.imageuploadpermission.value,
+      JSON.parse(createGroupForm.imageuploadpermission.value),
     );
     // image input  
     const fileInput = document.querySelector("#group-profile");
