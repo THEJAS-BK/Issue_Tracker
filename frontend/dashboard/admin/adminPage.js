@@ -180,7 +180,7 @@ function updateIssuesOnRightSide(issue) {
   // image code
   const img = document.querySelector(".right-image");
   const hr = document.querySelector(".img-line");
-  if(issue.image.url){
+  if(issue.image){
     hr.style.display="block"
     img.style.display="block"
     img.src = issue.image.url;

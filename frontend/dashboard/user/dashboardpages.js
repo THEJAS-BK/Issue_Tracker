@@ -305,6 +305,12 @@ async function joinRequest() {
           credentials: "include",
         },
       );
+      if(res.ok){
+        btn.innerText="requested";
+        btn.style.backgroundColor="white";
+        btn.style.color="blue";
+        btn.style.border="2px solid blue"
+      }
       if (!res.ok || res.status === 409) {
         const data = await res.json();
         if (data.code === "already_member") {

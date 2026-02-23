@@ -214,9 +214,8 @@ function updateIssueDetail(issue, isIssueOwner) {
     //if not owner
     document.querySelector(".issue-options").style.display = "none";
   }
-
   if (issueImg) {
-    if(issue.image.url){
+    if(issue.image){
       document.querySelector(".desc-line").style.display = "block";
 
       document.querySelector(".desc-line").style.margin = "1rem 0";
