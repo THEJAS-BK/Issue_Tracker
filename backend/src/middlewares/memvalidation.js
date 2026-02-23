@@ -15,7 +15,7 @@ module.exports.isPartOfGroup=async(req,res,next)=>{
    
     const group = members.members.find(g => g.userId.toString() === user.userId);
     if(!group){
-        return res.status(403).json({message:"You are not a member of this group",code:"notPartOfGroup"});
+        return res.json({message:"You are not a member of this group",code:"notPartOfGroup"});
     }
     next();
 }
@@ -33,7 +33,7 @@ module.exports.isPartOfGroupByIssueId=async(req,res,next)=>{
    
     const group = members.members.find(g => g.userId.toString() === user.userId);
     if(!group){
-        return res.status(403).json({message:"You are not a member of this group",code:"notPartOfGroup"});
+        return res.json({message:"You are not a member of this group",code:"notPartOfGroup"});
     }
     next();
 }
@@ -53,12 +53,12 @@ module.exports.isAdminOrCoAdmin=async(req,res,next)=>{
    
     const mem = members.members.find(g => g.userId.toString() === user.userId);
     if(!mem){
-        return res.status(403).json({message:"You are not a member of this group",code:"notPartOfGroup"});
+        return res.json({message:"You are not a member of this group",code:"notPartOfGroup"});
     }
     if(mem.role==="admin" || mem.role==="coadmin"){
         next();
     }else{
-        return res.status(403).json({message:"You are not an admin or coadmin of this group",code:"notAdminOrCoAdmin"});
+        return res.json({message:"You are not an admin or coadmin of this group",code:"notAdminOrCoAdmin"});
     }
 }
 //!is admin or coadmin using issueId
@@ -76,11 +76,11 @@ module.exports.isAdminOrCoAdminByIssueId=async(req,res,next)=>{
     const mem = members.members.find(g => g.userId.toString() === user.userId);
     
     if(!mem){
-        return res.status(403).json({message:"You are not a member of this group",code:"notPartOfGroup"});
+        return res.json({message:"You are not a member of this group",code:"notPartOfGroup"});
     }
     if(mem.role==="admin" || mem.role==="coadmin"){
         next();
     }else{
-        return res.status(403).json({message:"You are not an admin or coadmin of this group",code:"notAdminOrCoAdmin"});            
+        return res.json({message:"You are not an admin or coadmin of this group",code:"notAdminOrCoAdmin"});            
     }
 }
