@@ -171,6 +171,7 @@ module.exports.getGroupUserInterface = async (req, res, next) => {
   try {
     const { groupId } = req.params;
     const issues = await Issue.find({ group: groupId, isDeleted: false })
+      .sort({_id:-1})
       .select("title createdBy createdAt status stayAnonymous")
       .populate("createdBy", "name");
     //send cur user
@@ -317,6 +318,7 @@ module.exports.getAdminPage = async (req, res, next) => {
     if (!curUser) return res.sendStatus(401);
 
     const issues = await Issue.find({ group: groupId, isDeleted: false })
+    .sort({_id:-1})
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 
@@ -335,7 +337,7 @@ module.exports.getAdminPage = async (req, res, next) => {
     const allIssuesForStates = await Issue.find({
       group: groupId,
       isDeleted: false,
-    });
+    }).sort({_id:-1})
 
     const states = {
       total: allIssuesForStates.length,

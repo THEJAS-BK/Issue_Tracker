@@ -176,7 +176,7 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
     const allIssuesForStates = await Issue.find({
       group: groupId,
       isDeleted: false,
-    });
+    }).sort({_id:-1});
 
     const states = {
       total: allIssuesForStates.length,
@@ -201,7 +201,7 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
         group: groupId,
         createdBy: req.user.userId,
         isDeleted: false,
-      })
+      }).sort({_id:-1})
         .select("title createdBy createdAt status")
         .populate("createdBy", "name");
       return res.json({ issues, states });
@@ -211,7 +211,7 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
       group: groupId,
       status: state,
       isDeleted: false,
-    })
+    }).sort({_id:-1})
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 
