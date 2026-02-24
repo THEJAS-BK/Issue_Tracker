@@ -1,5 +1,6 @@
 import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
+import { waitForServer } from "../../utils/waitForServer.js";
 const API_BASE = sendApiBase();
 window.addEventListener("resize", () => {
   if (window.innerWidth < 768) {
@@ -10,6 +11,13 @@ window.addEventListener("resize", () => {
 });
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("server not working");
+    document.body.classList.remove("loading");
+  }
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
@@ -23,12 +31,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     method: "GET",
     credentials: "include",
   });
-  if(res.ok){
+  if (res.ok) {
     document.body.classList.remove("loading");
   }
-  if(!res.ok){
+  if (!res.ok) {
     document.body.classList.remove("loading");
-    alert("something went wrong")
+    alert("something went wrong");
   }
   if (window.innerWidth < 768) {
     document.querySelector(".content-right").style.display = "none";
@@ -143,6 +151,13 @@ function AddIssueEvents() {
   const allIssues = document.querySelectorAll(".content-bars");
   allIssues.forEach((issue) => {
     issue.addEventListener("click", async () => {
+      const isServerOnline = await waitForServer();
+      if (isServerOnline) {
+        document.body.classList.remove("loading");
+      } else {
+        alert("server not working");
+        document.body.classList.remove("loading");
+      }
       allIssues.forEach((issue) => {
         issue.classList.remove("blue-border");
       });
@@ -180,16 +195,14 @@ function updateIssuesOnRightSide(issue) {
   // image code
   const img = document.querySelector(".right-image");
   const hr = document.querySelector(".img-line");
-  if(issue.image){
-    hr.style.display="block"
-    img.style.display="block"
+  if (issue.image) {
+    hr.style.display = "block";
+    img.style.display = "block";
     img.src = issue.image.url;
+  } else {
+    hr.style.display = "none";
 
-  }
-  else{
-    hr.style.display="none"
-
-    img.style.display="none"
+    img.style.display = "none";
   }
 
   title.textContent = issue.title;
@@ -247,6 +260,13 @@ async function firstValSelected() {
 function deleteIssueByAdmin() {
   const deleteBtn = document.querySelector(".delete-issue-btn");
   deleteBtn.addEventListener("click", async (e) => {
+    const isServerOnline = await waitForServer();
+    if (isServerOnline) {
+      document.body.classList.remove("loading");
+    } else {
+      alert("server not working");
+      document.body.classList.remove("loading");
+    }
     const confirmDelete = document.querySelector(
       ".confirm-issue-delete-backdrop",
     );
@@ -254,6 +274,13 @@ function deleteIssueByAdmin() {
     document
       .querySelector(".confirm-delete-issue")
       .addEventListener("click", async (e) => {
+        const isServerOnline = await waitForServer();
+        if (isServerOnline) {
+          document.body.classList.remove("loading");
+        } else {
+          alert("server not working");
+          document.body.classList.remove("loading");
+        }
         const groupId = new URLSearchParams(window.location.search).get("id");
         const issueId = deleteBtn.dataset.issueId;
         const res = await apiFetch(
@@ -266,6 +293,13 @@ function deleteIssueByAdmin() {
         if (res.ok) {
           confirmDelete.style.display = "none";
           const state = document.getElementById("filter-select").value;
+          const isServerOnline = await waitForServer();
+          if (isServerOnline) {
+            document.body.classList.remove("loading");
+          } else {
+            alert("server not working");
+            document.body.classList.remove("loading");
+          }
           const res = await apiFetch(
             `${API_BASE}/issues/filter/${groupId}?state=${state}`,
             {
@@ -299,6 +333,13 @@ search.addEventListener("input", async (e) => {
   const searchTerm = e.target.value.toLowerCase();
 
   if (searchTerm.length > 0) {
+    const isServerOnline = await waitForServer();
+    if (isServerOnline) {
+      document.body.classList.remove("loading");
+    } else {
+      alert("server not working");
+      document.body.classList.remove("loading");
+    }
     const res = await apiFetch(
       `${API_BASE}/issues/search?q=${encodeURIComponent(searchTerm)}`,
       {
@@ -315,6 +356,13 @@ search.addEventListener("input", async (e) => {
     firstValSelected();
   }
   if (searchTerm.length === 0) {
+    const isServerOnline = await waitForServer();
+    if (isServerOnline) {
+      document.body.classList.remove("loading");
+    } else {
+      alert("server not working");
+      document.body.classList.remove("loading");
+    }
     const id = new URLSearchParams(window.location.search).get("id");
     document.querySelector(".issue-contents").innerHTML = "";
     const res = await apiFetch(`${API_BASE}/groups/interface/${id}`, {
@@ -333,6 +381,13 @@ search.addEventListener("input", async (e) => {
 //! select filter
 const selectStatus = document.getElementById("filter-select");
 selectStatus.addEventListener("change", async (e) => {
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("server not working");
+    document.body.classList.remove("loading");
+  }
   document.querySelector(".issue-contents").innerHTML = "";
   const groupId = new URLSearchParams(window.location.search).get("id");
   const res = await apiFetch(
@@ -353,14 +408,22 @@ selectStatus.addEventListener("change", async (e) => {
 const updateBtns = document.querySelectorAll(".update-state-btns");
 updateBtns.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
-    if(btn.dataset.state==="resolved"){
-     const markInProBtn=document.querySelector(".desc-inprogress");
-     if(markInProBtn.style.display!=="none"){
-     alert("issue must be in progress first");
-     return;
-     }
+    if (btn.dataset.state === "resolved") {
+      const markInProBtn = document.querySelector(".desc-inprogress");
+      if (markInProBtn.style.display !== "none") {
+        alert("issue must be in progress first");
+        return;
+      }
     }
     const issueId = e.target.dataset.issueId;
+
+    const isServerOnline = await waitForServer();
+    if (isServerOnline) {
+      document.body.classList.remove("loading");
+    } else {
+      alert("server not working");
+      document.body.classList.remove("loading");
+    }
 
     const res = await apiFetch(`${API_BASE}/issues/${issueId}/update/admin`, {
       method: "POST",
@@ -428,6 +491,17 @@ deleteGroupBtn.addEventListener("click", () => {
     .querySelector(".confirm-delete")
     .addEventListener("click", async () => {
       document.body.classList.add("loading");
+
+
+      const isServerOnline = await waitForServer();
+      if (isServerOnline) {
+        document.body.classList.remove("loading");
+      } else {
+        alert("server not working");
+        document.body.classList.remove("loading");
+      }
+
+
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(`${API_BASE}/groups/delete/${groupId}/admin`, {
         method: "DELETE",
@@ -562,6 +636,15 @@ document
   .addEventListener("click", async () => {
     document.querySelector(".confirm-backdrop-members").style.display = "flex";
     //get info
+     const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
     const groupId = new URLSearchParams(window.location.search).get("id");
     if (!groupId) return alert("invalid");
     document.querySelector(".member-list").innerHTML = "";
@@ -588,6 +671,14 @@ document
       const groupId = new URLSearchParams(window.location.search).get("id");
       const role = document.getElementById("filter-members").value;
       if (searchInput.value.length > 0) {
+         const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
         const res = await apiFetch(
           `${API_BASE}/groups/members/search/${groupId}/admin?q=${val}&state=${role}`,
           {
@@ -608,6 +699,14 @@ document
       }
       //cleared input
       if (searchInput.value.length === 0) {
+         const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
         document.querySelector(".member-list").innerHTML = "";
         const res = await apiFetch(
           `${API_BASE}/groups/members/${groupId}/admin?state=${role}`,
@@ -644,6 +743,14 @@ document
 async function reloadFilters(groupId) {
   const state = document.getElementById("filter-members").value;
   document.querySelector(".member-list").innerHTML = "";
+   const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
 
   const res = await apiFetch(
     `${API_BASE}/groups/members/${groupId}/admin?state=${state}`,
@@ -674,6 +781,15 @@ function enableFilterOptions(groupId) {
     .addEventListener("change", async (e) => {
       document.querySelector(".member-list").innerHTML = "";
       let role = e.target.value;
+
+       const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
 
       const res = await apiFetch(
         `${API_BASE}/groups/members/${groupId}/admin?state=${role}`,
@@ -712,6 +828,18 @@ function promoteToCoAdmin() {
       btn.addEventListener("click", async (e) => {
         const userId = e.target.dataset.userId;
         const groupId = new URLSearchParams(window.location.search).get("id");
+
+         const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+
+
         const res = await apiFetch(
           `${API_BASE}/groups/members/promote/${groupId}/${userId}/admin`,
           {
@@ -741,6 +869,17 @@ function demoteToMember() {
       btn.addEventListener("click", async (e) => {
         const userId = e.target.dataset.userId;
         const groupId = new URLSearchParams(window.location.search).get("id");
+
+         const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+
         const res = await apiFetch(
           `${API_BASE}/groups/members/demote/${groupId}/${userId}/admin`,
           {
@@ -777,6 +916,17 @@ function kickMember() {
           const parentEle = btn.parentElement.parentElement.parentElement;
           const userId = btn.dataset.userId;
           const groupId = new URLSearchParams(window.location.search).get("id");
+
+           const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+    
           const res = await apiFetch(
             `${API_BASE}/groups/members/kick/${groupId}/${userId}/admin`,
             {
@@ -862,6 +1012,17 @@ document
     document.querySelector(".confirm-backdrop-join-request").style.display =
       "flex";
 
+       const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+
+
     //get all request initially
     const groupId = new URLSearchParams(window.location.search).get("id");
     const res = await apiFetch(
@@ -891,6 +1052,15 @@ document
           document.querySelector(".reload-btn").classList.remove("rotate");
         }, 600);
 
+         const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
         document.querySelector(".join-request-list").innerHTML = "";
         const res = await apiFetch(
           `${API_BASE}/groups/join/request/${groupId}/admin`,
@@ -918,6 +1088,17 @@ function acceptJoinRequest() {
       const parentEle = e.target.parentElement.parentElement;
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
+
+       const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+    
       const res = await apiFetch(
         `${API_BASE}/groups/join/request/${userId}/admin?q=${groupId}`,
         {
@@ -940,6 +1121,17 @@ function declineJoinReq() {
       const parentEle = e.target.parentElement.parentElement;
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
+
+       const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+
       const res = await apiFetch(
         `${API_BASE}/groups/join/request/${userId}/admin?q=${groupId}`,
         {
@@ -962,6 +1154,17 @@ function searchRequests() {
       if (!groupId) return;
 
       if (e.target.value.length > 0) {
+
+         const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+    
         const res = await apiFetch(
           `${API_BASE}/groups/join/request/${groupId}/admin/search?q=${e.target.value}`,
           {
@@ -980,6 +1183,17 @@ function searchRequests() {
       }
 
       if (e.target.value.length === 0) {
+
+         const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+
         document.querySelector(".join-request-list").innerHTML = "";
         const res = await apiFetch(
           `${API_BASE}/groups/join/request/${groupId}/admin`,
@@ -1017,6 +1231,17 @@ function OpenMoreInfo() {
       const userId = e.target.dataset.userId;
       document.querySelector(".confirm-backdrop-user-info").style.display =
         "flex";
+
+         const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+
       //get issue logs data
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(
@@ -1148,6 +1373,17 @@ document.getElementById("exit-group").addEventListener("click", async () => {
     .querySelector(".confirm-exit")
     .addEventListener("click", async () => {
       document.body.classList.add("loading");
+
+       const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    }
+
+    
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(`${API_BASE}/groups/leave/${groupId}`, {
         method: "DELETE",

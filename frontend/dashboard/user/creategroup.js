@@ -3,7 +3,7 @@ import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 //create group option
 document.addEventListener("DOMContentLoaded", async () => {
-  document.querySelector(".groupImg").style.display="none"
+  document.querySelector(".groupImg").style.display = "none";
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const createGroupForm = document.querySelector("#create-group-form");
 
   createGroupForm.addEventListener("submit", async (e) => {
+    document.body.classList.add("loading");
     const formData = new FormData();
     formData.append("groupname", createGroupForm.groupname.value);
     formData.append("description", createGroupForm.description.value);
@@ -22,10 +23,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       "imageuploadpermission",
       JSON.parse(createGroupForm.imageuploadpermission.value),
     );
-    // image input  
+    // image input
     const fileInput = document.querySelector("#group-profile");
-    if(!fileInput.files[0]){
-      alert("group image is required")
+    if (!fileInput.files[0]) {
+      alert("group image is required");
       document.body.classList.remove("loading");
       return;
     }
@@ -37,7 +38,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       body: formData,
     });
     if (res.ok) {
+      document.body.classList.remove("loading");
       window.location.href = "./userpage.html";
+    }
+    if(!res.ok){
+      alert("something went wrong")
+      document.body.classList.remove("loading");
     }
   });
 });
@@ -71,13 +77,13 @@ const fileInput = document.getElementById("group-profile");
 uploadBox.addEventListener("drop", (e) => {
   const file = e.dataTransfer.files[0];
   if (file) {
-  document.querySelector(".groupImg").style.display="flex"
+    document.querySelector(".groupImg").style.display = "flex";
 
     fileInput.files = e.dataTransfer.files;
     const issueImg = document.querySelector(".groupImg");
-    document.getElementById("uploadBox").style.padding="0"
+    document.getElementById("uploadBox").style.padding = "0";
     issueImg.src = window.URL.createObjectURL(file);
-        document.querySelectorAll(".remove-this").forEach((el) => {
+    document.querySelectorAll(".remove-this").forEach((el) => {
       el.style.display = "none";
     });
   }
@@ -86,10 +92,10 @@ uploadBox.addEventListener("drop", (e) => {
 fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
   if (file) {
-  document.querySelector(".groupImg").style.display="flex"
+    document.querySelector(".groupImg").style.display = "flex";
 
     const issueImg = document.querySelector(".groupImg");
-        document.getElementById("uploadBox").style.padding="0"
+    document.getElementById("uploadBox").style.padding = "0";
     issueImg.src = window.URL.createObjectURL(file);
     document.querySelectorAll(".remove-this").forEach((el) => {
       el.style.display = "none";

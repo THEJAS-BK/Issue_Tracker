@@ -403,6 +403,7 @@ a {
   .mainLeft {
     width: 95%;
     border-radius: 16px;
+    height: 100vh;
   }
 
   .leftTab-Tab {

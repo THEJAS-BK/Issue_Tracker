@@ -3,8 +3,18 @@
 const API_BASE = "https://issue-tracker-ro93.onrender.com"
 // const API_BASE="http://localhost:8080"
 //--------------------
+import { waitForServer } from "../utils/waitForServer.js";
 // show password toggle
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  document.body.classList.add("loading");
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("app not working");
+    document.body.classList.remove("loading");
+  }
+
   const toggle = document.getElementById("togglePassword");
   const passwordInput =
     document.getElementById("signuppassword") ||
@@ -19,6 +29,13 @@ const signupForm = document.getElementById("signUpForm");
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
     document.body.classList.add("loading");
+    const isServerOnline = await waitForServer();
+    if (isServerOnline) {
+      document.body.classList.remove("loading");
+    } else {
+      alert("server not working");
+      document.body.classList.remove("loading");
+    }
     e.preventDefault();
     const res = await fetch(`${API_BASE}/auth/signup`, {
       method: "POST",
@@ -45,6 +62,15 @@ const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     document.body.classList.add("loading");
+     
+     const isServerOnline= await waitForServer();
+    if(isServerOnline){
+      document.body.classList.remove("loading")
+    }
+    else{
+      alert("server not working")
+      document.body.classList.remove("loading")
+    } 
 
     e.preventDefault();
     const res = await fetch(`${API_BASE}/auth/login`, {
