@@ -36,7 +36,7 @@ const ExpressError = require("./utils/ExpressError");
 
 
 //! Routes
-app.get("/", (req, res) => {
+app.get("/hel", (req, res) => {
   res.json({ name: "Backend guy", message: "Hello from me the backend guy" });
 });
 //? Auth section
