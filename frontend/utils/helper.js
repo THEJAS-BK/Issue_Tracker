@@ -1,10 +1,12 @@
+import {sendApiBase} from "../../utils/apiBase.js"
+const API_BASE = sendApiBase();
 export async function apiFetch(url, options = {},retry=true) {
   const res = await fetch(url, {
     ...options,
     credentials: "include",
   });
   if (res.status === 403&&retry) {
-    const refresh = await fetch("https://issue-tracker-ro93.onrender.com/auth/refreshtoken", {
+    const refresh = await fetch(`${API_BASE}/auth/refreshtoken`, {
       method: "POST",
       credentials: "include",
     });

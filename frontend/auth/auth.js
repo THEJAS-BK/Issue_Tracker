@@ -1,7 +1,7 @@
 // Signup page code
 
-const API_BASE = "https://issue-tracker-ro93.onrender.com"
-// const API_BASE="http://localhost:8080"
+import {sendApiBase} from "../../utils/apiBase.js"
+const API_BASE = sendApiBase();
 //--------------------
 import { waitForServer } from "../utils/waitForServer.js";
 // show password toggle
