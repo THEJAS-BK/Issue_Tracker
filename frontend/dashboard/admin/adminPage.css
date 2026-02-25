@@ -11,6 +11,42 @@ hr {
 .group-description {
   overflow-wrap: anywhere;
 }
+/* prevent overflow */
+.description-body-content {
+  overflow-wrap: anywhere;
+  transition: 0.3s ease;
+}
+.description-wrapper{
+  width:50vw
+}
+/* collapsed state */
+.description-body-content.collapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1; /* number of visible lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* read more button */
+.read-more-btn {
+  background: none;
+  border: none;
+  color: #0d6efd;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none;
+}
+.group-description.collapsed {
+  line-height: 1.5rem;
+  max-height: 1.5rem; /* ≈ 2.3 lines */
+  overflow: hidden;
+}
 p {
   margin: 0;
   color: black;
@@ -171,7 +207,7 @@ main {
 .content-left {
   width: 37%;
   border: 2px solid black;
-      height: 86vh;
+  height: 86vh;
   overflow: hidden;
   border-radius: 10px;
   padding: 0.5rem;
@@ -179,8 +215,8 @@ main {
 .content-right {
   width: 44%;
   border: 2px solid black;
-     height: 86vh;
-     overflow: auto;
+  height: 86vh;
+  overflow: auto;
 }
 /* Left main content  */
 .issues-status-bar {
@@ -309,14 +345,14 @@ main {
   margin-left: 0.5rem;
   border: 2px solid black;
 }
-.description-body-content{
-      margin-top: 1rem;
-    line-height: 1.25rem;
-    height: 25vh;
-    overflow: scroll;
-    overflow-x: hidden;
-    color: rgb(41, 39, 39);
-    margin-bottom: 0.75rem;
+.description-body-content {
+  margin-top: 1rem;
+  line-height: 1.25rem;
+  height: 25vh;
+  overflow: scroll;
+  overflow-x: hidden;
+  color: rgb(41, 39, 39);
+  margin-bottom: 0.75rem;
 }
 .desc-inprogress {
   background-color: #f59e0b; /* main color */
@@ -347,7 +383,7 @@ main {
   transition: all 0.2s ease;
 }
 .right-image {
-     width: 37%;
+  width: 37%;
   box-shadow: 0 0 5px grey;
   border-radius: 10px;
   margin-bottom: 1rem;
@@ -906,7 +942,7 @@ p {
 }
 .dropdown-user {
   position: absolute;
-  width:12rem;
+  width: 12rem;
   border-radius: 10px;
   overflow: hidden;
   background-color: rgb(125, 128, 129);
@@ -1012,9 +1048,11 @@ p {
   header {
     padding: 0 1rem;
   }
-  .issue-details-resolved,.issue-details-markedinprogress,.issue-details-raised{
-font-size:0.85rem
-}
+  .issue-details-resolved,
+  .issue-details-markedinprogress,
+  .issue-details-raised {
+    font-size: 0.85rem;
+  }
   .description-head {
     justify-content: center;
   }
@@ -1245,9 +1283,9 @@ font-size:0.85rem
     margin-top: 0.25rem;
     padding-left: 1rem;
   }
-  .user-email{
-  margin-left:1rem;
-}
+  .user-email {
+    margin-left: 1rem;
+  }
   .content-right-description {
     padding: 0 1rem;
   }
@@ -1287,8 +1325,8 @@ font-size:0.85rem
     padding: 0.5rem 0.5rem;
     font-size: 0.75rem;
   }
-  td{
-    font-size:0.75rem
+  td {
+    font-size: 0.75rem;
   }
 }
 @media (max-width: 320px) {
@@ -1324,12 +1362,12 @@ font-size:0.85rem
     border-radius: 10px;
     margin-bottom: 1rem;
     margin: 0 auto;
-}
+  }
   .home-btn-dashboard {
     display: none;
   }
-  td{
-    font-size:0.75rem;
+  td {
+    font-size: 0.75rem;
   }
   .use-description {
     display: none;
@@ -1420,14 +1458,14 @@ font-size:0.85rem
   .menu {
     width: 35%;
   }
-  .user-email{
-  margin-left:0.85rem;
-}
-    .right-badge{
+  .user-email {
+    margin-left: 0.85rem;
+  }
+  .right-badge {
     margin-right: 0.75rem;
   }
-  .description-body{
-        height: 100%;
+  .description-body {
+    height: 100%;
   }
   .line {
     display: none;
@@ -1522,22 +1560,22 @@ font-size:0.85rem
   .confirm-modal-user-info {
     width: 70%;
   }
-      .content-right{
+  .content-right {
     padding-top: 1rem;
   }
-  .confirm-modal-user-info{
-    width:90%;
-    font-size:0.5rem
+  .confirm-modal-user-info {
+    width: 90%;
+    font-size: 0.5rem;
   }
 }
 @media (min-width: 1025px) {
-    .description-body{
-        height: 100%;
+  .description-body {
+    height: 100%;
   }
   .line {
     display: none;
   }
-  .content-right{
+  .content-right {
     padding: 2rem;
   }
 
@@ -1576,7 +1614,7 @@ font-size:0.85rem
 @media (max-height: 768px) {
   .right-image {
     width: 27%;
-    margin-top:0
+    margin-top: 0;
   }
 }
 @media (min-height: 1000px) {
@@ -1584,6 +1622,6 @@ font-size:0.85rem
     width: 50%;
   }
 }
-.dropdown-user>.logout-btn{
-  color:red
+.dropdown-user > .logout-btn {
+  color: red;
 }

@@ -9,7 +9,7 @@ window.addEventListener("resize", () => {
     document.querySelector(".content-right").style.display = "block";
   }
 });
-function logOut(){
+function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
@@ -20,7 +20,7 @@ function logOut(){
     if (res.ok) {
       window.location.href = "/index.html";
     }
-    if(!res.ok){
+    if (!res.ok) {
       alert("logout failed");
     }
   });
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     alert("server not working");
     document.body.classList.remove("loading");
   }
-  logOut()
+  logOut();
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
@@ -73,11 +73,39 @@ document.addEventListener("DOMContentLoaded", async () => {
   for (let issue of data.issues) {
     insertIssueCard(issue);
   }
+  //read more read less
+ // insert group info
+const groupDetails = data.groupDetails;
+
+const desc = document.querySelector(".group-description");
+const btn = document.querySelector(".read-more-btn");
+
+desc.textContent = groupDetails.description;
+
+// wait for layout calculation
+requestAnimationFrame(() => {
+
+  // show button only if text overflows
+  if (desc.scrollHeight > desc.clientHeight) {
+    btn.classList.remove("hidden");
+  }
+
+});
+
+// toggle read more
+btn.addEventListener("click", () => {
+  desc.classList.toggle("collapsed");
+
+  btn.textContent =
+    desc.classList.contains("collapsed")
+      ? "Read more"
+      : "Show less";
+});
+
   AddIssueEvents();
   //first value selected
   firstValSelected();
   //insert group info
-  const groupDetails = data.groupDetails;
   document.querySelector(".group-name").textContent = groupDetails.groupname;
   document.querySelector(".group-description").textContent =
     groupDetails.description;
@@ -168,7 +196,7 @@ function AddIssueEvents() {
   const allIssues = document.querySelectorAll(".content-bars");
   allIssues.forEach((issue) => {
     issue.addEventListener("click", async () => {
-          document.body.classList.add("loading");
+      document.body.classList.add("loading");
       const isServerOnline = await waitForServer();
       if (isServerOnline) {
         document.body.classList.remove("loading");
@@ -176,7 +204,7 @@ function AddIssueEvents() {
         alert("server not working");
         document.body.classList.remove("loading");
       }
-          document.body.classList.add("loading");
+      document.body.classList.add("loading");
       allIssues.forEach((issue) => {
         issue.classList.remove("blue-border");
       });
@@ -210,7 +238,7 @@ function updateIssuesOnRightSide(issue) {
   const markResolved = document.querySelector(".desc-resolved");
   const moreInfoBtn = document.querySelector(".user-info-btn");
   const deleteIssueBtn = document.querySelector(".delete-issue-btn");
-  const email =document.querySelector(".user-email")
+  const email = document.querySelector(".user-email");
 
   // image code
   const img = document.querySelector(".right-image");
@@ -227,7 +255,7 @@ function updateIssuesOnRightSide(issue) {
 
   title.textContent = issue.title;
   name.textContent = issue.createdBy.name;
-  email.textContent=issue.createdBy.email;
+  email.textContent = issue.createdBy.email;
   timeAgo.textContent = calcTime(issue.createdAt);
   description.textContent = issue.description;
   //mark in progress and mark as resolved
@@ -603,13 +631,12 @@ function addMemberCard(member, role) {
     const kickBtn = document.createElement("button");
     //giving classes
     infoBtn.classList.add("user-info-btn");
-    if(member.role==="coadmin"){
-      console.log("her")
-     kickBtn.remove();
-     kickBtn.style.display="none"
-    }
-    else{
-        kickBtn.classList.add("kickMember");
+    if (member.role === "coadmin") {
+      console.log("her");
+      kickBtn.remove();
+      kickBtn.style.display = "none";
+    } else {
+      kickBtn.classList.add("kickMember");
     }
     //giving dataset
     infoBtn.dataset.userId = member.userId._id;
@@ -804,7 +831,7 @@ function enableFilterOptions(groupId) {
       document.querySelector(".member-list").innerHTML = "";
       let role = e.target.value;
 
-          document.body.classList.add("loading");
+      document.body.classList.add("loading");
 
       const isServerOnline = await waitForServer();
       if (isServerOnline) {
@@ -1100,7 +1127,7 @@ function acceptJoinRequest() {
       const parentEle = e.target.parentElement.parentElement;
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
-          document.body.classList.add("loading");
+      document.body.classList.add("loading");
 
       const isServerOnline = await waitForServer();
       if (isServerOnline) {
@@ -1120,7 +1147,7 @@ function acceptJoinRequest() {
       if (res.ok) {
         parentEle.remove();
       }
-      if(!res.ok){
+      if (!res.ok) {
         alert("Failed to accept join request");
       }
     });
@@ -1135,7 +1162,7 @@ function declineJoinReq() {
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
 
-          document.body.classList.add("loading");
+      document.body.classList.add("loading");
 
       const isServerOnline = await waitForServer();
       if (isServerOnline) {
@@ -1238,8 +1265,7 @@ function OpenMoreInfo() {
       const userId = e.target.dataset.userId;
       document.querySelector(".confirm-backdrop-user-info").style.display =
         "flex";
-          document.body.classList.add("loading");
-
+      document.body.classList.add("loading");
 
       const isServerOnline = await waitForServer();
       if (isServerOnline) {
@@ -1251,7 +1277,7 @@ function OpenMoreInfo() {
 
       //get issue logs data
       const groupId = new URLSearchParams(window.location.search).get("id");
-      console.log("user id ",userId,"\n groupId  ",groupId)
+      console.log("user id ", userId, "\n groupId  ", groupId);
       const res = await apiFetch(
         `${API_BASE}/issues/${userId}/logs/history?groupId=${groupId}`,
         {
@@ -1259,7 +1285,7 @@ function OpenMoreInfo() {
           credentials: "include",
         },
       );
-      console.log(res)
+      console.log(res);
 
       const data = await res.json();
       insertHistory(data);

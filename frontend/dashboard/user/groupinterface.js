@@ -27,7 +27,7 @@ window.addEventListener("resize", () => {
   }
 });
 
-function logOut(){
+function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
@@ -38,7 +38,7 @@ function logOut(){
     if (res.ok) {
       window.location.href = "/index.html";
     }
-    if(!res.ok){
+    if (!res.ok) {
       alert("logout failed");
     }
   });
@@ -101,6 +101,28 @@ document.addEventListener("DOMContentLoaded", async () => {
   groupName.textContent = data.groupDetails.groupname;
   groupDesc.textContent = data.groupDetails.description;
   inviteCode.textContent = data.groupDetails.inviteCode;
+//add description
+const headEle=document.querySelector(".head")
+document.querySelectorAll(".read-more-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const desc = btn.previousElementSibling;
+   const btnHeight=document.querySelector(".read-more-btn")
+   if(btnHeight.innerText==="Read more"){
+    headEle.style.height="26vh"
+   }
+   else{
+    headEle.style.height="19vh"
+   }
+
+    desc.classList.toggle("collapsed");
+
+    btn.textContent =
+      desc.classList.contains("collapsed")
+        ? "Read more"
+        : "Show less";
+  });
+
+});
 
   //admin dashboard btn code
   const adminDashboardBtn = document.querySelector(".admin-dashboard-btn");
@@ -221,9 +243,9 @@ function updateIssueDetail(issue, isIssueOwner) {
   if (isIssueOwner) {
     //if user is owner of issue
     const ownerEditBtn = document.querySelector(".issue-options");
-    if(issue.status==="resolved"){
+    if (issue.status === "resolved") {
       ownerEditBtn.style.display = "none";
-    }else{
+    } else {
       ownerEditBtn.style.display = "block";
     }
     //edit and delete issue dropdown
@@ -559,8 +581,8 @@ document.getElementById("exit-group").addEventListener("click", async () => {
       if (res.ok) {
         window.location.href = "./userpage.html";
       }
-      if(!res.ok){
-        alert("something went wrong")
+      if (!res.ok) {
+        alert("something went wrong");
         window.location.reload();
       }
     });

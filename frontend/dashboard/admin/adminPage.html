@@ -26,7 +26,6 @@
     <link rel="stylesheet" href="./adminPage.css" />
   </head>
   <body>
-
     <!-- confirm delete group part  -->
     <div class="confirm-backdrop">
       <div class="confirm-modal">
@@ -172,8 +171,8 @@
       </div>
     </div>
 
-      <!-- confirm member exit  -->
-     <div class="confirm-backdrop-exit">
+    <!-- confirm member exit  -->
+    <div class="confirm-backdrop-exit">
       <div class="confirm-modal-exit">
         <h1>Exit Group?</h1>
         <p>Are you sure you want to exit this group?</p>
@@ -186,31 +185,41 @@
     </div>
 
     <header>
-       <div class="left-section">
+      <div class="left-section">
         <h2>Admin Dashboard</h2>
       </div>
-      <div class="rightSection"> 
-        <a class="home-btn-dashboard" href='../user/userpage.html'>Home</a>
+      <div class="rightSection">
+        <a class="home-btn-dashboard" href="../user/userpage.html">Home</a>
         <button class="username">
-         <span class="get-user-name">User</span> <i class="fa-solid fa-angle-down"></i>
+          <span class="get-user-name">User</span>
+          <i class="fa-solid fa-angle-down"></i>
         </button>
         <div class="dropdown-user hidden">
-           <button id="user-interface">user dashboard</button>
-             <button class="home-btn-dashboard dropdown-home-btn" onclick="window.location.href='../user/userpage.html'">Home</button>
-             <button id="exit-group">exit group</button>
+          <button id="user-interface">user dashboard</button>
+          <button
+            class="home-btn-dashboard dropdown-home-btn"
+            onclick="window.location.href = '../user/userpage.html'"
+          >
+            Home
+          </button>
+          <button id="exit-group">exit group</button>
           <button class="logout-btn">Logout</button>
         </div>
-      </div>
       </div>
     </header>
     <div class="groupInfo">
       <div class="groupInfo-left">
         <h2 class="group-name p-0 m-0">group name</h2>
-       <div>
-         <p class="group-description">
-            group description
-        </p>
-       </div>
+        <div class="description-wrapper">
+          <p class="group-description collapsed">
+            issue related to bus routes and schedules Lorem ipsum dolor sit
+            amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt
+            ut labore et dolore magna aliqua.
+          </p>
+
+          <button class="read-more-btn">Read more</button>
+        </div>
+
         <p>invite code : <span class="invite-code"></span></p>
       </div>
       <div class="groupInfo-settings">
@@ -223,17 +232,17 @@
         </div>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="issue-status">
       <div class="issue-Tab issue-Tab-total">
         <h5>Total Issues</h5>
-        <p class="total-issues" >0</p>
+        <p class="total-issues">0</p>
       </div>
       <div class="issue-Tab issue-tab-pending">
         <h5>Pending</h5>
         <p class="pending-issues">0</p>
       </div>
-      <div class="issue-Tab issue-tab-inprogress ">
+      <div class="issue-Tab issue-tab-inprogress">
         <h5>In Progress</h5>
         <p class="inprogress-issues">0</p>
       </div>
@@ -267,8 +276,8 @@
           <div class="issue-contents"></div>
         </div>
         <div class="content-right">
-           <button class="go-back-btn">go back</button>
-           <hr class="line">
+          <button class="go-back-btn">go back</button>
+          <hr class="line" />
           <div class="content-right-head">
             <div class="head-title">
               <div>
@@ -286,13 +295,11 @@
             <div class="head-user d-flex justify-content-between">
               <div class="d-flex">
                 <p class="name-right"></p>
-              <p class="time-ago"></p>
+                <p class="time-ago"></p>
               </div>
               <div class="badge right-badge"></div>
             </div>
-            <div class="user-email">
-              email@gmail.com
-            </div>
+            <div class="user-email">email@gmail.com</div>
           </div>
           <div class="content-right-description">
             <div class="description-head">
@@ -307,14 +314,12 @@
               </div>
             </div>
             <div class="description-body">
-              <img
-                class="right-image"
-                alt="Issue Image"
-              />
-              <hr class="img-line">
+              <img class="right-image" alt="Issue Image" />
+              <hr class="img-line" />
               <p class="description-body-content"></p>
             </div>
           </div>
+        </div>
       </div>
     </main>
   </body>

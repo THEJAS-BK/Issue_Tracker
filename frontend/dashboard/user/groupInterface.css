@@ -64,7 +64,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 12vh;
+  height: 14vh;
   padding: 0 2rem;
 }
 .main-content {
@@ -526,6 +526,17 @@ p {
   header {
     padding: 0 1rem;
   }
+  .group-description{
+    font-size: 0.85rem;
+  }
+  .head{
+    height: 18vh;
+    padding:0  0.5rem;
+
+  }
+  .group-description{
+    width:90vw !important
+  }
 
   .home-btn-dashboard {
     display: none;
@@ -685,7 +696,7 @@ p {
   }
 
   .addIssue-btn {
-    align-self: flex-end;
+    align-self: center;
     margin-bottom: 0.5rem;
   }
 
@@ -922,4 +933,22 @@ body.loading .page-loader {
   100% {
     transform: rotate(360deg);
   }
+}
+.group-description {
+      overflow-wrap: anywhere;
+    width: 50vw;
+    height: fit-content;
+}
+
+.read-more-btn {
+  background: none;
+  border: none;
+  color: #0d6efd;
+  cursor: pointer;
+  padding: 0;
+}
+.group-description.collapsed {
+  line-height: 1.5rem;
+  max-height: 1.5rem; /* ≈ 2.3 lines */
+  overflow: hidden;
 }
