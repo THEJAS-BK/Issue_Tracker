@@ -13,6 +13,15 @@ const storage = new CloudinaryStorage({
     folder: "issue-tracker", // your folder name
     allowed_formats: ["jpg", "png", "jpeg", "webp"],
   },
+  transformation: [
+    {
+      width: 1000,
+      height: 1000,
+      crop: "limit",
+      quality: "auto",
+      fetch_format: "auto",
+    },
+  ],
 });
 
 module.exports = {
