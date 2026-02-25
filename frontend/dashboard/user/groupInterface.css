@@ -192,10 +192,6 @@ main {
   margin-right: 1rem;
   box-shadow: 0 0 2px grey;
 }
-.profile img {
-  width: 100%;
-  height: 100%;
-}
 .time-ago {
   margin-left: 1rem;
   color: grey;
