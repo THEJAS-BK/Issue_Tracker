@@ -10,6 +10,7 @@ const { authorizationToken } = require("../middlewares/auth.middleware");
 const {isPartOfGroup}=require("../middlewares/memvalidation");
 const {isPartOfGroupByIssueId}=require("../middlewares/memvalidation")
 const { isAdminOrCoAdminByIssueId } = require("../middlewares/memvalidation");
+const {isAdminOrCoAdmin} =require("../middlewares/memvalidation")
 
 //? add issue route
 router.post("/add/:groupId", authorizationToken,isPartOfGroup,upload.single("issue-image"), issueController.addIssue)
@@ -50,7 +51,7 @@ router.post("/:issueId/update/admin", authorizationToken,isPartOfGroupByIssueId,
 router.delete("/:issueId/delete/admin", authorizationToken,isPartOfGroupByIssueId,isAdminOrCoAdminByIssueId, issueController.deleteIssueByAdmin)
 
 //?get data for history tab of each user
-router.get("/:userId/logs/history", authorizationToken,isPartOfGroupByIssueId,isAdminOrCoAdminByIssueId, issueController.getHistoryTabData)
+router.get("/:userId/logs/history", authorizationToken,isPartOfGroup,isAdminOrCoAdmin, issueController.getHistoryTabData)
 
 
 module.exports=router;

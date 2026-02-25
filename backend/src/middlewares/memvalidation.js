@@ -3,10 +3,13 @@ const Issue=require("../models/issue")
 module.exports.isPartOfGroup=async(req,res,next)=>{
     let {groupId}=req.params;
     const user=req.user;
-
     if(!groupId){
         groupId=req.query.q;
     }
+    if(!groupId){
+        groupId=req.query.groupId
+}
+
     if(!groupId){
          console.log("mem middleware failed",groupId)
         return res.status(400).json({message:"Group ID is required"});
@@ -46,6 +49,9 @@ module.exports.isAdminOrCoAdmin=async(req,res,next)=>{
         groupId=req.query.q;
     }
     if(!groupId){
+        groupId=req.query.groupId;
+    }
+    if(!groupId){
          console.log("admin middleware failed",groupId)
         return res.status(400).json({message:"Group ID is required"});
     }
@@ -64,6 +70,7 @@ module.exports.isAdminOrCoAdmin=async(req,res,next)=>{
 //!is admin or coadmin using issueId
 module.exports.isAdminOrCoAdminByIssueId=async(req,res,next)=>{
     let {issueId}=req.params;
+
     const user=req.user;
 
     if(!issueId){

@@ -33,8 +33,6 @@ async function main() {
 //utils
 const ExpressError = require("./utils/ExpressError");
 
-
-
 //! Routes
 app.get("/hel", (req, res) => {
   res.json({ name: "Backend guy", message: "Hello from me the backend guy" });

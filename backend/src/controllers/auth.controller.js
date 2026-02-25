@@ -49,6 +49,9 @@ module.exports.signUp = async (req, res, next) => {
 
     res.json({ success: true });
   } catch (err) {
+   if(err.code===11000){
+    return res.status(409).json({ error: "User already exists" });
+   }
     next(err);
   }
 };
@@ -118,6 +121,16 @@ module.exports.refreshToken = (req, res) => {
     return res.sendStatus(200);
   });
 };
+//!logout user
+module.exports.logout=async(req,res,next)=>{
+  try{
+    res.clearCookie("accessToken",cookieOption);
+    res.clearCookie("refreshToken",cookieOption);
+    res.json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+}
 //!send username
 module.exports.getUsername = async (req, res, next) => {
   try {
