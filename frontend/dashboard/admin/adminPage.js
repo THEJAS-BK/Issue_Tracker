@@ -168,6 +168,7 @@ function AddIssueEvents() {
   const allIssues = document.querySelectorAll(".content-bars");
   allIssues.forEach((issue) => {
     issue.addEventListener("click", async () => {
+          document.body.classList.add("loading");
       const isServerOnline = await waitForServer();
       if (isServerOnline) {
         document.body.classList.remove("loading");
@@ -175,6 +176,7 @@ function AddIssueEvents() {
         alert("server not working");
         document.body.classList.remove("loading");
       }
+          document.body.classList.add("loading");
       allIssues.forEach((issue) => {
         issue.classList.remove("blue-border");
       });
@@ -802,6 +804,8 @@ function enableFilterOptions(groupId) {
       document.querySelector(".member-list").innerHTML = "";
       let role = e.target.value;
 
+          document.body.classList.add("loading");
+
       const isServerOnline = await waitForServer();
       if (isServerOnline) {
         document.body.classList.remove("loading");
@@ -1096,6 +1100,7 @@ function acceptJoinRequest() {
       const parentEle = e.target.parentElement.parentElement;
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
+          document.body.classList.add("loading");
 
       const isServerOnline = await waitForServer();
       if (isServerOnline) {
@@ -1129,6 +1134,8 @@ function declineJoinReq() {
       const parentEle = e.target.parentElement.parentElement;
       const userId = e.target.dataset.userId;
       const groupId = new URLSearchParams(window.location.search).get("id");
+
+          document.body.classList.add("loading");
 
       const isServerOnline = await waitForServer();
       if (isServerOnline) {
@@ -1231,6 +1238,8 @@ function OpenMoreInfo() {
       const userId = e.target.dataset.userId;
       document.querySelector(".confirm-backdrop-user-info").style.display =
         "flex";
+          document.body.classList.add("loading");
+
 
       const isServerOnline = await waitForServer();
       if (isServerOnline) {

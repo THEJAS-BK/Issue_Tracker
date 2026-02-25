@@ -42,7 +42,7 @@ if (signupForm) {
       alert("server not working");
       document.body.classList.remove("loading");
     }
-
+    document.body.classList.add("loading");
     const res = await fetch(`${API_BASE}/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -82,6 +82,8 @@ if (loginForm) {
       alert("server not working");
       document.body.classList.remove("loading");
     }
+    document.body.classList.add("loading");
+
 
     const res = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",

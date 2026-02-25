@@ -21,6 +21,7 @@ function logOut() {
 }
 //create group option
 document.addEventListener("DOMContentLoaded", async () => {
+  document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
   if (isServerOnline) {
     document.body.classList.remove("loading");
@@ -42,7 +43,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   createGroupForm.addEventListener("submit", async (e) => {
     if (!createGroupForm.checkValidity()) {
       e.preventDefault();
-      e.stopPropagation();
       createGroupForm.classList.add("was-validated");
       return;
     }
@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       alert("server not working");
       document.body.classList.remove("loading");
     }
+  document.body.classList.add("loading");
     const formData = new FormData();
     formData.append("groupname", createGroupForm.groupname.value);
     formData.append("description", createGroupForm.description.value);

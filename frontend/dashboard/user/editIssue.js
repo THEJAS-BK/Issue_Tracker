@@ -20,6 +20,7 @@ function logOut() {
   });
 }
 document.addEventListener("DOMContentLoaded", async () => {
+  document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
   if (isServerOnline) {
     document.body.classList.remove("loading");
@@ -100,12 +101,6 @@ addIssueForm.addEventListener("submit", async (e) => {
   }
   e.preventDefault();
   addIssueForm.classList.add("was-validated");
-
-  const filesize = document.getElementById("issue-image");
-  if (filesize.files[0].size > 2 * 1024 * 1024) {
-    alert("Max 2MB allowed");
-    return;
-  }
   document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
   if (isServerOnline) {
@@ -114,6 +109,8 @@ addIssueForm.addEventListener("submit", async (e) => {
     alert("server not working");
     document.body.classList.remove("loading");
   }
+  document.body.classList.add("loading");
+
   const issueId = new URLSearchParams(window.location.search).get("issueid");
   const groupId = new URLSearchParams(window.location.search).get("groupid");
   const anonSwitch = document.getElementById("anonymousSwitch").checked;

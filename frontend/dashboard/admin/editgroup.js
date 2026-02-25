@@ -97,11 +97,7 @@ createGroupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   createGroupForm.classList.add("was-validated");
 
-  const filesize = document.getElementById("group-profile");
-  if(filesize.files[0] && filesize.files[0].size > 2 * 1024 * 1024) {
-    alert("Max 2MB allowed");
-    return;
-  }
+          document.body.classList.add("loading");
 
   const isServerOnline = await waitForServer();
   if (isServerOnline) {

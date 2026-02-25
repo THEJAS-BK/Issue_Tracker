@@ -23,6 +23,8 @@ function logOut() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  document.body.classList.add("loading");
+
   const isServerOnline = await waitForServer();
   if (isServerOnline) {
     document.body.classList.remove("loading");
@@ -69,6 +71,7 @@ addIssueForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   addIssueForm.classList.add("was-validated");
 
+  document.body.classList.add("loading");
 
   const isServerOnline = await waitForServer();
   if (isServerOnline) {
