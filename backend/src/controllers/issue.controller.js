@@ -146,7 +146,6 @@ module.exports.getIssueDetailsUserInterface = async (req, res, next) => {
     if (getIssue) {
       isIssueOwner = true;
     }
-
     //check anonymous
     const checkAnonymous =
       await Issue.findById(issueId).select("stayAnonymous");
@@ -270,7 +269,7 @@ module.exports.getIssuesInAdminPage = async (req, res, next) => {
 
     const issue = await Issue.find({ _id: issueId, isDeleted: false })
       .select("title description createdAt createdBy status image")
-      .populate("createdBy", "name");
+      .populate("createdBy", "name email");
     res.json({ issue });
   } catch (err) {
     next(err);
