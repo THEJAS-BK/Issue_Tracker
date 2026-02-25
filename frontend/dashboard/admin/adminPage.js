@@ -1214,6 +1214,7 @@ function OpenMoreInfo() {
 
       //get issue logs data
       const groupId = new URLSearchParams(window.location.search).get("id");
+      console.log("user id ",userId,"\n groupId  ",groupId)
       const res = await apiFetch(
         `${API_BASE}/issues/${userId}/logs/history?groupId=${groupId}`,
         {
@@ -1221,6 +1222,7 @@ function OpenMoreInfo() {
           credentials: "include",
         },
       );
+      console.log(res)
 
       const data = await res.json();
       insertHistory(data);

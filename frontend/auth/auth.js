@@ -53,6 +53,11 @@ if (signupForm) {
       }),
     });
     const data = await res.json();
+    if(res.status===409){
+      alert("email already exist");
+      document.body.classList.remove("loading");
+      return;
+    }
     if (data.success) {
       document.body.classList.remove("loading");
       window.location.href = "/dashboard/user/userpage.html";

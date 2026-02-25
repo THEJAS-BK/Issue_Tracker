@@ -1,6 +1,7 @@
 import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
+import { waitForServer } from "../../utils/waitForServer.js";
 document.querySelector(".username").addEventListener("click", (e) => {
   e.stopPropagation();
   const dropdown = document.querySelector(".dropdown-user");

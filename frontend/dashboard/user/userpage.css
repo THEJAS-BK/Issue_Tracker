@@ -27,11 +27,12 @@ header h2 {
     border-radius: 10px;
     overflow: hidden;
     background-color: rgb(125, 128, 129);
+    border:3px solid black;
 }
 .hidden{
   display: none;
 }
-.create-group-btn{
+.create-group-btn,.logout-btn{
      background-color: #ffffff;
     color: black;
     font-size: 1.2rem;
@@ -42,8 +43,9 @@ header h2 {
     overflow: hidden;
     font-weight: bold;
     padding: 1rem;
-    border:5px solid black;
-    border-radius:5px
+}
+.logout-btn{
+  color:red;
 }
 /* Mid section  */
 

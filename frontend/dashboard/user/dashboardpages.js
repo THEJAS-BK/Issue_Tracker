@@ -1,16 +1,43 @@
 import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
-
+import { waitForServer } from "../../utils/waitForServer.js";
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
 createGroupBtn.addEventListener("click", () => {
   document.body.classList.add("loading");
   window.location.href = "./creategroup.html";
 });
+//logout btn code
+function logOut(){
+  const logOutBtn = document.querySelector(".logout-btn");
+  logOutBtn.addEventListener("click", async () => {
+    const res = await apiFetch(`${API_BASE}/auth/logout`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    if (res.ok) {
+      window.location.href = "/index.html";
+    }
+    if(!res.ok){
+      alert("logout failed");
+    }
+  });
+}
+
 //Load userpage Groups
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("server not working");
+    document.body.classList.remove("loading");
+  }
+  //enable logout btn
+  logOut();
   const res = await apiFetch(`${API_BASE}/groups`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
@@ -305,11 +332,11 @@ async function joinRequest() {
           credentials: "include",
         },
       );
-      if(res.ok){
-        btn.innerText="requested";
-        btn.style.backgroundColor="white";
-        btn.style.color="blue";
-        btn.style.border="2px solid blue"
+      if (res.ok) {
+        btn.innerText = "requested";
+        btn.style.backgroundColor = "white";
+        btn.style.color = "blue";
+        btn.style.border = "2px solid blue";
       }
       if (!res.ok || res.status === 409) {
         const data = await res.json();
