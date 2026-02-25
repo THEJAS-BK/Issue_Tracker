@@ -1328,6 +1328,10 @@ p {
   td {
     font-size: 0.75rem;
   }
+  .group-description{
+    font-size: 0.85rem;
+  }
+ 
 }
 @media (max-width: 320px) {
   .members-tab {
@@ -1624,4 +1628,16 @@ p {
 }
 .dropdown-user > .logout-btn {
   color: red;
+}
+/* MOBILE ONLY */
+@media (max-width: 480px) {
+
+  .group-description.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    line-clamp: 2;  /* 👈 mobile lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
 }
