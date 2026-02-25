@@ -1,15 +1,19 @@
 // Signup page code
 
-import {sendApiBase} from "../../utils/apiBase.js"
+import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 //--------------------
 import { waitForServer } from "../utils/waitForServer.js";
 // show password toggle
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
+  //intial server loading
+  document.querySelector(".spinner-content").textContent =
+    " The server might take longer to wake up initially";
   const isServerOnline = await waitForServer();
   if (isServerOnline) {
     document.body.classList.remove("loading");
+    document.querySelector(".spinner-content").textContent = "Loading...";
   } else {
     alert("app not working");
     document.body.classList.remove("loading");
@@ -64,15 +68,14 @@ if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     document.body.classList.add("loading");
-     
-     const isServerOnline= await waitForServer();
-    if(isServerOnline){
-      document.body.classList.remove("loading")
+
+    const isServerOnline = await waitForServer();
+    if (isServerOnline) {
+      document.body.classList.remove("loading");
+    } else {
+      alert("server not working");
+      document.body.classList.remove("loading");
     }
-    else{
-      alert("server not working")
-      document.body.classList.remove("loading")
-    } 
 
     const res = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
