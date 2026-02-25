@@ -8,6 +8,9 @@ hr {
   margin: 0;
   margin: 0.5rem;
 }
+.group-description {
+  overflow-wrap: anywhere;
+}
 p {
   margin: 0;
   color: black;
@@ -269,8 +272,6 @@ main {
 }
 .head-user {
   display: flex;
-  padding-left: 2rem;
-  margin-bottom: 0.25rem;
 }
 .profile-img {
   width: 35px;
@@ -1242,7 +1243,11 @@ font-size:0.85rem
   .head-user {
     padding: 0;
     margin-top: 0.25rem;
+    padding-left: 1rem;
   }
+  .user-email{
+  margin-left:1rem;
+}
   .content-right-description {
     padding: 0 1rem;
   }
@@ -1415,6 +1420,15 @@ font-size:0.85rem
   .menu {
     width: 35%;
   }
+  .user-email{
+  margin-left:0.85rem;
+}
+    .right-badge{
+    margin-right: 0.75rem;
+  }
+  .description-body{
+        height: 100%;
+  }
   .line {
     display: none;
   }
@@ -1517,6 +1531,9 @@ font-size:0.85rem
   }
 }
 @media (min-width: 1025px) {
+    .description-body{
+        height: 100%;
+  }
   .line {
     display: none;
   }

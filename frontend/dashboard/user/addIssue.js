@@ -69,11 +69,6 @@ addIssueForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   addIssueForm.classList.add("was-validated");
 
-  const filesize = document.getElementById("issue-image");
-  if (filesize.files[0].size > 2 * 1024 * 1024) {
-    alert("Max 2MB allowed");
-    return;
-  }
 
   const isServerOnline = await waitForServer();
   if (isServerOnline) {

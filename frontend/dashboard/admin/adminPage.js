@@ -208,6 +208,7 @@ function updateIssuesOnRightSide(issue) {
   const markResolved = document.querySelector(".desc-resolved");
   const moreInfoBtn = document.querySelector(".user-info-btn");
   const deleteIssueBtn = document.querySelector(".delete-issue-btn");
+  const email =document.querySelector(".user-email")
 
   // image code
   const img = document.querySelector(".right-image");
@@ -224,6 +225,7 @@ function updateIssuesOnRightSide(issue) {
 
   title.textContent = issue.title;
   name.textContent = issue.createdBy.name;
+  email.textContent=issue.createdBy.email;
   timeAgo.textContent = calcTime(issue.createdAt);
   description.textContent = issue.description;
   //mark in progress and mark as resolved

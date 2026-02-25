@@ -46,11 +46,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       createGroupForm.classList.add("was-validated");
       return;
     }
-    const file = document.getElementById("group-profile");
-    if (file.files[0].size > 2 * 1024 * 1024) {
-      alert("Max 2MB allowed");
-      return;
-    }
     e.preventDefault();
     createGroupForm.classList.add("was-validated");
     document.body.classList.add("loading");
@@ -80,6 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const res = await apiFetch(`${API_BASE}/groups/create`, {
       method: "POST",
+      credentials:"include",
       body: formData,
     });
     if (res.ok) {
