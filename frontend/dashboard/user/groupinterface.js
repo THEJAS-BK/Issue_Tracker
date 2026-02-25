@@ -27,6 +27,22 @@ window.addEventListener("resize", () => {
   }
 });
 
+function logOut(){
+  const logOutBtn = document.querySelector(".logout-btn");
+  logOutBtn.addEventListener("click", async () => {
+    const res = await apiFetch(`${API_BASE}/auth/logout`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    if (res.ok) {
+      window.location.href = "/index.html";
+    }
+    if(!res.ok){
+      alert("logout failed");
+    }
+  });
+}
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
@@ -36,6 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     alert("server not working");
     document.body.classList.remove("loading");
   }
+  logOut();
   if (window.innerWidth < 768) {
     const mainRight = document.querySelector(".mainright");
     mainRight.classList.add("hidden");

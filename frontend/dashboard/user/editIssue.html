@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-   <link
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
       crossorigin="anonymous"
@@ -20,11 +20,11 @@
 
   <body>
     <div class="page-loader">
-  <div class="loader-content">
-    <div class="spinner"></div>
-    <p>Loading...</p>
-  </div>
-</div>
+      <div class="loader-content">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    </div>
     <header>
       <h2>Edit Issue</h2>
       <div class="right-section">
@@ -40,6 +40,7 @@
           >
             Home
           </button>
+          <button class="logout-btn">Logout</button>
         </div>
       </div>
     </header>
@@ -71,7 +72,7 @@
             <label for="issue-image" id="issue-image-label">
               <i class="fa-solid fa-cloud-arrow-up remove-this"></i>
               <p class="remove-this">Click or drag and drop issue image</p>
-              <img src="" alt="" class="issueImg">
+              <img src="" alt="" class="issueImg" />
             </label>
           </div>
 
@@ -99,13 +100,14 @@
           </div>
 
           <div class="buttons d-flex gap-2 justify-content-center">
-            <button type="button" class="btn btn-danger cancel-btn">Cancel</button>
+            <button type="button" class="btn btn-danger cancel-btn">
+              Cancel
+            </button>
             <button type="submit" class="btn btn-primary">Edit Issue</button>
           </div>
         </form>
       </div>
     </main>
-  
-</body>
-<script type="module" src="./editIssue.js"></script>
+  </body>
+  <script type="module" src="./editIssue.js"></script>
 </html>

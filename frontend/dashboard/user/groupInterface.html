@@ -21,11 +21,11 @@
   </head>
   <body>
     <div class="page-loader">
-  <div class="loader-content">
-    <div class="spinner"></div>
-    <p>Loading...</p>
-  </div>
-</div>
+      <div class="loader-content">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    </div>
     <div class="confirm-backdrop">
       <div class="confirm-modal">
         <h1>Delete item?</h1>
@@ -76,7 +76,7 @@
     </div>
 
     <!-- confirm member exit  -->
-     <div class="confirm-backdrop-exit">
+    <div class="confirm-backdrop-exit">
       <div class="confirm-modal-exit">
         <h1>Exit Group?</h1>
         <p>Are you sure you want to exit this group?</p>
@@ -88,23 +88,30 @@
       </div>
     </div>
 
-
     <header>
       <div class="left-section">
         <h2>User Dashboard</h2>
       </div>
-      <div class="rightSection"> 
-        <a class="home-btn-dashboard" href='./userpage.html'>Home</a>
+      <div class="rightSection">
+        <a class="home-btn-dashboard" href="./userpage.html">Home</a>
         <button class="username">
-         <span class="get-user-name">Thejas BK</span> <i class="fa-solid fa-angle-down"></i>
+          <span class="get-user-name">Thejas BK</span>
+          <i class="fa-solid fa-angle-down"></i>
         </button>
         <div class="dropdown-user hidden">
-           <button class="admin-dashboard-btn">admin dashboard</button>
-             <button id="show-members">members (<span class="show-total-members">90</span>)</button>
-             <button class="home-btn-dashboard dropdown-home-btn" onclick="window.location.href='./userpage.html'">Home</button>
-             <button id="exit-group">exit group</button>
+          <button class="admin-dashboard-btn">admin dashboard</button>
+          <button id="show-members">
+            members (<span class="show-total-members">90</span>)
+          </button>
+          <button
+            class="home-btn-dashboard dropdown-home-btn"
+            onclick="window.location.href = './userpage.html'"
+          >
+            Home
+          </button>
+          <button id="exit-group">exit group</button>
+          <button class="logout-btn">Logout</button>
         </div>
-      </div>
       </div>
     </header>
     <main>
@@ -115,11 +122,10 @@
             issue related to bus routes and schedules
           </p>
           <p>invite code : <span class="invite-code"></span></p>
-         
         </div>
         <button class="addIssue-btn">+ Add Issue</button>
       </div>
-      <hr>
+      <hr />
       <div class="main-content">
         <div class="mainleft">
           <div class="search">
@@ -159,7 +165,6 @@
             </div>
             <div class="head-user">
               <div class="user-left">
-               
                 <p class="name"></p>
                 <p class="time-ago"></p>
               </div>
@@ -171,22 +176,14 @@
               <h3>Description</h3>
             </div>
             <div class="description-body">
-              <img
-                class="right-image hidden"
-                src=""
-                alt="Issue Image"
-              />
-              <hr class="desc-line hidden">
+              <img class="right-image hidden" src="" alt="Issue Image" />
+              <hr class="desc-line hidden" />
               <p class="description-body-content"></p>
-             
             </div>
           </div>
         </div>
       </div>
     </main>
   </body>
-  <script
-    type="module"
-    src="./groupinterface.js"
-  ></script>
+  <script type="module" src="./groupinterface.js"></script>
 </html>

@@ -2,6 +2,22 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 import { waitForServer } from "../../utils/waitForServer.js";
 const API_BASE = sendApiBase();
+function logOut(){
+  const logOutBtn = document.querySelector(".logout-btn");
+  logOutBtn.addEventListener("click", async () => {
+    const res = await apiFetch(`${API_BASE}/auth/logout`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    if (res.ok) {
+      window.location.href = "/index.html";
+    }
+    if(!res.ok){
+      alert("logout failed");
+    }
+  });
+}
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
@@ -11,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     alert("server not working");
     document.body.classList.remove("loading");
   }
+  logOut();
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",

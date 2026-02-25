@@ -20,7 +20,7 @@ p {
   z-index: 999;
 }
 header {
-  background-color: blue;
+  background-color: #007bff;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -164,6 +164,7 @@ main {
   justify-content: center;
   gap: 1rem;
 }
+
 .content-left {
   width: 37%;
   border: 2px solid black;
@@ -904,7 +905,7 @@ p {
 }
 .dropdown-user {
   position: absolute;
-
+  width:12rem;
   border-radius: 10px;
   overflow: hidden;
   background-color: rgb(125, 128, 129);
@@ -1565,4 +1566,7 @@ font-size:0.85rem
   .right-image {
     width: 50%;
   }
+}
+.dropdown-user>.logout-btn{
+  color:red
 }

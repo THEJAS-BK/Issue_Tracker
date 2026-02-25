@@ -9,6 +9,22 @@ window.addEventListener("resize", () => {
     document.querySelector(".content-right").style.display = "block";
   }
 });
+function logOut(){
+  const logOutBtn = document.querySelector(".logout-btn");
+  logOutBtn.addEventListener("click", async () => {
+    const res = await apiFetch(`${API_BASE}/auth/logout`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    if (res.ok) {
+      window.location.href = "/index.html";
+    }
+    if(!res.ok){
+      alert("logout failed");
+    }
+  });
+}
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
@@ -18,6 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     alert("server not working");
     document.body.classList.remove("loading");
   }
+  logOut()
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",

@@ -35,16 +35,22 @@
           <i class="fa-solid fa-angle-down"></i>
         </button>
         <div class="dropdown-user hidden">
-          <button class="home-btn" onclick="window.location.pathname='/dashboard/user/userpage.html'">Home</button>
+          <button
+            class="home-btn"
+            onclick="window.location.pathname = '/dashboard/user/userpage.html'"
+          >
+            Home
+          </button>
+          <button class="logout-btn">Logout</button>
         </div>
       </div>
     </header>
     <div class="page-loader">
-  <div class="loader-content">
-    <div class="spinner"></div>
-    <p>Loading...</p>
-  </div>
-</div>
+      <div class="loader-content">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    </div>
 
     <main class="d-flex justify-content-center">
       <div class="main-content mt-5 p-4">
@@ -81,12 +87,12 @@
                 name="group-profile"
                 id="group-profile"
                 hidden
-                accept="image/*" 
+                accept="image/*"
               />
               <label for="group-profile" id="group-profile-label">
                 <i class="fa-solid fa-cloud-arrow-up remove-this"></i>
-                <p class="remove-this">Click or drag and drop group profile </p>
-                 <img src="/assets/images.jpg" alt="" class="groupImg">
+                <p class="remove-this">Click or drag and drop group profile</p>
+                <img src="/assets/images.jpg" alt="" class="groupImg" />
               </label>
             </div>
             <div class="selectGroup">
@@ -120,7 +126,9 @@
                   <button type="submit" class="btn btn-primary">
                     edit group
                   </button>
-                  <button type="button" class="btn btn-danger cancel-update">Cancel</button>
+                  <button type="button" class="btn btn-danger cancel-update">
+                    Cancel
+                  </button>
                 </div>
               </div>
             </div>
