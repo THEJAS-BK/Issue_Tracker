@@ -2,19 +2,29 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 document.addEventListener("DOMContentLoaded", async () => {
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("server not working");
+    document.body.classList.remove("loading");
+  }
   //?check if image upload is allowed or not
-  const groupId=new URLSearchParams(window.location.search).get("groupid");
-    const imgRes=await apiFetch(`${API_BASE}/issues/imageUploadAllowed/${groupId}`, {
+  const groupId = new URLSearchParams(window.location.search).get("groupid");
+  const imgRes = await apiFetch(
+    `${API_BASE}/issues/imageUploadAllowed/${groupId}`,
+    {
       method: "GET",
       credentials: "include",
-    });
-    const isImageUploadAllowed = await imgRes.json();
-    if (!isImageUploadAllowed.imageuploadpermission) {
-      document.getElementById("uploadBox").style.display = "none";
-      document.querySelector(".main-content").classList.remove("mt-2");
+    },
+  );
+  const isImageUploadAllowed = await imgRes.json();
+  if (!isImageUploadAllowed.imageuploadpermission) {
+    document.getElementById("uploadBox").style.display = "none";
+    document.querySelector(".main-content").classList.remove("mt-2");
 
-      document.querySelector(".main-content").style.marginTop = "5rem";
-    }
+    document.querySelector(".main-content").style.marginTop = "5rem";
+  }
 
   document.body.classList.add("loading");
   const name = document.querySelector(".get-user-name");
@@ -64,8 +74,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 //patch request to save all changes
 const addIssueForm = document.querySelector(".issue-form");
 addIssueForm.addEventListener("submit", async (e) => {
-  document.body.classList.add("loading");
   e.preventDefault();
+  document.body.classList.add("loading");
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("server not working");
+    document.body.classList.remove("loading");
+  }
   const issueId = new URLSearchParams(window.location.search).get("issueid");
   const groupId = new URLSearchParams(window.location.search).get("groupid");
   const anonSwitch = document.getElementById("anonymousSwitch").checked;
@@ -78,7 +95,6 @@ addIssueForm.addEventListener("submit", async (e) => {
     formData.append("issue-image", fileInput);
   }
 
-
   const res = await apiFetch(`${API_BASE}/issues/edit/${issueId}`, {
     method: "PATCH",
     credentials: "include",
@@ -87,9 +103,9 @@ addIssueForm.addEventListener("submit", async (e) => {
   if (res.ok) {
     window.location.href = `./groupInterface.html?id=${groupId}`;
   }
-  if(!res.ok){
-      document.body.classList.remove("loading");
-      alert("something went wrong")
+  if (!res.ok) {
+    document.body.classList.remove("loading");
+    alert("something went wrong");
   }
 });
 //drag and drop

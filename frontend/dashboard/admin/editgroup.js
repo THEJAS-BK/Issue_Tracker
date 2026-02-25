@@ -1,9 +1,16 @@
 import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
+import { waitForServer } from "../../utils/waitForServer.js";
 const API_BASE = sendApiBase();
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
-
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("server not working");
+    document.body.classList.remove("loading");
+  }
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
@@ -31,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const data = await res.json();
   const issueImg = document.querySelector(".groupImg");
   document.getElementById("uploadBox").style.padding = "0";
-  issueImg.src =data.groupInfo.image.url
+  issueImg.src = data.groupInfo.image.url;
   document.querySelectorAll(".remove-this").forEach((el) => {
     el.style.display = "none";
   });
@@ -53,9 +60,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 //updation
 const createGroupForm = document.querySelector("#create-group-form");
 createGroupForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("server not working");
+    document.body.classList.remove("loading");
+  }
   document.body.classList.add("loading");
   const groupId = new URLSearchParams(window.location.search).get("id");
-  e.preventDefault();
 
   const formData = new FormData();
 
@@ -80,9 +94,9 @@ createGroupForm.addEventListener("submit", async (e) => {
   if (res.ok) {
     window.location.href = `./adminPage.html?id=${groupId}`;
   }
-  if(!res.ok){
-  document.body.classList.remove("loading");
-  alert("something went wrong")
+  if (!res.ok) {
+    document.body.classList.remove("loading");
+    alert("something went wrong");
   }
 });
 
@@ -125,9 +139,9 @@ uploadBox.addEventListener("drop", (e) => {
   if (file) {
     fileInput.files = e.dataTransfer.files;
     const issueImg = document.querySelector(".groupImg");
-    document.getElementById("uploadBox").style.padding="0"
+    document.getElementById("uploadBox").style.padding = "0";
     issueImg.src = window.URL.createObjectURL(file);
-        document.querySelectorAll(".remove-this").forEach((el) => {
+    document.querySelectorAll(".remove-this").forEach((el) => {
       el.style.display = "none";
     });
   }
@@ -137,7 +151,7 @@ fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
   if (file) {
     const issueImg = document.querySelector(".groupImg");
-        document.getElementById("uploadBox").style.padding="0"
+    document.getElementById("uploadBox").style.padding = "0";
     issueImg.src = window.URL.createObjectURL(file);
     document.querySelectorAll(".remove-this").forEach((el) => {
       el.style.display = "none";

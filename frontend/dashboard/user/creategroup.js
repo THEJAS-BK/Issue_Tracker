@@ -3,6 +3,13 @@ import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 //create group option
 document.addEventListener("DOMContentLoaded", async () => {
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("server not working");
+    document.body.classList.remove("loading");
+  }
   document.querySelector(".groupImg").style.display = "none";
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
@@ -14,7 +21,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const createGroupForm = document.querySelector("#create-group-form");
 
   createGroupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
     document.body.classList.add("loading");
+    const isServerOnline = await waitForServer();
+    if (isServerOnline) {
+      document.body.classList.remove("loading");
+    } else {
+      alert("server not working");
+      document.body.classList.remove("loading");
+    }
     const formData = new FormData();
     formData.append("groupname", createGroupForm.groupname.value);
     formData.append("description", createGroupForm.description.value);
@@ -32,7 +47,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     formData.append("group-profile", fileInput.files[0]);
 
-    e.preventDefault();
     const res = await apiFetch(`${API_BASE}/groups/create`, {
       method: "POST",
       body: formData,
@@ -41,8 +55,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.body.classList.remove("loading");
       window.location.href = "./userpage.html";
     }
-    if(!res.ok){
-      alert("something went wrong")
+    if (!res.ok) {
+      alert("something went wrong");
       document.body.classList.remove("loading");
     }
   });

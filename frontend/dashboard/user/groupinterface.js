@@ -1,5 +1,5 @@
 import { apiFetch } from "../../utils/helper.js";
-import {sendApiBase} from "../../utils/apiBase.js"
+import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 document.querySelector(".username").addEventListener("click", (e) => {
   e.stopPropagation();
@@ -28,6 +28,13 @@ window.addEventListener("resize", () => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
+  const isServerOnline = await waitForServer();
+  if (isServerOnline) {
+    document.body.classList.remove("loading");
+  } else {
+    alert("server not working");
+    document.body.classList.remove("loading");
+  }
   if (window.innerWidth < 768) {
     const mainRight = document.querySelector(".mainright");
     mainRight.classList.add("hidden");
@@ -48,14 +55,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   //show contents
-  const res = await apiFetch(
-    `${API_BASE}/groups/interface/${groupId}`,
-    {
-      method: "GET",
-      credentials: "include",
-    },
-  );
-  if(res.ok){
+  const res = await apiFetch(`${API_BASE}/groups/interface/${groupId}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (res.ok) {
     document.body.classList.remove("loading");
   }
   const data = await res.json();
@@ -166,7 +170,6 @@ function createIssueCards(issue) {
 }
 
 function updateIssueDetail(issue, isIssueOwner) {
-
   const mainRight = document.querySelector(".mainright");
   if (!mainRight) return;
 
@@ -181,12 +184,10 @@ function updateIssueDetail(issue, isIssueOwner) {
   const descText = mainRight.querySelector(".description-body-content");
 
   // -------- DATA UPDATE ONLY --------
-  if(issue.editedAt){
-
+  if (issue.editedAt) {
     h3.textContent = `${issue.title} (edited)`;
-  }
-  else{
-    h3.textContent=issue.title
+  } else {
+    h3.textContent = issue.title;
   }
   if (issue.createdBy) {
     name.textContent = issue.createdBy.name;
@@ -215,18 +216,16 @@ function updateIssueDetail(issue, isIssueOwner) {
     document.querySelector(".issue-options").style.display = "none";
   }
   if (issueImg) {
-    if(issue.image){
+    if (issue.image) {
       document.querySelector(".desc-line").style.display = "block";
 
       document.querySelector(".desc-line").style.margin = "1rem 0";
-      issueImg.style.display="block"
+      issueImg.style.display = "block";
       issueImg.src = issue.image.url;
-    }
-    else{
+    } else {
       document.querySelector(".desc-line").style.display = "none";
-      issueImg.style.display="none"
+      issueImg.style.display = "none";
     }
-   
   }
   // click event addded
   const dropdownRight = document.querySelector(".get-dropdown-right");
@@ -373,13 +372,10 @@ deleteIssueBtn.addEventListener("click", () => {
         alert("something went wrong");
       }
       if (issueId) {
-        const res = await apiFetch(
-          `${API_BASE}/issues/delete/${issueId}`,
-          {
-            method: "DELETE",
-            credentials: "include",
-          },
-        );
+        const res = await apiFetch(`${API_BASE}/issues/delete/${issueId}`, {
+          method: "DELETE",
+          credentials: "include",
+        });
         if (res.ok) {
           confirmDeleteInterface.style.display = "none";
           window.location.reload();
@@ -534,19 +530,21 @@ document.getElementById("exit-group").addEventListener("click", async () => {
     .querySelector(".confirm-exit")
     .addEventListener("click", async () => {
       const groupId = new URLSearchParams(window.location.search).get("id");
-      const res = await apiFetch(
-        `${API_BASE}/groups/leave/${groupId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
+      const res = await apiFetch(`${API_BASE}/groups/leave/${groupId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
       if (res.ok) {
         window.location.href = "./userpage.html";
       }
+      if(!res.ok){
+        alert("something went wrong")
+        window.location.reload();
+      }
     });
-    document.querySelector(".confirm-exit-cancel").addEventListener("click",()=>{
-  document.querySelector(".confirm-backdrop-exit").style.display = "none";
-
-    })
+  document
+    .querySelector(".confirm-exit-cancel")
+    .addEventListener("click", () => {
+      document.querySelector(".confirm-backdrop-exit").style.display = "none";
+    });
 });

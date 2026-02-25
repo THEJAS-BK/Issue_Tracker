@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 const signupForm = document.getElementById("signUpForm");
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
     document.body.classList.add("loading");
     const isServerOnline = await waitForServer();
     if (isServerOnline) {
@@ -36,7 +37,7 @@ if (signupForm) {
       alert("server not working");
       document.body.classList.remove("loading");
     }
-    e.preventDefault();
+
     const res = await fetch(`${API_BASE}/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -61,6 +62,7 @@ if (signupForm) {
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
     document.body.classList.add("loading");
      
      const isServerOnline= await waitForServer();
@@ -72,7 +74,6 @@ if (loginForm) {
       document.body.classList.remove("loading")
     } 
 
-    e.preventDefault();
     const res = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
