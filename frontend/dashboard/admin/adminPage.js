@@ -582,7 +582,14 @@ function addMemberCard(member, role) {
     const kickBtn = document.createElement("button");
     //giving classes
     infoBtn.classList.add("user-info-btn");
-    kickBtn.classList.add("kickMember");
+    if(member.role==="coadmin"){
+      console.log("her")
+     kickBtn.remove();
+     kickBtn.style.display="none"
+    }
+    else{
+        kickBtn.classList.add("kickMember");
+    }
     //giving dataset
     infoBtn.dataset.userId = member.userId._id;
     kickBtn.dataset.userId = member.userId._id;
