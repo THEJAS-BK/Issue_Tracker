@@ -33,6 +33,7 @@ const signupForm = document.getElementById("signUpForm");
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    signupForm.classList.add("was-validated");
     document.body.classList.add("loading");
     const isServerOnline = await waitForServer();
     if (isServerOnline) {

@@ -41,6 +41,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   createGroupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (!createGroupForm.checkValidity()) {
+      e.stopPropagation();
+      createGroupForm.classList.add("was-validated");
+      return;
+    }
+    createGroupForm.classList.add("was-validated");
     document.body.classList.add("loading");
     const isServerOnline = await waitForServer();
     if (isServerOnline) {

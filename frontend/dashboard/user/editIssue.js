@@ -93,7 +93,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 //patch request to save all changes
 const addIssueForm = document.querySelector(".issue-form");
 addIssueForm.addEventListener("submit", async (e) => {
+  if(!addIssueForm.checkValidity()){
+    e.preventDefault();
+    e.stopPropagation();
+    addIssueForm.classList.add("was-validated");
+  }
   e.preventDefault();
+  addIssueForm.classList.add("was-validated");
   document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
   if (isServerOnline) {

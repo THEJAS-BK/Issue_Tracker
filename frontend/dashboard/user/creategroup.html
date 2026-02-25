@@ -57,8 +57,8 @@
         <h2>Create Groups</h2>
         <p>Create a group to manage and track Community issues</p>
         <hr />
-        <form id="create-group-form">
-          <div class="mb-2">
+        <form id="create-group-form" class="needs-validation" novalidate>
+          <div class="mb-2 position-relative">
             <label for="exampleFormControlInput1" class="form-label"
               >Group Name</label
             >
@@ -67,9 +67,13 @@
               id="exampleFormControlInput1"
               placeholder="Eg: library group"
               name="groupname"
+              required
             />
+            <div class="invalid-tooltip">
+              Please enter a group name.
+            </div>
           </div>
-          <div>
+          <div class="position-relative">
             <label for="exampleFormControlTextarea1" class="form-label"
               >Description</label
             >
@@ -78,7 +82,11 @@
               id="exampleFormControlTextarea1"
               rows="3"
               name="description"
+              required
             ></textarea>
+            <div class="invalid-tooltip">
+              please enter the group description
+            </div>
           </div>
           <div class="bottom-section">
             <div class="upload" id="uploadBox">

@@ -18,6 +18,14 @@ function logOut(){
     }
   });
 }
+//check textarea length
+document.getElementById("exampleFormControlTextarea1").addEventListener("input",()=>{
+  const textarea = document.getElementById("exampleFormControlTextarea1");
+  const maxLength = 250;
+  if(textarea.value.length > maxLength-1){
+    alert("description must be less than 250 characters");
+  }
+})
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
@@ -77,7 +85,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 //updation
 const createGroupForm = document.querySelector("#create-group-form");
 createGroupForm.addEventListener("submit", async (e) => {
+  //form validations
+  if(!createGroupForm.checkValidity()){
+    e.preventDefault();
+    e.stopPropagation();
+    createGroupForm.classList.add("was-validated")
+    return;
+  }
   e.preventDefault();
+  createGroupForm.classList.add("was-validated")
+
+
   const isServerOnline = await waitForServer();
   if (isServerOnline) {
     document.body.classList.remove("loading");

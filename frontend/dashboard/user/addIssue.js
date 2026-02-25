@@ -60,7 +60,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 addIssueForm.addEventListener("submit", async (e) => {
+  if(!addIssueForm.checkValidity()){
+    e.preventDefault();
+    e.stopPropagation();
+    addIssueForm.classList.add("was-validated")
+    return;
+  }
   e.preventDefault();
+  addIssueForm.classList.add("was-validated")
   const isServerOnline = await waitForServer();
   if (isServerOnline) {
     document.body.classList.remove("loading");

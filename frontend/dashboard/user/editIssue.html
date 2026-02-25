@@ -49,8 +49,8 @@
         <h2 class="mt-0">Edit Issue</h2>
         <p class="title-desc">Update an existing issue in your group</p>
         <hr />
-        <form class="issue-form">
-          <div class="mb-1">
+        <form class="issue-form needs-validation" novalidate>
+          <div class="mb-1 position-relative">
             <label class="form-label" for="title">Issue Title</label>
             <input
               type="text"
@@ -60,6 +60,9 @@
               id="title"
               required
             />
+            <div class="invalid-tooltip">
+              Please enter a title for the issue.
+            </div>
           </div>
           <div class="upload mt-3" id="uploadBox">
             <input
@@ -76,7 +79,7 @@
             </label>
           </div>
 
-          <div class="mt-2">
+          <div class="mt-2 position-relative">
             <label class="form-label">Description</label>
             <textarea
               rows="4"
@@ -86,6 +89,9 @@
               id="description"
               required
             ></textarea>
+            <div class="invalid-tooltip">
+              Please enter a description for the issue.
+            </div>
           </div>
 
           <div class="form-check form-switch mt-2">
