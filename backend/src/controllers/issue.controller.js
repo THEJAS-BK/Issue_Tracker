@@ -13,8 +13,12 @@ module.exports.addIssue = async (req, res, next) => {
     const { title, description, stayAnonymous } = req.body;
     let imageData = {};
     if (req.file) {
+      const url = req.file.path.replace(
+        "/upload/",
+        "/upload/q_auto,f_auto,w_600/",
+      );
       imageData = {
-        url: req.file.path,
+        url: url,
         publicId: req.file.filename,
       };
     }
@@ -51,17 +55,17 @@ module.exports.getEditIssuePage = async (req, res, next) => {
   }
 };
 //!check image upload isallowed
-module.exports.checkIfImageUploadIsAllowed=async(req,res,next)=>{
-  try{
+module.exports.checkIfImageUploadIsAllowed = async (req, res, next) => {
+  try {
     const { groupId } = req.params;
-    if(!groupId) return res.sendStatus(400);
+    if (!groupId) return res.sendStatus(400);
 
     const group = await Group.findById(groupId).select("imageuploadpermission");
     res.json({ imageuploadpermission: group.imageuploadpermission });
-  }catch(err){
-    next(err)
+  } catch (err) {
+    next(err);
   }
-}
+};
 //!confirm edited issue change
 module.exports.confirmEditIssue = async (req, res, next) => {
   try {
@@ -80,14 +84,18 @@ module.exports.confirmEditIssue = async (req, res, next) => {
     const { title, description, stayAnonymous } = req.body;
 
     //store updated data
-    await Issue.findByIdAndUpdate(issueId,{
-      editedAt:new Date()
-    })
+    await Issue.findByIdAndUpdate(issueId, {
+      editedAt: new Date(),
+    });
 
     let imageData = {};
     if (req.file) {
+       const url = req.file.path.replace(
+        "/upload/",
+        "/upload/q_auto,f_auto,w_600/",
+      );
       imageData = {
-        url: req.file.path,
+        url: url,
         publicId: req.file.filename,
       };
       await Issue.findByIdAndUpdate(issueId, {
@@ -150,7 +158,7 @@ module.exports.getIssueDetailsUserInterface = async (req, res, next) => {
     const checkAnonymous =
       await Issue.findById(issueId).select("stayAnonymous");
     if (checkAnonymous.stayAnonymous) {
-      const issue = await Issue.findById(issueId)
+      const issue = await Issue.findById(issueId);
       return res.json({ issue, isIssueOwner });
     }
 
@@ -175,7 +183,7 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
     const allIssuesForStates = await Issue.find({
       group: groupId,
       isDeleted: false,
-    }).sort({_id:-1});
+    }).sort({ _id: -1 });
 
     const states = {
       total: allIssuesForStates.length,
@@ -200,7 +208,8 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
         group: groupId,
         createdBy: req.user.userId,
         isDeleted: false,
-      }).sort({_id:-1})
+      })
+        .sort({ _id: -1 })
         .select("title createdBy createdAt status")
         .populate("createdBy", "name");
       return res.json({ issues, states });
@@ -210,7 +219,8 @@ module.exports.filterIssuesInGroupUserInterface = async (req, res, next) => {
       group: groupId,
       status: state,
       isDeleted: false,
-    }).sort({_id:-1})
+    })
+      .sort({ _id: -1 })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 

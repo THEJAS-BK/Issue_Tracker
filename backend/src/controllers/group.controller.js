@@ -13,6 +13,11 @@ module.exports.createGroup = async (req, res, next) => {
   try {
     if (!req.file)
       return res.status(400).json({ message: "Image is required" });
+
+    const url = req.file.path.replace(
+      "/upload/",
+      "/upload/q_auto,f_auto,w_600/",
+    );
     const { groupname, description, joinapproval, imageuploadpermission } =
       req.body;
     const inviteCode = await getUniqueInviteCode();
@@ -22,7 +27,7 @@ module.exports.createGroup = async (req, res, next) => {
       joinType: joinapproval,
       imageuploadpermission,
       image: {
-        url: req.file.path,
+        url: url,
         publicId: req.file.filename,
       },
       inviteCode,
@@ -171,7 +176,7 @@ module.exports.getGroupUserInterface = async (req, res, next) => {
   try {
     const { groupId } = req.params;
     const issues = await Issue.find({ group: groupId, isDeleted: false })
-      .sort({_id:-1})
+      .sort({ _id: -1 })
       .select("title createdBy createdAt status stayAnonymous")
       .populate("createdBy", "name");
     //send cur user
@@ -318,7 +323,7 @@ module.exports.getAdminPage = async (req, res, next) => {
     if (!curUser) return res.sendStatus(401);
 
     const issues = await Issue.find({ group: groupId, isDeleted: false })
-    .sort({_id:-1})
+      .sort({ _id: -1 })
       .select("title createdBy createdAt status")
       .populate("createdBy", "name");
 
@@ -337,7 +342,7 @@ module.exports.getAdminPage = async (req, res, next) => {
     const allIssuesForStates = await Issue.find({
       group: groupId,
       isDeleted: false,
-    }).sort({_id:-1})
+    }).sort({ _id: -1 });
 
     const states = {
       total: allIssuesForStates.length,
@@ -389,13 +394,17 @@ module.exports.updateGroupByAdmin = async (req, res, next) => {
       req.body;
 
     if (req.file) {
+      const url = req.file.path.replace(
+        "/upload/",
+        "/upload/q_auto,f_auto,w_600/",
+      );
       await Group.findByIdAndUpdate(groupId, {
         groupname,
         description,
         joinType: joinapproval,
         imageuploadpermission,
         image: {
-          url: req.file.path,
+          url: url,
           publicId: req.file.filename,
         },
       });
