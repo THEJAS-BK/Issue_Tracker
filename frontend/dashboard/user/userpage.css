@@ -419,16 +419,12 @@ a {
   }
 
   .leftTab-left-center {
-    width: 100%;
+           width: 64%;
   }
 
   .status {
     padding: 0.5rem 1rem;
     align-self: flex-end;
-  }
-
-  .mainLeft img {
-    width: 56px;
   }
 
   .left-search-bar {
@@ -456,7 +452,7 @@ a {
   }
 
   .badge-joined{
-    align-self:start ;
+    align-self:end ;
             margin-left: 4.5rem;
   }
 
@@ -482,10 +478,6 @@ a {
     width: 95%;
   }
 
-  .leftTab-left-center {
-    width: auto;
-  }
-
   .issues {
     flex-direction: column;
     height: auto;
@@ -501,5 +493,15 @@ a {
 
   #group-search {
     height: 70%;
+  }
+}
+.group-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media(max-width:320px){
+  .badge-joined{
+    align-self: center;
   }
 }

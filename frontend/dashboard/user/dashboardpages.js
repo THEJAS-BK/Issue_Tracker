@@ -93,6 +93,17 @@ document.addEventListener("click", (e) => {
     dropdown.classList.add("hidden");
   }
 });
+
+function shortenText(text, wordLimit = 6) {
+  const words = text.split(" ");
+
+  if (words.length <= wordLimit) return text;
+
+  return words.slice(0, wordLimit).join(" ") + "...";
+}
+
+
+
 function renderGroups(groups) {
   const groupContainer = document.querySelector(".space-holder");
 
@@ -134,7 +145,7 @@ function renderGroups(groups) {
 
     const groupDescription = document.createElement("p");
     groupDescription.classList.add("group-description");
-    groupDescription.innerText = group.description;
+    groupDescription.innerText = shortenText(group.description, 6);
 
     const groupmembers = document.createElement("p");
     groupmembers.innerText = `members : ${group.members.length}`;
