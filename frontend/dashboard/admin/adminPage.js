@@ -1095,7 +1095,9 @@ function acceptJoinRequest() {
       );
       if (res.ok) {
         parentEle.remove();
-        alert("member added");
+      }
+      if(!res.ok){
+        alert("Failed to accept join request");
       }
     });
   });
