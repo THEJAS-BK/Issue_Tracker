@@ -2,7 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 import { waitForServer } from "../../utils/waitForServer.js";
 const API_BASE = sendApiBase();
-function logOut(){
+function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
@@ -13,19 +13,21 @@ function logOut(){
     if (res.ok) {
       window.location.href = "/index.html";
     }
-    if(!res.ok){
+    if (!res.ok) {
       alert("logout failed");
     }
   });
 }
 //check textarea length
-document.getElementById("exampleFormControlTextarea1").addEventListener("input",()=>{
-  const textarea = document.getElementById("exampleFormControlTextarea1");
-  const maxLength = 250;
-  if(textarea.value.length > maxLength-1){
-    alert("description must be less than 250 characters");
-  }
-})
+document
+  .getElementById("exampleFormControlTextarea1")
+  .addEventListener("input", () => {
+    const textarea = document.getElementById("exampleFormControlTextarea1");
+    const maxLength = 250;
+    if (textarea.value.length > maxLength - 1) {
+      alert("description must be less than 250 characters");
+    }
+  });
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
@@ -86,15 +88,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 const createGroupForm = document.querySelector("#create-group-form");
 createGroupForm.addEventListener("submit", async (e) => {
   //form validations
-  if(!createGroupForm.checkValidity()){
+  if (!createGroupForm.checkValidity()) {
     e.preventDefault();
     e.stopPropagation();
-    createGroupForm.classList.add("was-validated")
+    createGroupForm.classList.add("was-validated");
     return;
   }
   e.preventDefault();
-  createGroupForm.classList.add("was-validated")
+  createGroupForm.classList.add("was-validated");
 
+  const filesize = document.getElementById("group-profile");
+  if (filesize.files[0].size > 2 * 1024 * 1024) {
+    alert("Max 2MB allowed");
+    return;
+  }
 
   const isServerOnline = await waitForServer();
   if (isServerOnline) {

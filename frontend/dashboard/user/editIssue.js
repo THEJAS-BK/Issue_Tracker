@@ -1,9 +1,9 @@
 import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
-import {waitForServer} from "../../utils/waitForServer.js"
+import { waitForServer } from "../../utils/waitForServer.js";
 
-function logOut(){
+function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
@@ -14,7 +14,7 @@ function logOut(){
     if (res.ok) {
       window.location.href = "/index.html";
     }
-    if(!res.ok){
+    if (!res.ok) {
       alert("logout failed");
     }
   });
@@ -93,13 +93,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 //patch request to save all changes
 const addIssueForm = document.querySelector(".issue-form");
 addIssueForm.addEventListener("submit", async (e) => {
-  if(!addIssueForm.checkValidity()){
+  if (!addIssueForm.checkValidity()) {
     e.preventDefault();
     e.stopPropagation();
     addIssueForm.classList.add("was-validated");
   }
   e.preventDefault();
   addIssueForm.classList.add("was-validated");
+
+  const filesize = document.getElementById("issue-image");
+  if (filesize.files[0].size > 2 * 1024 * 1024) {
+    alert("Max 2MB allowed");
+    return;
+  }
   document.body.classList.add("loading");
   const isServerOnline = await waitForServer();
   if (isServerOnline) {

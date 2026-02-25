@@ -221,7 +221,11 @@ function updateIssueDetail(issue, isIssueOwner) {
   if (isIssueOwner) {
     //if user is owner of issue
     const ownerEditBtn = document.querySelector(".issue-options");
-    ownerEditBtn.style.display = "block";
+    if(issue.status==="resolved"){
+      ownerEditBtn.style.display = "none";
+    }else{
+      ownerEditBtn.style.display = "block";
+    }
     //edit and delete issue dropdown
     const editBtn = document.getElementById("edit-issue");
     const deleteBtn = document.getElementById("delete-issue");
