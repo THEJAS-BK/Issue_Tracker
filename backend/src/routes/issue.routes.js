@@ -11,15 +11,17 @@ const {isPartOfGroup}=require("../middlewares/memvalidation");
 const {isPartOfGroupByIssueId}=require("../middlewares/memvalidation")
 const { isAdminOrCoAdminByIssueId } = require("../middlewares/memvalidation");
 const {isAdminOrCoAdmin} =require("../middlewares/memvalidation")
+const {validate}=require("../middlewares/validate")
+const {createIssueSchema}=require("../validators/issue.validator")
 
 //? add issue route
-router.post("/add/:groupId", authorizationToken,isPartOfGroup,upload.single("issue-image"), issueController.addIssue)
+router.post("/add/:groupId", authorizationToken,isPartOfGroup,validate(createIssueSchema),upload.single("issue-image"), issueController.addIssue)
 
 //? get edit page route
 router.get("/edit/:issueId", authorizationToken,isPartOfGroupByIssueId, issueController.getEditIssuePage)
 
 //? confirm edited issue route
-router.patch("/edit/:issueId", authorizationToken,isPartOfGroupByIssueId,upload.single("issue-image"), issueController.confirmEditIssue)
+router.patch("/edit/:issueId", authorizationToken,isPartOfGroupByIssueId,validate(createIssueSchema),upload.single("issue-image"), issueController.confirmEditIssue)
 
 //?search issue in group interface
 router.get("/search", authorizationToken,isPartOfGroup, issueController.searchIssueInGroupUserInterface)

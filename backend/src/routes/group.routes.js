@@ -4,17 +4,18 @@ const upload = require("../middlewares/upload");
 
 //?controller
 const groupController = require("../controllers/group.controller");
-
 //middlewares
 const { authorizationToken } = require("../middlewares/auth.middleware");
 const { isPartOfGroup } = require("../middlewares/memvalidation");
 const { isAdminOrCoAdmin } = require("../middlewares/memvalidation");
-
+const {createGroupSchema}=require("../validators/group.validator");
+const {validate}=require("../middlewares/validate")
 //!user home page routes
 //?create group
 router.post(
   "/create",
   authorizationToken,
+  validate(createGroupSchema),
   upload.single("group-profile"),
   groupController.createGroup,
 );
@@ -105,8 +106,8 @@ router.patch(
   "/update/:groupId/admin",
   authorizationToken,
   isAdminOrCoAdmin,
+  validate(createGroupSchema),
   upload.single("group-profile"),
-
   groupController.updateGroupByAdmin,
 );
 
