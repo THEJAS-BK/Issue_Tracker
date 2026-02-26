@@ -4,9 +4,11 @@ const router = express.Router();
 const authController = require("../controllers/auth.controller")
 const { authorizationToken } = require("../middlewares/auth.middleware");
 
-
-router.post("/signup",authController.signUp)
-router.post("/login",authController.login)
+const {validate}=require("../middlewares/validate")
+const {signupSchema}=require("../validators/signup.validator")
+const {loginSchema}=require("../validators/signup.validator")
+router.post("/signup",validate(signupSchema),authController.signUp)
+router.post("/login",validate(loginSchema),authController.login)
 router.post("/refreshtoken",authController.refreshToken)  
 router.get("/getusername",authorizationToken,authController.getUsername)
 //logout user
