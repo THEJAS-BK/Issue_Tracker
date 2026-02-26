@@ -512,6 +512,11 @@ main {
   margin-top: 1rem;
   display: flex;
   gap: 1rem;
+  justify-content: center;
+}
+.confirm-cancel{
+  color:white;
+  background-color: red;
 }
 .actions > button {
   padding: 0.5rem 1rem;
