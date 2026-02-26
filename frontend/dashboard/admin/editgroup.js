@@ -2,6 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 import { waitForServer } from "../../utils/waitForServer.js";
 const API_BASE = sendApiBase();
+import { toast } from "../../utils/toast.js";
 function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
@@ -14,7 +15,7 @@ function logOut() {
       window.location.href = "/index.html";
     }
     if (!res.ok) {
-      alert("logout failed");
+      toast("Logout failed", "error");
     }
   });
 }
@@ -25,7 +26,7 @@ document
     const textarea = document.getElementById("exampleFormControlTextarea1");
     const maxLength = 250;
     if (textarea.value.length > maxLength - 1) {
-      alert("description must be less than 250 characters");
+      toast("decription must be under 250 characters","info")
     }
   });
 document.addEventListener("DOMContentLoaded", async () => {
@@ -34,7 +35,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+          toast("Server not working", "error");
+
     document.body.classList.remove("loading");
   }
   logOut();
@@ -60,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (res.ok) {
     document.body.classList.remove("loading");
   } else {
-    alert("something went wrong");
+    toast("Something went Wrong","error")
   }
   const data = await res.json();
   const issueImg = document.querySelector(".groupImg");
@@ -97,13 +99,14 @@ createGroupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   createGroupForm.classList.add("was-validated");
 
-          document.body.classList.add("loading");
+  document.body.classList.add("loading");
 
   const isServerOnline = await waitForServer();
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+          toast("Server not working", "error");
+
     document.body.classList.remove("loading");
   }
   document.body.classList.add("loading");
@@ -134,7 +137,7 @@ createGroupForm.addEventListener("submit", async (e) => {
   }
   if (!res.ok) {
     document.body.classList.remove("loading");
-    alert("something went wrong");
+    toast("Something went wrong", "error");
   }
 });
 

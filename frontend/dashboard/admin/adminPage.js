@@ -2,6 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 import { waitForServer } from "../../utils/waitForServer.js";
 const API_BASE = sendApiBase();
+import { toast } from "../../utils/toast.js";
 window.addEventListener("resize", () => {
   if (window.innerWidth < 768) {
     document.querySelector(".content-right").style.display = "none";
@@ -21,7 +22,7 @@ function logOut() {
       window.location.href = "/index.html";
     }
     if (!res.ok) {
-      alert("logout failed");
+      toast("Login failed", "error");
     }
   });
 }
@@ -31,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+    toast("Server not working", "error");
     document.body.classList.remove("loading");
   }
   logOut();
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   if (!res.ok) {
     document.body.classList.remove("loading");
-    alert("something went wrong");
+    toast("Something went wrong", "info");
   }
   if (window.innerWidth < 768) {
     document.querySelector(".content-right").style.display = "none";
@@ -74,33 +75,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     insertIssueCard(issue);
   }
   //read more read less
- // insert group info
-const groupDetails = data.groupDetails;
+  // insert group info
+  const groupDetails = data.groupDetails;
 
-const desc = document.querySelector(".group-description");
-const btn = document.querySelector(".read-more-btn");
+  const desc = document.querySelector(".group-description");
+  const btn = document.querySelector(".read-more-btn");
 
-desc.textContent = groupDetails.description;
+  desc.textContent = groupDetails.description;
 
-// wait for layout calculation
-requestAnimationFrame(() => {
+  // wait for layout calculation
+  requestAnimationFrame(() => {
+    // show button only if text overflows
+    if (desc.scrollHeight > desc.clientHeight) {
+      btn.classList.remove("hidden");
+    }
+  });
 
-  // show button only if text overflows
-  if (desc.scrollHeight > desc.clientHeight) {
-    btn.classList.remove("hidden");
-  }
+  // toggle read more
+  btn.addEventListener("click", () => {
+    desc.classList.toggle("collapsed");
 
-});
-
-// toggle read more
-btn.addEventListener("click", () => {
-  desc.classList.toggle("collapsed");
-
-  btn.textContent =
-    desc.classList.contains("collapsed")
+    btn.textContent = desc.classList.contains("collapsed")
       ? "Read more"
       : "Show less";
-});
+  });
 
   AddIssueEvents();
   //first value selected
@@ -201,7 +199,8 @@ function AddIssueEvents() {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-        alert("server not working");
+        toast("Server not working", "error");
+
         document.body.classList.remove("loading");
       }
       allIssues.forEach((issue) => {
@@ -209,7 +208,7 @@ function AddIssueEvents() {
       });
       if (window.innerWidth < 768) {
         document.querySelector(".content-right").style.display = "block";
-        body
+        body;
       }
       issue.classList.add("blue-border");
       const issueId = issue.dataset.issueId;
@@ -280,12 +279,11 @@ function updateIssuesOnRightSide(issue) {
   moreInfoBtn.dataset.userId = issue.createdBy._id;
   deleteIssueBtn.dataset.issueId = issue._id;
   //go back btn
-
 }
-  document.querySelector(".go-back-btn").addEventListener("click", () => {
-    document.querySelector(".content-right").style.display = "none";
-  });
-  OpenMoreInfo();
+document.querySelector(".go-back-btn").addEventListener("click", () => {
+  document.querySelector(".content-right").style.display = "none";
+});
+OpenMoreInfo();
 //!already selected issue
 async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
@@ -311,7 +309,8 @@ function deleteIssueByAdmin() {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-      alert("server not working");
+      toast("Server not working", "error");
+
       document.body.classList.remove("loading");
     }
     const confirmDelete = document.querySelector(
@@ -325,7 +324,8 @@ function deleteIssueByAdmin() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-          alert("server not working");
+                toast("Server not working", "error");
+
           document.body.classList.remove("loading");
         }
         const groupId = new URLSearchParams(window.location.search).get("id");
@@ -344,7 +344,8 @@ function deleteIssueByAdmin() {
           if (isServerOnline) {
             document.body.classList.remove("loading");
           } else {
-            alert("server not working");
+                  toast("Server not working", "error");
+
             document.body.classList.remove("loading");
           }
           const res = await apiFetch(
@@ -384,7 +385,8 @@ search.addEventListener("input", async (e) => {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-      alert("server not working");
+            toast("Server not working", "error");
+
       document.body.classList.remove("loading");
     }
     const res = await apiFetch(
@@ -407,7 +409,8 @@ search.addEventListener("input", async (e) => {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-      alert("server not working");
+            toast("Server not working", "error");
+
       document.body.classList.remove("loading");
     }
     const id = new URLSearchParams(window.location.search).get("id");
@@ -432,7 +435,8 @@ selectStatus.addEventListener("change", async (e) => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+          toast("Server not working", "error");
+
     document.body.classList.remove("loading");
   }
   document.querySelector(".issue-contents").innerHTML = "";
@@ -458,7 +462,7 @@ updateBtns.forEach((btn) => {
     if (btn.dataset.state === "resolved") {
       const markInProBtn = document.querySelector(".desc-inprogress");
       if (markInProBtn.style.display !== "none") {
-        alert("issue must be in progress first");
+        toast("Issue must be in progress first","info")
         return;
       }
     }
@@ -468,7 +472,8 @@ updateBtns.forEach((btn) => {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-      alert("server not working");
+            toast("Server not working", "error");
+
       document.body.classList.remove("loading");
     }
 
@@ -543,7 +548,8 @@ deleteGroupBtn.addEventListener("click", () => {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-        alert("server not working");
+              toast("Server not working", "error");
+
         document.body.classList.remove("loading");
       }
 
@@ -555,7 +561,7 @@ deleteGroupBtn.addEventListener("click", () => {
 
       if (!res.ok) {
         confirmDeleteInterface.style.display = "none";
-        alert("Failed to delete group");
+        toast("Failed to delete group","error")
         return;
       }
 
@@ -647,7 +653,7 @@ function addMemberCard(member, role) {
     infoBtn.textContent = "more info...";
     kickBtn.textContent = "remove member";
   } else {
-    alert(" invalid login");
+    toast("Invalid login","info")
   }
 
   // ---- assemble structure ----
@@ -691,12 +697,15 @@ document
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-      alert("server not working");
+            toast("Server not working", "error");
+
       document.body.classList.remove("loading");
     }
 
     const groupId = new URLSearchParams(window.location.search).get("id");
-    if (!groupId) return alert("invalid");
+    if (!groupId){
+      toast("Invalid","error")
+    }
     document.querySelector(".member-list").innerHTML = "";
 
     const res = await apiFetch(
@@ -725,7 +734,8 @@ document
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-          alert("server not working");
+                toast("Server not working", "error");
+
           document.body.classList.remove("loading");
         }
         const res = await apiFetch(
@@ -752,7 +762,8 @@ document
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-          alert("server not working");
+                toast("Server not working", "error");
+
           document.body.classList.remove("loading");
         }
         document.querySelector(".member-list").innerHTML = "";
@@ -795,7 +806,8 @@ async function reloadFilters(groupId) {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+          toast("Server not working", "error");
+
     document.body.classList.remove("loading");
   }
 
@@ -835,7 +847,8 @@ function enableFilterOptions(groupId) {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-        alert("server not working");
+              toast("Server not working", "error");
+
         document.body.classList.remove("loading");
       }
 
@@ -863,7 +876,7 @@ function enableFilterOptions(groupId) {
         //more info
         OpenMoreInfo();
       } else {
-        alert("invalid");
+       toast("invalid","error")
       }
     });
 }
@@ -881,7 +894,8 @@ function promoteToCoAdmin() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-          alert("server not working");
+                toast("Server not working", "error");
+
           document.body.classList.remove("loading");
         }
 
@@ -919,7 +933,8 @@ function demoteToMember() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-          alert("server not working");
+                toast("Server not working", "error");
+
           document.body.classList.remove("loading");
         }
 
@@ -964,7 +979,8 @@ function kickMember() {
           if (isServerOnline) {
             document.body.classList.remove("loading");
           } else {
-            alert("server not working");
+                  toast("Server not working", "error");
+
             document.body.classList.remove("loading");
           }
 
@@ -1057,7 +1073,8 @@ document
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-      alert("server not working");
+            toast("Server not working", "error");
+
       document.body.classList.remove("loading");
     }
 
@@ -1094,7 +1111,8 @@ document
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-          alert("server not working");
+                toast("Server not working", "error");
+
           document.body.classList.remove("loading");
         }
 
@@ -1131,7 +1149,8 @@ function acceptJoinRequest() {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-        alert("server not working");
+              toast("Server not working", "error");
+
         document.body.classList.remove("loading");
       }
 
@@ -1146,7 +1165,7 @@ function acceptJoinRequest() {
         parentEle.remove();
       }
       if (!res.ok) {
-        alert("Failed to accept join request");
+        toast("Failed to accept join request","error")
       }
     });
   });
@@ -1166,7 +1185,8 @@ function declineJoinReq() {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-        alert("server not working");
+              toast("Server not working", "error");
+
         document.body.classList.remove("loading");
       }
 
@@ -1196,7 +1216,8 @@ function searchRequests() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-          alert("server not working");
+                toast("Server not working", "error");
+
           document.body.classList.remove("loading");
         }
 
@@ -1222,7 +1243,8 @@ function searchRequests() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-          alert("server not working");
+                toast("Server not working", "error");
+
           document.body.classList.remove("loading");
         }
 
@@ -1269,7 +1291,8 @@ function OpenMoreInfo() {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-        alert("server not working");
+              toast("Server not working", "error");
+
         document.body.classList.remove("loading");
       }
 
@@ -1410,7 +1433,8 @@ document.getElementById("exit-group").addEventListener("click", async () => {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-        alert("server not working");
+              toast("Server not working", "error");
+
         document.body.classList.remove("loading");
       }
 

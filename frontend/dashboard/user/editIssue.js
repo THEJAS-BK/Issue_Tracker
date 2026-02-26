@@ -2,7 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 import { waitForServer } from "../../utils/waitForServer.js";
-
+import {toast} from "../../utils/toast.js"
 function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
@@ -15,7 +15,7 @@ function logOut() {
       window.location.href = "/index.html";
     }
     if (!res.ok) {
-      alert("logout failed");
+      toast("logout failed","error")
     }
   });
 }
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+    toast("server not working","error")
     document.body.classList.remove("loading");
   }
   logOut();
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.classList.remove("loading");
   } else {
     document.body.classList.remove("loading");
-    alert("something went wrong");
+    toast("Failed to fetch issue details", "error");
   }
   const data = await res.json();
   if (data.issue.image) {
@@ -106,7 +106,7 @@ addIssueForm.addEventListener("submit", async (e) => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+    toast("server not working","error")
     document.body.classList.remove("loading");
   }
   document.body.classList.add("loading");
@@ -133,7 +133,7 @@ addIssueForm.addEventListener("submit", async (e) => {
   }
   if (!res.ok) {
     document.body.classList.remove("loading");
-    alert("something went wrong");
+    toast("Failed to update issue", "error");
   }
 });
 //drag and drop

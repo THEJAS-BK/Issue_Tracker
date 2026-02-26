@@ -2,6 +2,7 @@
 
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
+import { toast } from "../utils/toast.js";
 //--------------------
 import { waitForServer } from "../utils/waitForServer.js";
 // show password toggle
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.classList.remove("loading");
     document.querySelector(".spinner-content").textContent = "Loading...";
   } else {
-    alert("app not working");
+    toast("App not working", "error");
     document.body.classList.remove("loading");
   }
 
@@ -39,8 +40,17 @@ if (signupForm) {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-      alert("server not working");
+      toast("Server not working", "error");
+
       document.body.classList.remove("loading");
+    }
+      const email = document.querySelector("#signupemail").value;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      toast("Enter a valid email", "error");
+      return;
     }
     document.body.classList.add("loading");
     const res = await fetch(`${API_BASE}/auth/signup`, {
@@ -54,8 +64,9 @@ if (signupForm) {
       }),
     });
     const data = await res.json();
-    if(res.status===409){
-      alert("email already exist");
+    if (res.status === 409) {
+      toast("Email already exist", "info");
+
       document.body.classList.remove("loading");
       return;
     }
@@ -63,7 +74,7 @@ if (signupForm) {
       document.body.classList.remove("loading");
       window.location.href = "/dashboard/user/userpage.html";
     } else {
-      alert("Something went wrong");
+      toast("Something went wron", "error");
       window.location.reload();
     }
   });
@@ -75,15 +86,23 @@ if (loginForm) {
     e.preventDefault();
     document.body.classList.add("loading");
 
+    const email = document.querySelector("#loginemail").value;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      toast("Enter a valid email", "error");
+      return;
+    }
+
     const isServerOnline = await waitForServer();
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-      alert("server not working");
+      toast("Server not working", "error");
       document.body.classList.remove("loading");
     }
     document.body.classList.add("loading");
-
 
     const res = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
@@ -96,8 +115,8 @@ if (loginForm) {
     });
     if (res.status === 401) {
       document.body.classList.remove("loading");
-
-      alert("User not found");
+      toast("User not found", "info");
+      return;
     } else if (res.ok) {
       window.location.href = "/dashboard/user/userpage.html";
     } else {

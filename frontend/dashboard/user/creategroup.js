@@ -2,7 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 import { waitForServer } from "../../utils/waitForServer.js";
 const API_BASE = sendApiBase();
-
+import {toast} from "../../utils/toast.js"
 function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
@@ -15,7 +15,7 @@ function logOut() {
       window.location.href = "/index.html";
     }
     if (!res.ok) {
-      alert("logout failed");
+      toast("Logout failed","error")
     }
   });
 }
@@ -26,7 +26,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+          toast("Server not working", "error");
+
     document.body.classList.remove("loading");
   }
   logOut();
@@ -53,7 +54,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-      alert("server not working");
+            toast("Server not working", "error");
+
       document.body.classList.remove("loading");
     }
   document.body.classList.add("loading");
@@ -68,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // image input
     const fileInput = document.querySelector("#group-profile");
     if (!fileInput.files[0]) {
-      alert("group image is required");
+      toast("Group image is required","error")
       document.body.classList.remove("loading");
       return;
     }
@@ -84,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "./userpage.html";
     }
     if (!res.ok) {
-      alert("something went wrong");
+      toast("Something went wrong")
       document.body.classList.remove("loading");
     }
   });

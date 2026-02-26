@@ -2,6 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 import { waitForServer } from "../../utils/waitForServer.js";
+import {toast} from "../../utils/toast.js"
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
 createGroupBtn.addEventListener("click", () => {
@@ -21,7 +22,7 @@ function logOut(){
       window.location.href = "/index.html";
     }
     if(!res.ok){
-      alert("logout failed");
+      toast("logout failed","error");
     }
   });
 }
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+    toast("server not working","error");
     document.body.classList.remove("loading");
   }
   //enable logout btn
@@ -280,7 +281,7 @@ async function idForSearchResults() {
         window.location.reload();
       }
       if (res.status == 409) {
-        alert("already a member of this group");
+        toast("already a member of this group", "error");
       }
     });
   });
@@ -352,11 +353,11 @@ async function joinRequest() {
       if (!res.ok || res.status === 409) {
         const data = await res.json();
         if (data.code === "already_member") {
-          alert("already member");
+          toast("already member", "error");
         } else if (data.code === "already_requested") {
-          alert("already requested");
+          toast("already requested", "error");
         } else {
-          alert(data.message);
+          toast(data.message, "error");
         }
       }
     });

@@ -1,6 +1,7 @@
 import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
+import {toast} from "../../utils/toast.js"
 import { waitForServer } from "../../utils/waitForServer.js";
 //!add issue tab
 const addIssueForm = document.querySelector(".issue-form");
@@ -17,7 +18,7 @@ function logOut() {
       window.location.href = "/index.html";
     }
     if (!res.ok) {
-      alert("logout failed");
+      toast("Logout failed","error")
     }
   });
 }
@@ -29,7 +30,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+          toast("Server not working", "error");
+
     document.body.classList.remove("loading");
   }
   logOut();
@@ -77,13 +79,14 @@ addIssueForm.addEventListener("submit", async (e) => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+          toast("Server not working", "error");
+
     document.body.classList.remove("loading");
   }
   document.body.classList.add("loading");
   const groupId = new URLSearchParams(window.location.search).get("id");
   if (!groupId) {
-    alert("Invalid group ID");
+    toast("invalid groupId","info")
     return;
   }
   const anonSwitch = document.getElementById("anonymousSwitch").checked;
@@ -106,7 +109,7 @@ addIssueForm.addEventListener("submit", async (e) => {
     window.location.href = "./groupInterface.html?id=" + groupId;
   } else {
     document.body.classList.remove("loading");
-    alert("something went wrong");
+    toast("Something went wrong","error")
   }
 });
 

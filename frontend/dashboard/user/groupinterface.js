@@ -2,6 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 import { waitForServer } from "../../utils/waitForServer.js";
+import {toast} from "../../utils/toast.js"
 document.querySelector(".username").addEventListener("click", (e) => {
   e.stopPropagation();
   const dropdown = document.querySelector(".dropdown-user");
@@ -39,7 +40,7 @@ function logOut() {
       window.location.href = "/index.html";
     }
     if (!res.ok) {
-      alert("logout failed");
+      toast("logout failed", "error");
     }
   });
 }
@@ -49,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    alert("server not working");
+    toast("server not working", "error");
     document.body.classList.remove("loading");
   }
   logOut();
@@ -414,7 +415,7 @@ deleteIssueBtn.addEventListener("click", () => {
     .addEventListener("click", async () => {
       const issueId = document.getElementById("delete-issue").dataset.issueId;
       if (!issueId) {
-        alert("something went wrong");
+        toast("something went wrong", "error");
       }
       if (issueId) {
         const res = await apiFetch(`${API_BASE}/issues/delete/${issueId}`, {
@@ -433,7 +434,7 @@ document.getElementById("edit-issue").addEventListener("click", () => {
   const issueId = document.getElementById("edit-issue").dataset.issueId;
   const groupId = new URLSearchParams(window.location.search).get("id");
   if (!issueId) {
-    alert("something went wrong");
+    toast("something went wrong", "error");
   }
   if (issueId) {
     window.location.href = `./editIssue.html?issueid=${issueId}&groupid=${groupId}`;
@@ -583,7 +584,7 @@ document.getElementById("exit-group").addEventListener("click", async () => {
         window.location.href = "./userpage.html";
       }
       if (!res.ok) {
-        alert("something went wrong");
+        toast("something went wrong", "error");
         window.location.reload();
       }
     });
