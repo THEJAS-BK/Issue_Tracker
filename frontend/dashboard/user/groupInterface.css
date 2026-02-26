@@ -872,6 +872,14 @@ p {
 #exit-group {
   color: red;
 }
+@media(max-width:320px){
+.issue-title {
+  max-width: 30%;      /* prevent pushing status badge */
+  white-space: nowrap; /* no line break */
+  overflow: hidden;    
+  text-overflow: ellipsis;
+}
+}
 /* Disable interaction */
 body.loading {
   pointer-events: none;
@@ -951,4 +959,10 @@ body.loading .page-loader {
   line-height: 1.5rem;
   max-height: 1.5rem; /* ≈ 2.3 lines */
   overflow: hidden;
+}
+.issue-title {
+  max-width: 80%;      /* prevent pushing status badge */
+  white-space: nowrap; /* no line break */
+  overflow: hidden;    
+  text-overflow: ellipsis;
 }

@@ -176,6 +176,7 @@ function createIssueCards(issue) {
 
   //card content data
   const h3 = document.createElement("h3");
+  h3.classList.add("issue-title");
   const divForNameAndTime = document.createElement("div");
   divForNameAndTime.setAttribute("style", "display:flex");
 
