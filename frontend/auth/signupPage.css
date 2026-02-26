@@ -180,3 +180,17 @@ body.loading .page-loader {
     padding: 0 0.5rem;
   }
 }
+@media(max-width: 330px) {
+  .signUpContainer {
+    height: 60vh;
+  }
+  .inpField i{
+    font-size: 0.95rem;
+  }
+  .inpField{
+    height: 2.5rem;
+  }
+  .inpField input{
+    font-size: 0.95rem;
+  }
+}
