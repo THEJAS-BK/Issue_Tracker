@@ -204,12 +204,12 @@ function AddIssueEvents() {
         alert("server not working");
         document.body.classList.remove("loading");
       }
-      document.body.classList.add("loading");
       allIssues.forEach((issue) => {
         issue.classList.remove("blue-border");
       });
       if (window.innerWidth < 768) {
         document.querySelector(".content-right").style.display = "block";
+        body
       }
       issue.classList.add("blue-border");
       const issueId = issue.dataset.issueId;
