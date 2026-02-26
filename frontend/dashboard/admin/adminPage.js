@@ -280,14 +280,12 @@ function updateIssuesOnRightSide(issue) {
   moreInfoBtn.dataset.userId = issue.createdBy._id;
   deleteIssueBtn.dataset.issueId = issue._id;
   //go back btn
+
+}
   document.querySelector(".go-back-btn").addEventListener("click", () => {
     document.querySelector(".content-right").style.display = "none";
   });
-  document.querySelector(".edit-more-info").addEventListener("click", () => {
-    document.querySelector(".right-issues-dropdown").classList.toggle("hidden");
-  });
   OpenMoreInfo();
-}
 //!already selected issue
 async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
@@ -1277,7 +1275,6 @@ function OpenMoreInfo() {
 
       //get issue logs data
       const groupId = new URLSearchParams(window.location.search).get("id");
-      console.log("user id ", userId, "\n groupId  ", groupId);
       const res = await apiFetch(
         `${API_BASE}/issues/${userId}/logs/history?groupId=${groupId}`,
         {
