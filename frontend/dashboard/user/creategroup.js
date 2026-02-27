@@ -8,8 +8,7 @@ function logOut() {
   logOutBtn.addEventListener("click", async () => {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
+      headers: { "Content-Type": "application/json" }
     });
     if (res.ok) {
       window.location.href = "/index.html";
@@ -34,8 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.querySelector(".groupImg").style.display = "none";
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
-    method: "GET",
-    credentials: "include",
+    method: "GET"
   });
   const nameData = await nameRes.json();
   name.textContent = nameData.username;

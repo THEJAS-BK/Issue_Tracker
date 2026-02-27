@@ -16,7 +16,6 @@ function logOut() {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
     });
     if (res.ok) {
       window.location.href = "/index.html";
@@ -39,7 +38,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
-    credentials: "include",
   });
   const nameData = await nameRes.json();
   name.textContent = nameData.username;
@@ -47,7 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const groupid = params.get("id");
   const res = await apiFetch(`${API_BASE}/groups/${groupid}/admin`, {
     method: "GET",
-    credentials: "include",
   });
   if (res.ok) {
     document.body.classList.remove("loading");
@@ -216,7 +213,6 @@ function AddIssueEvents() {
         `${API_BASE}/issues/details/${issueId}/admin`,
         {
           method: "GET",
-          credentials: "include",
         },
       );
       const data = await res.json();
@@ -291,7 +287,6 @@ async function firstValSelected() {
     const issueId = allIssues[0].dataset.issueId;
     const res = await apiFetch(`${API_BASE}/issues/details/${issueId}/admin`, {
       method: "GET",
-      credentials: "include",
     });
     const data = await res.json();
     updateIssuesOnRightSide(data.issue[0]);
@@ -324,7 +319,7 @@ function deleteIssueByAdmin() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-                toast("Server not working", "error");
+          toast("Server not working", "error");
 
           document.body.classList.remove("loading");
         }
@@ -334,7 +329,6 @@ function deleteIssueByAdmin() {
           `${API_BASE}/issues/${issueId}/delete/admin?q=${groupId}`,
           {
             method: "DELETE",
-            credentials: "include",
           },
         );
         if (res.ok) {
@@ -344,7 +338,7 @@ function deleteIssueByAdmin() {
           if (isServerOnline) {
             document.body.classList.remove("loading");
           } else {
-                  toast("Server not working", "error");
+            toast("Server not working", "error");
 
             document.body.classList.remove("loading");
           }
@@ -352,7 +346,6 @@ function deleteIssueByAdmin() {
             `${API_BASE}/issues/filter/${groupId}?state=${state}`,
             {
               method: "GET",
-              credentials: "include",
             },
           );
           document.querySelector(".issue-contents").innerHTML = "";
@@ -385,7 +378,7 @@ search.addEventListener("input", async (e) => {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-            toast("Server not working", "error");
+      toast("Server not working", "error");
 
       document.body.classList.remove("loading");
     }
@@ -393,7 +386,6 @@ search.addEventListener("input", async (e) => {
       `${API_BASE}/issues/search?q=${encodeURIComponent(searchTerm)}`,
       {
         method: "GET",
-        credentials: "include",
       },
     );
     const data = await res.json();
@@ -409,7 +401,7 @@ search.addEventListener("input", async (e) => {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-            toast("Server not working", "error");
+      toast("Server not working", "error");
 
       document.body.classList.remove("loading");
     }
@@ -417,7 +409,6 @@ search.addEventListener("input", async (e) => {
     document.querySelector(".issue-contents").innerHTML = "";
     const res = await apiFetch(`${API_BASE}/groups/interface/${id}`, {
       method: "GET",
-      credentials: "include",
     });
     const data = await res.json();
     for (let issue of data.issues) {
@@ -435,7 +426,7 @@ selectStatus.addEventListener("change", async (e) => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-          toast("Server not working", "error");
+    toast("Server not working", "error");
 
     document.body.classList.remove("loading");
   }
@@ -445,7 +436,6 @@ selectStatus.addEventListener("change", async (e) => {
     `${API_BASE}/issues/filter/${groupId}?state=${e.target.value}`,
     {
       method: "GET",
-      credentials: "include",
     },
   );
   const data = await res.json();
@@ -462,7 +452,7 @@ updateBtns.forEach((btn) => {
     if (btn.dataset.state === "resolved") {
       const markInProBtn = document.querySelector(".desc-inprogress");
       if (markInProBtn.style.display !== "none") {
-        toast("Issue must be in progress first","info")
+        toast("Issue must be in progress first", "info");
         return;
       }
     }
@@ -472,7 +462,7 @@ updateBtns.forEach((btn) => {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-            toast("Server not working", "error");
+      toast("Server not working", "error");
 
       document.body.classList.remove("loading");
     }
@@ -492,7 +482,6 @@ updateBtns.forEach((btn) => {
         `${API_BASE}/issues/filter/${groupId}?state=${state}`,
         {
           method: "GET",
-          credentials: "include",
         },
       );
       //update states
@@ -548,7 +537,7 @@ deleteGroupBtn.addEventListener("click", () => {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-              toast("Server not working", "error");
+        toast("Server not working", "error");
 
         document.body.classList.remove("loading");
       }
@@ -556,12 +545,11 @@ deleteGroupBtn.addEventListener("click", () => {
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(`${API_BASE}/groups/delete/${groupId}/admin`, {
         method: "DELETE",
-        credentials: "include",
       });
 
       if (!res.ok) {
         confirmDeleteInterface.style.display = "none";
-        toast("Failed to delete group","error")
+        toast("Failed to delete group", "error");
         return;
       }
 
@@ -653,7 +641,7 @@ function addMemberCard(member, role) {
     infoBtn.textContent = "more info...";
     kickBtn.textContent = "remove member";
   } else {
-    toast("Invalid login","info")
+    toast("Invalid login", "info");
   }
 
   // ---- assemble structure ----
@@ -697,14 +685,14 @@ document
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-            toast("Server not working", "error");
+      toast("Server not working", "error");
 
       document.body.classList.remove("loading");
     }
 
     const groupId = new URLSearchParams(window.location.search).get("id");
-    if (!groupId){
-      toast("Invalid","error")
+    if (!groupId) {
+      toast("Invalid", "error");
     }
     document.querySelector(".member-list").innerHTML = "";
 
@@ -712,7 +700,6 @@ document
       `${API_BASE}/groups/members/${groupId}/admin?state=all`,
       {
         method: "GET",
-        credentials: "include",
       },
     );
     const data = await res.json();
@@ -734,7 +721,7 @@ document
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-                toast("Server not working", "error");
+          toast("Server not working", "error");
 
           document.body.classList.remove("loading");
         }
@@ -742,7 +729,6 @@ document
           `${API_BASE}/groups/members/search/${groupId}/admin?q=${val}&state=${role}`,
           {
             method: "GET",
-            credentials: "include",
           },
         );
 
@@ -762,7 +748,7 @@ document
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-                toast("Server not working", "error");
+          toast("Server not working", "error");
 
           document.body.classList.remove("loading");
         }
@@ -771,7 +757,6 @@ document
           `${API_BASE}/groups/members/${groupId}/admin?state=${role}`,
           {
             method: "GET",
-            credentials: "include",
           },
         );
         const data = await res.json();
@@ -806,7 +791,7 @@ async function reloadFilters(groupId) {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-          toast("Server not working", "error");
+    toast("Server not working", "error");
 
     document.body.classList.remove("loading");
   }
@@ -815,7 +800,6 @@ async function reloadFilters(groupId) {
     `${API_BASE}/groups/members/${groupId}/admin?state=${state}`,
     {
       method: "GET",
-      credentials: "include",
     },
   );
   const data = await res.json();
@@ -847,7 +831,7 @@ function enableFilterOptions(groupId) {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-              toast("Server not working", "error");
+        toast("Server not working", "error");
 
         document.body.classList.remove("loading");
       }
@@ -856,7 +840,6 @@ function enableFilterOptions(groupId) {
         `${API_BASE}/groups/members/${groupId}/admin?state=${role}`,
         {
           method: "GET",
-          credentials: "include",
         },
       );
 
@@ -876,7 +859,7 @@ function enableFilterOptions(groupId) {
         //more info
         OpenMoreInfo();
       } else {
-       toast("invalid","error")
+        toast("invalid", "error");
       }
     });
 }
@@ -894,7 +877,7 @@ function promoteToCoAdmin() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-                toast("Server not working", "error");
+          toast("Server not working", "error");
 
           document.body.classList.remove("loading");
         }
@@ -903,7 +886,6 @@ function promoteToCoAdmin() {
           `${API_BASE}/groups/members/promote/${groupId}/${userId}/admin`,
           {
             method: "PUT",
-            credentials: "include",
           },
         );
         //update member tab status
@@ -933,7 +915,7 @@ function demoteToMember() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-                toast("Server not working", "error");
+          toast("Server not working", "error");
 
           document.body.classList.remove("loading");
         }
@@ -942,7 +924,6 @@ function demoteToMember() {
           `${API_BASE}/groups/members/demote/${groupId}/${userId}/admin`,
           {
             method: "PUT",
-            credentials: "include",
           },
         );
         //update member tab status
@@ -979,7 +960,7 @@ function kickMember() {
           if (isServerOnline) {
             document.body.classList.remove("loading");
           } else {
-                  toast("Server not working", "error");
+            toast("Server not working", "error");
 
             document.body.classList.remove("loading");
           }
@@ -988,7 +969,6 @@ function kickMember() {
             `${API_BASE}/groups/members/kick/${groupId}/${userId}/admin`,
             {
               method: "DELETE",
-              credentials: "include",
             },
           );
           if (res.ok) {
@@ -1073,7 +1053,7 @@ document
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-            toast("Server not working", "error");
+      toast("Server not working", "error");
 
       document.body.classList.remove("loading");
     }
@@ -1084,7 +1064,6 @@ document
       `${API_BASE}/groups/join/request/${groupId}/admin`,
       {
         method: "GET",
-        credentials: "include",
       },
     );
     const data = await res.json();
@@ -1111,7 +1090,7 @@ document
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-                toast("Server not working", "error");
+          toast("Server not working", "error");
 
           document.body.classList.remove("loading");
         }
@@ -1121,7 +1100,6 @@ document
           `${API_BASE}/groups/join/request/${groupId}/admin`,
           {
             method: "GET",
-            credentials: "include",
           },
         );
         const data = await res.json();
@@ -1149,7 +1127,7 @@ function acceptJoinRequest() {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-              toast("Server not working", "error");
+        toast("Server not working", "error");
 
         document.body.classList.remove("loading");
       }
@@ -1158,14 +1136,13 @@ function acceptJoinRequest() {
         `${API_BASE}/groups/join/request/${userId}/admin?q=${groupId}`,
         {
           method: "POST",
-          credentials: "include",
         },
       );
       if (res.ok) {
         parentEle.remove();
       }
       if (!res.ok) {
-        toast("Failed to accept join request","error")
+        toast("Failed to accept join request", "error");
       }
     });
   });
@@ -1185,7 +1162,7 @@ function declineJoinReq() {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-              toast("Server not working", "error");
+        toast("Server not working", "error");
 
         document.body.classList.remove("loading");
       }
@@ -1194,7 +1171,6 @@ function declineJoinReq() {
         `${API_BASE}/groups/join/request/${userId}/admin?q=${groupId}`,
         {
           method: "DELETE",
-          credentials: "include",
         },
       );
       if (res.ok) {
@@ -1216,7 +1192,7 @@ function searchRequests() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-                toast("Server not working", "error");
+          toast("Server not working", "error");
 
           document.body.classList.remove("loading");
         }
@@ -1225,7 +1201,6 @@ function searchRequests() {
           `${API_BASE}/groups/join/request/${groupId}/admin/search?q=${e.target.value}`,
           {
             method: "GET",
-            credentials: "include",
           },
         );
         const data = await res.json();
@@ -1243,7 +1218,7 @@ function searchRequests() {
         if (isServerOnline) {
           document.body.classList.remove("loading");
         } else {
-                toast("Server not working", "error");
+          toast("Server not working", "error");
 
           document.body.classList.remove("loading");
         }
@@ -1253,7 +1228,6 @@ function searchRequests() {
           `${API_BASE}/groups/join/request/${groupId}/admin`,
           {
             method: "GET",
-            credentials: "include",
           },
         );
         const data = await res.json();
@@ -1291,7 +1265,7 @@ function OpenMoreInfo() {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-              toast("Server not working", "error");
+        toast("Server not working", "error");
 
         document.body.classList.remove("loading");
       }
@@ -1302,7 +1276,6 @@ function OpenMoreInfo() {
         `${API_BASE}/issues/${userId}/logs/history?groupId=${groupId}`,
         {
           method: "GET",
-          credentials: "include",
         },
       );
       console.log(res);
@@ -1433,7 +1406,7 @@ document.getElementById("exit-group").addEventListener("click", async () => {
       if (isServerOnline) {
         document.body.classList.remove("loading");
       } else {
-              toast("Server not working", "error");
+        toast("Server not working", "error");
 
         document.body.classList.remove("loading");
       }
@@ -1441,7 +1414,6 @@ document.getElementById("exit-group").addEventListener("click", async () => {
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(`${API_BASE}/groups/leave/${groupId}`, {
         method: "DELETE",
-        credentials: "include",
       });
       if (res.ok) {
         window.location.href = "../user/userpage.html";

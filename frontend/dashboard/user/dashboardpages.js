@@ -16,7 +16,7 @@ function logOut(){
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
+      
     });
     if (res.ok) {
       window.location.href = "/index.html";
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        
       },
     );
     const data = await res.json();
@@ -196,7 +196,7 @@ searchInp.addEventListener("input", async () => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        
       },
     );
     const data = await res.json();
@@ -274,7 +274,7 @@ async function idForSearchResults() {
         `${API_BASE}/groups/member/add/${btn.dataset.groupId}`,
         {
           method: "POST",
-          credentials: "include",
+          
         },
       );
       if (res.ok) {
@@ -300,7 +300,7 @@ searchJoinedGroups.addEventListener("input", async (e) => {
   if (val.length > 1) {
     const res = await apiFetch(`${API_BASE}/groups/search/joined?q=${val}`, {
       method: "GET",
-      credentials: "include",
+      
     });
 
     //inserting things
@@ -341,7 +341,7 @@ async function joinRequest() {
         `${API_BASE}/groups/join/request/${btn.dataset.groupId}`,
         {
           method: "POST",
-          credentials: "include",
+          
         },
       );
       if (res.ok) {

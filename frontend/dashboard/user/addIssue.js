@@ -1,7 +1,7 @@
 import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
-import {toast} from "../../utils/toast.js"
+import { toast } from "../../utils/toast.js";
 import { waitForServer } from "../../utils/waitForServer.js";
 //!add issue tab
 const addIssueForm = document.querySelector(".issue-form");
@@ -12,13 +12,12 @@ function logOut() {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
     });
     if (res.ok) {
       window.location.href = "/index.html";
     }
     if (!res.ok) {
-      toast("Logout failed","error")
+      toast("Logout failed", "error");
     }
   });
 }
@@ -30,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-          toast("Server not working", "error");
+    toast("Server not working", "error");
 
     document.body.classList.remove("loading");
   }
@@ -38,7 +37,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
-    credentials: "include",
   });
   const nameData = await nameRes.json();
   name.textContent = nameData.username;
@@ -48,7 +46,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     `${API_BASE}/issues/imageUploadAllowed/${groupId}`,
     {
       method: "GET",
-      credentials: "include",
     },
   );
   const isImageUploadAllowed = await res.json();
@@ -79,14 +76,14 @@ addIssueForm.addEventListener("submit", async (e) => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-          toast("Server not working", "error");
+    toast("Server not working", "error");
 
     document.body.classList.remove("loading");
   }
   document.body.classList.add("loading");
   const groupId = new URLSearchParams(window.location.search).get("id");
   if (!groupId) {
-    toast("invalid groupId","info")
+    toast("invalid groupId", "info");
     return;
   }
   const anonSwitch = document.getElementById("anonymousSwitch").checked;
@@ -102,14 +99,13 @@ addIssueForm.addEventListener("submit", async (e) => {
 
   const res = await apiFetch(`${API_BASE}/issues/add/${groupId}`, {
     method: "POST",
-    credentials: "include",
     body: formData,
   });
   if (res.ok) {
     window.location.href = "./groupInterface.html?id=" + groupId;
   } else {
     document.body.classList.remove("loading");
-    toast("Something went wrong","error")
+    toast("Something went wrong", "error");
   }
 });
 

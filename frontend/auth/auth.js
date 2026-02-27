@@ -65,16 +65,17 @@ if (signupForm) {
     });
     const data = await res.json();
     if (res.status === 409) {
-      toast("Email already exist", "info");
-
+      toast("Email already exist", "error");
       document.body.classList.remove("loading");
       return;
     }
     if (data.success) {
       document.body.classList.remove("loading");
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
       window.location.href = "/dashboard/user/userpage.html";
     } else {
-      toast("Something went wron", "error");
+      toast("Something went wrong", "error");
       window.location.reload();
     }
   });
@@ -115,9 +116,12 @@ if (loginForm) {
     });
     if (res.status === 401) {
       document.body.classList.remove("loading");
-      toast("User not found", "info");
+      toast("User not found", "error");
       return;
     } else if (res.ok) {
+      const data = await res.json();
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
       window.location.href = "/dashboard/user/userpage.html";
     } else {
       alert("server not working");

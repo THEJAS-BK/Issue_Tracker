@@ -8,8 +8,7 @@ function logOut() {
   logOutBtn.addEventListener("click", async () => {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
+      headers: { "Content-Type": "application/json" }
     });
     if (res.ok) {
       window.location.href = "/index.html";
@@ -42,8 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   logOut();
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
-    method: "GET",
-    credentials: "include",
+    method: "GET"
   });
   const nameData = await nameRes.json();
   name.textContent = nameData.username;
@@ -56,8 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!groupId) return;
 
   const res = await apiFetch(`${API_BASE}/groups/edit/${groupId}/admin`, {
-    method: "GET",
-    credentials: "include",
+    method: "GET"
   });
   if (res.ok) {
     document.body.classList.remove("loading");
@@ -129,7 +126,6 @@ createGroupForm.addEventListener("submit", async (e) => {
   }
   const res = await apiFetch(`${API_BASE}/groups/update/${groupId}/admin`, {
     method: "PATCH",
-    credentials: "include",
     body: formData,
   });
   if (res.ok) {

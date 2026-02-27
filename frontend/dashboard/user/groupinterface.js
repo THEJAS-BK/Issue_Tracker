@@ -2,7 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 import { waitForServer } from "../../utils/waitForServer.js";
-import {toast} from "../../utils/toast.js"
+import { toast } from "../../utils/toast.js";
 document.querySelector(".username").addEventListener("click", (e) => {
   e.stopPropagation();
   const dropdown = document.querySelector(".dropdown-user");
@@ -34,7 +34,6 @@ function logOut() {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
     });
     if (res.ok) {
       window.location.href = "/index.html";
@@ -76,7 +75,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   //show contents
   const res = await apiFetch(`${API_BASE}/groups/interface/${groupId}`, {
     method: "GET",
-    credentials: "include",
   });
   if (res.ok) {
     document.body.classList.remove("loading");
@@ -102,28 +100,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   groupName.textContent = data.groupDetails.groupname;
   groupDesc.textContent = data.groupDetails.description;
   inviteCode.textContent = data.groupDetails.inviteCode;
-//add description
-const headEle=document.querySelector(".head")
-document.querySelectorAll(".read-more-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const desc = btn.previousElementSibling;
-   const btnHeight=document.querySelector(".read-more-btn")
-   if(btnHeight.innerText==="Read more"){
-    headEle.style.height="26vh"
-   }
-   else{
-    headEle.style.height="19vh"
-   }
+  //add description
+  const headEle = document.querySelector(".head");
+  document.querySelectorAll(".read-more-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const desc = btn.previousElementSibling;
+      const btnHeight = document.querySelector(".read-more-btn");
+      if (btnHeight.innerText === "Read more") {
+        headEle.style.height = "26vh";
+      } else {
+        headEle.style.height = "19vh";
+      }
 
-    desc.classList.toggle("collapsed");
+      desc.classList.toggle("collapsed");
 
-    btn.textContent =
-      desc.classList.contains("collapsed")
+      btn.textContent = desc.classList.contains("collapsed")
         ? "Read more"
         : "Show less";
+    });
   });
-
-});
 
   //admin dashboard btn code
   const adminDashboardBtn = document.querySelector(".admin-dashboard-btn");
@@ -304,7 +299,6 @@ search.addEventListener("input", async () => {
       `${API_BASE}/issues/search?q=${encodeURIComponent(val)}&groupId=${new URLSearchParams(window.location.search).get("id")}`,
       {
         method: "GET",
-        credentials: "include",
       },
     );
     const data = await res.json();
@@ -319,7 +313,6 @@ search.addEventListener("input", async () => {
     document.querySelector(".issues").innerHTML = "";
     const res = await apiFetch(`${API_BASE}/groups/interface/${id}`, {
       method: "GET",
-      credentials: "include",
     });
     const data = await res.json();
     for (let issue of data.issues) {
@@ -340,7 +333,6 @@ async function addEventToIssueCards() {
       `${API_BASE}/issues/details/${issueId}`,
       {
         method: "GET",
-        credentials: "include",
       },
     );
     const firstEntryData = await firstEntryres.json();
@@ -359,7 +351,8 @@ async function addEventToIssueCards() {
         const mainRight = document.querySelector(".mainright");
         mainRight.classList.remove("hidden");
         const goBackBtn = document.querySelector(".go-back-btn");
-        goBackBtn.addEventListener("click", () => {
+        goBackBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
           mainRight.classList.add("hidden");
         });
       }
@@ -369,7 +362,6 @@ async function addEventToIssueCards() {
         `${API_BASE}/issues/details/${issueId}`,
         {
           method: "GET",
-          credentials: "include",
         },
       );
       const Completedata = await Completeres.json();
@@ -387,7 +379,6 @@ selectStatus.addEventListener("change", async (e) => {
     `${API_BASE}/issues/filter/${groupId}?state=${searchVal}`,
     {
       method: "GET",
-      credentials: "include",
     },
   );
   const data = await res.json();
@@ -420,7 +411,6 @@ deleteIssueBtn.addEventListener("click", () => {
       if (issueId) {
         const res = await apiFetch(`${API_BASE}/issues/delete/${issueId}`, {
           method: "DELETE",
-          credentials: "include",
         });
         if (res.ok) {
           confirmDeleteInterface.style.display = "none";
@@ -488,7 +478,6 @@ document.getElementById("show-members").addEventListener("click", async () => {
     `${API_BASE}/groups/members/${groupId}?state=${role}`,
     {
       method: "GET",
-      credentials: "include",
     },
   );
 
@@ -511,7 +500,6 @@ document.getElementById("show-members").addEventListener("click", async () => {
         `${API_BASE}/groups/members/search/${groupId}?q=${val}&state=${role}`,
         {
           method: "GET",
-          credentials: "include",
         },
       );
 
@@ -531,7 +519,6 @@ document.getElementById("show-members").addEventListener("click", async () => {
         `${API_BASE}/groups/members/${groupId}?state=${role}`,
         {
           method: "GET",
-          credentials: "include",
         },
       );
 
@@ -557,7 +544,6 @@ function enablingFilterOptionForMember() {
         `${API_BASE}/groups/members/${groupId}?state=${role}`,
         {
           method: "GET",
-          credentials: "include",
         },
       );
       const data = await res.json();
@@ -578,7 +564,6 @@ document.getElementById("exit-group").addEventListener("click", async () => {
       const groupId = new URLSearchParams(window.location.search).get("id");
       const res = await apiFetch(`${API_BASE}/groups/leave/${groupId}`, {
         method: "DELETE",
-        credentials: "include",
       });
       if (res.ok) {
         window.location.href = "./userpage.html";
