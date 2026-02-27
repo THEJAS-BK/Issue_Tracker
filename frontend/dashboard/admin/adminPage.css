@@ -1130,6 +1130,7 @@ p {
     z-index: 999;
     overflow-y: auto;
     border-radius: 12px;
+    display: none;
   }
   .head-title {
     padding: 0.25rem 0.5rem;
