@@ -2,12 +2,6 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 //cookie option
-const cookieOption = {
-  httpOnly: true,
-  secure: true,
-  sameSite: "none",
-  path:"/"
-};
 
 module.exports.signUp = async (req, res, next) => {
   try {
@@ -25,33 +19,22 @@ module.exports.signUp = async (req, res, next) => {
     const accessToken = jwt.sign(
       { userId: newUser._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "15m" },
     );
 
     const refreshToken = jwt.sign(
       { userId: newUser._id },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "7d" },
     );
-
     newUser.refreshToken = refreshToken;
     await newUser.save();
 
-    res
-      .cookie("accessToken", accessToken, {
-        ...cookieOption,
-        maxAge: 15 * 60 * 1000,
-      })
-      .cookie("refreshToken", refreshToken, {
-        ...cookieOption,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-
-    res.json({ success: true });
+    res.json({ success: true, accessToken, refreshToken });
   } catch (err) {
-   if(err.code===11000){
-    return res.status(409).json({ error: "User already exists" });
-   }
+    if (err.code === 11000) {
+      return res.status(409).json({ error: "User already exists" });
+    }
     next(err);
   }
 };
@@ -85,52 +68,62 @@ module.exports.login = async (req, res, next) => {
     curUser.refreshToken = refreshToken;
     await curUser.save();
     //storing Tokens in cookie
-    res
-      .cookie("accessToken", accessToken, {
-        ...cookieOption,
-        maxAge: 16*60*1000,
-      })
-      .cookie("refreshToken", refreshToken, {
-        ...cookieOption,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
     //sending success status
-    res.sendStatus(200);
+    res.json({ success: true, accessToken, refreshToken });
   } catch (err) {
     next(err); //internal server error
   }
 };
-module.exports.refreshToken = (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+module.exports.refreshToken = async (req, res) => {
+  const refreshToken = req.headers.authorization;
   if (!refreshToken) return res.sendStatus(401);
 
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
-    if (err) return res.sendStatus(403);
+  jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET,
+    async (err, payload) => {
+      if (err) return res.sendStatus(403);
 
-    const newAccessToken = jwt.sign(
-      { userId: payload.userId },
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "15m",
-      },
-    );
-    res.cookie("accessToken", newAccessToken, {
-      ...cookieOption,
-      maxAge: 15 * 60 * 60 * 1000,
-    });
-    return res.sendStatus(200);
-  });
+      const curUser = await User.findById(payload.userId);
+      if (!curUser || curUser.refreshToken !== refreshToken) {
+        return res
+          .status(403)
+          .json({ error: "User not found or invalid refresh token" });
+      }
+
+      const newAccessToken = jwt.sign(
+        { userId: payload.userId },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: "15m",
+        },
+      );
+      const newRefreshToken = jwt.sign(
+        { userId: payload.userId },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+          expiresIn: "7d",
+        },
+      );
+      curUser.refreshToken = newRefreshToken;
+      await curUser.save();
+      return res.json({
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+      });
+    },
+  );
 };
 //!logout user
-module.exports.logout=async(req,res,next)=>{
-  try{
-    res.clearCookie("accessToken",cookieOption);
-    res.clearCookie("refreshToken",cookieOption);
+module.exports.logout = async (req, res, next) => {
+  try {
+    res.clearCookie("accessToken", cookieOption);
+    res.clearCookie("refreshToken", cookieOption);
     res.json({ success: true });
   } catch (err) {
     next(err);
   }
-}
+};
 //!send username
 module.exports.getUsername = async (req, res, next) => {
   try {
