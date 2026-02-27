@@ -78,14 +78,17 @@ module.exports.refreshToken = async (req, res) => {
   const refreshToken = req.headers.authorization;
   if (!refreshToken) return res.sendStatus(401);
 
+  const token =refreshToken.split(" ")[1];
+
   jwt.verify(
-    refreshToken,
+    token,
     process.env.REFRESH_TOKEN_SECRET,
     async (err, payload) => {
       if (err) return res.sendStatus(403);
 
       const curUser = await User.findById(payload.userId);
-      if (!curUser || curUser.refreshToken !== refreshToken) {
+ 
+      if (!curUser || curUser.refreshToken !== token) {
         return res
           .status(403)
           .json({ error: "User not found or invalid refresh token" });
@@ -117,8 +120,16 @@ module.exports.refreshToken = async (req, res) => {
 //!logout user
 module.exports.logout = async (req, res, next) => {
   try {
-    res.clearCookie("accessToken", cookieOption);
-    res.clearCookie("refreshToken", cookieOption);
+    const user = req.user.userId;
+    if(!user){
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const curUser = await User.findById(user);
+    if (!curUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    curUser.refreshToken = null;
+    await curUser.save();
     res.json({ success: true });
   } catch (err) {
     next(err);
