@@ -18,8 +18,8 @@ function logOut() {
       headers: { "Content-Type": "application/json" },
     });
     if (res.ok) {
-      localStorage.removeItem("accessToken")
-      localStorage.removeItem("refreshToken")
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       window.location.href = "/index.html";
     }
     if (!res.ok) {
@@ -209,7 +209,6 @@ function AddIssueEvents() {
       });
       if (window.innerWidth < 768) {
         document.querySelector(".content-right").style.display = "block";
-        body;
       }
       issue.classList.add("blue-border");
       const issueId = issue.dataset.issueId;
@@ -287,7 +286,12 @@ OpenMoreInfo();
 //!already selected issue
 async function firstValSelected() {
   const allIssues = document.querySelectorAll(".content-bars");
+  const rightSide = document.querySelector(".content-right");
+  const rightContents = rightSide.querySelectorAll("*");
   if (allIssues[0]) {
+    rightContents.forEach((el) => {
+      el.style.display = "";
+    });
     const issueId = allIssues[0].dataset.issueId;
     const res = await apiFetch(`${API_BASE}/issues/details/${issueId}/admin`, {
       method: "GET",
@@ -298,6 +302,10 @@ async function firstValSelected() {
     allIssues[0].classList.add("blue-border");
     //deleteIssue btn
     deleteIssueByAdmin();
+  } else {
+    rightContents.forEach((el) => {
+      el.style.display = "none";
+    });
   }
 }
 //!delete issue function

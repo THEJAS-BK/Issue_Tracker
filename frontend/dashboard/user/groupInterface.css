@@ -228,6 +228,7 @@ main {
   overflow-x: hidden;
   color: rgb(41, 39, 39);
   margin-bottom: 0.75rem;
+      word-wrap: break-word;
 }
 .right-image {
   width: 60%;
