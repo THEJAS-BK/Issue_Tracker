@@ -34,6 +34,7 @@ module.exports.createGroup = async (req, res, next) => {
       createdBy: req.user.userId,
       members: [{ userId: req.user.userId, role: "admin" }],
     });
+
     await newGroup.save();
     res.sendStatus(200);
   } catch (err) {
