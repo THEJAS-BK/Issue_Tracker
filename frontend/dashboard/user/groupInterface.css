@@ -437,7 +437,7 @@ p {
   overflow: hidden;
   background-color: rgb(125, 128, 129);
   border: 4px solid black;
-  z-index: 999999;
+  z-index: 999;
 }
 .hidden {
   display: none;
@@ -626,6 +626,7 @@ p {
 
   .card-content > h3 {
     font-size: 1.2rem;
+    max-width: 100%;
   }
   .name,
   .time-ago {
@@ -881,6 +882,7 @@ p {
     white-space: nowrap; /* no line break */
     overflow: hidden;
     text-overflow: ellipsis;
+        font-size: 0.95rem;
   }
 }
 /* Disable interaction */
@@ -964,6 +966,7 @@ body.loading .page-loader {
   overflow: hidden;
 }
 .issue-title {
+  font-size: 0.95rem;
   max-width: 80%; /* prevent pushing status badge */
   white-space: nowrap; /* no line break */
   overflow: hidden;

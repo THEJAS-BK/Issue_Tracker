@@ -2,21 +2,21 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 import { waitForServer } from "../../utils/waitForServer.js";
 const API_BASE = sendApiBase();
-import {toast} from "../../utils/toast.js"
+import { toast } from "../../utils/toast.js";
 function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     });
     if (res.ok) {
-         localStorage.removeItem("accessToken")
-      localStorage.removeItem("refreshToken")
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       window.location.href = "/index.html";
     }
     if (!res.ok) {
-      toast("Logout failed","error")
+      toast("Logout failed", "error");
     }
   });
 }
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-          toast("Server not working", "error");
+    toast("Server not working", "error");
 
     document.body.classList.remove("loading");
   }
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.querySelector(".groupImg").style.display = "none";
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
-    method: "GET"
+    method: "GET",
   });
   const nameData = await nameRes.json();
   name.textContent = nameData.username;
@@ -54,11 +54,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (isServerOnline) {
       document.body.classList.remove("loading");
     } else {
-            toast("Server not working", "error");
+      toast("Server not working", "error");
 
       document.body.classList.remove("loading");
     }
-  document.body.classList.add("loading");
+    document.body.classList.add("loading");
     const formData = new FormData();
     formData.append("groupname", createGroupForm.groupname.value);
     formData.append("description", createGroupForm.description.value);
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // image input
     const fileInput = document.querySelector("#group-profile");
     if (!fileInput.files[0]) {
-      toast("Group image is required","error")
+      toast("Group image is required", "error");
       document.body.classList.remove("loading");
       return;
     }
@@ -78,7 +78,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const res = await apiFetch(`${API_BASE}/groups/create`, {
       method: "POST",
-      credentials:"include",
       body: formData,
     });
     if (res.ok) {
@@ -86,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "./userpage.html";
     }
     if (!res.ok) {
-      toast("Something went wrong")
+      toast("Something went wrong","error");
       document.body.classList.remove("loading");
     }
   });
