@@ -218,7 +218,9 @@ function createIndSearchCard(group) {
 
   // Image
   const img = document.createElement("img");
-  img.src = "../../assets/images.jpg";
+ if(group.image){
+   img.src = group.image.url;
+ }
   img.alt = "group image";
 
   // Content box
