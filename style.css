@@ -290,20 +290,5 @@ section{
   section{
     height: 100%;
   }
-}
-#admin-options{
-  display: flex;
-  flex-wrap: wrap;
-  padding-top: 1rem;
-  height: 120vh;
-}
-#admin-options div{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-#admin-options img{
-  width: 40%;
-  margin: 10px;
-  height: 400px;
+
 }
