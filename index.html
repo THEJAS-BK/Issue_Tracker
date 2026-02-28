@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Issue Tracker</title>
+    <link rel="icon" href="/assets/logo.png" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <!-- Logo -->
+        <div class="logo">Issue Tracker</div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#tech">Tech Stack</a></li>
+          <li><a href="#demo">Demo</a></li>
+          <li><a href="#" class="nav-btn">Live App</a></li>
+        </ul>
+
+        <!-- Mobile Menu Button -->
+        <div class="menu-toggle" id="menuToggle">☰</div>
+      </div>
+    </nav>
+    <section class="hero">
+      <div class="hero-container">
+        <h1>Issue Management System</h1>
+        <p>
+          A centralized platform to report and manage community issues
+          efficiently.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#" class="btn primary">Sign in</a>
+          <a href="#" class="btn secondary">Github</a>
+        </div>
+      </div>
+    </section>
+    
+    <section id="features">
+
+    </section>
+
+    <section class="feature" id="userDasboard" >
+      <img src="assets/dashboard.png" alt="Dashboard" />
+      <div class="feature-text">
+        <h2>User Dashboard</h2>
+        <p>Clean SPA dashboard for navigating groups and issues.</p>
+        <ul>
+          <li>Fast navigation</li>
+          <li>Mobile responsive</li>
+          <li>Modern UI</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="feature reverse" id="issueReport">
+      <div class="feature-text">
+        <h2>Issue Reporting</h2>
+        <p>Report problems instantly with optional anonymity.</p>
+        <ul>
+          <li>Image upload</li>
+          <li>Drag & Drop</li>
+          <li>Form validation</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="feature">
+      <img src="assets/admin.png" alt="Admin Panel" />
+      <div class="feature-text">
+        <h2>Admin Management</h2>
+        <p>Admins moderate issues and manage permissions.</p>
+        <ul>
+          <li>Approval system</li>
+          <li>Group controls</li>
+          <li>User moderation</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="feature reverse">
+      <img src="assets/auth.png" alt="Auth" />
+      <div class="feature-text">
+        <h2>Authentication System</h2>
+        <p>Secure JWT-based login and protected routes.</p>
+        <ul>
+          <li>Access + Refresh tokens</li>
+          <li>Auto session restore</li>
+          <li>Secure logout</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="feature">
+      <img src="assets/performance.png" alt="Performance" />
+      <div class="feature-text">
+        <h2>Smart Engineering Features</h2>
+        <p>Performance and UX optimizations built into the app.</p>
+        <ul>
+          <li>Client-side image compression</li>
+          <li>Loading states</li>
+          <li>Toast notifications</li>
+          <li>Server health checks</li>
+        </ul>
+      </div>
+    </section>
+
+
+      <section id="tech" class="tech-section">
+
+  <h2 class="section-title">Tech Stack</h2>
+
+  <div class="tech-grid">
+
+    <!-- Frontend -->
+    <div class="tech-card">
+      <h3>Frontend</h3>
+      <ul>
+        <li>HTML5</li>
+        <li>CSS3</li>
+        <li>JavaScript (SPA)</li>
+        <li>Bootstrap</li>
+      </ul>
+    </div>
+
+    <!-- Backend -->
+    <div class="tech-card">
+      <h3>Backend</h3>
+      <ul>
+        <li>Node.js</li>
+        <li>Express.js</li>
+        <li>REST APIs</li>
+      </ul>
+    </div>
+
+    <!-- Database -->
+    <div class="tech-card">
+      <h3>Database</h3>
+      <ul>
+        <li>MongoDB</li>
+        <li>Mongoose ODM</li>
+      </ul>
+    </div>
+
+    <!-- Media & Storage -->
+    <div class="tech-card">
+      <h3>Image Upload</h3>
+      <ul>
+        <li>Multer</li>
+        <li>Cloudinary</li>
+        <li>Image Compression</li>
+      </ul>
+    </div>
+
+  </div>
+
+</section>
+
+
+    <section class="cta">
+      <h2>Try the Project Yourself</h2>
+      <a href="#" class="btn primary large">Open Live Application</a>
+    </section>
+  </body>
+  <script>
+    const toggle = document.getElementById("menuToggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    toggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  </script>
+</html>
