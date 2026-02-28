@@ -14,8 +14,8 @@ header {
   position: relative;
   padding: 0 2rem;
 }
-.dropdown-user>.logout-btn{
-  color:red;
+.dropdown-user > .logout-btn {
+  color: red;
 }
 .left-section {
   color: white;
@@ -86,7 +86,7 @@ main {
   box-shadow: 0 0 5px grey;
   border-radius: 4px;
   height: 100%;
-      overflow: auto;
+  overflow: auto;
 }
 /* Main left code section  */
 .search {
@@ -197,7 +197,7 @@ main {
   color: grey;
 }
 .name {
-  color:grey
+  color: grey;
 }
 /* Description  */
 .right-description {
@@ -223,14 +223,14 @@ main {
 .description-body-content {
   margin-top: 1rem;
   line-height: 1.25rem;
-    height: 35%;
+  height: 35%;
   overflow: scroll;
   overflow-x: hidden;
   color: rgb(41, 39, 39);
   margin-bottom: 0.75rem;
 }
 .right-image {
-  width: 50%;
+  width: 60%;
   box-shadow: 0 0 5px grey;
   border-radius: 10px;
   margin: 0 auto;
@@ -526,15 +526,14 @@ p {
   header {
     padding: 0 1rem;
   }
-  .group-description{
+  .group-description {
     font-size: 0.85rem;
   }
-  .head{
-    padding:0  0.5rem;
-
+  .head {
+    padding: 0 0.5rem;
   }
-  .group-description{
-    width:90vw !important
+  .group-description {
+    width: 90vw !important;
   }
 
   .home-btn-dashboard {
@@ -553,8 +552,7 @@ p {
   .head {
     flex-direction: column;
     align-items: flex-start;
-        height: 21vh;
-
+    height: 21vh;
   }
 
   .addIssue-btn {
@@ -578,8 +576,8 @@ p {
     background-color: white;
     padding: 0;
 
-            width: 85%;
-        max-width: 520px;
+    width: 85%;
+    max-width: 520px;
     top: 0;
     left: 5px;
     overflow: auto;
@@ -602,6 +600,12 @@ p {
 
   .searchInp {
     width: 100%;
+  }
+  .right-image {
+    width: 90%;
+    box-shadow: 0 0 5px grey;
+    border-radius: 10px;
+    margin: 0 auto;
   }
 
   #search-filter {
@@ -642,7 +646,6 @@ p {
     gap: 0.25rem;
   }
 
-
   /* Modals */
   .members-tab {
     padding: 0.5rem 0.75rem;
@@ -668,8 +671,8 @@ p {
     display: block;
     border-radius: 0;
   }
-  .mainright{
-    width:100%;
+  .mainright {
+    width: 100%;
   }
 }
 @media (min-width: 480px) and (max-width: 768px) {
@@ -717,8 +720,8 @@ p {
     top: 0;
 
     z-index: 900;
-            width: 85%;
-        max-width: 520px;
+    width: 85%;
+    max-width: 520px;
     background-color: white;
     padding: 0.75rem;
     overflow-y: auto;
@@ -727,9 +730,9 @@ p {
     align-self: center;
     margin-top: 5rem;
   }
-.hidden{
-  display: none;
-}
+  .hidden {
+    display: none;
+  }
   .go-back-btn {
     margin: 1.2rem 0 0 0.95rem;
     padding: 0.5rem 1rem;
@@ -872,13 +875,13 @@ p {
 #exit-group {
   color: red;
 }
-@media(max-width:320px){
-.issue-title {
-  max-width: 30%;      /* prevent pushing status badge */
-  white-space: nowrap; /* no line break */
-  overflow: hidden;    
-  text-overflow: ellipsis;
-}
+@media (max-width: 320px) {
+  .issue-title {
+    max-width: 30%; /* prevent pushing status badge */
+    white-space: nowrap; /* no line break */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 /* Disable interaction */
 body.loading {
@@ -943,9 +946,9 @@ body.loading .page-loader {
   }
 }
 .group-description {
-      overflow-wrap: anywhere;
-    width: 50vw;
-    height: fit-content;
+  overflow-wrap: anywhere;
+  width: 50vw;
+  height: fit-content;
 }
 
 .read-more-btn {
@@ -961,8 +964,8 @@ body.loading .page-loader {
   overflow: hidden;
 }
 .issue-title {
-  max-width: 80%;      /* prevent pushing status badge */
+  max-width: 80%; /* prevent pushing status badge */
   white-space: nowrap; /* no line break */
-  overflow: hidden;    
+  overflow: hidden;
   text-overflow: ellipsis;
 }

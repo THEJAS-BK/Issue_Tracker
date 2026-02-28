@@ -11,6 +11,8 @@ function logOut() {
       headers: { "Content-Type": "application/json" }
     });
     if (res.ok) {
+         localStorage.removeItem("accessToken")
+      localStorage.removeItem("refreshToken")
       window.location.href = "/index.html";
     }
     if (!res.ok) {

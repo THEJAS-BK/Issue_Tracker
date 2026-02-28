@@ -1337,6 +1337,12 @@ p {
   .group-description{
     font-size: 0.85rem;
   }
+  .right-image {
+    width: 100%;
+    box-shadow: 0 0 5px grey;
+    border-radius: 10px;
+    margin: 0 auto;
+}
  
 }
 @media (max-width: 320px) {
@@ -1344,6 +1350,13 @@ p {
     padding: 0.2rem;
     width: 100%;
   }
+  .right-image {
+    width: 100%;
+    box-shadow: 0 0 5px grey;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
   .searchInp-join-request input {
     margin: 0;
   }
@@ -1369,9 +1382,7 @@ p {
   .right-image {
     width: 45%;
     box-shadow: 0 0 5px grey;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-    margin: 0 auto;
+  
   }
   .home-btn-dashboard {
     display: none;

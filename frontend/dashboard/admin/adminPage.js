@@ -18,6 +18,8 @@ function logOut() {
       headers: { "Content-Type": "application/json" },
     });
     if (res.ok) {
+      localStorage.removeItem("accessToken")
+      localStorage.removeItem("refreshToken")
       window.location.href = "/index.html";
     }
     if (!res.ok) {
@@ -35,6 +37,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.classList.remove("loading");
   }
   logOut();
+  document.body.classList.add("loading");
+
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
     method: "GET",
@@ -452,7 +456,7 @@ updateBtns.forEach((btn) => {
     if (btn.dataset.state === "resolved") {
       const markInProBtn = document.querySelector(".desc-inprogress");
       if (markInProBtn.style.display !== "none") {
-        toast("Issue must be in progress first", "info");
+        toast("Issue must be in progress first", "error");
         return;
       }
     }

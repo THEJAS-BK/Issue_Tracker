@@ -1,3 +1,6 @@
+html, body {
+  overscroll-behavior-y: contain;
+}
 #toast-container {
   position: fixed;
 
