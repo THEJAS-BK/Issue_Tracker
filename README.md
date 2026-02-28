@@ -11,61 +11,62 @@ The application supports role-based access, real-time feedback, and performance-
 
 <hr/>
 
-##✨ Features
-👤 User Features
--Join community groups
--Report issues with descriptions and images
--Track issue status (Pending / Resolved)
--Edit or delete personal reports
--Fully responsive dashboard
+## ✨ Features
 
-🧑‍💼 Admin Features
--Manage group members
--Monitor reported issues
--Moderate and update issue status
--Community administration tools
+### 👤 User Features
+- Join community groups
+- Report issues with descriptions and images
+- Track issue status (Pending / Resolved)
+- Edit or delete personal reports
+- Fully responsive dashboard
 
-⚡ Smart Engineering Features
--Client-side image compression
--Async loading states
--Toast notification system
--Server health monitoring
+### 🧑‍💼 Admin Features
+- Manage group members
+- Monitor reported issues
+- Moderate and update issue status
+- Community administration tools
 
-<hr/>
-
-##🎯 Project Highlights
--Built as a Single Page Application (SPA)
--Production-style authentication flow
--Optimized image uploads for performance
--Clean modular backend architecture
--Real-world campus problem solving
+### ⚡ Smart Engineering Features
+- Client-side image compression
+- Async loading states
+- Toast notification system
+- Server health monitoring
 
 <hr/>
 
-##🛠️ Tech Stack
-🎨 Frontend
--HTML5
--CSS3
--JavaScript (Vanilla JS)
--Bootstrap
-
-⚙️ Backend
--Node.js
--Express.js
-
-🗄️ Database
--MongoDB
--Mongoose ODM (Object Data Modeling)
-
-🔐 Authentication & Security
--JWT Authentication
--Access & Refresh Tokens
--Protected API Routes
--Role-based Authorization
+## 🎯 Project Highlights
+- Built as a Single Page Application (SPA)
+- Production-style authentication flow
+- Optimized image uploads for performance
+- Clean modular backend architecture
+- Real-world campus problem solving
 
 <hr/>
 
-##👨‍💻 Author
+## 🛠️ Tech Stack
+### 🎨 Frontend
+- HTML5
+- CSS3
+- JavaScript (Vanilla JS)
+- Bootstrap
+
+### ⚙️ Backend
+- Node.js
+- Express.js
+
+### 🗄️ Database
+- MongoDB
+- Mongoose ODM (Object Data Modeling)
+
+### 🔐 Authentication & Security
+- JWT Authentication
+- Access & Refresh Tokens
+- Protected API Routes
+- Role-based Authorization
+
+<hr/>
+
+## 👨‍💻 Author
 
 Thejas BK
 Computer Science Student | Full Stack Developer
