@@ -116,7 +116,9 @@ body {
   font-size: 3rem;
   margin-bottom: 15px;
 }
-
+section{
+  height: 100vh;
+}
 .hero p {
   color: #cbd5e1;
   margin-bottom: 30px;
@@ -209,7 +211,9 @@ body {
   padding: 180px 20px;
   text-align: center;
 }
-
+.dev-email{
+  margin-bottom:2rem ;
+}
 .section-title {
   font-size: 2.5rem;
   margin-bottom: 60px;
@@ -255,6 +259,7 @@ body {
 
 .cta {
   text-align: center;
+  margin-top:3rem;
   padding: 100px 20px;
   background: #020617;
 }
@@ -269,7 +274,7 @@ body {
 @media (max-width: 900px) {
   .feature {
     flex-direction: column;
-    text-align: center;
+    text-align: start;
   }
 
   .feature img,
@@ -281,6 +286,24 @@ body {
     font-size: 2rem;
   }
 }
-section{
-  height: 100vh;
+@media(max-width:520px){
+  section{
+    height: 100%;
+  }
+}
+#admin-options{
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  height: 120vh;
+}
+#admin-options div{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+#admin-options img{
+  width: 40%;
+  margin: 10px;
+  height: 400px;
 }

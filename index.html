@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Issue Tracker</title>
-    <link rel="icon" href="/assets/logo.png" />
+    <link rel="icon" href="./images/logo.png" />
 
     <link rel="stylesheet" href="style.css" />
 
@@ -17,22 +17,26 @@
   <body>
     <nav class="navbar">
       <div class="nav-container">
-        <!-- Logo -->
         <div class="logo">Issue Tracker</div>
 
-        <!-- Navigation Links -->
         <ul class="nav-links">
           <li><a href="#features">Features</a></li>
           <li><a href="#tech">Tech Stack</a></li>
-          <li><a href="#demo">Demo</a></li>
-          <li><a href="#" class="nav-btn">Live App</a></li>
+          <li><a href="#hero">Scroll Top</a></li>
+          <li>
+            <a
+              href="https://issue-tracker-ochre-sigma.vercel.app/"
+              class="nav-btn"
+              target="_blank"
+              >Sign Up</a
+            >
+          </li>
         </ul>
 
-        <!-- Mobile Menu Button -->
         <div class="menu-toggle" id="menuToggle">☰</div>
       </div>
     </nav>
-    <section class="hero">
+    <section class="hero" id="hero">
       <div class="hero-container">
         <h1>Issue Management System</h1>
         <p>
@@ -41,43 +45,85 @@
         </p>
 
         <div class="hero-buttons">
-          <a href="#" class="btn primary">Sign in</a>
-          <a href="#" class="btn secondary">Github</a>
+          <a
+            href="https://issue-tracker-ochre-sigma.vercel.app/"
+            class="btn primary"
+            target="_blank"
+            >Sign in</a
+          >
+          <a
+            href="https://github.com/THEJAS-BK/Issue_Tracker"
+            class="btn secondary"
+            target="_blank"
+            >Github</a
+          >
         </div>
       </div>
     </section>
-    
-    <section id="features">
 
-    </section>
-
-    <section class="feature" id="userDasboard" >
-      <img src="assets/dashboard.png" alt="Dashboard" />
+    <section class="feature" id="features">
+      <img src="./images/homePage.png" alt="Dashboard" />
       <div class="feature-text">
-        <h2>User Dashboard</h2>
+        <h2>Home Page</h2>
         <p>Clean SPA dashboard for navigating groups and issues.</p>
         <ul>
           <li>Fast navigation</li>
           <li>Mobile responsive</li>
           <li>Modern UI</li>
+          <li>Create Group</li>
+          <li>Join Group</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="feature" id="userDasboard">
+      <img src="./images/userPage.png" alt="Dashboard" />
+      <div class="feature-text">
+        <h2>User Dashboard</h2>
+        <p>
+          A centralized dashboard designed to help users efficiently manage
+          community issues within different groups.
+        </p>
+        <ul>
+          <li>Create, edit, and manage issues easily</li>
+          <li>Real-time status updates</li>
+          <li>view other group members</li>
+          <li>exit or leave groups</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="feature reverse" id="createGroup">
+      <img src="./images/createGroup.png" alt="Issue Reporting" />
+      <div class="feature-text">
+        <h2>Create Group</h2>
+        <p>Create and manage community groups with ease.</p>
+        <ul>
+          <li>Image upload (optional)</li>
+          <li>Drag & Drop</li>
+          <li>Form validation</li>
+          <li>image upload permissions</li>
+          <li>open or request to join setting</li>
         </ul>
       </div>
     </section>
 
     <section class="feature reverse" id="issueReport">
+      <img src="./images/addIssue.png" alt="Issue Reporting" />
       <div class="feature-text">
         <h2>Issue Reporting</h2>
         <p>Report problems instantly with optional anonymity.</p>
         <ul>
-          <li>Image upload</li>
+          <li>Image upload (optional)</li>
           <li>Drag & Drop</li>
           <li>Form validation</li>
+          <li>Stay Anonymous (name only visible to admins and co-admins)</li>
         </ul>
       </div>
     </section>
 
     <section class="feature">
-      <img src="assets/admin.png" alt="Admin Panel" />
+      <img src="./images/adminPage.png" alt="Admin Panel" />
       <div class="feature-text">
         <h2>Admin Management</h2>
         <p>Admins moderate issues and manage permissions.</p>
@@ -85,25 +131,40 @@
           <li>Approval system</li>
           <li>Group controls</li>
           <li>User moderation</li>
+          <li>Update status of raised issues</li>
+          <li>Delete or change group settings (admin only)</li>
+          <li>
+            promotion/demotion of users to co-admin or member (admin only)
+          </li>
+          <li>remove member from group</li>
         </ul>
       </div>
     </section>
 
+    <section class="feature" id="admin-options">
+      <div>
+        <img src="./images/members.png" alt="members" />
+        <img src="./images/history.png" alt="history" />
+      </div>
+      <div>
+        <img src="./images/requests.png" alt="">
+      </div>
+    </section>
+
     <section class="feature reverse">
-      <img src="assets/auth.png" alt="Auth" />
+      <img src="./images/auth.png" alt="Auth" />
       <div class="feature-text">
         <h2>Authentication System</h2>
         <p>Secure JWT-based login and protected routes.</p>
         <ul>
           <li>Access + Refresh tokens</li>
-          <li>Auto session restore</li>
           <li>Secure logout</li>
         </ul>
       </div>
     </section>
 
     <section class="feature">
-      <img src="assets/performance.png" alt="Performance" />
+      <img src="./images/imageUploads.jpg" alt="Performance" />
       <div class="feature-text">
         <h2>Smart Engineering Features</h2>
         <p>Performance and UX optimizations built into the app.</p>
@@ -116,62 +177,62 @@
       </div>
     </section>
 
+    <section id="tech" class="tech-section">
+      <h2 class="section-title">Tech Stack</h2>
 
-      <section id="tech" class="tech-section">
+      <div class="tech-grid">
+        <!-- Frontend -->
+        <div class="tech-card">
+          <h3>Frontend</h3>
+          <ul>
+            <li>HTML5</li>
+            <li>CSS3</li>
+            <li>JavaScript (SPA)</li>
+            <li>Bootstrap</li>
+          </ul>
+        </div>
 
-  <h2 class="section-title">Tech Stack</h2>
+        <!-- Backend -->
+        <div class="tech-card">
+          <h3>Backend</h3>
+          <ul>
+            <li>Node.js</li>
+            <li>Express.js</li>
+            <li>REST APIs</li>
+            <li>Joi validation</li>
+          </ul>
+        </div>
 
-  <div class="tech-grid">
+        <!-- Database -->
+        <div class="tech-card">
+          <h3>Database</h3>
+          <ul>
+            <li>MongoDB</li>
+            <li>Mongoose ODM</li>
+          </ul>
+        </div>
 
-    <!-- Frontend -->
-    <div class="tech-card">
-      <h3>Frontend</h3>
-      <ul>
-        <li>HTML5</li>
-        <li>CSS3</li>
-        <li>JavaScript (SPA)</li>
-        <li>Bootstrap</li>
-      </ul>
-    </div>
-
-    <!-- Backend -->
-    <div class="tech-card">
-      <h3>Backend</h3>
-      <ul>
-        <li>Node.js</li>
-        <li>Express.js</li>
-        <li>REST APIs</li>
-      </ul>
-    </div>
-
-    <!-- Database -->
-    <div class="tech-card">
-      <h3>Database</h3>
-      <ul>
-        <li>MongoDB</li>
-        <li>Mongoose ODM</li>
-      </ul>
-    </div>
-
-    <!-- Media & Storage -->
-    <div class="tech-card">
-      <h3>Image Upload</h3>
-      <ul>
-        <li>Multer</li>
-        <li>Cloudinary</li>
-        <li>Image Compression</li>
-      </ul>
-    </div>
-
-  </div>
-
-</section>
-
-
-    <section class="cta">
-      <h2>Try the Project Yourself</h2>
-      <a href="#" class="btn primary large">Open Live Application</a>
+        <!-- Media & Storage -->
+        <div class="tech-card">
+          <h3>Image Upload</h3>
+          <ul>
+            <li>Multer</li>
+            <li>Cloudinary</li>
+            <li>Image Compression</li>
+          </ul>
+        </div>
+      </div>
     </section>
+
+    <footer class="cta">
+      <h2>developer contacts</h2>
+      <p class="dev-email">Email : thejasbk1@gmail.com</p>
+      <a
+        href="https://www.linkedin.com/in/thejas-bk-96a6b9330?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+        class="btn secondary"
+        >LinkedIn Profile</a
+      >
+    </footer>
   </body>
   <script>
     const toggle = document.getElementById("menuToggle");
