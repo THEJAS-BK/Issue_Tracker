@@ -96,13 +96,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       JSON.parse(createGroupForm.imageuploadpermission.value),
     );
     // image input
-   if (!compressedGroupImage) {
-  toast("Group image is required", "error");
-  document.body.classList.remove("loading");
-  return;
-}
+    if (!compressedGroupImage) {
+      toast("Group image is required", "error");
+      document.body.classList.remove("loading");
+      return;
+    }
 
-formData.append("group-profile", compressedGroupImage);
+    formData.append("group-profile", compressedGroupImage);
 
     const res = await apiFetch(`${API_BASE}/groups/create`, {
       method: "POST",
@@ -113,7 +113,7 @@ formData.append("group-profile", compressedGroupImage);
       window.location.href = "./userpage.html";
     }
     if (!res.ok) {
-      toast("Something went wrong","error");
+      toast("Something went wrong", "error");
       document.body.classList.remove("loading");
     }
   });

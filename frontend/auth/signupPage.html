@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Campus issue Tracker</title>
+    <title>Issue Tracker</title>
+    <link rel="icon" href="/assets/logo.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -18,17 +19,17 @@
       href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/global.css">
+    <link rel="stylesheet" href="/global.css" />
   </head>
   <body>
-         <!-- GLOBAL TOAST ROOT -->
-  <div id="toast-container"></div>
+    <!-- GLOBAL TOAST ROOT -->
+    <div id="toast-container"></div>
     <div class="page-loader">
-  <div class="loader-content">
-    <div class="spinner"></div>
-    <p class="spinner-content">Loading...</p>
-  </div>
-</div>
+      <div class="loader-content">
+        <div class="spinner"></div>
+        <p class="spinner-content">Loading...</p>
+      </div>
+    </div>
     <div class="signUpContainer">
       <header>
         <p>Issue Tracker</p>
@@ -38,15 +39,32 @@
         <form id="signUpForm">
           <div class="contents">
             <div class="inpField">
-            <label for="signupname">  <i class="fa-solid fa-user"></i></label>
-              <input type="text" name="name" placeholder="Name" id="signupname" required maxlength="25" />
+              <label for="signupname"> <i class="fa-solid fa-user"></i></label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                id="signupname"
+                required
+                maxlength="25"
+              />
             </div>
             <div class="inpField">
-              <label for="signupemail"><i class="fa-solid fa-envelope"></i></label>
-              <input type="email" name="email" placeholder="Email" id="signupemail" required />
+              <label for="signupemail"
+                ><i class="fa-solid fa-envelope"></i
+              ></label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                id="signupemail"
+                required
+              />
             </div>
             <div class="inpField">
-              <label for="signuppassword"><i class="fa-solid fa-lock"></i></label>
+              <label for="signuppassword"
+                ><i class="fa-solid fa-lock"></i
+              ></label>
               <input
                 type="password"
                 placeholder="Password"
@@ -60,7 +78,8 @@
                 style="display: none"
               />
               <label for="togglePassword"
-                ><i class="fa-solid fa-eye-slash pass-eye"></i></label>
+                ><i class="fa-solid fa-eye-slash pass-eye"></i
+              ></label>
             </div>
           </div>
           <button class="signupBtn">Sign Up</button>

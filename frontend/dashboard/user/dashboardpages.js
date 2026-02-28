@@ -2,7 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 import { waitForServer } from "../../utils/waitForServer.js";
-import {toast} from "../../utils/toast.js"
+import { toast } from "../../utils/toast.js";
 //Create group option
 const createGroupBtn = document.querySelector(".create-group-btn");
 createGroupBtn.addEventListener("click", () => {
@@ -10,21 +10,20 @@ createGroupBtn.addEventListener("click", () => {
   window.location.href = "./creategroup.html";
 });
 //logout btn code
-function logOut(){
+function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      
     });
     if (res.ok) {
-         localStorage.removeItem("accessToken")
-      localStorage.removeItem("refreshToken")
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       window.location.href = "/index.html";
     }
-    if(!res.ok){
-      toast("logout failed","error");
+    if (!res.ok) {
+      toast("logout failed", "error");
     }
   });
 }
@@ -36,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    toast("server not working","error");
+    toast("server not working", "error");
     document.body.classList.remove("loading");
   }
   //enable logout btn
@@ -70,7 +69,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        
       },
     );
     const data = await res.json();
@@ -104,8 +102,6 @@ function shortenText(text, wordLimit = 6) {
 
   return words.slice(0, wordLimit).join(" ") + "...";
 }
-
-
 
 function renderGroups(groups) {
   const groupContainer = document.querySelector(".space-holder");
@@ -198,7 +194,6 @@ searchInp.addEventListener("input", async () => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        
       },
     );
     const data = await res.json();
@@ -276,7 +271,6 @@ async function idForSearchResults() {
         `${API_BASE}/groups/member/add/${btn.dataset.groupId}`,
         {
           method: "POST",
-          
         },
       );
       if (res.ok) {
@@ -302,7 +296,6 @@ searchJoinedGroups.addEventListener("input", async (e) => {
   if (val.length > 1) {
     const res = await apiFetch(`${API_BASE}/groups/search/joined?q=${val}`, {
       method: "GET",
-      
     });
 
     //inserting things
@@ -343,7 +336,6 @@ async function joinRequest() {
         `${API_BASE}/groups/join/request/${btn.dataset.groupId}`,
         {
           method: "POST",
-          
         },
       );
       if (res.ok) {

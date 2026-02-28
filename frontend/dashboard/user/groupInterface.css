@@ -228,7 +228,7 @@ main {
   overflow-x: hidden;
   color: rgb(41, 39, 39);
   margin-bottom: 0.75rem;
-      word-wrap: break-word;
+  word-wrap: break-word;
 }
 .right-image {
   width: 60%;
@@ -883,7 +883,7 @@ p {
     white-space: nowrap; /* no line break */
     overflow: hidden;
     text-overflow: ellipsis;
-        font-size: 0.95rem;
+    font-size: 0.95rem;
   }
 }
 /* Disable interaction */

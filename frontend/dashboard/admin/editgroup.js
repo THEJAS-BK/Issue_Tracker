@@ -8,11 +8,11 @@ function logOut() {
   logOutBtn.addEventListener("click", async () => {
     const res = await apiFetch(`${API_BASE}/auth/logout`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     });
     if (res.ok) {
-         localStorage.removeItem("accessToken")
-      localStorage.removeItem("refreshToken")
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       window.location.href = "/index.html";
     }
     if (!res.ok) {
@@ -46,7 +46,7 @@ async function compressImage(file) {
       (file.size / 1024 / 1024).toFixed(2),
       "MB →",
       (compressed.size / 1024 / 1024).toFixed(2),
-      "MB"
+      "MB",
     );
 
     return compressed;
@@ -63,7 +63,7 @@ document
     const textarea = document.getElementById("exampleFormControlTextarea1");
     const maxLength = 250;
     if (textarea.value.length > maxLength - 1) {
-      toast("decription must be under 250 characters","info")
+      toast("decription must be under 250 characters", "info");
     }
   });
 document.addEventListener("DOMContentLoaded", async () => {
@@ -72,14 +72,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-          toast("Server not working", "error");
+    toast("Server not working", "error");
 
     document.body.classList.remove("loading");
   }
   logOut();
   const name = document.querySelector(".get-user-name");
   const nameRes = await apiFetch(`${API_BASE}/auth/getusername`, {
-    method: "GET"
+    method: "GET",
   });
   const nameData = await nameRes.json();
   name.textContent = nameData.username;
@@ -92,12 +92,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!groupId) return;
 
   const res = await apiFetch(`${API_BASE}/groups/edit/${groupId}/admin`, {
-    method: "GET"
+    method: "GET",
   });
   if (res.ok) {
     document.body.classList.remove("loading");
   } else {
-    toast("Something went Wrong","error")
+    toast("Something went Wrong", "error");
   }
   const data = await res.json();
   const issueImg = document.querySelector(".groupImg");
@@ -140,7 +140,7 @@ createGroupForm.addEventListener("submit", async (e) => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-          toast("Server not working", "error");
+    toast("Server not working", "error");
 
     document.body.classList.remove("loading");
   }
@@ -159,8 +159,8 @@ createGroupForm.addEventListener("submit", async (e) => {
 
   // append image ONLY if selected
   if (compressedGroupImage) {
-  formData.append("group-profile", compressedGroupImage);
-}
+    formData.append("group-profile", compressedGroupImage);
+  }
   const res = await apiFetch(`${API_BASE}/groups/update/${groupId}/admin`, {
     method: "PATCH",
     body: formData,

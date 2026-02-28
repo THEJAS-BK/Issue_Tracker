@@ -1,5 +1,4 @@
 export function toast(message, type = "info") {
-
   let container = document.getElementById("toast-container");
 
   // SPA safety (in case layout reloads)

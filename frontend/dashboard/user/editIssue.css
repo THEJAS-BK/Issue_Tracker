@@ -45,7 +45,7 @@ label {
   overflow: hidden;
   background-color: rgb(125, 128, 129);
   border: 3px solid black;
-  z-index:999
+  z-index: 999;
 }
 hr {
   padding: 0;

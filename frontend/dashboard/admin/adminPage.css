@@ -16,8 +16,8 @@ hr {
   overflow-wrap: anywhere;
   transition: 0.3s ease;
 }
-.description-wrapper{
-  width:50vw
+.description-wrapper {
+  width: 50vw;
 }
 /* collapsed state */
 .description-body-content.collapsed {
@@ -515,8 +515,8 @@ main {
   gap: 1rem;
   justify-content: center;
 }
-.confirm-cancel{
-  color:white;
+.confirm-cancel {
+  color: white;
   background-color: red;
 }
 .actions > button {
@@ -1335,7 +1335,7 @@ p {
   td {
     font-size: 0.75rem;
   }
-  .group-description{
+  .group-description {
     font-size: 0.85rem;
   }
   .right-image {
@@ -1343,8 +1343,7 @@ p {
     box-shadow: 0 0 5px grey;
     border-radius: 10px;
     margin: 0 auto;
-}
- 
+  }
 }
 @media (max-width: 320px) {
   .members-tab {
@@ -1356,7 +1355,7 @@ p {
     box-shadow: 0 0 5px grey;
     border-radius: 10px;
     margin: 0 auto;
-}
+  }
 
   .searchInp-join-request input {
     margin: 0;
@@ -1383,7 +1382,6 @@ p {
   .right-image {
     width: 45%;
     box-shadow: 0 0 5px grey;
-  
   }
   .home-btn-dashboard {
     display: none;
@@ -1649,13 +1647,11 @@ p {
 }
 /* MOBILE ONLY */
 @media (max-width: 480px) {
-
   .group-description.collapsed {
     display: -webkit-box;
-    -webkit-line-clamp: 2; 
-    line-clamp: 2;  /* 👈 mobile lines */
+    -webkit-line-clamp: 2;
+    line-clamp: 2; /* 👈 mobile lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-
 }

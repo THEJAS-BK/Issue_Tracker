@@ -46,7 +46,7 @@ label {
   border-radius: 10px;
   overflow: hidden;
   background-color: rgb(125, 128, 129);
-  border:3px solid black;
+  border: 3px solid black;
   z-index: 999;
 }
 hr {
@@ -213,7 +213,7 @@ hr {
     width: 60vw;
     padding: 1rem;
   }
-    .home-btn{
+  .home-btn {
     display: none;
   }
 }
@@ -221,7 +221,7 @@ hr {
   .main-content {
     width: 50vw;
   }
-    .home-btn{
+  .home-btn {
     display: none;
   }
 }

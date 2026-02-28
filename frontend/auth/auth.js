@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("loginPassword");
   toggle.addEventListener("change", () => {
     passwordInput.type = toggle.checked ? "text" : "password";
-    if(passwordInput.type === "text"){
+    if (passwordInput.type === "text") {
       eye.classList.remove("fa-solid", "fa-eye-slash");
       eye.classList.add("fa-solid", "fa-eye");
     } else {
@@ -53,7 +53,7 @@ if (signupForm) {
 
       document.body.classList.remove("loading");
     }
-      const email = document.querySelector("#signupemail").value;
+    const email = document.querySelector("#signupemail").value;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

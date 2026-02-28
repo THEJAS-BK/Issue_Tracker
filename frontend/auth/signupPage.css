@@ -30,12 +30,12 @@
   font-size: 1.5rem;
 }
 /* login page  */
-#login{
-  width:450px;
-  height:430px;
+#login {
+  width: 450px;
+  height: 430px;
 }
-#loginInp{
-      margin-top: 1rem;
+#loginInp {
+  margin-top: 1rem;
 }
 /* Main content  */
 main {
@@ -63,7 +63,7 @@ main h3 {
   display: flex;
   align-items: center;
   overflow: hidden;
-      border-radius: 20px
+  border-radius: 20px;
 }
 .inpField input {
   flex: 1;
@@ -97,7 +97,8 @@ span {
   color: white;
 }
 /* Code linked to js part  */
-.inpField .fa-eye-slash,.fa-eye {
+.inpField .fa-eye-slash,
+.fa-eye {
   padding: 0;
   margin: 0;
   margin-right: 1rem;
@@ -168,73 +169,74 @@ body.loading .page-loader {
   .signUpContainer {
     width: 382px;
   }
-  .inpField{
-    height:2.5rem;
+  .inpField {
+    height: 2.5rem;
   }
-  .inpField input{
+  .inpField input {
     font-size: 1rem;
   }
-  .inpField i{
-    padding-left:1rem;
+  .inpField i {
+    padding-left: 1rem;
     font-size: 1rem;
   }
-  #loginInp{
+  #loginInp {
     height: 3rem;
     margin-top: 1rem;
   }
-  #loginInp i{
+  #loginInp i {
     font-size: 1.25rem;
   }
 }
-@media(max-width: 480px) {
+@media (max-width: 480px) {
   .signUpContainer {
-    width:80%;
-    height:450px
+    width: 80%;
+    height: 450px;
   }
-  #login{
+  #login {
     width: 80%;
   }
-  main h3{
+  main h3 {
     font-size: 1.25rem;
   }
-  .inpField{
+  .inpField {
     width: 90%;
   }
-  .inpField input{
-    font-size:0.75rem;
-  }
-  span{
-    padding: 0;
-    margin:0;
-  }
-   #loginInp input{
+  .inpField input {
     font-size: 0.75rem;
   }
-  #loginInp i{
+  span {
+    padding: 0;
+    margin: 0;
+  }
+  #loginInp input {
+    font-size: 0.75rem;
+  }
+  #loginInp i {
     font-size: 1rem;
   }
-  #loginemail,#loginPassword{
+  #loginemail,
+  #loginPassword {
     width: 100%;
   }
-  #login-p{
+  #login-p {
     font-size: 0.75rem;
   }
 }
-@media (max-width:320px){
-  .inpField input{
+@media (max-width: 320px) {
+  .inpField input {
     margin-left: 1rem;
   }
-  .signUpContainer{
+  .signUpContainer {
     width: 90%;
     height: 415px;
   }
-   #login{
+  #login {
     width: 90%;
   }
-  p{
+  p {
     font-size: 0.75rem;
   }
-  .signupBtn{
-    padding:0.75rem 2rem
+  .signupBtn {
+    padding: 0.75rem 2rem;
   }
 }

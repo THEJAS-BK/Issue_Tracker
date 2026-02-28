@@ -14,8 +14,8 @@ function logOut() {
       headers: { "Content-Type": "application/json" },
     });
     if (res.ok) {
-         localStorage.removeItem("accessToken")
-      localStorage.removeItem("refreshToken")
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       window.location.href = "/index.html";
     }
     if (!res.ok) {
@@ -45,7 +45,7 @@ async function compressImage(file) {
       (file.size / 1024 / 1024).toFixed(2),
       "MB →",
       (compressed.size / 1024 / 1024).toFixed(2),
-      "MB"
+      "MB",
     );
 
     return compressed;
@@ -126,8 +126,8 @@ addIssueForm.addEventListener("submit", async (e) => {
   formData.append("stayAnonymous", anonSwitch);
 
   if (compressedImageFile) {
-  formData.append("issue-image", compressedImageFile);
-}
+    formData.append("issue-image", compressedImageFile);
+  }
 
   const res = await apiFetch(`${API_BASE}/issues/add/${groupId}`, {
     method: "POST",

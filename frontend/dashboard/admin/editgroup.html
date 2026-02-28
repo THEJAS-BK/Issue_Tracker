@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Campus issue Tracker</title>
+    <title>Issue Tracker</title>
+    <link rel="icon" href="/assets/logo.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -24,11 +25,11 @@
       href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/global.css">
+    <link rel="stylesheet" href="/global.css" />
   </head>
   <body>
-         <!-- GLOBAL TOAST ROOT -->
-  <div id="toast-container"></div>
+    <!-- GLOBAL TOAST ROOT -->
+    <div id="toast-container"></div>
     <header>
       <h2>Edit Group</h2>
       <div class="right-section">
@@ -70,12 +71,10 @@
               id="exampleFormControlInput1"
               placeholder="Eg: library group"
               name="groupname"
-             required
-             maxlength="40"
+              required
+              maxlength="40"
             />
-            <div class="invalid-tooltip">
-              group name is required
-            </div>
+            <div class="invalid-tooltip">group name is required</div>
           </div>
           <div class="position-relative">
             <label for="exampleFormControlTextarea1" class="form-label"
@@ -89,9 +88,7 @@
               required
               maxlength="250"
             ></textarea>
-            <div class="invalid-tooltip">
-              description is required
-            </div>
+            <div class="invalid-tooltip">description is required</div>
           </div>
           <div class="bottom-section">
             <div class="upload" id="uploadBox">
@@ -150,6 +147,7 @@
         </form>
       </div>
     </main>
-  </body><script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
   <script type="module" src="./editgroup.js"></script>
 </html>
