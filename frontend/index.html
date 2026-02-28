@@ -19,19 +19,6 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/global.css">
-    <style>
-      .signUpContainer {
-        margin: 7rem auto;
-        height: 70vh;
-      }
-      .inpField {
-        margin-top: 1rem;
-      }
-      .contents {
-        margin-top: 2.5rem;
-        margin-bottom: 2rem;
-      }
-    </style>
   </head>
   <body>
 
@@ -44,7 +31,7 @@
     <p class="spinner-content">Loading...</p>
   </div>
 </div>
-    <div class="signUpContainer">
+    <div class="signUpContainer" id="login">
       <header>
         <p>Issue Tracker</p>
       </header>
@@ -52,14 +39,12 @@
         <h3>Welcome Back</h3>
         <form id="loginForm">
           <div class="contents">
-            <div class="inpField">
+            <div class="inpField" id="loginInp">
               <label for="loginemail"><i class="fa-solid fa-envelope"></i></label>
-              <span></span>
               <input type="email" name="email" placeholder="Email" id="loginemail" required />
             </div>
-            <div class="inpField">
+            <div class="inpField" id="loginInp">
               <label for="loginPassword"><i class="fa-solid fa-lock"></i></label>
-              <span></span>
               <input
                 type="password"
                 placeholder="Password"
@@ -73,14 +58,14 @@
                 style="display: none"
               />
               <label for="togglePassword"
-                ><i class="fa-solid fa-eye"></i
+                ><i class="fa-solid fa-eye-slash pass-eye"></i
               ></label>
             </div>
           </div>
           <button class="signupBtn">Login</button>
         </form>
-        <p>
-          Dont have a account?
+        <p id="login-p">
+          Don't have a account?
           <a href="/auth/signupPage.html">create account</a>
         </p>
       </main>

@@ -21,11 +21,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const toggle = document.getElementById("togglePassword");
+  const eye = document.querySelector(".pass-eye");
   const passwordInput =
     document.getElementById("signuppassword") ||
     document.getElementById("loginPassword");
   toggle.addEventListener("change", () => {
     passwordInput.type = toggle.checked ? "text" : "password";
+    if(passwordInput.type === "text"){
+      eye.classList.remove("fa-solid", "fa-eye-slash");
+      eye.classList.add("fa-solid", "fa-eye");
+    } else {
+      eye.classList.remove("fa-solid", "fa-eye");
+      eye.classList.add("fa-solid", "fa-eye-slash");
+      passwordInput.style.color = "grey";
+    }
   });
 });
 
