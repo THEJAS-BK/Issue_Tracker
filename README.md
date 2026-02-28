@@ -6,9 +6,8 @@ This platform provides a centralized system where users can report problems, mon
 The application supports role-based access, real-time feedback, and performance-optimized workflows to deliver a smooth user experience.
 
 📷 Screenshots
-👤 User Dashboard
 <p align="center"> <img src="./images/userPage.png" width="700"> </p>
-🧑‍💼 Admin Panel
+
 <p align="center"> <img src="./images/adminPage.png" width="700"> </p>
 
 ✨ Features
