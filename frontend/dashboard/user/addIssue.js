@@ -23,6 +23,37 @@ function logOut() {
     }
   });
 }
+let compressedImageFile = null;
+async function compressImage(file) {
+  if (!file.type.startsWith("image/")) return file;
+
+  // only compress big images
+  if (file.size < 1 * 1024 * 1024) return file;
+
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1600,
+    initialQuality: 0.9,
+    useWebWorker: true,
+  };
+
+  try {
+    const compressed = await imageCompression(file, options);
+
+    console.log(
+      "Compressed:",
+      (file.size / 1024 / 1024).toFixed(2),
+      "MB →",
+      (compressed.size / 1024 / 1024).toFixed(2),
+      "MB"
+    );
+
+    return compressed;
+  } catch (err) {
+    console.error("Compression failed", err);
+    return file;
+  }
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
@@ -151,16 +182,19 @@ uploadBox.addEventListener("drop", (e) => {
   }
 });
 
-fileInput.addEventListener("change", () => {
+fileInput.addEventListener("change", async () => {
   const file = fileInput.files[0];
-  if (file) {
-    const issueImg = document.querySelector(".issueImg");
-    document.getElementById("uploadBox").style.padding = "0";
-    issueImg.src = window.URL.createObjectURL(file);
-    document.querySelectorAll(".remove-this").forEach((el) => {
-      el.style.display = "none";
-    });
-  }
+  if (!file) return;
+
+  compressedImageFile = await compressImage(file);
+
+  const issueImg = document.querySelector(".issueImg");
+  document.getElementById("uploadBox").style.padding = "0";
+  issueImg.src = URL.createObjectURL(compressedImageFile);
+
+  document.querySelectorAll(".remove-this").forEach((el) => {
+    el.style.display = "none";
+  });
 });
 
 document.querySelector(".username").addEventListener("click", (e) => {
