@@ -1,63 +1,98 @@
-Issue Management System
+🚀 Issue Management System
 
 Managing campus issues is often slow and unorganized.
-This platform provides a centralized system where users can report problems, monitor progress, and collaborate within specific groups.
+This platform provides a centralized system where users can report problems, monitor progress, and collaborate within specific community groups.
 
-The application supports role-based access, real-time feedback, and optimized performance for smooth user experience.
+The application supports role-based access, real-time feedback, and performance-optimized workflows to deliver a smooth user experience.
 
-###Issue tracker
-<p align="start">
-  <a href="https://issue-tracker-ochre-sigma.vercel.app/" target="_blank">
-  </a>
-</p>
-
-## Screenshots
-
-### User Dashboard
-<img src="./images/userPage.png" width="700">
-
-### Admin Panel
-<img src="./images/adminPage.png" width="700">
-
+📷 Screenshots
+👤 User Dashboard
+<p align="center"> <img src="./images/userPage.png" width="700"> </p>
+🧑‍💼 Admin Panel
+<p align="center"> <img src="./images/adminPage.png" width="700"> </p>
 
 ✨ Features
 👤 User Features
+
 Join community groups
+
 Report issues with descriptions and images
+
 Track issue status (Pending / Resolved)
-Edit or delete own reports
-Mobile responsive dashboard
+
+Edit or delete personal reports
+
+Fully responsive dashboard
 
 🧑‍💼 Admin Features
+
 Manage group members
+
 Monitor reported issues
+
 Moderate and update issue status
-Community management tools
+
+Community administration tools
 
 ⚡ Smart Engineering Features
-Client-side image compression
-Loading states for async operations
-Toast notifications system
-Server health check monitoring
-SPA navigation without page reloads
 
-Tech Stack
-Frontend
+Client-side image compression
+
+Async loading states
+
+Toast notification system
+
+🎯 Project Highlights
+
+Built as a Single Page Application
+
+Production-style authentication flow
+
+Optimized image uploads for performance
+
+Clean modular backend architecture
+
+Real-world problem solving focused on campus communities
+
+
+🛠️ Tech Stack
+🎨 Frontend
+
 HTML5
+
 CSS3
+
 JavaScript (Vanilla JS)
+
 Bootstrap
 
-Backend
+⚙️ Backend
+
 Node.js
+
 Express.js
 
-Database
+🗄️ Database
+
 MongoDB
+
 Mongoose ODM (Object Data Modeling)
 
-Authentication & Security
+🔐 Authentication & Security
+
 JWT Authentication
+
 Access & Refresh Tokens
-Protected Routes
-Role-based authorization
+
+Protected API Routes
+
+Role-based Authorization
+
+
+👨‍💻 Author
+
+Thejas BK
+Computer Science Student | Full Stack Developer
+Server health monitoring
+
+Single Page Application (SPA) navigation
