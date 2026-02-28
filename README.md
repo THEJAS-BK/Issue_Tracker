@@ -6,9 +6,8 @@ This platform provides a centralized system where users can report problems, mon
 The application supports role-based access, real-time feedback, and optimized performance for smooth user experience.
 
 ###Issue tracker
-<p align="center">
+<p align="start">
   <a href="https://issue-tracker-ochre-sigma.vercel.app/" target="_blank">
-    <img src="https://img.shields.io/badge/Live%20Demo-Visit%20App-blue?style=for-the-badge">
   </a>
 </p>
 
