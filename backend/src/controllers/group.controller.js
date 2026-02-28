@@ -66,8 +66,9 @@ module.exports.searchAllGroups = async (req, res, next) => {
     }
     if (q.length == 6) {
       const allGroups = await Group.findOne({ inviteCode: q.toUpperCase() })
-        .select("groupname visibility joinType")
-        .populate("createdBy", "name");
+        .select("groupname visibility joinType image")
+        .populate("createdBy", "name")
+        .populate("image","url")
 
       if (allGroups) {
         return res.json({ allGroups: [allGroups] });
@@ -76,8 +77,9 @@ module.exports.searchAllGroups = async (req, res, next) => {
     const allGroups = await Group.find({
       groupname: { $regex: q, $options: "i" },
     })
-      .select("groupname visibility joinType")
-      .populate("createdBy", "name");
+      .select("groupname visibility joinType image")
+      .populate("createdBy", "name")
+      .populate("image","url");
     res.json({ allGroups });
   } catch (err) {
     next(err);
