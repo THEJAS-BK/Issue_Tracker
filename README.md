@@ -5,93 +5,67 @@ This platform provides a centralized system where users can report problems, mon
 
 The application supports role-based access, real-time feedback, and performance-optimized workflows to deliver a smooth user experience.
 
-📷 Screenshots
 <p align="center"> <img src="./images/userPage.png" width="700"> </p>
 
 <p align="center"> <img src="./images/adminPage.png" width="700"> </p>
 
-✨ Features
+<hr/>
+
+##✨ Features
 👤 User Features
-
-Join community groups
-
-Report issues with descriptions and images
-
-Track issue status (Pending / Resolved)
-
-Edit or delete personal reports
-
-Fully responsive dashboard
+-Join community groups
+-Report issues with descriptions and images
+-Track issue status (Pending / Resolved)
+-Edit or delete personal reports
+-Fully responsive dashboard
 
 🧑‍💼 Admin Features
-
-Manage group members
-
-Monitor reported issues
-
-Moderate and update issue status
-
-Community administration tools
+-Manage group members
+-Monitor reported issues
+-Moderate and update issue status
+-Community administration tools
 
 ⚡ Smart Engineering Features
+-Client-side image compression
+-Async loading states
+-Toast notification system
+-Server health monitoring
 
-Client-side image compression
+<hr/>
 
-Async loading states
+##🎯 Project Highlights
+-Built as a Single Page Application (SPA)
+-Production-style authentication flow
+-Optimized image uploads for performance
+-Clean modular backend architecture
+-Real-world campus problem solving
 
-Toast notification system
+<hr/>
 
-🎯 Project Highlights
-
-Built as a Single Page Application
-
-Production-style authentication flow
-
-Optimized image uploads for performance
-
-Clean modular backend architecture
-
-Real-world problem solving focused on campus communities
-
-
-🛠️ Tech Stack
+##🛠️ Tech Stack
 🎨 Frontend
-
-HTML5
-
-CSS3
-
-JavaScript (Vanilla JS)
-
-Bootstrap
+-HTML5
+-CSS3
+-JavaScript (Vanilla JS)
+-Bootstrap
 
 ⚙️ Backend
-
-Node.js
-
-Express.js
+-Node.js
+-Express.js
 
 🗄️ Database
-
-MongoDB
-
-Mongoose ODM (Object Data Modeling)
+-MongoDB
+-Mongoose ODM (Object Data Modeling)
 
 🔐 Authentication & Security
+-JWT Authentication
+-Access & Refresh Tokens
+-Protected API Routes
+-Role-based Authorization
 
-JWT Authentication
+<hr/>
 
-Access & Refresh Tokens
-
-Protected API Routes
-
-Role-based Authorization
-
-
-👨‍💻 Author
+##👨‍💻 Author
 
 Thejas BK
 Computer Science Student | Full Stack Developer
-Server health monitoring
-
-Single Page Application (SPA) navigation
