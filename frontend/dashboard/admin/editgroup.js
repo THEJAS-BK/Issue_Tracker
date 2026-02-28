@@ -20,6 +20,42 @@ function logOut() {
     }
   });
 }
+let compressedGroupImage = null;
+async function compressImage(file) {
+  if (!file.type.startsWith("image/")) return file;
+
+  // skip small images
+  if (file.size < 1 * 1024 * 1024) return file;
+
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1600,
+    initialQuality: 0.9,
+    useWebWorker: true,
+  };
+
+  try {
+    document.body.classList.add("loading");
+
+    const compressed = await imageCompression(file, options);
+
+    document.body.classList.remove("loading");
+
+    console.log(
+      "Compressed:",
+      (file.size / 1024 / 1024).toFixed(2),
+      "MB →",
+      (compressed.size / 1024 / 1024).toFixed(2),
+      "MB"
+    );
+
+    return compressed;
+  } catch (err) {
+    document.body.classList.remove("loading");
+    console.error(err);
+    return file;
+  }
+}
 //check textarea length
 document
   .getElementById("exampleFormControlTextarea1")
@@ -122,10 +158,9 @@ createGroupForm.addEventListener("submit", async (e) => {
   );
 
   // append image ONLY if selected
-  const file = document.getElementById("group-profile").files[0];
-  if (file) {
-    formData.append("group-profile", file);
-  }
+  if (compressedGroupImage) {
+  formData.append("group-profile", compressedGroupImage);
+}
   const res = await apiFetch(`${API_BASE}/groups/update/${groupId}/admin`, {
     method: "PATCH",
     body: formData,
@@ -166,36 +201,33 @@ const fileInput = document.getElementById("group-profile");
 });
 
 // Handle drop
-uploadBox.addEventListener("drop", (e) => {
+uploadBox.addEventListener("drop", async (e) => {
   const file = e.dataTransfer.files[0];
-  if (file) {
-    fileInput.files = e.dataTransfer.files;
-  }
-});
-// Handle drop
-uploadBox.addEventListener("drop", (e) => {
-  const file = e.dataTransfer.files[0];
-  if (file) {
-    fileInput.files = e.dataTransfer.files;
-    const issueImg = document.querySelector(".groupImg");
-    document.getElementById("uploadBox").style.padding = "0";
-    issueImg.src = window.URL.createObjectURL(file);
-    document.querySelectorAll(".remove-this").forEach((el) => {
-      el.style.display = "none";
-    });
-  }
-});
+  if (!file) return;
 
-fileInput.addEventListener("change", () => {
+  compressedGroupImage = await compressImage(file);
+
+  const issueImg = document.querySelector(".groupImg");
+  document.getElementById("uploadBox").style.padding = "0";
+  issueImg.src = URL.createObjectURL(compressedGroupImage);
+
+  document.querySelectorAll(".remove-this").forEach((el) => {
+    el.style.display = "none";
+  });
+});
+fileInput.addEventListener("change", async () => {
   const file = fileInput.files[0];
-  if (file) {
-    const issueImg = document.querySelector(".groupImg");
-    document.getElementById("uploadBox").style.padding = "0";
-    issueImg.src = window.URL.createObjectURL(file);
-    document.querySelectorAll(".remove-this").forEach((el) => {
-      el.style.display = "none";
-    });
-  }
+  if (!file) return;
+
+  compressedGroupImage = await compressImage(file);
+
+  const issueImg = document.querySelector(".groupImg");
+  document.getElementById("uploadBox").style.padding = "0";
+  issueImg.src = URL.createObjectURL(compressedGroupImage);
+
+  document.querySelectorAll(".remove-this").forEach((el) => {
+    el.style.display = "none";
+  });
 });
 document.querySelector(".username").addEventListener("click", (e) => {
   const dropdown = document.querySelector(".dropdown-user");

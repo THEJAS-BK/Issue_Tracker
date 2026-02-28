@@ -125,10 +125,9 @@ addIssueForm.addEventListener("submit", async (e) => {
   formData.append("description", addIssueForm.description.value);
   formData.append("stayAnonymous", anonSwitch);
 
-  const file = document.getElementById("issue-image").files[0];
-  if (file) {
-    formData.append("issue-image", file);
-  }
+  if (compressedImageFile) {
+  formData.append("issue-image", compressedImageFile);
+}
 
   const res = await apiFetch(`${API_BASE}/issues/add/${groupId}`, {
     method: "POST",
@@ -169,17 +168,19 @@ const fileInput = document.getElementById("issue-image");
 });
 
 // Handle drop
-uploadBox.addEventListener("drop", (e) => {
+uploadBox.addEventListener("drop", async (e) => {
   const file = e.dataTransfer.files[0];
-  if (file) {
-    fileInput.files = e.dataTransfer.files;
-    const issueImg = document.querySelector(".issueImg");
-    document.getElementById("uploadBox").style.padding = "0";
-    issueImg.src = window.URL.createObjectURL(file);
-    document.querySelectorAll(".remove-this").forEach((el) => {
-      el.style.display = "none";
-    });
-  }
+  if (!file) return;
+
+  compressedImageFile = await compressImage(file);
+
+  const issueImg = document.querySelector(".issueImg");
+  document.getElementById("uploadBox").style.padding = "0";
+  issueImg.src = URL.createObjectURL(compressedImageFile);
+
+  document.querySelectorAll(".remove-this").forEach((el) => {
+    el.style.display = "none";
+  });
 });
 
 fileInput.addEventListener("change", async () => {

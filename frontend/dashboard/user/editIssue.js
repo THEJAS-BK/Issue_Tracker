@@ -2,7 +2,7 @@ import { apiFetch } from "../../utils/helper.js";
 import { sendApiBase } from "../../utils/apiBase.js";
 const API_BASE = sendApiBase();
 import { waitForServer } from "../../utils/waitForServer.js";
-import {toast} from "../../utils/toast.js"
+import { toast } from "../../utils/toast.js";
 function logOut() {
   const logOutBtn = document.querySelector(".logout-btn");
   logOutBtn.addEventListener("click", async () => {
@@ -12,14 +12,42 @@ function logOut() {
       credentials: "include",
     });
     if (res.ok) {
-         localStorage.removeItem("accessToken")
-      localStorage.removeItem("refreshToken")
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       window.location.href = "/index.html";
     }
     if (!res.ok) {
-      toast("logout failed","error")
+      toast("logout failed", "error");
     }
   });
+}
+let compressedImageFile = null;
+async function compressImage(file) {
+  if (!file.type.startsWith("image/")) return file;
+
+  // don't compress small images
+  if (file.size < 1 * 1024 * 1024) return file;
+
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1600,
+    initialQuality: 0.9,
+    useWebWorker: true,
+  };
+
+  try {
+    document.body.classList.add("loading");
+
+    const compressed = await imageCompression(file, options);
+
+    document.body.classList.remove("loading");
+
+    return compressed;
+  } catch (err) {
+    document.body.classList.remove("loading");
+    console.error(err);
+    return file;
+  }
 }
 document.addEventListener("DOMContentLoaded", async () => {
   document.body.classList.add("loading");
@@ -27,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    toast("server not working","error")
+    toast("server not working", "error");
     document.body.classList.remove("loading");
   }
   logOut();
@@ -108,7 +136,7 @@ addIssueForm.addEventListener("submit", async (e) => {
   if (isServerOnline) {
     document.body.classList.remove("loading");
   } else {
-    toast("server not working","error")
+    toast("server not working", "error");
     document.body.classList.remove("loading");
   }
   document.body.classList.add("loading");
@@ -120,9 +148,8 @@ addIssueForm.addEventListener("submit", async (e) => {
   formData.append("title", addIssueForm.title.value);
   formData.append("description", addIssueForm.description.value);
   formData.append("stayAnonymous", anonSwitch);
-  const fileInput = document.getElementById("issue-image").files[0];
-  if (fileInput) {
-    formData.append("issue-image", fileInput);
+  if (compressedImageFile) {
+    formData.append("issue-image", compressedImageFile);
   }
 
   const res = await apiFetch(`${API_BASE}/issues/edit/${issueId}`, {
@@ -164,29 +191,34 @@ const fileInput = document.getElementById("issue-image");
   });
 });
 
-uploadBox.addEventListener("drop", (e) => {
+uploadBox.addEventListener("drop", async (e) => {
   const file = e.dataTransfer.files[0];
-  if (file) {
-    fileInput.files = e.dataTransfer.files;
-    const issueImg = document.querySelector(".issueImg");
-    document.getElementById("uploadBox").style.padding = "0";
-    issueImg.src = window.URL.createObjectURL(file);
-    document.querySelectorAll(".remove-this").forEach((el) => {
-      el.style.display = "none";
-    });
-  }
+  if (!file) return;
+
+  compressedImageFile = await compressImage(file);
+
+  const issueImg = document.querySelector(".issueImg");
+  document.getElementById("uploadBox").style.padding = "0";
+  issueImg.src = URL.createObjectURL(compressedImageFile);
+
+  document.querySelectorAll(".remove-this").forEach((el) => {
+    el.style.display = "none";
+  });
 });
 
-fileInput.addEventListener("change", () => {
+fileInput.addEventListener("change", async () => {
   const file = fileInput.files[0];
-  if (file) {
-    const issueImg = document.querySelector(".issueImg");
-    document.getElementById("uploadBox").style.padding = "0";
-    issueImg.src = window.URL.createObjectURL(file);
-    document.querySelectorAll(".remove-this").forEach((el) => {
-      el.style.display = "none";
-    });
-  }
+  if (!file) return;
+
+  compressedImageFile = await compressImage(file);
+
+  const issueImg = document.querySelector(".issueImg");
+  document.getElementById("uploadBox").style.padding = "0";
+  issueImg.src = URL.createObjectURL(compressedImageFile);
+
+  document.querySelectorAll(".remove-this").forEach((el) => {
+    el.style.display = "none";
+  });
 });
 
 document.querySelector(".username").addEventListener("click", (e) => {
