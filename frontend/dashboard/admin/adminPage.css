@@ -383,7 +383,7 @@ main {
   transition: all 0.2s ease;
 }
 .right-image {
-  width: 37%;
+  width: 60%;
   box-shadow: 0 0 5px grey;
   border-radius: 10px;
   margin-bottom: 1rem;
@@ -1339,7 +1339,7 @@ p {
     font-size: 0.85rem;
   }
   .right-image {
-    width: 100%;
+    width: 95%;
     box-shadow: 0 0 5px grey;
     border-radius: 10px;
     margin: 0 auto;
