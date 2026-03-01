@@ -1633,13 +1633,13 @@ p {
 
 @media (max-height: 768px) {
   .right-image {
-    width: 27%;
+    width: 90%;
     margin-top: 0;
   }
 }
 @media (min-height: 1000px) {
   .right-image {
-    width: 50%;
+    width: 90%;
   }
 }
 .dropdown-user > .logout-btn {
