@@ -38,7 +38,7 @@ The application supports role-based access, real-time feedback, and performance-
 
 <p align="center">
   <img src="./images/members.png" width="45%">
-  <img src="./images/usermembers.png" width="45%">
+  <img src="./images/userMembers.png" width="45%">
 </p>
 
 
