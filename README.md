@@ -20,11 +20,11 @@ The application supports role-based access, real-time feedback, and performance-
 
 <p align="center">
   <img src="./images/createGroup.png" width="45%">
-  <img src="./images/editGroup.png" width="45%">
+   <img src="./images/addIssue.png" width="45%">
 </p>
 
 <p align="center">
-  <img src="./images/addIssue.png" width="45%">
+ <img src="./images/editGroup.png" width="45%">
   <img src="./images/editIssue.png" width="45%">
 </p>
 
