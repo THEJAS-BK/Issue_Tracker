@@ -9,9 +9,38 @@ The application supports role-based access, real-time feedback, and performance-
 
 👉 https://thejas-bk.github.io/Issue_Tracker/
 
+<p align="center">
+  <img src="./images/auth.png" width="45%">
+  <img src="./images/authLogin.png" width="45%">
+</p>
+
+<p align="center"> <img src="./images/homePage.png" width="700"> </p>
+
 <p align="center"> <img src="./images/userPage.png" width="700"> </p>
 
+<p align="center">
+  <img src="./images/createGroup.png" width="45%">
+  <img src="./images/editGroup.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="./images/addIssue.png" width="45%">
+  <img src="./images/editIssue.png" width="45%">
+</p>
+
+
 <p align="center"> <img src="./images/adminPage.png" width="700"> </p>
+
+<p align="center">
+  <img src="./images/history.png" width="45%">
+  <img src="./images/requests.png" width="45%">
+</p>
+
+<p align="center">
+  <img src="./images/members.png" width="45%">
+  <img src="./images/usermembers.png" width="45%">
+</p>
+
 
 <hr/>
 
