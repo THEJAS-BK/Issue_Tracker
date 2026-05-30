@@ -7,8 +7,6 @@ The application supports role-based access, real-time feedback, and performance-
 
 ## 🌐 Live Demo
 
-👉 https://thejas-bk.github.io/Issue_Tracker/ (join my group. group code: 6KJIIH )
-
 <p align="center">
   <img src="./images/auth.png" width="45%">
   <img src="./images/authLogin.png" width="45%">
